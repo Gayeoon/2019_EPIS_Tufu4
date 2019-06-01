@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="menuImageWidth">350dp</dimen>
+    <dimen name="menuImageHeight">350dp</dimen>
+    <dimen name="menuMargin">23dp</dimen>
+</resources>
