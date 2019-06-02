@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TypeActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusBarHeight"
+        android:gravity="center"
+        android:background="@color/colorGray"
+        android:text="반려동물 등록방법"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/typeImageWidth"
+        android:layout_height="@dimen/typeImageHeight"
+        android:background="@color/colorBlue"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/typeImageWidth"
+        android:layout_height="@dimen/typeImageHeight"
+        android:background="@color/colorRed"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/typeImageWidth"
+        android:layout_height="@dimen/typeImageHeight"
+        android:background="@color/colorPrimary"
+        />
+
+</LinearLayout>

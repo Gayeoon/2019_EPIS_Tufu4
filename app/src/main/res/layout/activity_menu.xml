@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MenuActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/statusBarHeight"
-        android:layout_gravity="center_vertical"
         android:gravity="center"
-        android:background="@color/colorGreen"
+        android:background="@color/colorGray"
         android:text="상태 제목 표시줄"
         />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +32,7 @@
             android:id="@+id/howToPetRegImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
-            android:background="@color/colorGray"
+            android:background="@color/colorOrange"
             android:layout_marginLeft="@dimen/menuMargin"
             />
 
