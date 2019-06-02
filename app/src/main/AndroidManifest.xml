@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AlarmActivity" android:theme="@style/NoTheme"></activity>
+        <activity android:name=".HospitalActivity" android:theme="@style/NoTheme"></activity>
+        <activity android:name=".JoinActivity" android:theme="@style/NoTheme"></activity>
+        <activity android:name=".LoginActivity" android:theme="@style/NoTheme"></activity>
+        <activity android:name=".ReservationActivity" android:theme="@style/NoTheme"></activity>
+        <activity android:name=".StatusActivity" android:theme="@style/NoTheme"></activity>
     </application>
 
 </manifest>
