@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="menuImageWidth">200dp</dimen>
-    <dimen name="menuImageHeight">100dp</dimen>
-    <dimen name="menuMargin">23dp</dimen>
+    <dimen name="menuImageWidth">100dp</dimen>
+    <dimen name="menuImageHeight">80dp</dimen>
+    <dimen name="statusBarHeight">50dp</dimen>
+    <dimen name="menuMargin">20dp</dimen>
 </resources>

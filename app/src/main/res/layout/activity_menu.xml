@@ -8,6 +8,14 @@
     android:orientation="vertical"
     tools:context=".MenuActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusBarHeight"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:background="@color/colorGreen"
+        android:text="상태 제목 표시줄"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,9 +26,11 @@
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorBlue"
+            android:id="@+id/whatIsPetRegImg"
             />
 
         <ImageView
+            android:id="@+id/howToPetRegImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorGray"
@@ -36,12 +46,14 @@
         android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/findPetRegPlaceImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorBlue"
             />
 
         <ImageView
+            android:id="@+id/myPageImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorGray"
@@ -56,12 +68,14 @@
         android:layout_weight="1">
 
         <ImageView
+            android:id="@+id/regReviseGuideImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorBlue"
             />
 
         <ImageView
+            android:id="@+id/communityImg"
             android:layout_width="@dimen/menuImageWidth"
             android:layout_height="@dimen/menuImageHeight"
             android:background="@color/colorGray"
