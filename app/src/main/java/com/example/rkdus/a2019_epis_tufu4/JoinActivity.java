@@ -87,7 +87,7 @@ public class JoinActivity extends AppCompatActivity {
 
             while (parserEvent != XmlPullParser.END_DOCUMENT) {
                 switch (parserEvent) {
-                    case XmlPullParser.START_TAG://parser가 시작 태그를 만나면 실행
+                    case XmlPullParser.START_TAG:
                         if (parser.getName().equals("ENTRPS_NM")) {
                             inHospital = true;
                         }
