@@ -20,5 +20,7 @@
         android:layout_height="@dimen/searchBarHeight"
         android:layout_gravity="center"
         android:background="@drawable/border"
-        android:layout_marginTop="@dimen/searchBarMarginTop"/>
+        android:layout_marginTop="@dimen/searchBarMarginTop"
+        android:inputType="textMultiLine|textNoSuggestions"
+        />
 </LinearLayout>
