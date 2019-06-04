@@ -10,4 +10,14 @@
     <dimen name="typeImageWidth">280dp</dimen>
     <dimen name="typeImageHeight">130dp</dimen>
     <dimen name="typeMargin">23dp</dimen>
+
+    <!-- MessageTypeActivity -->
+    <dimen name="messageTypeImageWidth">100dp</dimen>
+    <dimen name="messageTypeImageHeight">100dp</dimen>
+    <dimen name="messageTypeMargin">20dp</dimen>
+
+    <!-- FindActivity -->
+    <dimen name="searchBarWidth">300dp</dimen>
+    <dimen name="searchBarHeight">40dp</dimen>
+    <dimen name="searchBarMarginTop">20dp</dimen>
 </resources>

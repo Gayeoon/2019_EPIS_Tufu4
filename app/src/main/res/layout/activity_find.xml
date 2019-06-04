@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FindActivity">
 
     <TextView
@@ -14,4 +15,10 @@
         android:text="반려동물 등록 대행업체 찾기"
         />
 
+    <EditText
+        android:layout_width="@dimen/searchBarWidth"
+        android:layout_height="@dimen/searchBarHeight"
+        android:layout_gravity="center"
+        android:background="@drawable/border"
+        android:layout_marginTop="@dimen/searchBarMarginTop"/>
 </LinearLayout>

@@ -8,6 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/*
+ * 사용자
+ * 메인 메뉴 액티비티
+ * - 이해원
+ */
 public class MenuActivity extends AppCompatActivity {
     Intent switchActvityIntent;
 
