@@ -15,19 +15,25 @@ import android.widget.Toast;
  */
 public class MenuActivity extends AppCompatActivity {
     Intent switchActvityIntent;
+    ImageView whatIsRegImg;
+    ImageView howToPetRegImg;
+    ImageView searchPetRegPlaceImg;
+    ImageView myPageImg;
+    ImageView regReviseGuideImg;
+    ImageView communityImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // 뷰 선언 및 정의
-        ImageView whatIsRegImg = (ImageView)findViewById(R.id.whatIsPetRegImg);
-        ImageView howToPetRegImg = (ImageView)findViewById(R.id.howToPetRegImg);
-        ImageView findPetRegPlaceImg = (ImageView)findViewById(R.id.findPetRegPlaceImg);
-        ImageView myPageImg = (ImageView)findViewById(R.id.myPageImg);
-        ImageView regReviseGuideImg = (ImageView)findViewById(R.id.regReviseGuideImg);
-        ImageView communityImg = (ImageView)findViewById(R.id.communityImg);
+        // 뷰 정의
+        whatIsRegImg = (ImageView) findViewById(R.id.whatIsPetRegImg);
+        howToPetRegImg = (ImageView) findViewById(R.id.howToPetRegImg);
+        searchPetRegPlaceImg = (ImageView) findViewById(R.id.searchPetRegPlaceImg);
+        myPageImg = (ImageView) findViewById(R.id.myPageImg);
+        regReviseGuideImg = (ImageView) findViewById(R.id.regReviseGuideImg);
+        communityImg = (ImageView) findViewById(R.id.communityImg);
 
         // 뷰 클릭 이벤트
         whatIsRegImg.setOnTouchListener(new View.OnTouchListener() {
@@ -60,13 +66,13 @@ public class MenuActivity extends AppCompatActivity {
                 return true;
             }
         });
-        findPetRegPlaceImg.setOnTouchListener(new View.OnTouchListener() {
+        searchPetRegPlaceImg.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "findPetRegPlaceImg click", Toast.LENGTH_LONG).show();
-                        switchActvityIntent = new Intent(getApplicationContext(), FindActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), SearchActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".SearchActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusBarHeight"
+        android:gravity="center"
+        android:background="@color/colorGray"
+        android:text="반려동물 등록 대행업체 찾기"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/searchBarMarginTop"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="@dimen/searchBarWidth"
+            android:layout_height="@dimen/searchBarHeight"
+            android:background="@drawable/border_radius"
+            android:paddingLeft="10dp"
+            android:inputType="textNoSuggestions"
+            android:imeOptions="actionSearch"
+            android:fontFamily="@font/notosansbold"
+            />
+
+        <ImageView
+            android:id="@+id/searchBtn"
+            android:layout_width="@dimen/searchBtnWidth"
+            android:layout_height="@dimen/searchBtnHeight"
+            android:layout_alignRight="@+id/searchEditText"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/searchBtnMarginRight"
+            android:layout_marginLeft="@dimen/searchBtnMarginLeft"
+            android:background="@color/colorGray"
+            />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temp"/>
+</LinearLayout>

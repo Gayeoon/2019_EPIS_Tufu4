@@ -15,15 +15,17 @@ import android.widget.Toast;
  */
 public class MessageTypeActivity extends AppCompatActivity {
     Intent switchActvityIntent;
+    ImageView innerTypeImg;
+    ImageView outerTypeImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_type);
 
-        // 뷰 선언 및 정의
-        ImageView innerTypeImg = (ImageView)findViewById(R.id.innerTypeImg);
-        ImageView outerTypeImg = (ImageView)findViewById(R.id.outerTypeImg);
+        // 뷰 정의
+        innerTypeImg = (ImageView) findViewById(R.id.innerTypeImg);
+        outerTypeImg = (ImageView) findViewById(R.id.outerTypeImg);
 
         // 뷰 클릭 이벤트
         innerTypeImg.setOnTouchListener(new View.OnTouchListener() {

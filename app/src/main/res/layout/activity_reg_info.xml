@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".RegInfoActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusBarHeight"
+        android:gravity="center"
+        android:background="@color/colorGray"
+        android:text="반려동물 등록방법"
+        />
+
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/statusBarHeight"
+        android:gravity="center"
+        android:fontFamily="@font/notosansbold"
+        android:textSize="@dimen/titleFontSize"
+        />
+
+    <ImageView
+        android:layout_width="@dimen/regInfoImgWidth"
+        android:layout_height="@dimen/regInfoImgHeight"
+        android:background="@color/colorGray"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/messageTypeMargin"
+        android:id="@+id/innerTypeImg"
+        />
+
+    <Button
+        android:id="@+id/prosAndConsBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/regInfoBtnHeight"
+        android:background="@drawable/border_radius"
+        android:text="장 단점"
+        />
+
+    <Button
+        android:id="@+id/regiProsessBtn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/regInfoBtnHeight"
+        android:background="@drawable/border_radius"
+        android:text="등록 절차"
+        />
+
+</LinearLayout>

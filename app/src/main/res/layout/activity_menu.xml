@@ -22,16 +22,18 @@
         android:layout_weight="1">
 
         <ImageView
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
             android:background="@color/colorBlue"
+            android:layout_gravity="center"
             android:id="@+id/whatIsPetRegImg"
             />
 
         <ImageView
             android:id="@+id/howToPetRegImg"
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
+            android:layout_gravity="center"
             android:background="@color/colorOrange"
             android:layout_marginLeft="@dimen/menuMargin"
             />
@@ -45,17 +47,20 @@
         android:layout_weight="1">
 
         <ImageView
-            android:id="@+id/findPetRegPlaceImg"
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:id="@+id/searchPetRegPlaceImg"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
+            android:layout_gravity="center"
+
             android:background="@color/colorBlue"
             />
 
         <ImageView
             android:id="@+id/myPageImg"
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
             android:background="@color/colorGray"
+            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/menuMargin"
             />
 
@@ -68,16 +73,18 @@
 
         <ImageView
             android:id="@+id/regReviseGuideImg"
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
+            android:layout_gravity="center"
             android:background="@color/colorBlue"
             />
 
         <ImageView
             android:id="@+id/communityImg"
-            android:layout_width="@dimen/menuImageWidth"
-            android:layout_height="@dimen/menuImageHeight"
+            android:layout_width="@dimen/menuImgWidth"
+            android:layout_height="@dimen/menuImgHeight"
             android:background="@color/colorGray"
+            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/menuMargin"
             />
 

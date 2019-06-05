@@ -1,6 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="menuImageWidth">100dp</dimen>
-    <dimen name="menuImageHeight">100dp</dimen>
-    <dimen name="menuMargin">23dp</dimen>
+    <!-- MenuActivity -->
+    <dimen name="menuImgWidth">150dp</dimen>
+    <dimen name="menuImgHeight">100dp</dimen>
+    <dimen name="statusBarHeight">50dp</dimen>
+    <dimen name="menuMargin">20dp</dimen>
+
+    <!-- TypeActivity -->
+    <dimen name="typeImgWidth">280dp</dimen>
+    <dimen name="typeImgHeight">130dp</dimen>
+    <dimen name="typeMargin">23dp</dimen>
+
+    <!-- MessageActivity -->
+    <dimen name="messageWidth">300dp</dimen>
+    <dimen name="messageHeight">100dp</dimen>
+    <dimen name="messageSubjectHeight">40dp</dimen>
+    <dimen name="messageMarginTop">15dp</dimen>
+
+    <dimen name="messageTextWidth">60dp</dimen>
+    <dimen name="messageTextHeight">100dp</dimen>
+    <dimen name="messageEditTextWidth">200dp</dimen>
+    <dimen name="messageEditTextHeight">100dp</dimen>
+
+
+    <!-- MessageTypeActivity -->
+    <dimen name="messageTypeImgWidth">100dp</dimen>
+    <dimen name="messageTypeImgHeight">100dp</dimen>
+    <dimen name="messageTypeMargin">20dp</dimen>
+
+    <!-- FindActivity -->
+    <dimen name="searchBarWidth">300dp</dimen>
+    <dimen name="searchBarHeight">40dp</dimen>
+    <dimen name="searchBarMarginTop">20dp</dimen>
+
+    <dimen name="searchBtnWidth">30dp</dimen>
+    <dimen name="searchBtnHeight">30dp</dimen>
+    <dimen name="searchBtnMarginLeft">10dp</dimen>
+    <dimen name="searchBtnMarginRight">10dp</dimen>
+
+    <!-- RegInfoActivity -->
+    <dimen name="regInfoImgWidth">180dp</dimen>
+    <dimen name="regInfoImgHeight">180dp</dimen>
+    <dimen name="titleFontSize">15dp</dimen>
+    <dimen name="regInfoBtnHeight">30dp</dimen>
+
 </resources>

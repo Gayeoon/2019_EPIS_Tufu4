@@ -16,20 +16,23 @@
         />
 
     <ImageView
-        android:layout_width="@dimen/typeImageWidth"
-        android:layout_height="@dimen/typeImageHeight"
+        android:id="@+id/innerTypeImg"
+        android:layout_width="@dimen/typeImgWidth"
+        android:layout_height="@dimen/typeImgHeight"
         android:background="@color/colorBlue"
         />
 
     <ImageView
-        android:layout_width="@dimen/typeImageWidth"
-        android:layout_height="@dimen/typeImageHeight"
+        android:id="@+id/outerTypeImg"
+        android:layout_width="@dimen/typeImgWidth"
+        android:layout_height="@dimen/typeImgHeight"
         android:background="@color/colorRed"
         />
 
     <ImageView
-        android:layout_width="@dimen/typeImageWidth"
-        android:layout_height="@dimen/typeImageHeight"
+        android:id="@+id/idTagTypeImg"
+        android:layout_width="@dimen/typeImgWidth"
+        android:layout_height="@dimen/typeImgHeight"
         android:background="@color/colorPrimary"
         />
 

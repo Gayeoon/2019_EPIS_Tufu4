@@ -22,8 +22,8 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:layout_width="@dimen/messageTypeImageWidth"
-            android:layout_height="@dimen/messageTypeImageHeight"
+            android:layout_width="@dimen/messageTypeImgWidth"
+            android:layout_height="@dimen/messageTypeImgHeight"
             android:layout_weight="1"
             android:background="@color/colorGray"
             android:layout_gravity="center"
@@ -31,8 +31,8 @@
             android:id="@+id/innerTypeImg"
             />
         <ImageView
-            android:layout_width="@dimen/messageTypeImageWidth"
-            android:layout_height="@dimen/messageTypeImageHeight"
+            android:layout_width="@dimen/messageTypeImgWidth"
+            android:layout_height="@dimen/messageTypeImgHeight"
             android:layout_weight="1"
             android:background="@color/colorBlue"
             android:layout_gravity="center"

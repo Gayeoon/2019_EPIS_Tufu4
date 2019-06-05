@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".CommunityActivity">
+    tools:context=".MessageActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,4 +15,225 @@
         android:text="예약하기"
         />
 
+    <LinearLayout
+        android:layout_width="@dimen/messageWidth"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/border_rectangle"
+        android:layout_marginTop="@dimen/messageMarginTop"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/messageSubjectHeight"
+            android:text="주인 정보"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center"
+            android:background="@color/colorDimGray"
+            android:gravity="center"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center">
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="소유자" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:fontFamily="@font/notosansregular"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="주소" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="연락처" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/messageWidth"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/border_rectangle"
+        android:layout_marginTop="@dimen/messageMarginTop"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/messageSubjectHeight"
+            android:text="반려동물 정보"
+            android:textColor="@color/colorWhite"
+            android:layout_gravity="center"
+            android:background="@color/colorDimGray"
+            android:gravity="center"/>
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center">
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="동물명" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="품종" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="모색" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="생년월일" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="성별" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+
+            <TableRow android:layout_margin="@dimen/messageTextMargin">
+                <TextView
+                    android:layout_width="@dimen/messageTextWidth"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
+                    android:text="중성화" />
+
+                <EditText
+                    android:layout_width="@dimen/messageEditTextWidth"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/border_rectangle"
+                    android:paddingLeft="10dp"
+                    android:inputType="textNoSuggestions"
+                    android:imeOptions="actionNext"
+                    android:fontFamily="@font/notosansregular" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="@dimen/messageWidth"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:text="예약하기"
+            android:textColor="@color/colorWhite"
+            android:background="@color/colorDimGray"/>
+    </LinearLayout>
 </LinearLayout>

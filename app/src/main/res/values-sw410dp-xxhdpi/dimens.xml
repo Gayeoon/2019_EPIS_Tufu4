@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Nexus 5X  //  411 x 731 dp  //  1080 x 1920 px  //  5.2 inch -->
+
     <!-- MenuActivity -->
     <dimen name="menuImgWidth">150dp</dimen>
     <dimen name="menuImgHeight">100dp</dimen>
@@ -12,15 +14,16 @@
     <dimen name="typeMargin">23dp</dimen>
 
     <!-- MessageActivity -->
-    <dimen name="messageWidth">350dp</dimen>
-    <dimen name="messageHeight">200dp</dimen>
-    <dimen name="messageSubjectHeight">40dp</dimen>
+    <dimen name="messageWidth">360dp</dimen>
+    <dimen name="messageHeight">100dp</dimen>
+    <dimen name="messageSubjectHeight">35dp</dimen>
     <dimen name="messageMarginTop">15dp</dimen>
 
-    <dimen name="messageTextWidth">60dp</dimen>
+    <dimen name="messageTextWidth">80dp</dimen>
     <dimen name="messageTextHeight">100dp</dimen>
-    <dimen name="messageEditTextWidth">200dp</dimen>
+    <dimen name="messageEditTextWidth">240dp</dimen>
     <dimen name="messageEditTextHeight">100dp</dimen>
+    <dimen name="messageTextMargin">10dp</dimen>
 
 
     <!-- MessageTypeActivity -->
