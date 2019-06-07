@@ -15,3 +15,7 @@
 - FindActivity -> SearchActivity 이름 변경
 - SearchActivity 검색바와 검색버튼 활성화. 자판 검색 기능 추가했는데 반영X
 -> 변경 안되면 지우고, 변경되면 냅둠
+
+2019.06.06
+- MessageActivity 레이아웃 구성 완료
+- MessageActivity Spinner 사용

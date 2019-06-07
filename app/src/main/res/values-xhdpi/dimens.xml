@@ -14,13 +14,15 @@
     <!-- MessageActivity -->
     <dimen name="messageWidth">300dp</dimen>
     <dimen name="messageHeight">100dp</dimen>
-    <dimen name="messageSubjectHeight">35dp</dimen>
+    <dimen name="messageSubjectHeight">40dp</dimen>
     <dimen name="messageMarginTop">15dp</dimen>
 
     <dimen name="messageTextWidth">60dp</dimen>
-    <dimen name="messageTextHeight">100dp</dimen>
+    <dimen name="messageTextHeight">20dp</dimen>
     <dimen name="messageEditTextWidth">200dp</dimen>
-    <dimen name="messageEditTextHeight">100dp</dimen>
+    <dimen name="messageEditTextHeight">27dp</dimen>
+    <dimen name="messageSpinnerWidth">200dp</dimen>
+    <dimen name="messageSpinnerHeight">27dp</dimen>
     <dimen name="messageTextMargin">5dp</dimen>
 
     <!-- MessageTypeActivity -->
