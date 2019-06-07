@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "160072625025",
+    "firebase_url": "https://a2019-epis-tufu4.firebaseio.com",
+    "project_id": "a2019-epis-tufu4",
+    "storage_bucket": "a2019-epis-tufu4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160072625025:android:f5b2923559ef87ed",
+        "android_client_info": {
+          "package_name": "com.example.rkdus.a2019_epis_tufu4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160072625025-8v0mjblpard8bs60obtd0466fdrj7id5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rkdus.a2019_epis_tufu4",
+            "certificate_hash": "e18ae54dfbf2dc9695079931e03955e798c2abda"
+          }
+        },
+        {
+          "client_id": "160072625025-ft3tatdn2dqga162723oo7322220gimq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuhZLNwmVSj3S2zbSarSA3EMyM5abFwhY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160072625025-ft3tatdn2dqga162723oo7322220gimq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
