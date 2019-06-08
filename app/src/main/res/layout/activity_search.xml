@@ -65,7 +65,7 @@
             android:id="@+id/isSearchCurrentLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="현재 위치로 찾기"
+            android:text="가까운 위치 순서"
             android:layout_marginRight="20dp"
             android:gravity="right"
             android:layout_gravity="center_vertical"
@@ -118,7 +118,7 @@
 
     </LinearLayout>
     <ListView
-        android:id="@+id/searchList"
+        android:id="@+id/searchListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
