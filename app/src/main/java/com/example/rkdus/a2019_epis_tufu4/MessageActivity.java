@@ -21,7 +21,7 @@ import java.lang.reflect.Array;
  */
 public class MessageActivity extends AppCompatActivity {
     String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
-    EditText eOwnerName, eAddress, ehp, ePetName, eRace, ePetColor, ePetBirth;
+    EditText eOwnerName, eAddress, eHP, ePetName, eRace, ePetColor, ePetBirth;
     Spinner sNeutralization, sPetGender;
     ArrayAdapter aaNeutralization, aaPetGender;
     Button btnMessage;
@@ -50,7 +50,7 @@ public class MessageActivity extends AppCompatActivity {
         // 뷰 정의
         eOwnerName = (EditText) findViewById(R.id.ownerNameText);
         eAddress = (EditText) findViewById(R.id.addressText);
-        ehp = (EditText) findViewById(R.id.hpText);
+        eHP = (EditText) findViewById(R.id.hpText);
         ePetName = (EditText) findViewById(R.id.petNameText);
         ePetBirth = (EditText) findViewById(R.id.petBirthText);
         eRace = (EditText) findViewById(R.id.raceText);
@@ -103,10 +103,17 @@ public class MessageActivity extends AppCompatActivity {
 
                 }
                 else {  // 하나라도 값이 잘못된 경우
-                    // EditText에 적은 값 초기화
+                    //clearEditText();
                 }
             }
         });
+    }
+
+    /*
+    사용자가 적은 EditText 값 제거시키기
+    사용은 모르겠음
+     */
+    private void clearEditText() {
     }
 
     /*

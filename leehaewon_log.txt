@@ -19,3 +19,8 @@
 2019.06.06
 - MessageActivity 레이아웃 구성 완료
 - MessageActivity Spinner 사용
+
+2019.06.07
+- SearchActivity SelectedTextview, 현재 위치로 찾기 TextView 기능 구현
+-> 리스트로 보여지는 것 전까지
+- 그 외 액티비티 자잘한 부분 수정

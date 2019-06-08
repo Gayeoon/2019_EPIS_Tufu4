@@ -40,6 +40,9 @@
     <dimen name="searchBtnMarginLeft">10dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
 
+    <dimen name="searchOptLayoutHeight">20dp</dimen>
+    <dimen name="searchOptLayoutMarginTop">10dp</dimen>
+
     <!-- RegInfoActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
