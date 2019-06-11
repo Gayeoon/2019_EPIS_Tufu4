@@ -21,3 +21,15 @@
  4) 입력 String과 비교해서 셋다 같으면 true 리턴
  5) true 리턴 시, id/pw 입력 레이아웃 VISIBLE & 병원 정보 EditText Enable -> false (병원 정보 수정 불가능하게)
 - Manifest 인터넷 권한 설정
+
+2019.06.09
+- 병원 메인 액티비티 xml 작성
+- 예약확인, 알람, 커뮤니티 화면 전환 기능 구현
+- 로그인 액티비티 기능 구현
+
+2019.06.11
+- MessageView 및 MessageItem 클래스 생성
+- 알람 액티비티에 외장형/내장형 ListView xml 작성
+- DB에서 메세지 보낸 소유자 명단 리스트 외장형/내장형 구분해서 adapter에 추가
+- Reservation 액티비티에 전화걸기 기능 추가
+- Manifest 다이얼 권한 설정
