@@ -1,0 +1,28 @@
+2019.06.13
+- firebase 그대로 놔둠
+- node.js의 express 이용해서 서버 구축.
+- mysql 이용해서 데이터베이스 구축.
+ -> DB 정보
+
+    host: 'localhost',
+    user: 'test',
+    password: '',
+    port: 3306,
+    database: 'PET_REGIST'
+    
+    table: 'AGENCY_TB'
+
+    /*
+        AGENCY_TB_PK: int(11),
+        ADDRESS1: varchar(80),
+        ADDRESS2: varchar(50),
+        CEO_NAME: varchar(10),
+        AGENCY_NAME: varchar(20),
+        PHONE_NUMBER: varchar(15)
+    */
+ -> json 형식으로 읽음
+ --> JSONParse 자바 라이브러리 추가해서 json 편하게 읽어오고싶다..
+- TempActivity에서 test 완료.
+ -> READ DB 버튼 클릭하면 데이터 불러와서 보여줌
+- 서버 구동 : server/npm start (node index.js 명령 링크되어 있는 명령)
+- 데이터베이스 로그인 : mysql -utest (pw 없고 권한 DBA)

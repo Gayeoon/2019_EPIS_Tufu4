@@ -1,0 +1,23 @@
+{
+    "name": "pet_regist_server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Gayeoon/2019_EPIS_Tufu4.git"
+    },
+    "author": "Jiwon",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Gayeoon/2019_EPIS_Tufu4/issues"
+    },
+    "homepage": "https://github.com/Gayeoon/2019_EPIS_Tufu4#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql": "^2.17.1"
+    }
+}
