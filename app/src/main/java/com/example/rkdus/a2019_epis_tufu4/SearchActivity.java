@@ -37,8 +37,8 @@ import java.util.ArrayList;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String HOSPITAL_API_URL = "http://211.237.50.150:7080/openapi/sample/xml/Grid_20141225000000000161_1/1/5?";
-    public static final String HOSPITAL_API_KEY = "API_KEY=9e419c9fb4293de4b448d0f553b753baddda8bc74c07e14f64fcb69ae1cbde4e&";
+    public static final String SERVER_URL = "http://192.168.0.39:3000";
+
     /*
     반려동물 등록대행업체 조회 API DATA 속성정보
 
@@ -54,6 +54,17 @@ public class SearchActivity extends AppCompatActivity {
     START_INDEX   INTEGER(기본)   1               요청시작위치
     END_INDEX   INTEGER(기본)   5               요청종료위치
     RPRSNTV_NM   STRING(필수)   죽전동물병원   업체 명
+
+    디비 테이블 저장 정보
+    테이블 이름 : AGENCY_TB
+    AGENCY_TB_PK    |   ADDRESS1    |   ADDRESS2    |   CEO_NAME    |   AGENCY_NAME |   PHONE_NUMBER
+    기본키                주소           상세주소        대표자명        병원명             전화번호
+    AGENCY_TB_PK: int(11),
+    ADDRESS1: varchar(80),
+    ADDRESS2: varchar(50),
+    CEO_NAME: varchar(10),
+    AGENCY_NAME: varchar(20),
+    PHONE_NUMBER: varchar(15)
      */
 
     boolean isSearchCurrentLocation, isSignUpApp;
@@ -182,8 +193,7 @@ public class SearchActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "값을 입력해주세요.", Toast.LENGTH_LONG).show();
         }
         else {
-            String HOSPITAL_API = HOSPITAL_API_URL + HOSPITAL_API_KEY;
-            searchAsyncTask.execute(HOSPITAL_API);
+            searchAsyncTask.execute();
         }
     }
 
@@ -205,10 +215,9 @@ public class SearchActivity extends AppCompatActivity {
     private class SearchAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... strings) {
-            String APIurl = strings[0];
-            APIurl = APIurl + "searchResult";
+            String search_url = SERVER_URL + "/getData";
             try {
-                URL url = new URL(APIurl);
+                URL url = new URL(SERVER_URL);
                 InputStream is = url.openStream();
                 XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
                 XmlPullParser parser = factory.newPullParser();
