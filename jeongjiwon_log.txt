@@ -26,3 +26,23 @@
  -> READ DB 버튼 클릭하면 데이터 불러와서 보여줌
 - 서버 구동 : server/npm start (node index.js 명령 링크되어 있는 명령)
 - 데이터베이스 로그인 : mysql -utest (pw 없고 권한 DBA)
+
+2019.06.16
+- DB 테이블 수정
+ ->
+    /*
+        ID: varchar(20)   -> PK
+        PW: varchar(30)
+        CEO_NAME: varchar(10)
+        AGENCY_NAME: varchar(20)
+        PHONE_NUMBER: varchar(15)
+        ADDRESS1: varchar(80)
+        ADDRESS2: varchar(50)
+        SIGNUP_APP: tinyint(1)      tinyint(boolean)
+    */
+- VPN 설정
+ -> L2TP
+    server : 201502119@iptime.org
+    계정 : jiwon / gayeon / haewon
+    비밀번호 0000
+    공유비밀 0000
