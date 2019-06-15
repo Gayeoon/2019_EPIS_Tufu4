@@ -39,12 +39,23 @@ const getDB = function() {
 
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser');
 
 app.get('/getData', (req, res) => {
     console.log('who get in here/getData');
     getDB();
     res.json(data);
 });
+
+app.post('/getHospitalData', (req, res, next) => {
+    console.log('CALL getHospitalData');
+
+    console.log(req.body.searchword);
+
+    // getDB();
+    // res.json(data);
+});
+
 
 app.listen(3000, () => {
     console.log('Example app listening on port 3000!');

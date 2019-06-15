@@ -82,7 +82,8 @@ public class TempActivity extends AppCompatActivity {
         readDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new JSONTask().execute("http://192.168.0.39:3000/getData");
+//                new JSONTask().execute("http://192.168.31.180:3000/getData");
+                new JSONTask().execute("http://201502119.iptime.org/getData");
             }
         });
     }
