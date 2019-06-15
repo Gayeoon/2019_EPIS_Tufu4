@@ -43,13 +43,13 @@ public class SearchItemData {
 
     public SearchItemData() {}
 
-    public SearchItemData(String ceoname, String hospitalname, String phonenum, String address1, String address2, boolean signupapp) {
-        this.ceoName = ceoname;
+    public SearchItemData(String hospitalname, String ceoname, String phonenum, boolean signupapp, String address1, String address2) {
         this.hospitalName = hospitalname;
+        this.ceoName = ceoname;
         this.phoneNum = phonenum;
+        this.signUpApp = signupapp;
         this.address1 = address1;
         this.address2 = address2;
-        this.signUpApp = signupapp;
     }
 
     public String getCeoName() {

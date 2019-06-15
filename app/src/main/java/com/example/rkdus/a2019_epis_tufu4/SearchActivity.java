@@ -214,9 +214,9 @@ public class SearchActivity extends AppCompatActivity {
     조건에 따라 리스트 보여주는 함수
      */
     private void showSearchList() {
-            searchAsyncTask.execute();
-            searchAsyncTask.cancel(true);
-            showSignUpApp();
+        searchAsyncTask.execute();
+        searchAsyncTask.cancel(true);
+        showSignUpApp();
     }
 
     /*
@@ -409,27 +409,27 @@ public class SearchActivity extends AppCompatActivity {
     // ListView에 ArrayList 넣고 출력
      */
     private void setSearchListView(final ArrayList<SearchItemData> arrayList) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
-                            lvSearchList.setAdapter(listAdapter);
-                            // 클릭 이벤트
-                            lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                    SearchItemData item = arrayList.get(position);
-                                    Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
+                        lvSearchList.setAdapter(listAdapter);
+                        // 클릭 이벤트
+                        lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                SearchItemData item = arrayList.get(position);
+                                Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
 
     /*
     어플등록 필터 여부에 따른 Array값 정리
@@ -446,12 +446,12 @@ public class SearchActivity extends AppCompatActivity {
             for(int i = 0; i<jsonArray.length(); i++) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
                 jsonObject = jsonArray.getJSONObject(i);
                 SearchItemData searchItemData = new SearchItemData(
-                        jsonObject.getString("CEO_NAME"),
                         jsonObject.getString("AGENCY_NAME"),
+                        jsonObject.getString("CEO_NAME"),
                         jsonObject.getString("PHONE_NUMBER"),
+                        jsonObject.getBoolean("SIGNUP_APP"),
                         jsonObject.getString("ADDRESS1"),
-                        jsonObject.getString("ADDRESS2"),
-                        jsonObject.getBoolean("SIGNUP_APP")
+                        jsonObject.getString("ADDRESS2")
                 );
                 searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
             }
