@@ -11,10 +11,12 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -45,6 +48,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /*
  * 사용자
@@ -55,22 +59,8 @@ import java.util.ArrayList;
 public class SearchActivity extends AppCompatActivity {
     public static final String SERVER_URL = "http://192.168.0.39:3000";
     public static final String TAG = "SearchActivity";
+
     /*
-    반려동물 등록대행업체 조회 API DATA 속성정보
-
-    1   주소           ADDR           반려동물 등록대행업체의 사무실주소
-    2   상세주소       DETAIL_ADDR       반려동물 등록대행업체의 사무실의 상세주소
-    3   대표자명       RPRSNTV_NM       반려동물 등록대행업체의 대표자명
-    4   업체명           ENTRPS_NM       반려동물 등록대행업체명
-    5   업체전화번호   ENTRPS_TELNO   반려동물 등록대행업체 전화번호
-
-    API_KEY       STRING(기본)   sample           발급받은 API_KEY
-    TYPE       STRING(기본)   xml               요청파일 타입 xml, json
-    API_URL       STRING(기본)   Grid_000001       OpenAPI 서비스 URL
-    START_INDEX   INTEGER(기본)   1               요청시작위치
-    END_INDEX   INTEGER(기본)   5               요청종료위치
-    RPRSNTV_NM   STRING(필수)   죽전동물병원   업체 명
-
     디비 테이블 저장 정보
     테이블 이름 : AGENCY_TB
     AGENCY_TB_PK    |   ADDRESS1    |   ADDRESS2    |   CEO_NAME    |   AGENCY_NAME |   PHONE_NUMBER
@@ -86,8 +76,11 @@ public class SearchActivity extends AppCompatActivity {
     boolean isSearchCurrentLocation, isSignUpApp;
     final String switchOnColor = "#0067A3";
     final String switchOffColor = "#000000";
+    final String fileName = "searchResult";
+
     String searchWord;
     ArrayList<SearchItemData> searchList = new ArrayList<>();
+    ArrayList<SearchItemData> signUpAppList = new ArrayList<>();
     SearchAsyncTask searchAsyncTask;
 
     ImageView ivSearchBtn;
@@ -162,7 +155,6 @@ public class SearchActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CheckedTextView view = (CheckedTextView) v;
                 view.toggle();
-
                 if(view.isChecked()) {
                     isSignUpApp = true;
                     Toast.makeText(getApplicationContext(), "어플등록업체 보기 체크", Toast.LENGTH_LONG).show();
@@ -174,6 +166,7 @@ public class SearchActivity extends AppCompatActivity {
                 showSignUpApp();
             }
         });
+
         // 현재위치로 찾기 클릭 시
         searchCurrentLocationSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +175,22 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        // 배열과 AsyncTask 초기화
+        searchList.clear();
+        signUpAppList.clear();
+        try {
+            if(searchAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+                searchAsyncTask.cancel(true);
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
     }
 
     /*
@@ -206,6 +215,23 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void showSearchList() {
             searchAsyncTask.execute();
+            searchAsyncTask.cancel(true);
+            showSignUpApp();
+    }
+
+    /*
+    searchList ArrayList에서 어플등록 off인 item 제거 후 signUpAppList에 넣기
+     */
+    private void setSignUpAppList() {
+        signUpAppList = searchList; // copy
+        Iterator<SearchItemData> itemDataIterator = signUpAppList.iterator();
+        while(itemDataIterator.hasNext()) {
+            SearchItemData searchItemData = itemDataIterator.next();
+
+            // 등록 여부 off인 값 삭제
+            if(!searchItemData.getSignUpApp())
+                itemDataIterator.remove();
+        }
     }
 
     /*
@@ -213,11 +239,12 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void showSignUpApp() {
         if(isSignUpApp) {
-
+            if(signUpAppList.isEmpty()) // 사전에 저장된 어플등록 필터 리스트가 없는 경우
+                setSignUpAppList();
+            setSearchListView(signUpAppList);
         }
-        else {
-
-        }
+        else
+            setSearchListView(searchList);
     }
 
     /*
@@ -267,12 +294,13 @@ public class SearchActivity extends AppCompatActivity {
                         buffer.append(line); // buffer에 데이터 저장
                     }
 
-                    return buffer.toString();//서버로 부터 받은 값을 리턴해줌 아마 OK!!가 들어올것임
+                    return buffer.toString(); //서버로 부터 받은 값을 리턴해줌
                 }
                 else {  // 연결이 잘 안됨
                     printConnectionError(con);
                 }
 
+                /*
                 String tag;
                 // 각각 값을 제대로 받았는지 체크하기 위한 boolean
                 boolean isGetHospitalName = false;
@@ -290,24 +318,23 @@ public class SearchActivity extends AppCompatActivity {
                         case XmlPullParser.START_TAG:
                     }
                 }
-
+            */
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (XmlPullParserException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) { // JSON 객체 오류
                 e.printStackTrace();
             }
+
             return null;
         }
 
         @Override
         protected void onPostExecute(String bufstr) {
-
+            setSearchListArray(bufstr);
         }
     }
 
@@ -319,6 +346,29 @@ public class SearchActivity extends AppCompatActivity {
         Object obj = parser.parse(JSONstr);
         JSONObject jsonObject = (JSONObject) obj;
         return jsonObject;
+    }
+
+    /*
+    json 파일 불러와서 String으로 리턴하기
+     */
+    private String loadJSONFIle(String filename) {
+        String result = null;
+        filename += ".json";
+        // 파일 생성(덮어쓰기)
+        FileInputStream fileinputStream = null;
+        try {
+            fileinputStream = openFileInput(filename);
+            int size = fileinputStream.available();
+            byte[] buffer = new byte[size];
+            fileinputStream.read(buffer);
+            fileinputStream.close();
+            result = new String(buffer, "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /*
@@ -342,6 +392,44 @@ public class SearchActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
+    String 파라미터를 받아 ArrayList에 저장
+     */
+    private void setSearchListArray(String bufstr) {
+        try {
+            JSONObject jsonObject = StringToJSON(bufstr);   // JSON 객체 생성
+            JSONObjTofile(jsonObject, fileName);  // json파일로 저장
+            putJSONInArrayList(jsonObject); // ArrayList에 넣기
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /*
+    // ListView에 ArrayList 넣고 출력
+     */
+    private void setSearchListView(final ArrayList<SearchItemData> arrayList) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
+                            lvSearchList.setAdapter(listAdapter);
+                            // 클릭 이벤트
+                            lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    SearchItemData item = arrayList.get(position);
+                                    Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
     /*
     어플등록 필터 여부에 따른 Array값 정리
@@ -350,17 +438,23 @@ public class SearchActivity extends AppCompatActivity {
     /*
     Json 형식의 String 변수를 ArrayList 안에 전부 넣기
      */
-    private void putStrInArrayList(String bufstr) {
+    private void putJSONInArrayList(JSONObject jsonObject) {
         try {
-            JSONObject jsonObject = StringToJSON(bufstr);
             JSONArray jsonArray = jsonObject.getJSONArray("result");
+            searchList.clear(); // 검색결과리스트 내 값 전부 초기화
+            signUpAppList.clear();  // 앱등록된리스트 내 값 전부 초기화
             for(int i = 0; i<jsonArray.length(); i++) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
                 jsonObject = jsonArray.getJSONObject(i);
-                
-                // list.add(jsonObject.getInt("학번") +" "+ jsonObject.getString("이름") +" "+ jsonObject.getString("학과"));
+                SearchItemData searchItemData = new SearchItemData(
+                        jsonObject.getString("CEO_NAME"),
+                        jsonObject.getString("AGENCY_NAME"),
+                        jsonObject.getString("PHONE_NUMBER"),
+                        jsonObject.getString("ADDRESS1"),
+                        jsonObject.getString("ADDRESS2"),
+                        jsonObject.getBoolean("SIGNUP_APP")
+                );
+                searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
             }
-        } catch (ParseException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }

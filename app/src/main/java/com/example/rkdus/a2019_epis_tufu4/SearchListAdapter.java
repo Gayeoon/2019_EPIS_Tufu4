@@ -56,10 +56,7 @@ public class SearchListAdapter extends BaseAdapter {
         hospitalNameText.setText(listData.get(position).getHospitalName());
         ceoNameText.setText(listData.get(position).getCeoName());
         phoneNumText.setText(listData.get(position).getPhoneNum());
-        if(listData.get(position).getSignUpApp())   // boolean T/F에 따라 결과 다르게 출력(이미지로 변환 가능)
-            hospitalNameText.setText("예");
-        else
-            hospitalNameText.setText("아니오");
+
 
         return convertView;
     }

@@ -42,3 +42,11 @@
 - SearchActivity POST 방식으로 서버를 통해 가져오기 코드 작성
 - JSON 관련 import 완료
 -> Gradle 변경
+
+2019.06.15
+- SearchActivity 검색 및 리스트뷰 출력 구현 완료. 검사는 X
+- SearchActivity 어플등록 필터 구현 완료
+-> ArrayList를 두 개 만들어 저장.
+- json 파일로 저장하는 기능 구현 완료. 검사는 X
+-> 굳이 json 파일 저장 없이 ArrayList에 검색결과 값만 담고, 액티비티 닫으면 삭제하는 방법은?
+- GPS mylocation 권한 manifest에 추가
