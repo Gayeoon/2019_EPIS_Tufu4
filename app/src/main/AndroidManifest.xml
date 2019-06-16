@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.rkdus.a2019_epis_tufu4">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
 
@@ -67,7 +67,10 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".SearchActivity"
-            android:theme="@style/NoTheme" ></activity>
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/NoTheme"></activity>
     </application>
 
 </manifest>

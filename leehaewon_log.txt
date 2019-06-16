@@ -50,3 +50,9 @@
 - json 파일로 저장하는 기능 구현 완료. 검사는 X
 -> 굳이 json 파일 저장 없이 ArrayList에 검색결과 값만 담고, 액티비티 닫으면 삭제하는 방법은?
 - GPS mylocation 권한 manifest에 추가
+
+2019.06.16
+- SearchActivity와 MessageTypeActivity 연결
+- MessageActivity에서 예약하기 눌렀을 때 해당 ID에 예약 정보를 저장하기 위한 서버 통신 필요
+- 벡터 이미지 테스트중
+- MainActivity 추가

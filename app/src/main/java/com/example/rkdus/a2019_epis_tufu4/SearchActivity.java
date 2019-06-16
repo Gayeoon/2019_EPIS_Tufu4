@@ -63,14 +63,16 @@ public class SearchActivity extends AppCompatActivity {
     /*
     디비 테이블 저장 정보
     테이블 이름 : AGENCY_TB
-    AGENCY_TB_PK    |   ADDRESS1    |   ADDRESS2    |   CEO_NAME    |   AGENCY_NAME |   PHONE_NUMBER
-    기본키                주소           상세주소        대표자명        병원명             전화번호
-    AGENCY_TB_PK: int(11),
-    ADDRESS1: varchar(80),
-    ADDRESS2: varchar(50),
-    CEO_NAME: varchar(10),
-    AGENCY_NAME: varchar(20),
+       ID    |    PW    |    CEO_NAME    |    AGENCY_NAME    |    PHONE_NUMBER    |    ADDRESS1    |   ADDRESS2    |   SIGNUP_APP
+    아이디(PK)    비밀번호        대표자명             병원명                 전화번호               주소           상세주소           등록여부
+    ID: varchar(20)   -> PK
+    PW: varchar(30)
+    CEO_NAME: varchar(10)
+    AGENCY_NAME: varchar(20)
     PHONE_NUMBER: varchar(15)
+    ADDRESS1: varchar(80)
+    ADDRESS2: varchar(50)
+    SIGNUP_APP: tinyint(1)      tinyint(boolean)
      */
 
     boolean isSearchCurrentLocation, isSignUpApp;
@@ -423,6 +425,15 @@ public class SearchActivity extends AppCompatActivity {
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 SearchItemData item = arrayList.get(position);
                                 Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
+                                if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
+                                    // 서버에 요청
+                                    String hospitalID = null;   // 서버에서 받아온 id값 입력
+                                    Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
+                                    intent.putExtra("id", hospitalID);  // id를 인텐트에 담아서
+                                    startActivity(intent);  // MessageTypeActivity 실행
+                                }
+                                else
+                                    Toast.makeText(getApplicationContext(), "어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
                             }
                         });
                     }
@@ -463,7 +474,7 @@ public class SearchActivity extends AppCompatActivity {
     /*
     HttpURLConnection 연결 잘 안되는 경우 원인 내용 Log 출력
      */
-    private void printConnectionError(HttpURLConnection con) throws IOException {
+    public static void printConnectionError(HttpURLConnection con) throws IOException {
         InputStream is = con.getErrorStream();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] byteBuffer = new byte[1024];
