@@ -134,6 +134,12 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        messageAsyncTask.cancel(true); // 초기화
+        super.onDestroy();
+    }
+
     /*
     사용자가 적은 EditText 값 제거시키기
     사용은 모르겠음
@@ -170,6 +176,7 @@ public class MessageActivity extends AppCompatActivity {
 
     /*
     EditText의 값 중 공백 확인
+    @return : boolean(true : 앞 뒤 공백 또는 전체 공백이 아님. false : 둘 중 하나라도 해당하는 경우)
      */
     private boolean checkEditText(EditText editText) {
         String editStr = editText.getText().toString();    // 검색어 임시 변수에 저장.
@@ -186,6 +193,7 @@ public class MessageActivity extends AppCompatActivity {
 
     /*
     서버에 예약 정보를 POST 방식으로 ID에 요청하도록 전송하기
+    AsyncTask 사용
      */
     private class MessageAsyncTask extends AsyncTask<String, Void, String> {
 
@@ -231,7 +239,7 @@ public class MessageActivity extends AppCompatActivity {
                     OutputStream outStream = con.getOutputStream();
                     //버퍼를 생성하고 넣음
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-                    writer.write(jsonObject.toString());    // searchword : 검색키워드 식으로 전송
+                    writer.write(jsonObject.toString());    // JSONObject 객체 내 넣은 값들 전부 담아 전송
                     writer.flush();
                     writer.close(); // 버퍼를 받아줌
 
