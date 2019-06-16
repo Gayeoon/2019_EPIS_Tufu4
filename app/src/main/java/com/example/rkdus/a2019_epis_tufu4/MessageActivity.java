@@ -125,6 +125,7 @@ public class MessageActivity extends AppCompatActivity {
                 if(setOwnerInfo() && setPetInfo()) {    // 입력한 모든 정보가 올바르게 변수에 저장한 경우
                     // 서버에 해당 id에 전송
                     messageAsyncTask.execute();
+                    messageAsyncTask.cancel(true);
                 }
                 else {  // 하나라도 값이 잘못된 경우
                     //clearEditText();
@@ -196,7 +197,7 @@ public class MessageActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate("id", hospitalID); // id JSONObject에 담기
                 jsonObject.accumulate("type", type); // type JSONObject에 담기
-
+                jsonObject.accumulate("")
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
@@ -237,26 +238,6 @@ public class MessageActivity extends AppCompatActivity {
                 else {  // 연결이 잘 안됨
                     printConnectionError(con);
                 }
-
-                /*
-                String tag;
-                // 각각 값을 제대로 받았는지 체크하기 위한 boolean
-                boolean isGetHospitalName = false;
-                boolean isGetCeoName = false;
-                boolean isGetPhoneNum = false;
-                int eventType = parser.getEventType();
-
-                // 파싱 시작
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    switch (eventType) {
-                        case XmlPullParser.START_DOCUMENT: // xml의 시작순간
-                            break;
-                        case XmlPullParser.END_DOCUMENT: // xml의 끝순간
-                            break;
-                        case XmlPullParser.START_TAG:
-                    }
-                }
-            */
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -267,6 +248,16 @@ public class MessageActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            if(result.equals("OK")) {
+                Toast.makeText(getApplicationContext(), "예약 성공!", Toast.LENGTH_LONG).show();
+                finish();
+            }
+            else
+                Toast.makeText(getApplicationContext(), "예약 실패!  사유 : " + result, Toast.LENGTH_LONG).show();
         }
     }
 }
