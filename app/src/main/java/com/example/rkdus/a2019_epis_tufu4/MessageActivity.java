@@ -194,10 +194,21 @@ public class MessageActivity extends AppCompatActivity {
             String search_url = SERVER_URL + "/sendMessage";    // URL
             // 서버에 메세지 정보 전송
             try {
+                // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.accumulate("id", hospitalID); // id JSONObject에 담기
                 jsonObject.accumulate("type", type); // type JSONObject에 담기
-                jsonObject.accumulate("")
+                // Message에 담은 모든 정보 JSONObject에 담기
+                jsonObject.accumulate("ownerName", ownerName);
+                jsonObject.accumulate("address", address);
+                jsonObject.accumulate("hp", hp);
+                jsonObject.accumulate("petName", petName);
+                jsonObject.accumulate("race", race);
+                jsonObject.accumulate("petColor", petColor);
+                jsonObject.accumulate("petBirth", petBirth);
+                jsonObject.accumulate("neutralization", neutralization);
+                jsonObject.accumulate("petGender", petGender);
+
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
                 BufferedReader reader = null;
@@ -208,7 +219,7 @@ public class MessageActivity extends AppCompatActivity {
 
                 // 응답 코드 구분
                 if(responseCode == HttpURLConnection.HTTP_OK) { // 200 정상 연결
-                    con.setRequestMethod("POST"); // POST방식 설정
+                    con.setRequestMethod("POST"); // POST 방식 설정
                     con.setRequestProperty("Cache-Control", "no-cache"); // 캐시 설정
                     con.setRequestProperty("Content-Type", "application/json"); // application JSON 형식으로 전송
                     con.setRequestProperty("Accept", "text/xml"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml

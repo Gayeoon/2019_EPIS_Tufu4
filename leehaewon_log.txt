@@ -54,5 +54,7 @@
 2019.06.16
 - SearchActivity와 MessageTypeActivity 연결
 - MessageActivity에서 예약하기 눌렀을 때 해당 ID에 예약 정보를 저장하기 위한 서버 통신 필요
+- MessageActivity 전송 시 필요한 JSONObject 입력 완료
+-> 지원이한테 얘기하기
 - 벡터 이미지 테스트중
 - MainActivity 추가
