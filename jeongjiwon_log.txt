@@ -46,3 +46,4 @@
     계정 : jiwon / gayeon / haewon
     비밀번호 0000
     공유비밀 0000
+- 쿼리문 변경 (CEO_NAME -> CEO_NAME or AGENCY_NAME)

@@ -51,7 +51,7 @@ const getHospitalData = function(payload) {
             query = `SELECT * from AGENCY_TB`
         else
             query = `SELECT CEO_NAME, AGENCY_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from AGENCY_TB
-            WHERE CEO_NAME LIKE '${payload.searchword}'`
+            WHERE CEO_NAME LIKE '${payload.searchword}' OR AGENCY_NAME LIKE '${payload.searchword}'`
 
         connection.query(query, function(err, rows, fields) {
             data.result = rows;
