@@ -1,5 +1,6 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -16,11 +17,11 @@ import java.net.URL;
 
 public class JoinActivity extends AppCompatActivity {
 
-    EditText ehospital, ename, enumber;
+    EditText ehospital, ename, enumber, eid, epw;
     ImageButton next_one, next_two;
     LinearLayout idpw;
 
-    String hospital = null, name = null, number = null;
+    String hospital = null, name = null, number = null, id=null, pw=null;
     boolean success;
 
     @Override
@@ -35,6 +36,8 @@ public class JoinActivity extends AppCompatActivity {
         ehospital = (EditText) findViewById(R.id.hospital);
         ename = (EditText) findViewById(R.id.name);
         enumber = (EditText) findViewById(R.id.number);
+        eid = (EditText) findViewById(R.id.id);
+        epw = (EditText) findViewById(R.id.pw);
 
         next_one = (ImageButton) findViewById(R.id.next_one);
         next_two = (ImageButton) findViewById(R.id.next_two);
@@ -64,6 +67,24 @@ public class JoinActivity extends AppCompatActivity {
             }
         });
 
+        next_two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                id = eid.getText().toString();
+                pw = epw.getText().toString();
+
+                if(Check(id)){
+                    Intent intent = new Intent(getApplicationContext(), SelectPicActivity.class);
+                    intent.putExtra("id", id);
+                    startActivity(intent);
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
+                    eid.setText("");
+                }
+
+            }
+        });
 
     }
 
@@ -126,5 +147,13 @@ public class JoinActivity extends AppCompatActivity {
             return false;
         }
 
+    }
+
+    boolean Check(String id){
+        // To 지원
+        // id 중복 체크
+        // 중복 있으면 false 리턴 중복 없으면 true 리턴
+
+        return false;
     }
 }

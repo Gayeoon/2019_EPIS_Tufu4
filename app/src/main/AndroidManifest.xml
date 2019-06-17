@@ -5,6 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +24,8 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalActivity"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme" >
+        </activity>
         <activity
             android:name=".JoinActivity"
             android:theme="@style/NoTheme" />
@@ -70,7 +74,10 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" />
+        <activity android:name=".SelectPicActivity">
+
+        </activity>
     </application>
 
 </manifest>
