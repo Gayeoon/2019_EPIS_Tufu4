@@ -1,35 +1,43 @@
 2019.05.30.
-- ÇÁ·ÎÁ§Æ® »ý¼º ¹× git°ú ¿¬µ¿
+- í”„ë¡œì íŠ¸ ìƒì„± ë° gitê³¼ ì—°ë™
 
 2019.06.01
-- ¾×Æ¼ºñÆ¼ º´¿ø ±â´É ÀüºÎ »ý¼º
-- BaseActivity »ç¿ëÇØ¼­ ÆùÆ® Àû¿ë (Noto_Sans_Regular.ttf)
-- È¸¿ø°¡ÀÔ xml ÀÛ¼º
- -> ÃÊ±âÈ­¸é : º´¿ø Á¤º¸ (º´¿ø ¸í, ´ëÇ¥ÀÚ ¸í, º´¿ø ¿¬¶ôÃ³)¸¸ ÀÔ·Â °¡´ÉÇÏ°Ô 
- -> º´¿ø ÀÎÁõ ¼º°ø : ID, PW ÀÔ·Â Ã¢ VISIBLE / ´ÙÀ½ ¹öÆ° VISIBLE
- --> º´¿ø ÀÎÁõ ½ÇÆÐ½Ã´Â .png ¹ÞÀ¸¸é ¸¸µé¿¹Á¤!
-- ·Î±×ÀÎ xml ÀÛ¼º --> ÀÓ½Ã ·Î°í »ç¿ë
-- ¿¹¾à È®ÀÎ xml ÀÛ¼º
+- ì•¡í‹°ë¹„í‹° ë³‘ì› ê¸°ëŠ¥ ì „ë¶€ ìƒì„±
+- BaseActivity ì‚¬ìš©í•´ì„œ í°íŠ¸ ì ìš© (Noto_Sans_Regular.ttf)
+- íšŒì›ê°€ìž… xml ìž‘ì„±
+ -> ì´ˆê¸°í™”ë©´ : ë³‘ì› ì •ë³´ (ë³‘ì› ëª…, ëŒ€í‘œìž ëª…, ë³‘ì› ì—°ë½ì²˜)ë§Œ ìž…ë ¥ ê°€ëŠ¥í•˜ê²Œ
+ -> ë³‘ì› ì¸ì¦ ì„±ê³µ : ID, PW ìž…ë ¥ ì°½ VISIBLE / ë‹¤ìŒ ë²„íŠ¼ VISIBLE
+ --> ë³‘ì› ì¸ì¦ ì‹¤íŒ¨ì‹œëŠ” .png ë°›ìœ¼ë©´ ë§Œë“¤ì˜ˆì •!
+- ë¡œê·¸ì¸ xml ìž‘ì„± --> ìž„ì‹œ ë¡œê³  ì‚¬ìš©
+- ì˜ˆì•½ í™•ì¸ xml ìž‘ì„±
 
 2019.06.03
-- °ø°øµ¥ÀÌÅÍ ¹Ý·Áµ¿¹° µî·Ï´ëÇà¾÷Ã¼ Á¶È¸ OpenAPI ½ÅÃ» --> ¹Ù·Î ½ÂÀÎ
---> ÀÎÁõÅ°´Â ½ÅÃ»ÇÑ »ç¶÷¸¸ »ç¿ë °¡´ÉÇÏ´Ù°í ÀûÇôÀÖÀ½! (Å¸ÀÎ ¾çµµ ºÒ°¡´É)
-- JoinActivity ±â´É 80% ¿Ï·á
- 1) »ç¿ëÀÚÇÑÅ× º´¿ø ¸í, ´ëÇ¥ÀÚ ¸í, º´¿ø ¿¬¶ôÃ³ ÀÔ·Â ¹ÞÀ½
- 2) ´ëÇ¥ÀÚ ¸íÀ¸·Î °ø°øµ¥ÀÌÅÍ °Ë»ö
- 3) °ø°øµ¥ÀÌÅÍ xml ÆÄ½Ì -> º´¿ø ¸í, º´¿ø ¿¬¶ôÃ³ String ÀúÀå
- 4) ÀÔ·Â String°ú ºñ±³ÇØ¼­ ¼Â´Ù °°À¸¸é true ¸®ÅÏ
- 5) true ¸®ÅÏ ½Ã, id/pw ÀÔ·Â ·¹ÀÌ¾Æ¿ô VISIBLE & º´¿ø Á¤º¸ EditText Enable -> false (º´¿ø Á¤º¸ ¼öÁ¤ ºÒ°¡´ÉÇÏ°Ô)
-- Manifest ÀÎÅÍ³Ý ±ÇÇÑ ¼³Á¤
+- ê³µê³µë°ì´í„° ë°˜ë ¤ë™ë¬¼ ë“±ë¡ëŒ€í–‰ì—…ì²´ ì¡°íšŒ OpenAPI ì‹ ì²­ --> ë°”ë¡œ ìŠ¹ì¸
+--> ì¸ì¦í‚¤ëŠ” ì‹ ì²­í•œ ì‚¬ëžŒë§Œ ì‚¬ìš© ê°€ëŠ¥í•˜ë‹¤ê³  ì í˜€ìžˆìŒ! (íƒ€ì¸ ì–‘ë„ ë¶ˆê°€ëŠ¥)
+- JoinActivity ê¸°ëŠ¥ 80% ì™„ë£Œ
+ 1) ì‚¬ìš©ìží•œí…Œ ë³‘ì› ëª…, ëŒ€í‘œìž ëª…, ë³‘ì› ì—°ë½ì²˜ ìž…ë ¥ ë°›ìŒ
+ 2) ëŒ€í‘œìž ëª…ìœ¼ë¡œ ê³µê³µë°ì´í„° ê²€ìƒ‰
+ 3) ê³µê³µë°ì´í„° xml íŒŒì‹± -> ë³‘ì› ëª…, ë³‘ì› ì—°ë½ì²˜ String ì €ìž¥
+ 4) ìž…ë ¥ Stringê³¼ ë¹„êµí•´ì„œ ì…‹ë‹¤ ê°™ìœ¼ë©´ true ë¦¬í„´
+ 5) true ë¦¬í„´ ì‹œ, id/pw ìž…ë ¥ ë ˆì´ì•„ì›ƒ VISIBLE & ë³‘ì› ì •ë³´ EditText Enable -> false (ë³‘ì› ì •ë³´ ìˆ˜ì • ë¶ˆê°€ëŠ¥í•˜ê²Œ)
+- Manifest ì¸í„°ë„· ê¶Œí•œ ì„¤ì •
 
 2019.06.09
-- º´¿ø ¸ÞÀÎ ¾×Æ¼ºñÆ¼ xml ÀÛ¼º
-- ¿¹¾àÈ®ÀÎ, ¾Ë¶÷, Ä¿¹Â´ÏÆ¼ È­¸é ÀüÈ¯ ±â´É ±¸Çö
-- ·Î±×ÀÎ ¾×Æ¼ºñÆ¼ ±â´É ±¸Çö
+- ë³‘ì› ë©”ì¸ ì•¡í‹°ë¹„í‹° xml ìž‘ì„±
+- ì˜ˆì•½í™•ì¸, ì•ŒëžŒ, ì»¤ë®¤ë‹ˆí‹° í™”ë©´ ì „í™˜ ê¸°ëŠ¥ êµ¬í˜„
+- ë¡œê·¸ì¸ ì•¡í‹°ë¹„í‹° ê¸°ëŠ¥ êµ¬í˜„
 
 2019.06.11
-- MessageView ¹× MessageItem Å¬·¡½º »ý¼º
-- ¾Ë¶÷ ¾×Æ¼ºñÆ¼¿¡ ¿ÜÀåÇü/³»ÀåÇü ListView xml ÀÛ¼º
-- DB¿¡¼­ ¸Þ¼¼Áö º¸³½ ¼ÒÀ¯ÀÚ ¸í´Ü ¸®½ºÆ® ¿ÜÀåÇü/³»ÀåÇü ±¸ºÐÇØ¼­ adapter¿¡ Ãß°¡
-- Reservation ¾×Æ¼ºñÆ¼¿¡ ÀüÈ­°É±â ±â´É Ãß°¡
-- Manifest ´ÙÀÌ¾ó ±ÇÇÑ ¼³Á¤
+- MessageView ë° MessageItem í´ëž˜ìŠ¤ ìƒì„±
+- ì•ŒëžŒ ì•¡í‹°ë¹„í‹°ì— ì™¸ìž¥í˜•/ë‚´ìž¥í˜• ListView xml ìž‘ì„±
+- DBì—ì„œ ë©”ì„¸ì§€ ë³´ë‚¸ ì†Œìœ ìž ëª…ë‹¨ ë¦¬ìŠ¤íŠ¸ ì™¸ìž¥í˜•/ë‚´ìž¥í˜• êµ¬ë¶„í•´ì„œ adapterì— ì¶”ê°€
+- Reservation ì•¡í‹°ë¹„í‹°ì— ì „í™”ê±¸ê¸° ê¸°ëŠ¥ ì¶”ê°€
+- Manifest ë‹¤ì´ì–¼ ê¶Œí•œ ì„¤ì •
+
+2019. 06. 17
+- HospitalActivity ì„œë²„ ì—°ë™
+- ì„œë²„ì™€ ë°ì´í„° ì£¼ê³  ë°›ê¸° í…ŒìŠ¤íŠ¸ -> ì•„ì§ ëª»í•¨
+- í”„ë¡œí•„ ì‚¬ì§„ ì§€ì •í•˜ëŠ” SelectPicActivity ìƒì„±
+- ê°¤ëŸ¬ë¦¬ì—ì„œ ì‚¬ì§„ ê³ ë¥´ê¸° ë° ì‚¬ì§„ ì´¬ì˜í•´ì„œ ì‚¬ìš©í•˜ê¸° ê¸°ëŠ¥ ì¶”ê°€
+- Crop ê¸°ëŠ¥ìœ¼ë¡œ ì‚¬ì´ì¦ˆì— ë§žê²Œ ì‚¬ìš©ìžê°€ ì‚¬ì§„ ìžë¥´ëŠ” ê¸°ëŠ¥ ì¶”ê°€
+- ì¸í…íŠ¸ ì „ì†¡ì„ ìœ„í•´ ì‚¬ì§„ Bitmapìœ¼ë¡œ ì €ìž¥
