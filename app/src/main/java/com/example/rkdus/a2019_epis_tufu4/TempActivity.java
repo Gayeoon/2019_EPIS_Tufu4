@@ -48,32 +48,6 @@ public class TempActivity extends AppCompatActivity {
         });
 
 
-//        /*
-//        * db 테스트 코드
-//        */
-//        db = new DatabaseCls();
-//
-//        // ##### 임시 ##### //
-//        // 나중에 클라이언트랑 병원 받아오면 매개변수로
-//        Client.Pet tmpPet = new Client().new Pet();
-//        tmpPet.setPet("펫이름", "19961217", "black", "false", "true", "치와아치와와", "남견", "96121712003993");
-//        Client tmpCl = new Client("주인이름", "99스트릿", "0428221551", "내장형", tmpPet);
-//        db.addClient(tmpCl);
-//
-//
-//        /*
-//        * 여기 notification 안 들어감
-//        */
-//        Hospital.Notification tmpNoti = new Hospital().new Notification();
-//        Hospital.Notification.Reservation tmpReserve = tmpNoti.getReservation();
-//        Hospital.Inner tmpIn = new Hospital().new Inner("IDisIN0ANSKD13BPK3523PKN3", "true");
-//        Hospital.Outer tmpOut = new Hospital().new Outer("IDisIN0ANSKD13BPK3523PKN3", "false");
-//        tmpReserve.inners.add(tmpIn);
-//        tmpReserve.outers.add(tmpOut);
-//        Hospital tmpHos = new Hospital("이거내병원", "이거쟤병원", "0402039423", "480480", tmpNoti);
-////        db.addHospital(tmpHos);
-
-
         // server test //
 
         tvData = (TextView) findViewById(R.id.dbContents);
@@ -97,26 +71,10 @@ public class TempActivity extends AppCompatActivity {
                     // JSONObject를 만들고 형식 맞춰준다
                     JSONArray jsonArray = new JSONArray();
                     JSONObject jsonObject = new JSONObject();
-
-                    // READ 해주세요 : 라이브러리 추가하고싶어어요ㅛㅇ,,ㅠㅠㅠㅠㅠㅠㅠㅠㅠ
+                    
 //                    JSONParser parser = new JSONParser();
                     Object parseObj;
 
-                    /*
-                        AGENCY_TB_PK: int(11),
-                        ADDRESS1: varchar(80),
-                        ADDRESS2: varchar(50),
-                        CEO_NAME: varchar(10),
-                        AGENCY_NAME: varchar(20),
-                        PHONE_NUMBER: varchar(15)
-                    */
-
-//                    jsonObject.accumulate("AGENCY_TB_PK", "1");
-//                    jsonObject.accumulate("ADDRESS1", "test");
-//                    jsonObject.accumulate("ADDRESS2", "test");
-//                    jsonObject.accumulate("CEO_NAME", "test");
-//                    jsonObject.accumulate("AGENCY_NAME", "test");
-//                    jsonObject.accumulate("PHONE_NUMBER", "test");
 
                     HttpURLConnection con = null;
                     BufferedReader reader = null;
