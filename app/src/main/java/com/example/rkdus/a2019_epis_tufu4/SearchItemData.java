@@ -1,8 +1,21 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 public class SearchItemData {
+    public int getHospitalKey() {
+        return hospitalKey;
+    }
+
+    public void setHospitalKey(int hospitalKey) {
+        this.hospitalKey = hospitalKey;
+    }
+
+    private int hospitalKey;
     private String ceoName;
     private String hospitalName;
+    private String phoneNum;
+    private String address1;
+    private String address2;
+    private boolean signUpApp;
 
     public void setCeoName(String ceoName) {
         this.ceoName = ceoName;
@@ -15,11 +28,6 @@ public class SearchItemData {
     public void setPhoneNum(String phoneNum) {
         this.phoneNum = phoneNum;
     }
-
-    private String phoneNum;
-    private String address1;
-    private String address2;
-    private boolean signUpApp;
 
     public String getAddress1() {
         return address1;
@@ -43,13 +51,14 @@ public class SearchItemData {
 
     public SearchItemData() {}
 
-    public SearchItemData(String hospitalname, String ceoname, String phonenum, boolean signupapp, String address1, String address2) {
-        this.hospitalName = hospitalname;
+    public SearchItemData(int hospitalkey, String ceoname, String hospitalname, String phonenum, String address1, String address2, boolean signupapp) {
+        this.hospitalKey = hospitalkey;
         this.ceoName = ceoname;
+        this.hospitalName = hospitalname;
         this.phoneNum = phonenum;
-        this.signUpApp = signupapp;
         this.address1 = address1;
         this.address2 = address2;
+        this.signUpApp = signupapp;
     }
 
     public String getCeoName() {

@@ -58,3 +58,7 @@
 -> 지원이한테 얘기하기
 - 벡터 이미지 테스트중
 - MainActivity 추가
+
+2019.06.17
+- SearchActivity에서 병원 클릭 시 서버에 KEY를 주고 ID값을 받기 위한 POST 요청 함수 작성
+- SearchActivity SearchItemData에 KEY 값 저장하기 위한 변수 추가

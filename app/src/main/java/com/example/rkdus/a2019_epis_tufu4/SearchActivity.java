@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -49,6 +50,7 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 /*
  * 사용자
@@ -216,7 +218,7 @@ public class SearchActivity extends AppCompatActivity {
     조건에 따라 리스트 보여주는 함수
      */
     private void showSearchList() {
-        searchAsyncTask.execute();
+        searchAsyncTask.execute("/getHospitalData", "searchword");
         searchAsyncTask.cancel(true);
         showSignUpApp();
     }
@@ -250,16 +252,18 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     /*
-    검색을 위한 백그라운드 작업 + UI Thread 활용하는 AsyncTask
+    서버에 접근하는 백그라운드 작업 + UI Thread 활용하는 AsyncTask
      */
-    private class SearchAsyncTask extends AsyncTask<String, Void, String> {
+    private class SearchAsyncTask extends AsyncTask<String, String, String> {
+
+        // String... [0] : url  [1] : type  [2 ...] : type마다 필요한 값들
         @Override
         protected String doInBackground(String... strings) {
-            String search_url = SERVER_URL + "/getHospitalData";    // URL
+            String search_url = SERVER_URL + strings[0];    // URL
+            String type = strings[1];
             // 서버에 특정 키워드 디비에서 검색 요청
             try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("searchword", searchWord); // 키워드 JSONObject에 담기
+                JSONObject jsonObject = setJSONForSendPost(strings);    // type(목적)에 맞는 JSONObject 생성하기
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
@@ -296,6 +300,10 @@ public class SearchActivity extends AppCompatActivity {
                         buffer.append(line); // buffer에 데이터 저장
                     }
 
+                    // type에 따른 메소드 실행
+                    if(type.equals("searchword")) {
+                        setSearchListArray(buffer.toString());
+                    }
                     return buffer.toString(); //서버로 부터 받은 값을 리턴해줌
                 }
                 else {  // 연결이 잘 안됨
@@ -336,7 +344,7 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String bufstr) {
-            setSearchListArray(bufstr);
+
         }
     }
 
@@ -409,7 +417,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /*
     // ListView에 ArrayList 넣고 출력
-     */
+    */
     private void setSearchListView(final ArrayList<SearchItemData> arrayList) {
         new Thread(new Runnable() {
             @Override
@@ -426,8 +434,22 @@ public class SearchActivity extends AppCompatActivity {
                                 SearchItemData item = arrayList.get(position);
                                 Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
                                 if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
-                                    // 서버에 요청
-                                    String hospitalID = null;   // 서버에서 받아온 id값 입력
+                                    String hospitalID = null;
+                                    String url = "/getID";
+
+                                    // 서버에 요청한 AsyncTask가 종료되지 않은 경우
+                                    // 종료되지 않았는데 다시 서버에 요청하는 경우 꼬일 수 있음
+                                    try {
+                                        if (searchAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
+                                            searchAsyncTask.cancel(true);
+                                        }
+                                        // hospital_key를 담아 서버에 id값 요청
+                                        hospitalID = searchAsyncTask.execute(url, "id", String.valueOf(item.getHospitalKey())).get(); // String에 담기(get 사용)
+                                    } catch (ExecutionException e) {
+                                        e.printStackTrace();
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
                                     Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
                                     intent.putExtra("id", hospitalID);  // id를 인텐트에 담아서
                                     startActivity(intent);  // MessageTypeActivity 실행
@@ -457,12 +479,13 @@ public class SearchActivity extends AppCompatActivity {
             for(int i = 0; i<jsonArray.length(); i++) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
                 jsonObject = jsonArray.getJSONObject(i);
                 SearchItemData searchItemData = new SearchItemData(
-                        jsonObject.getString("AGENCY_NAME"),
+                        jsonObject.getInt("HOSPITAL_KEY"),
                         jsonObject.getString("CEO_NAME"),
+                        jsonObject.getString("HOSPITAL_NAME"),
                         jsonObject.getString("PHONE_NUMBER"),
-                        jsonObject.getBoolean("SIGNUP_APP"),
                         jsonObject.getString("ADDRESS1"),
-                        jsonObject.getString("ADDRESS2")
+                        jsonObject.getString("ADDRESS2"),
+                        jsonObject.getBoolean("SIGNUP_APP")
                 );
                 searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
             }
@@ -503,5 +526,25 @@ public class SearchActivity extends AppCompatActivity {
         }
         searchWord = eSearchTempText;   // 전역 변수에 저장
         return true;
+    }
+
+    /*
+    type에 따라 필요한 값을 JSONObject에 담는 함수
+    @param : String...
+    [0] : URL
+    [1] : type
+    [2] : 1) searchword : X  2) id : hospital_key
+    @return : JSONObject(POST 방식으로 요청하기 위해 보내는 값을 담음)
+     */
+    private JSONObject setJSONForSendPost(String... strings) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        String type = strings[1];
+        if(type.equals("searchword")) {
+            jsonObject.accumulate("searchword", searchWord);
+        }
+        else if(type.equals("id")) {
+            jsonObject.accumulate("key", strings[2]);
+        }
+        return jsonObject;
     }
 }
