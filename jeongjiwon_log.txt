@@ -47,3 +47,25 @@
     비밀번호 0000
     공유비밀 0000
 - 쿼리문 변경 (CEO_NAME -> CEO_NAME or AGENCY_NAME)
+
+2019.06.17
+- DB 테이블 수정
+ -> AGENCY_TB -> HospitalInfo_TB + USER_TB
+    /*
+        - HospitalInfo_TB
+        
+        HOSPITAL_KEY: int   -> PK
+        CEO_NAME: varchar(10) NOT NULL
+        HOSPITAL_NAME: varchar(20) NOT NULL
+        PHONE_NUMBER: varchar(15) DEFAULT NULL
+        ADDRESS1: varchar(80) DEFAULT NULL
+        ADDRESS2: varchar(50) DEFAULT NULL
+        SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
+
+        - USER_TB
+        
+        ID: varchar(20)   -> PK
+        PW: varchar(30) NOT NULL
+        HOSPITAL_KEY: varchar(20) NOT NULL
+        
+    */

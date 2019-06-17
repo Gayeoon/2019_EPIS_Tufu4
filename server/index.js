@@ -13,16 +13,23 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 /*
-    ID: varchar(20)
-    PW: varchar(30)
-    CEO_NAME: varchar(10)
-    AGENCY_NAME: varchar(20)
-    PHONE_NUMBER: varchar(15)
-    ADDRESS1: varchar(80)
-    ADDRESS2: varchar(50)
-    SIGNUP_APP: tinyint(1)      tinyint(boolean)
-*/
+    - HospitalInfo_TB
+    
+    HOSPITAL_KEY: int   -> PK
+    CEO_NAME: varchar(10) NOT NULL
+    HOSPITAL_NAME: varchar(20) NOT NULL
+    PHONE_NUMBER: varchar(15) DEFAULT NULL
+    ADDRESS1: varchar(80) DEFAULT NULL
+    ADDRESS2: varchar(50) DEFAULT NULL
+    SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
 
+    - USER_TB
+    
+    ID: varchar(20)   -> PK
+    PW: varchar(30) NOT NULL
+    HOSPITAL_KEY: varchar(20) NOT NULL
+    
+*/
 let data = {
     result: null
 };
@@ -48,10 +55,10 @@ const getHospitalData = function(payload) {
         let query;
 
         if (payload.searchword == 'allHospitalData')
-            query = `SELECT * from AGENCY_TB`
+            query = `SELECT * from HOSPITALINFO_TB`
         else
-            query = `SELECT CEO_NAME, AGENCY_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from AGENCY_TB
-            WHERE CEO_NAME LIKE '${payload.searchword}' OR AGENCY_NAME LIKE '${payload.searchword}'`
+            query = `SELECT CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from HOSPITALINFO_TB
+            WHERE CEO_NAME LIKE '${payload.searchword}' OR HOSPITAL_NAME LIKE '${payload.searchword}'`
 
         connection.query(query, function(err, rows, fields) {
             data.result = rows;
