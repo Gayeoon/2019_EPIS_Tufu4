@@ -1,18 +1,31 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class JoinActivity extends AppCompatActivity {
@@ -21,7 +34,7 @@ public class JoinActivity extends AppCompatActivity {
     ImageButton next_one, next_two;
     LinearLayout idpw;
 
-    String hospital = null, name = null, number = null, id=null, pw=null;
+    String hospital = null, name = null, number = null, id="", pw="";
     boolean success;
 
     @Override
@@ -73,16 +86,7 @@ public class JoinActivity extends AppCompatActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                if(Check(id)){
-                    Intent intent = new Intent(getApplicationContext(), SelectPicActivity.class);
-                    intent.putExtra("id", id);
-                    startActivity(intent);
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
-                    eid.setText("");
-                }
-
+                new IDCheck().execute("http://192.168.0.39:3000/getIdCheck");
             }
         });
 
@@ -149,11 +153,239 @@ public class JoinActivity extends AppCompatActivity {
 
     }
 
-    boolean Check(String id){
-        // To 지원
-        // id 중복 체크
-        // 중복 있으면 false 리턴 중복 없으면 true 리턴
+    /* IDCheck : 중복된 ID 값이 있는지 체크
+    * ID 중복이 있으면 -> int 1
+    * ID 중복이 없으면 -> int 2
+    * Default(에러 체크 하려고 만들었음) -> int 0
+    *
+    * Uri  --->   /getIdCheck
+    * Parm  --->   {"user":{"id":"test"}} 전송
+    * Result  --->   {"result":1} 결과 값*/
 
-        return false;
+    public class IDCheck extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e("JoinActivity", jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONObject json = null;
+            int success = 0;
+
+            try {
+                json = new JSONObject(result);
+
+                if (json.get("result") == null) {
+                    new IDCheck().execute("http://192.168.0.39:3000/getIdCheck");
+                } else {
+                    success = (int) json.get("result");
+
+                    if (success == 1) {
+
+                        new JoinDB().execute("http://192.168.0.39:3000/getJoin");
+
+                    } else if (success == 2){
+                        Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
+                        eid.setText("");
+                    }else{
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_LONG).show();
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("JoinActivity", result);
+
+        }
     }
+
+    /* JoinDB : 회원가입
+     * 회원가입 성공하면 -> int 1
+     * 회원가입 실패하면 -> int 0
+     *
+     * Uri  --->   /getJoin
+     * Parm  --->   {"user":{"hospital":"병원이름", "name":"김가연", "number":"010-4491-0778", "id":"test", "pw":"1234"}} 전송
+     * Result  --->   {"result":1} 결과 값*/
+
+    public class JoinDB extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e("JoinActivity", jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONObject json = null;
+            int success = 0;
+
+            try {
+                json = new JSONObject(result);
+
+                if (json.get("result") == null) {
+                    new JoinDB().execute("http://192.168.0.39:3000/getJoin");
+                } else {
+                    success = (int) json.get("result");
+
+                    if (success == 1) {
+                        Toast.makeText(getApplicationContext(), "회원가입 성공!!", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), SelectPicActivity.class);
+                        intent.putExtra("id", id);
+                        startActivity(intent);
+                    }else{
+                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_LONG).show();
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("JoinActivity", result);
+
+        }
+    }
+
 }

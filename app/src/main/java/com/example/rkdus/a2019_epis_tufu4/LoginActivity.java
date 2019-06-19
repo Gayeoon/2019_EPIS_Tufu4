@@ -61,6 +61,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /* loginDB : 로그인
+     * 로그인 성공 -> int 1
+     * 로그인 실패 -> int 0
+     *
+     * Uri  --->   /getLogin
+     * Parm  --->   {"user":{"id":"test", "pw":"0000"}} 전송
+     * Result  --->   {"result":1} 결과 값 */
+
     public class loginDB extends AsyncTask<String, String, String> {
 
         @Override
@@ -68,8 +76,6 @@ public class LoginActivity extends AppCompatActivity {
         protected String doInBackground(String... urls) {
 
             try {
-
-                //JSONObject를 만들고 key value 형식으로 값을 저장해준다.
 
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
@@ -86,12 +92,12 @@ public class LoginActivity extends AppCompatActivity {
 
                     URL url = new URL(urls[0]);
                     con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");//POST방식으로 보냄
-                    con.setRequestProperty("Cache-Control", "no-cache");//캐시 설정
-                    con.setRequestProperty("Content-Type", "application/json");//application JSON 형식으로 전송
-                    con.setRequestProperty("Accept", "text/html");//서버에 response 데이터를 html로 받음
-                    con.setDoOutput(true);//Outstream으로 post 데이터를 넘겨주겠다는 의미
-                    con.setDoInput(true);//Inputstream으로 서버로부터 응답을 받겠다는 의미
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
                     con.connect();
 
                     //서버로 보내기위해서 스트림 만듬

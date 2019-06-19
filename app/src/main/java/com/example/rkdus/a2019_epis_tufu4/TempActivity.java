@@ -66,11 +66,12 @@ public class TempActivity extends AppCompatActivity {
     public class JSONTask extends AsyncTask<String, String, String> {
 
         @Override
-        protected String doInBackground(String... urls) {
-            try {
-                // JSONObject를 만들고 형식 맞춰준다
-                JSONArray jsonArray = new JSONArray();
-                JSONObject jsonObject = new JSONObject();
+            protected String doInBackground(String... urls) {
+                try {
+                    // JSONObject를 만들고 형식 맞춰준다
+                    JSONArray jsonArray = new JSONArray();
+                    JSONObject jsonObject = new JSONObject();
+
 
 //                    JSONParser parser = new JSONParser();
                 Object parseObj;
