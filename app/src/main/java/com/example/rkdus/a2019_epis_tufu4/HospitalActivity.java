@@ -97,17 +97,14 @@ public class HospitalActivity extends AppCompatActivity {
     }
 
     private int Newmessage(String id) {
-        // To 지원
-        // id 가지고 메세지 몇개 왔는지 검색해주세여!
-        // 혹시 새로운 메세지 중간에 도착하면
-        // count.setText("여기에"); -> 입력하시면 됩니다!
+        // id 가지고 메세지 몇개 왔는지 검색
 
         return 0;
     }
 
     private String HospitalName(String id){
-        // To 지원
-        // id 가지고 hospital_name 좀 검색해주세여!
+        // id 가지고 hospital_name 검색
+
         String name = String.valueOf(searchAsyncTask.execute());
         return name;
     }
