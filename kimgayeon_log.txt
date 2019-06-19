@@ -41,3 +41,28 @@
 - 갤러리에서 사진 고르기 및 사진 촬영해서 사용하기 기능 추가
 - Crop 기능으로 사이즈에 맞게 사용자가 사진 자르는 기능 추가
 - 인텐트 전송을 위해 사진 Bitmap으로 저장
+
+2019. 06. 19
+- loginDB class : 서버 연동 테스트 -> 성공
+- LoginActivity POST 방식으로 서버를 통해 ID/PW 일치하는지 확인
+- PostExecute 결과에 따라 HospitalActivity와 연결
+- 서버에서 결과가 null이 왔을경우 loginDB class 재호출
+
+2019. 06. 20
+JoinActivity
+- ID 중복 체크를 위한 IDCheck class 생성
+- 서버에 ID 중복 체크 요청
+- 중복 시 ID EditText 창 초기화
+- 중복 없을 경우 JoinDB class 객체 실행
+- 회원가입을 위한 JoinDB class 생성
+- 서버에 병원 명, 대표자 명, 병원 번호, 아이디, 비밀번호 저장 요청
+- 저장 성공 시, SelectPicActivity와 연결
+HospitalActivity
+- ID 값에 해당되는 병원 이름을 알아내기 위한 HospitalName class 생성
+- 서버에 ID 값 Json Object 파라미터로 넘기고 해당되는 병원 이름을 요청
+- 병원 이름을 TextView에 출력
+- 예약한 환자 수를 알기 위한 NewMessage class 생성
+- 서버에 ID 값 Json Object 파라미터로 넘기고 해당되는 병원에 예약한 환자 수 요청
+- Default 값 0으로 설정
+- 알람 TextView에 예약 메세지 수 출력
+-> 지원이에게 요청 파라미터 정리해서 주기
