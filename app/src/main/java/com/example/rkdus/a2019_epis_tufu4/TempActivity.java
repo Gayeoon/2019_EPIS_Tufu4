@@ -71,7 +71,7 @@ public class TempActivity extends AppCompatActivity {
                     // JSONObject를 만들고 형식 맞춰준다
                     JSONArray jsonArray = new JSONArray();
                     JSONObject jsonObject = new JSONObject();
-                    
+
 //                    JSONParser parser = new JSONParser();
                     Object parseObj;
 
