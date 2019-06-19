@@ -12,23 +12,14 @@ app.use(bodyParser.urlencoded({
 }));
 
 
-
 const mysql = require('mysql2/promise')
 const pool = mysql.createPool({
-        host: 'localhost',
-        user: 'test',
-        password: '',
-        port: 3306,
-        database: 'PET_REGIST'
-    })
-    // var mysql = require('mysql');
-    // var connection = mysql.createConnection({
-    //     host: 'localhost',
-    //     user: 'test',
-    //     password: '',
-    //     port: 3306,
-    //     database: 'PET_REGIST'
-    // });
+    host: 'localhost',
+    user: 'test',
+    password: '',
+    port: 3306,
+    database: 'PET_REGIST'
+})
 
 /*
     - HospitalInfo_TB
@@ -48,10 +39,13 @@ const pool = mysql.createPool({
     HOSPITAL_KEY: varchar(20) NOT NULL
     
 */
+
 let data = {
     result: null
 };
-const resData = {}; // db update 할 때 사용
+let rett = {
+    result: null
+};
 
 app.set('port', process.env.PORT || 3000);
 
@@ -70,23 +64,31 @@ app.get('/', (req, res, next) => {
     res.send(str);
     // res.status(404).send('미아냉 404야 ㅠㅠ')
 });
-app.get('/isLogon', (req, res, next) => {
-    const str = 'Hi ! I\'m here !\n\n'
-    console.log(str);
 
-    res.send(str);
-    // res.status(404).send('미아냉 404야 ㅠㅠ')
+app.post('/getLogin', (req, res, next) => {
+    console.log('\n\nCALL getLogin');
+
+    const ret = getLogin(req.body);
+    let tt = { "result": 999 };
+    ret.then(function(value) {
+        tt.result = value;
+    })
+
+    res.json(rett);
 });
 
+
 app.post('/getHospitalData', (req, res, next) => {
-    console.log('CALL getHospitalData\n\n');
+    console.log('\n\nCALL getHospitalData');
 
     console.log(req.body);
-    getHospitalData(req.body);
+    const ret = getHospitalData(req.body);
+    // res.json(ret);
     res.json(data);
 });
 
 app.get('/updateDB', (req, res, next) => {
+    console.log('\n\nCALL GET updateDB');
     let contents = '';
     contents += '<html><body>';
     contents += '   <form action="/updateDB" method="POST" enctype="multipart/form-data">';
@@ -99,7 +101,8 @@ app.get('/updateDB', (req, res, next) => {
 });
 
 app.post('/updateDB', (req, res, next) => {
-    // const resData = {};
+    console.log('\n\nCALL POST updateDB');
+    const resData = {};
     const form = new multiparty.Form({
         autoFiles: true, // POST만 가능하도록
     });
@@ -127,13 +130,47 @@ app.post('/updateDB', (req, res, next) => {
 
 });
 
+
+
 /* 
  * database 
  * 
  * async, await 필수 -> Promise 는 오류뜸
  */
 
+const getLogin = async(payload) => {
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        try {
+            let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${payload.user.id}' AND PW = '${payload.user.pw}';`
+
+            await connection.query(query, function(err, rows, fields) {
+                if (rows.length) {
+                    rett.result = 1;
+                } else {
+                    rett.result = 0;
+                }
+                console.log("length : " + rows.length)
+            });
+            connection.release(); // db 연결 끝
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+    return rett
+}
+
 const getHospitalData = async(payload) => {
+    // var data = {
+    //     result: null
+    // };
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -146,12 +183,15 @@ const getHospitalData = async(payload) => {
                 query = `SELECT CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from HOSPITALINFO_TB
                 WHERE CEO_NAME LIKE '%${payload.searchword}%' OR HOSPITAL_NAME LIKE '%${payload.searchword}%';`
 
-            console.log(query)
+            // console.log(query)
             await connection.query(query, function(err, rows, fields) {
-                console.log("ROWs : " + rows)
+                // console.log("ROWs : " + rows)
                 data.result = rows;
+                console.log(data)
             });
             connection.release(); // db 연결 끝
+
+            console.log(data)
         } catch (err) {
             console.log('Query Error\n\n');
             console.log(err);
@@ -162,13 +202,15 @@ const getHospitalData = async(payload) => {
         console.log('DB Error');
         return false;
     }
+    consolg.log("DASDASDASD" + data)
+
+    return data
 }
 
-/* get connection */
-const updateHospitalData = async(data) => {
+const updateHospitalData = async(payload) => {
     try {
         const connection = await pool.getConnection(async conn => conn);
-        const newData = data.Sheet1;
+        const newData = payload.Sheet1;
         let tmpstr = [''], // 너무 기니까 1000개씩 나눠서 담자
             query = '',
             i = 0;
