@@ -40,11 +40,8 @@ const pool = mysql.createPool({
     
 */
 
-let data = {
-    result: null
-};
 let rett = {
-    result: null
+    result: 0
 };
 
 app.set('port', process.env.PORT || 3000);
@@ -60,16 +57,28 @@ app.listen(3000, () => {
 app.get('/', (req, res, next) => {
     const str = 'Hi ! I\'m here !\n\n'
     console.log(str);
-
     res.send(str);
-    // res.status(404).send('미아냉 404야 ㅠㅠ')
+});
+
+app.post('/getIdCheck', (req, res, next) => {
+    console.log('\n\nCALL getIdCheck');
+    getIdCheck(req.body);
+    res.json(rett);
+});
+
+app.post('/getJoin', (req, res, next) => {
+    console.log('\n\nCALL getJoin');
+    getJoin(req.body);
+    res.json(rett);
 });
 
 app.post('/getLogin', (req, res, next) => {
     console.log('\n\nCALL getLogin');
-
+    /* #####TEST##### */
     const ret = getLogin(req.body);
-    let tt = { "result": 999 };
+    let tt = {
+        "result": 999
+    };
     ret.then(function(value) {
         tt.result = value;
     })
@@ -77,14 +86,16 @@ app.post('/getLogin', (req, res, next) => {
     res.json(rett);
 });
 
+app.post('/getHospitalName', (req, res, next) => {
+    console.log('\n\nCALL getHospitalName');
+    getHospitalName(req.body);
+    res.json(rett);
+});
 
 app.post('/getHospitalData', (req, res, next) => {
     console.log('\n\nCALL getHospitalData');
-
-    console.log(req.body);
-    const ret = getHospitalData(req.body);
-    // res.json(ret);
-    res.json(data);
+    getHospitalData(req.body);
+    res.json(rett);
 });
 
 app.get('/updateDB', (req, res, next) => {
@@ -110,24 +121,19 @@ app.post('/updateDB', (req, res, next) => {
     form.on('file', (name, file) => {
         const workbook = xlsx.readFile(file.path);
         const sheetnames = Object.keys(workbook.Sheets);
-
         let i = sheetnames.length;
-
         // xlsx -> json
         while (i--) {
             const sheetname = sheetnames[i];
             resData[sheetname] = xlsx.utils.sheet_to_json(workbook.Sheets[sheetname]);
         }
     });
-
-
     form.on('close', () => {
         res.send(resData);
         updateHospitalData(resData);
     });
 
     form.parse(req);
-
 });
 
 
@@ -138,11 +144,76 @@ app.post('/updateDB', (req, res, next) => {
  * async, await 필수 -> Promise 는 오류뜸
  */
 
+const getIdCheck = async(payload) => {
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        try {
+            let query = `SELECT ID from USER_TB where ID = '${payload.user.id}';`
+
+            await connection.query(query, function(err, rows, fields) {
+                if (rows.length) {
+                    rett.result = 1;
+                } else {
+                    rett.result = 2;
+                }
+                console.log(`${payload.user.id}가 중복됩니다`)
+            });
+            connection.release(); // db 연결 끝
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+}
+
+const getJoin = async(payload) => {
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = payload.user;
+        /*
+           {"user":{
+               "hospital":"힐링힐스동물병원", 
+               "name":"박성민", 
+               "number":"031-708-0078", 
+               "id":"test", 
+               "pw":"1234"
+            }}
+        */
+        try {
+            let query = `
+                INSERT INTO USER_TB (ID, PW, HOSPITAL_KEY, HOSPITAL_NAME) 
+                SELECT '${user.id}', '${user.pw}', HOSPITAL_KEY, HOSPITAL_NAME
+                from HOSPITALINFO_TB 
+                where HOSPITAL_NAME = '${user.hospital}' AND PHONE_NUMBER = '${user.number}';`
+            await connection.query(query);
+            rett.result = 1; // 성공
+            connection.release(); // db 연결 끝
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            rett.result = 0; // 실패
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+}
+
 const getLogin = async(payload) => {
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
             let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${payload.user.id}' AND PW = '${payload.user.pw}';`
+            console.log(payload)
+            console.log(payload.user.id, payload.user.pw)
 
             await connection.query(query, function(err, rows, fields) {
                 if (rows.length) {
@@ -164,13 +235,31 @@ const getLogin = async(payload) => {
         console.log('DB Error');
         return false;
     }
-    return rett
+}
+
+const getHospitalName = async(payload) => {
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        try {
+            let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${payload.user.id}';`
+            await connection.query(query, function(err, rows, fields) {
+                rett.result = rows;
+            });
+            connection.release(); // db 연결 끝
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
 }
 
 const getHospitalData = async(payload) => {
-    // var data = {
-    //     result: null
-    // };
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -186,12 +275,10 @@ const getHospitalData = async(payload) => {
             // console.log(query)
             await connection.query(query, function(err, rows, fields) {
                 // console.log("ROWs : " + rows)
-                data.result = rows;
-                console.log(data)
+                rett.result = rows;
+                console.log(rett)
             });
             connection.release(); // db 연결 끝
-
-            console.log(data)
         } catch (err) {
             console.log('Query Error\n\n');
             console.log(err);
@@ -202,9 +289,6 @@ const getHospitalData = async(payload) => {
         console.log('DB Error');
         return false;
     }
-    consolg.log("DASDASDASD" + data)
-
-    return data
 }
 
 const updateHospitalData = async(payload) => {
