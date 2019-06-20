@@ -11,7 +11,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class AlarmActivity extends AppCompatActivity {
+public class AlarmActivity extends BaseActivity {
 
     ListView builtInList, externalList;
     MyAdapter builtInAdapter, externalAdapter;

@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class HospitalActivity extends AppCompatActivity {
+public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
 
     String id;

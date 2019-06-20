@@ -28,8 +28,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class LoginActivity extends AppCompatActivity {
-    public static final String SERVER_URL = " http://192.168.0.39:3000";
+public class LoginActivity extends BaseActivity {
     public static final String TAG = "LoginActivity";
 
     EditText eid, epw;

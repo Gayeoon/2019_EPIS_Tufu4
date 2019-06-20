@@ -26,7 +26,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/notosansregular"
                     android:text="병원 명" />
 
                 <EditText
@@ -34,8 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@color/colorWhite"
-                    android:fontFamily="@font/notosansregular" />
+                    android:background="@color/colorWhite"/>
 
             </TableRow>
 
@@ -45,7 +43,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/notosansregular"
                     android:text="대표자 명" />
 
                 <EditText
@@ -53,8 +50,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@color/colorWhite"
-                    android:fontFamily="@font/notosansregular" />
+                    android:background="@color/colorWhite"/>
 
             </TableRow>
 
@@ -64,7 +60,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/notosansregular"
                     android:text="병원 연락처" />
 
                 <EditText
@@ -72,8 +67,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@color/colorWhite"
-                    android:fontFamily="@font/notosansregular" />
+                    android:inputType="phone"
+                    android:hint="ex) 02-000-0000"
+                    android:background="@color/colorWhite"/>
 
             </TableRow>
         </TableLayout>
@@ -88,7 +84,7 @@
         android:layout_marginRight="25dp"
         android:background="@drawable/button" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/no"
         android:visibility="gone"
         android:layout_width="wrap_content"
@@ -119,7 +115,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/notosansregular"
                     android:text="아이디" />
 
                 <EditText
@@ -127,8 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@color/colorWhite"
-                    android:fontFamily="@font/notosansregular" />
+                    android:background="@color/colorWhite"/>
 
             </TableRow>
 
@@ -138,7 +132,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/notosansregular"
                     android:text="비밀번호" />
 
                 <EditText
@@ -146,8 +139,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@color/colorWhite"
-                    android:fontFamily="@font/notosansregular" />
+                    android:maxLength="11"
+                    android:inputType="textPassword"
+                    android:background="@color/colorWhite" />
 
             </TableRow>
 

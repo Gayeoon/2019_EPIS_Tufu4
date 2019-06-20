@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-public class SelectPicActivity extends AppCompatActivity implements View.OnClickListener{
+public class SelectPicActivity extends BaseActivity implements View.OnClickListener{
 private static final int PICK_FROM_CAMERA =0;
     private static final int PICK_FROM_ALBUM =1;
     private static final int CROP_FROM_IMAGE =2;
