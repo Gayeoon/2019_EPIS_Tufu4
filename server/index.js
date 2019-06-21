@@ -11,6 +11,47 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
+/*
+    - USER_TB
+    
+    ID: varchar(20)   -> PK
+    PW: varchar(30) NOT NULL
+    HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+    HOSPITAL_NAME: char(50) NOT NULL
+
+    
+    - HospitalInfo_TB
+    
+    HOSPITAL_KEY: int   -> PK
+    CEO_NAME: char(30) NOT NULL
+    HOSPITAL_NAME: char(50) NOT NULL
+    PHONE_NUMBER: char(15) DEFAULT NULL
+    ADDRESS1: char(80) DEFAULT NULL
+    ADDRESS2: char(50) DEFAULT NULL
+    SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
+
+
+    - RESERVATION_TB
+
+    INDEX: int auto_increment   -> PK
+    // 병원 정보 //
+    ID: char(20) NOT NULL
+    HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+    
+    // 예약 정보 //
+    OWNER_NAME: char(30) NOT NULL
+    ADDRESS: char(120)
+    PHONE_NUMBER: char(15)
+    PET_NAME: char(30) NOT NULL
+    RACE: char(30) NOT NULL
+    PET_COLOR: char(15)
+    PET_BIRTH: char(20)
+    NEUTRALIZATION: int NOT NULL
+    PET_GENDER: int NOT NULL
+    
+    // 예약 확인 //
+    CONFIRM: int DEFAULT 0
+*/
 
 const mysql = require('mysql2/promise')
 const pool = mysql.createPool({
@@ -21,24 +62,6 @@ const pool = mysql.createPool({
     database: 'PET_REGIST'
 })
 
-/*
-    - HospitalInfo_TB
-    
-    HOSPITAL_KEY: int   -> PK
-    CEO_NAME: varchar(10) NOT NULL
-    HOSPITAL_NAME: varchar(20) NOT NULL
-    PHONE_NUMBER: varchar(15) DEFAULT NULL
-    ADDRESS1: varchar(80) DEFAULT NULL
-    ADDRESS2: varchar(50) DEFAULT NULL
-    SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
-
-    - USER_TB
-    
-    ID: varchar(20)   -> PK
-    PW: varchar(30) NOT NULL
-    HOSPITAL_KEY: varchar(20) NOT NULL
-    
-*/
 
 let rett = {
     result: 0
@@ -98,11 +121,17 @@ app.post('/getHospitalData', (req, res, next) => {
     res.json(rett);
 });
 
-app.get('/updateDB', (req, res, next) => {
-    console.log('\n\nCALL GET updateDB');
+app.post('/getReservationCount', (req, res, next) => {
+    console.log('\n\nCALL getReservationCount');
+    getReservationCount(req.body);
+    res.json(rett);
+});
+
+app.get('/updateHospitalData', (req, res, next) => {
+    console.log('\n\nCALL GET updateHospitalData');
     let contents = '';
     contents += '<html><body>';
-    contents += '   <form action="/updateDB" method="POST" enctype="multipart/form-data">';
+    contents += '   <form action="/updateHospitalData" method="POST" enctype="multipart/form-data">';
     contents += '       <input type="file" name="xlsx" />';
     contents += '       <input type="submit" />';
     contents += '   </form>';
@@ -111,8 +140,8 @@ app.get('/updateDB', (req, res, next) => {
     res.send(contents);
 });
 
-app.post('/updateDB', (req, res, next) => {
-    console.log('\n\nCALL POST updateDB');
+app.post('/updateHospitalData', (req, res, next) => {
+    console.log('\n\nCALL POST updateHospitalData');
     const resData = {};
     const form = new multiparty.Form({
         autoFiles: true, // POST만 가능하도록
@@ -145,6 +174,9 @@ app.post('/updateDB', (req, res, next) => {
  */
 
 const getIdCheck = async(payload) => {
+    /*
+        {"user": {"id": "test"}}
+    */
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -173,18 +205,18 @@ const getIdCheck = async(payload) => {
 }
 
 const getJoin = async(payload) => {
+    /*
+       {"user":{
+           "hospital":"힐링힐스동물병원", 
+           "name":"박성민", 
+           "number":"031-708-0078", 
+           "id":"test", 
+           "pw":"1234"
+        }}
+    */
     try {
         const connection = await pool.getConnection(async conn => conn);
         const user = payload.user;
-        /*
-           {"user":{
-               "hospital":"힐링힐스동물병원", 
-               "name":"박성민", 
-               "number":"031-708-0078", 
-               "id":"test", 
-               "pw":"1234"
-            }}
-        */
         try {
             let query = `
                 INSERT INTO USER_TB (ID, PW, HOSPITAL_KEY, HOSPITAL_NAME) 
@@ -208,6 +240,12 @@ const getJoin = async(payload) => {
 }
 
 const getLogin = async(payload) => {
+    /*
+        {"user": {
+            "id": "test",
+            "pw": "0000"
+        }}
+    */
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -238,6 +276,9 @@ const getLogin = async(payload) => {
 }
 
 const getHospitalName = async(payload) => {
+    /*
+        {"user": {"id": "test"}}
+    */
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -260,6 +301,9 @@ const getHospitalName = async(payload) => {
 }
 
 const getHospitalData = async(payload) => {
+    /*
+        {"searchword": "힐링동물병원"}
+    */
     try {
         const connection = await pool.getConnection(async conn => conn);
         try {
@@ -269,8 +313,8 @@ const getHospitalData = async(payload) => {
             if (payload.searchword == 'allHospitalData')
                 query = `SELECT * from HOSPITALINFO_TB`
             else
-                query = `SELECT CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from HOSPITALINFO_TB
-                WHERE CEO_NAME LIKE '%${payload.searchword}%' OR HOSPITAL_NAME LIKE '%${payload.searchword}%';`
+                query = `SELECT HOSPITAL_KEY, CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from HOSPITALINFO_TB
+            WHERE CEO_NAME LIKE '%${payload.searchword}%' OR HOSPITAL_NAME LIKE '%${payload.searchword}%';`
 
             // console.log(query)
             await connection.query(query, function(err, rows, fields) {
@@ -336,3 +380,29 @@ const updateHospitalData = async(payload) => {
         return false;
     }
 };
+const getReservationCount = async(payload) => {
+    /*
+        {"user": {"id": "test"}}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        try {
+            console.log(payload.user.id);
+            let query = `SELECT COUNT(*) as count from RESERVATION_TB where ID = '${payload.user.id}';`
+            await connection.query(query, function(err, rows, fields) {
+                console.log(`count : ${rows[0].count}`)
+                rett.result = rows[0].count;
+            });
+            connection.release(); // db 연결 끝
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            return false;
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+}

@@ -66,7 +66,7 @@
         
         ID: varchar(20)   -> PK
         PW: varchar(30) NOT NULL
-        HOSPITAL_KEY: varchar(20) NOT NULL
+        HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
         
     */
 
@@ -89,14 +89,37 @@
  -> 대표자명과 업체명 검색해서 보내주는 메소드 구현.
 
 2019.06.21
-- DB 테이블 수정
+- DB 테이블 수정 
+ -> RESERVATION_TB 추가
     /*
         - USER_TB
         
         ID: varchar(20)   -> PK
         PW: varchar(30) NOT NULL
-        HOSPITAL_KEY: varchar(20) NOT NULL  
+        HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
         HOSPITAL_NAME: char(50) NOT NULL
+
+
+        - RESERVATION_TB
+
+        INDEX: int auto_increment   -> PK
+        // 병원 정보 //
+        ID: char(20) NOT NULL
+        HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+        
+        // 예약 정보 //
+        OWNER_NAME: char(30) NOT NULL
+        ADDRESS: char(120)
+        PHONE_NUMBER: char(15)
+        PET_NAME: char(30) NOT NULL
+        RACE: char(30) NOT NULL
+        PET_COLOR: char(15)
+        PET_BIRTH: char(20)
+        NEUTRALIZATION: int NOT NULL
+        PET_GENDER: int NOT NULL
+        
+        // 예약 확인 //
+        CONFIRM: int DEFAULT 0
     */
  -> 병원명과 코드가 같이 있는 게 효율적일거라 생각.
 - 회원가입, ID -> 병원명 등 메소드 구현.
