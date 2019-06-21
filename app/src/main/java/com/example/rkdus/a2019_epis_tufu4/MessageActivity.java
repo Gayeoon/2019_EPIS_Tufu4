@@ -40,7 +40,7 @@ import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionE
  */
 public class MessageActivity extends AppCompatActivity {
     String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
-    String hospitalID;
+    String hospitalKey;
     EditText eOwnerName, eAddress, eHP, ePetName, eRace, ePetColor, ePetBirth;
     Spinner sNeutralization, sPetGender;
     ArrayAdapter aaNeutralization, aaPetGender;
@@ -55,17 +55,17 @@ public class MessageActivity extends AppCompatActivity {
         // MessageTypeActivity에서 정한 타입 값 불러오기
         Intent typeIntent = getIntent();
         if(typeIntent != null) {    // 인텐트 null 체크
-                if(typeIntent.hasExtra("id") && typeIntent.hasExtra("type")) {
-                    type = typeIntent.getStringExtra("type");   // 병원 type값 String에 저장
-                    hospitalID = typeIntent.getStringExtra("id");   // 병원 id값 String에 저장
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "필수 값을 불러올 수 없습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
-                    finish();
+            if(typeIntent.hasExtra("id") && typeIntent.hasExtra("type")) {
+                type = typeIntent.getStringExtra("type");   // 병원 type값 String에 저장
+                hospitalKey = typeIntent.getStringExtra("id");   // 병원 id값 String에 저장
+            }
+            else
+                Toast.makeText(getApplicationContext(), "필수 값을 불러올 수 없습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
+            finish();
         }
         else
             Toast.makeText(getApplicationContext(), "타입이 선택되지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
-            finish();
+        finish();
 
         // 객체 정의
         messageAsyncTask = new MessageAsyncTask();
@@ -204,7 +204,7 @@ public class MessageActivity extends AppCompatActivity {
             try {
                 // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.accumulate("id", hospitalID); // id JSONObject에 담기
+                jsonObject.accumulate("key", hospitalKey); // key JSONObject에 담기
                 jsonObject.accumulate("type", type); // type JSONObject에 담기
                 // Message에 담은 모든 정보 JSONObject에 담기
                 jsonObject.accumulate("ownerName", ownerName);
@@ -280,4 +280,3 @@ public class MessageActivity extends AppCompatActivity {
         }
     }
 }
-

@@ -22,7 +22,7 @@ public class MessageTypeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_type);
-        String hospitalID;
+        String hospitalKey;
 
         // 뷰 정의
         innerTypeImg = (ImageView) findViewById(R.id.innerTypeImg);
@@ -30,10 +30,10 @@ public class MessageTypeActivity extends AppCompatActivity {
 
         Intent searchActivityIntent = getIntent();
         if(searchActivityIntent != null) {    // 인텐트 null 체크
-            if(searchActivityIntent.hasExtra("id")) {   // 값이 담겨온 경우
-                hospitalID = searchActivityIntent.getExtras().toString(); // 타입 값 String에 저장
+            if(searchActivityIntent.hasExtra("key")) {   // 값이 담겨온 경우
+                hospitalKey = searchActivityIntent.getExtras().toString(); // 타입 값 String에 저장
                 switchActvityIntent = new Intent(getApplicationContext(), MessageActivity.class);
-                switchActvityIntent.putExtra("id", hospitalID);
+                switchActvityIntent.putExtra("key", hospitalKey);
             }
             else {
                 Toast.makeText(getApplicationContext(), "타입이 선택되지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();

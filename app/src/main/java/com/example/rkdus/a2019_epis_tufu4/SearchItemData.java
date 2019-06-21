@@ -1,5 +1,9 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+/*
+반려동물 등록 대행업체 검색 후 결과를 담은 객체
++ 위치 정보, 거리 변수 추가
+ */
 public class SearchItemData {
     public int getHospitalKey() {
         return hospitalKey;
@@ -16,6 +20,34 @@ public class SearchItemData {
     private String address1;
     private String address2;
     private boolean signUpApp;
+
+    private double longitude;
+    private double latitude;
+    private float distance;
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
 
     public void setCeoName(String ceoName) {
         this.ceoName = ceoName;
