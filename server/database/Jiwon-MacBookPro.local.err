@@ -163,3 +163,32 @@ information that should help you find out what is causing the crash.
 2019-06-22T09:41:20.956103Z 0 [Warning] [MY-010909] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Forcing close of thread 247  user: 'test'.
 2019-06-22T09:41:21.755964Z 0 [System] [MY-010910] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Shutdown complete (mysqld 8.0.16)  Homebrew.
 2019-06-22T09:41:21.6NZ mysqld_safe mysqld from pid file /usr/local/var/mysql/Jiwon-MacBookPro.local.pid ended
+2019-06-22T09:54:22.6NZ mysqld_safe Logging to '/usr/local/var/mysql/Jiwon-MacBookPro.local.err'.
+2019-06-22T09:54:22.6NZ mysqld_safe Starting mysqld daemon with databases from /usr/local/var/mysql
+2019-06-22T09:54:23.084542Z 0 [System] [MY-010116] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld (mysqld 8.0.16) starting as process 59196
+2019-06-22T09:54:23.091987Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /usr/local/var/mysql/ is case insensitive
+2019-06-22T09:54:23.357184Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2019-06-22T09:54:23.377745Z 0 [System] [MY-010931] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: ready for connections. Version: '8.0.16'  socket: '/tmp/mysql.sock'  port: 3306  Homebrew.
+2019-06-22T09:54:23.584838Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/tmp/mysqlx.sock' bind-address: '::' port: 33060
+2019-06-22T09:56:53.010484Z 0 [Warning] [MY-010909] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Forcing close of thread 8  user: 'test'.
+2019-06-22T09:56:54.180261Z 0 [System] [MY-010910] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Shutdown complete (mysqld 8.0.16)  Homebrew.
+2019-06-22T09:56:54.6NZ mysqld_safe mysqld from pid file /usr/local/var/mysql/Jiwon-MacBookPro.local.pid ended
+2019-06-22T10:02:38.6NZ mysqld_safe Logging to '/usr/local/var/mysql/Jiwon-MacBookPro.local.err'.
+2019-06-22T10:02:38.6NZ mysqld_safe Starting mysqld daemon with databases from /usr/local/var/mysql
+2019-06-22T10:02:39.177250Z 0 [System] [MY-010116] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld (mysqld 8.0.16) starting as process 59664
+2019-06-22T10:02:39.180434Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /usr/local/var/mysql/ is case insensitive
+2019-06-22T10:02:39.441873Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2019-06-22T10:02:39.462444Z 0 [System] [MY-010931] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: ready for connections. Version: '8.0.16'  socket: '/tmp/mysql.sock'  port: 3306  Homebrew.
+2019-06-22T10:02:39.668870Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/tmp/mysqlx.sock' bind-address: '::' port: 33060
+2019-06-22T10:16:59.173042Z 0 [Warning] [MY-010909] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Forcing close of thread 8  user: 'test'.
+2019-06-22T10:16:59.173595Z 0 [Warning] [MY-010909] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Forcing close of thread 11  user: 'root'.
+2019-06-22T10:16:59.174188Z 0 [Warning] [MY-010909] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Forcing close of thread 12  user: 'test'.
+2019-06-22T10:17:00.446356Z 0 [System] [MY-010910] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: Shutdown complete (mysqld 8.0.16)  Homebrew.
+2019-06-22T10:17:00.6NZ mysqld_safe mysqld from pid file /usr/local/var/mysql/Jiwon-MacBookPro.local.pid ended
+2019-06-22T10:23:01.6NZ mysqld_safe Logging to '/usr/local/var/mysql/Jiwon-MacBookPro.local.err'.
+2019-06-22T10:23:01.6NZ mysqld_safe Starting mysqld daemon with databases from /usr/local/var/mysql
+2019-06-22T10:23:01.619706Z 0 [System] [MY-010116] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld (mysqld 8.0.16) starting as process 60949
+2019-06-22T10:23:01.622798Z 0 [Warning] [MY-010159] [Server] Setting lower_case_table_names=2 because file system for /usr/local/var/mysql/ is case insensitive
+2019-06-22T10:23:01.882967Z 0 [Warning] [MY-010068] [Server] CA certificate ca.pem is self signed.
+2019-06-22T10:23:01.902786Z 0 [System] [MY-010931] [Server] /usr/local/Cellar/mysql/8.0.16/bin/mysqld: ready for connections. Version: '8.0.16'  socket: '/tmp/mysql.sock'  port: 3306  Homebrew.
+2019-06-22T10:23:02.110182Z 0 [System] [MY-011323] [Server] X Plugin ready for connections. Socket: '/tmp/mysqlx.sock' bind-address: '::' port: 33060
