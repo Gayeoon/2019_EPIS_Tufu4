@@ -70,3 +70,17 @@ HospitalActivity
 - 사용자 입력 타입 및 글씨체 수정
 - 회원가입 실패 시 ImageView 애니메이션 기능 추가
 - 병원 명, 대표자 명, 전화 번호 탐색 기능 DB를 통해 하는 것으로 변경
+
+2019. 06. 21
+- url 전역변수로 수정
+- 병원 연락처 xml 및 java 코드 수정
+- 커뮤니티 레이아웃 구성 및 기본 기능 생성
+- CommunityView 및 CommunityItem 클래스 생성
+---> 아이템 클릭시 이벤트는 아직 몰라서 비워둠
+
+2019. 06. 22
+- HospitalActivity xml 수정
+- 예약 상태 DB 지원이한테 수정 요청
+- /getReservationCount 요청 기능 수정
+- alarm 기능 수정
+---> 클릭 이벤트는 아직 몰라서 비워둠

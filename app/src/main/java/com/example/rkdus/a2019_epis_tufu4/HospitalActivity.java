@@ -1,9 +1,11 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -28,14 +30,17 @@ import java.net.URL;
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
+    public String url = "http://192.168.0.39:3000";
 
     String id;
     String hos_name;
 
     int count = 0;
 
-    TextView name, tcount;
-    ImageButton status, community, alarm;
+    TextView name, tcount, new_count, wait_count, finish_count;
+    ImageButton status, community, alarm, confirm_new, confirm_wait, confirm_finish;
+
+    Bitmap profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +52,19 @@ public class HospitalActivity extends BaseActivity {
 
         name = (TextView) findViewById(R.id.name);
         tcount = (TextView) findViewById(R.id.count);
+        new_count = (TextView) findViewById(R.id.new_count);
+        wait_count = (TextView) findViewById(R.id.wait_count);
+        finish_count = (TextView) findViewById(R.id.finish_count);
 
         status = (ImageButton) findViewById(R.id.status);
         community = (ImageButton) findViewById(R.id.community);
         alarm = (ImageButton) findViewById(R.id.alarm);
+        confirm_new = (ImageButton) findViewById(R.id.confirm_new);
+        confirm_wait = (ImageButton) findViewById(R.id.confirm_wait);
+        confirm_finish = (ImageButton) findViewById(R.id.confirm_finish);
 
-        new HospitalName().execute("http://192.168.0.39:3000/getHospitalName");
-        new NewMessage().execute("http://192.168.0.39:3000/getReservationCount");
+        new HospitalName().execute(url + "/getHospitalName");
+        new NewMessage().execute(url + "getReservationCount");
 
         status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +78,10 @@ public class HospitalActivity extends BaseActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //profile = Base64.encodeToString(profile, Base64.DEFAULT);
+
                 Intent intent2 = new Intent(getApplicationContext(), CommunityActivity.class);
+                //intent2.putExtra("profile", profile);
                 startActivity(intent2);
             }
         });
@@ -75,9 +89,30 @@ public class HospitalActivity extends BaseActivity {
         alarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(getApplicationContext(), AlarmActivity.class);
-                intent2.putExtra("id", id);
-                startActivity(intent2);
+//                Intent intent2 = new Intent(getApplicationContext(), AlarmActivity.class);
+//                intent2.putExtra("id", id);
+//                startActivity(intent2);
+            }
+        });
+
+        confirm_new.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 신규 등록 예약 화면
+            }
+        });
+
+        confirm_wait.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 등록 대기 목록 화면
+            }
+        });
+
+        confirm_finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 등록 완료 목록 화면
             }
         });
     }
@@ -179,7 +214,7 @@ public class HospitalActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new HospitalName().execute("http://192.168.0.39:3000/getHospitalName");
+                    new HospitalName().execute(url + "getHospitalName");
                 } else {
                     hos_name = (String) json.get("result");
 
@@ -199,7 +234,7 @@ public class HospitalActivity extends BaseActivity {
      *
      * Uri  --->   /getReservationCount
      * Parm  --->   {"user":{"id":"test"}} 전송
-     * Result  --->   {"result":3} 결과 값 */
+     * Result  --->   {"result":{"new":3,"wait":12,"finish":10}} 결과 값 */
 
     public class NewMessage extends AsyncTask<String, String, String> {
 
@@ -281,15 +316,24 @@ public class HospitalActivity extends BaseActivity {
             super.onPostExecute(result);
 
             JSONObject json = null;
+            int temp_new, temp_wait, temp_finish;
 
             try {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new NewMessage().execute("http://192.168.0.39:3000/getReservationCount");
+                    new NewMessage().execute(url + "getReservationCount");
                 } else {
-                   count = (int) json.get("result");
-                   tcount.setText(count);
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject = json.getJSONObject("result");
+
+                    temp_new = jsonObject.getInt("new");
+                    temp_wait = jsonObject.getInt("wait");
+                    temp_finish = jsonObject.getInt("finish");
+
+                    new_count.setText(temp_new + "건");
+                    wait_count.setText(temp_wait + "건");
+                    finish_count.setText(temp_finish + "건");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -54,7 +54,13 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".MessageTypeActivity"
             android:theme="@style/NoTheme" />
@@ -62,11 +68,7 @@
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
         <activity android:name=".TempActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RegInfoActivity"

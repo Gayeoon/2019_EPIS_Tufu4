@@ -30,6 +30,7 @@ import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
     public static final String TAG = "LoginActivity";
+    public String url = "http://192.168.0.39:3000";
 
     EditText eid, epw;
     ImageButton login, join, find;
@@ -55,7 +56,15 @@ public class LoginActivity extends BaseActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                new loginDB().execute("http://192.168.0.39:3000/getLogin");
+                new loginDB().execute(url+"/getLogin");
+            }
+        });
+
+        join.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -156,7 +165,7 @@ public class LoginActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new loginDB().execute("http://192.168.0.39:3000/getLogin");
+                    new loginDB().execute(url+"/getLogin");
                 } else {
                     succes = (int) json.get("result");
 

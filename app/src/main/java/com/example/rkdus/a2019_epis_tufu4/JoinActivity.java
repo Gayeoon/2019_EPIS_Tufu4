@@ -35,7 +35,9 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    EditText ehospital, ename, enumber, eid, epw;
+    public String url = "http://192.168.0.39:3000";
+
+    EditText ehospital, ename, num1, num2, num3, eid, epw;
     ImageButton next_one, next_two;
     LinearLayout idpw;
     ImageView no;
@@ -56,7 +58,9 @@ public class JoinActivity extends BaseActivity {
 
         ehospital = (EditText) findViewById(R.id.hospital);
         ename = (EditText) findViewById(R.id.name);
-        enumber = (EditText) findViewById(R.id.number);
+        num1 = (EditText) findViewById(R.id.number1);
+        num2 = (EditText) findViewById(R.id.number2);
+        num3 = (EditText) findViewById(R.id.number3);
         eid = (EditText) findViewById(R.id.id);
         epw = (EditText) findViewById(R.id.pw);
 
@@ -72,9 +76,17 @@ public class JoinActivity extends BaseActivity {
             public void onClick(View v) {
                 hospital = ehospital.getText().toString();
                 name = ename.getText().toString();
-                number = enumber.getText().toString();
+                number = num1.getText().toString() +"-"+num2.getText().toString()+"-"+num3.getText().toString();
 
-                new ThreeCheck().execute("http://192.168.0.39:3000/getThreeCheck");
+                //new ThreeCheck().execute(url+"/getThreeCheck");
+
+                idpw.setVisibility(View.VISIBLE);
+                next_two.setVisibility(View.VISIBLE);
+                ehospital.setEnabled(false);
+                ename.setEnabled(false);
+                num1.setEnabled(false);
+                num2.setEnabled(false);
+                num3.setEnabled(false);
 
             }
         });
@@ -85,7 +97,7 @@ public class JoinActivity extends BaseActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                new IDCheck().execute("http://192.168.0.39:3000/getIdCheck");
+                new IDCheck().execute(url+"/getIdCheck");
             }
         });
 
@@ -187,15 +199,15 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new IDCheck().execute("http://192.168.0.39:3000/getIdCheck");
+                    new IDCheck().execute(url+"/getIdCheck");
                 } else {
                     success = (int) json.get("result");
 
-                    if (success == 1) {
+                    if (success == 2) {
 
-                        new JoinDB().execute("http://192.168.0.39:3000/getJoin");
+                        new JoinDB().execute(url+"/getJoin");
 
-                    } else if (success == 2) {
+                    } else if (success == 1) {
                         Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
                         eid.setText("");
                     } else {
@@ -305,7 +317,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new JoinDB().execute("http://192.168.0.39:3000/getJoin");
+                    new JoinDB().execute(url+"/getJoin");
                 } else {
                     success = (int) json.get("result");
 
@@ -347,7 +359,7 @@ public class JoinActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("hospital", hospital);
+               // tmp.accumulate("hospital", hospital);
                 tmp.accumulate("name", name);
                 tmp.accumulate("number", number);
 
@@ -424,7 +436,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ThreeCheck().execute("http://192.168.0.39:3000/getThreeCheck");
+                    new ThreeCheck().execute(url+"/getThreeCheck");
                 } else {
 
                     success = (int) json.get("result");
@@ -435,7 +447,9 @@ public class JoinActivity extends BaseActivity {
                         next_two.setVisibility(View.VISIBLE);
                         ehospital.setEnabled(false);
                         ename.setEnabled(false);
-                        enumber.setEnabled(false);
+                        num1.setEnabled(false);
+                        num2.setEnabled(false);
+                        num3.setEnabled(false);
 
                     } else if (success == 2) {
 
