@@ -5,7 +5,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.rkdus.a2019_epis_tufu4"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -28,9 +28,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.4'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     implementation 'com.airbnb.android:lottie:2.5.5'
-    implementation "gun0912.ted:tedpermission:2.1.0"
+    implementation 'gun0912.ted:tedpermission:2.1.0'
+    implementation 'com.rmtheis:tess-two:9.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/json-simple-1.1.1.jar')
+    implementation project(':opencv')
 }

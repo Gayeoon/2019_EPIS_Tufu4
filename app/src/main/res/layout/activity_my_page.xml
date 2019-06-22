@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MyPageActivity">
 
     <TextView
@@ -14,4 +15,10 @@
         android:text="나의 동물 등록증"
         />
 
+
+    <Button
+        android:id="@+id/cameraBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="사진찍기"/>
 </LinearLayout>

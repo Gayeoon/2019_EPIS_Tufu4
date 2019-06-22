@@ -70,6 +70,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -86,7 +87,7 @@ import java.util.concurrent.ExecutionException;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String SERVER_URL = "http://localhost:3000";
+    public static final String SERVER_URL = "http://192.168.1.3:3000";
     public static final String TAG = "LogGoGo";
 
     /*
@@ -106,7 +107,7 @@ public class SearchActivity extends AppCompatActivity {
     final String switchOnColor = "#0067A3";
     final String switchOffColor = "#000000";
     final String fileName = "searchResult";
-    final LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
+    LocationManager locationManager;
 
     String searchWord;
     ArrayList<SearchItemData> searchList = new ArrayList<>();
@@ -128,6 +129,7 @@ public class SearchActivity extends AppCompatActivity {
         isSearchCurrentLocation = false;
         isSignUpApp = false;
         searchAsyncTask = new SearchAsyncTask();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
 
         // 레이아웃 뷰 정의
         ivSearchBtn = (ImageView) findViewById(R.id.searchBtn);
@@ -215,8 +217,6 @@ public class SearchActivity extends AppCompatActivity {
                     searchCurrentLocationSwitch.setTextColor(Color.parseColor(switchOnColor));  // 색상변경
                     Toast.makeText(getApplicationContext(), "현재 위치로 찾기 시작합니다.", Toast.LENGTH_LONG).show();
                     isSearchCurrentLocation = true;
-
-                    getLatLon();
                 }
                 switchLocationOnOff();  // 현재 상태에 따라 on / off 변경
             }
@@ -246,6 +246,7 @@ public class SearchActivity extends AppCompatActivity {
      */
     @SuppressLint("MissingPermission")
     private Location getLatLon() {
+        Log.d(TAG, "getLatLon start");
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         return location;
     }
@@ -290,6 +291,10 @@ public class SearchActivity extends AppCompatActivity {
         targetLocation.setLongitude(targetLon);
         targetLocation.setLatitude(targetLat);
 
+//        float distance[] = new float[1];
+//        myLocation.distanceBetween(myLat, myLon, targetLat, targetLon, distance);
+//        float dis = distance[0];
+//        Log.d(TAG, "distanceBetween : " + String.valueOf(dis));
         return myLocation.distanceTo(targetLocation);
     }
 
@@ -302,6 +307,11 @@ public class SearchActivity extends AppCompatActivity {
 
         // 현재 사용자의 위도 경도 획득
         Location myLocation = getLatLon();
+        Log.d(TAG, "my lat : " + myLocation.getLatitude() + " , my lon : " + myLocation.getLongitude());
+        Log.d(TAG, String.valueOf(calculateDistance(
+                36.363386, 127.351442,
+                36.360738, 127.351450
+        )));
 
         // 인자로 받은 ArrayList에 거리 계산해서 넣기
         Iterator<SearchItemData> itemDataIterator = arrayList.iterator();
@@ -386,6 +396,7 @@ public class SearchActivity extends AppCompatActivity {
     온오프에 따른 어플등록 업체만 보기 유무 설정해서 출력하는 함수
      */
     private void showListView() {
+        Log.d(TAG, "showListView start");
         if(isSignUpApp) {
             if(isSearchCurrentLocation)     setLocationList(signUpAppList); // 현재 위치 킨 경우
             else {
@@ -427,8 +438,7 @@ public class SearchActivity extends AppCompatActivity {
             String type = strings[1];
             // 서버에 특정 키워드 디비에서 검색 요청
             try {
-                JSONObject jsonObject = new JSONObject();    // type(목적)에 맞는 JSONObject 생성하기
-                jsonObject.accumulate("user", setJSONForSendPost(strings));
+                JSONObject jsonObject = setJSONForSendPost(strings); // type(목적)에 맞는 JSONObject 생성하기
                 Log.d(TAG, "url : " + search_url);
                 Log.d(TAG, "type : " + type);
                 // POST 전송방식을 위한 설정
@@ -437,35 +447,33 @@ public class SearchActivity extends AppCompatActivity {
                 URL url = new URL(search_url);  // URL 객체 생성
                 Log.d(TAG, "jsonObject String : " + jsonObject.toString());
                 con = (HttpURLConnection) url.openConnection();
-//                con.setRequestMethod("POST");
-//                con.setRequestProperty("Cache-Control", "no-cache");
-//                con.setRequestProperty("Content-Type", "application/json");
-//                con.setRequestProperty("Accept", "text/html");
-//                con.setDoOutput(true);
-//                con.setDoInput(true);
-//                con.connect();
-
-//                 int responseCode = con.getResponseCode();   // 응답 코드 설정
-//                Log.d(TAG, responseCode + ", 4");
-                // 응답 코드 구분
-//                 if(responseCode == HttpURLConnection.HTTP_OK) { // 200 정상 연결
-                con.setRequestMethod("POST"); // POST방식 설정\
-                con.setRequestProperty("Cache-Control", "no-cache"); // 캐시 설정
+                con.setConnectTimeout(10 * 1000);   // 서버 접속 시 연결 시간
+                con.setReadTimeout(9 * 1000);   // Read시 연결 시간
+                con.setRequestMethod("POST"); // POST방식 설정
                 con.setRequestProperty("Content-Type", "application/json"); // application JSON 형식으로 전송
-                con.setRequestProperty("Accept", "text/html"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
+                con.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
+                con.setRequestProperty("Accept", "application/json"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
                 con.setDoOutput(true); // Outstream으로 post 데이터를 넘겨주겠다는 의미
                 con.setDoInput(true); // Inputstream으로 서버로부터 응답을 받겠다는 의미
-                con.connect();  // URL 접속 시작
 
-                Log.d(TAG, "9");
-                //서버로 보내기위해서 스트림 만듬
+                // 서버로 보내기위해서 스트림 만듬
                 OutputStream outStream = con.getOutputStream();
-                //버퍼를 생성하고 넣음
+                // 버퍼를 생성하고 넣음
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
                 writer.write(jsonObject.toString());    // searchword : 검색키워드 식으로 전송
                 writer.flush();
                 writer.close(); // 버퍼를 받아줌
-                Log.d(TAG, "5");
+
+                // 응답 코드 구분
+                int responseCode = con.getResponseCode();   // 응답 코드 설정
+                Log.d(TAG, "7");
+                if(responseCode == HttpURLConnection.HTTP_OK)  // 200 정상 연결
+                    Log.d(TAG, "responseCode : " + String.valueOf(123));
+                else {  // 정상 연결 아닐 시
+                    Log.d(TAG, "responseCode : " + String.valueOf(345));
+                    return null;
+                }
+
                 //서버로 부터 데이터를 받음
                 InputStream stream = con.getInputStream();
                 reader = new BufferedReader(new InputStreamReader(stream));
@@ -507,12 +515,16 @@ public class SearchActivity extends AppCompatActivity {
             */
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                Log.d(TAG, String.valueOf(e));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+                Log.d(TAG, String.valueOf(e));
             } catch (IOException e) {
                 e.printStackTrace();
+                Log.d(TAG, String.valueOf(e));
             } catch (JSONException e) { // JSON 객체 오류
                 e.printStackTrace();
+                Log.d(TAG, String.valueOf(e));
             }
 
             return null;
@@ -528,6 +540,8 @@ public class SearchActivity extends AppCompatActivity {
     JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
      */
     private JSONObject StringToJSON(String JSONstr) throws ParseException {
+        Log.d(TAG, "StringToJSON start");
+
         JSONParser parser = new JSONParser();
         Object obj = parser.parse(JSONstr);
         JSONObject jsonObject = (JSONObject) obj;
@@ -538,6 +552,8 @@ public class SearchActivity extends AppCompatActivity {
     json 파일 불러와서 String으로 리턴하기
      */
     private String loadJSONFIle(String filename) {
+        Log.d(TAG, "loadJSONFIle start");
+
         String result = null;
         filename += ".json";
         // 파일 생성(덮어쓰기)
@@ -561,6 +577,8 @@ public class SearchActivity extends AppCompatActivity {
     받아온 String 값 Json 파일로 임시 저장
      */
     private boolean JSONObjTofile(JSONObject jsonObject, String filename) {
+        Log.d(TAG, "JSONObjTofile start");
+
         filename += ".json";
         // 파일 생성(덮어쓰기)
         FileOutputStream fileOutputStream = null;
@@ -583,6 +601,7 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void setSearchListArray(String bufstr) {
         try {
+            Log.d(TAG, "setSearchListArray start");
             JSONObject jsonObject = StringToJSON(bufstr);   // JSON 객체 생성
             JSONObjTofile(jsonObject, fileName);  // json파일로 저장
             putJSONInArrayList(jsonObject); // ArrayList에 넣기
@@ -601,6 +620,7 @@ public class SearchActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG, "setSearchListView start");
                         SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
                         lvSearchList.setAdapter(listAdapter);
                         // 클릭 이벤트
@@ -633,6 +653,8 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void putJSONInArrayList(JSONObject jsonObject) {
         try {
+            Log.d(TAG, "putJSONInArrayList start");
+
             JSONArray jsonArray = jsonObject.getJSONArray("result");
             searchList.clear(); // 검색결과리스트 내 값 전부 초기화
             signUpAppList.clear();  // 앱등록된리스트 내 값 전부 초기화
@@ -703,16 +725,16 @@ public class SearchActivity extends AppCompatActivity {
     [2] : 1) searchword : X  2) id : hospital_key
     @return : JSONObject(POST 방식으로 요청하기 위해 보내는 값을 담음)
      */
-    private JSONObject setJSONForSendPost(String... strings) throws JSONException {
+    private JSONObject setJSONForSendPost(String... strings) throws JSONException, UnsupportedEncodingException {
         JSONObject jsonObject = new JSONObject();
         String type = strings[1];
         Log.d(TAG, "setJSONForSendPost type : " + type);
         if(type.equals("searchword")) {
-            jsonObject.accumulate("searchword", searchWord);
+            jsonObject.accumulate("searchword", URLEncoder.encode(searchWord, "utf-8")); // 검색어 인코딩까지 수행
         }
-        else if(type.equals("id")) {
-            jsonObject.accumulate("key", strings[2]);
-        }
+//        else if(type.equals("id")) {
+//            jsonObject.accumulate("key", strings[2]);
+//        }
         Log.d(TAG, "결과 : " + jsonObject.toString());
         return jsonObject;
     }
@@ -724,6 +746,7 @@ public class SearchActivity extends AppCompatActivity {
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkLocationPermission() {
+        Log.d(TAG, "checkLocationPermission start ");
         if ( checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             // Should we show an explanation?
@@ -740,8 +763,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+        Log.d(TAG, "onRequestPermissionsResult start ");
         if (requestCode == 1) {
             if (grantResults.length > 0) {
                 for (int i=0; i<grantResults.length; ++i) {
