@@ -84,3 +84,16 @@ HospitalActivity
 - /getReservationCount 요청 기능 수정
 - alarm 기능 수정
 ---> 클릭 이벤트는 아직 몰라서 비워둠
+
+2019. 06. 23
+- Hospital Activity xml 및 기능 수정
+- 프로필 사진 bitmap으로 지정
+- SelectPicActivity와 연결
+- 서버 통신하는 메소드 하나로 합침
+- Login Activity xml 및 기능 수정
+- SelectPic Activity xml 및 기능 수정
+- drawable 사진 비트맵 형식으로 바꿔서 서버로 전송하는 기능 추가
+- Join Activity xml 및 기능 수정
+- textWatcher 추가해서 다 작성하기 전엔 다음 항목으로 넘어갈 수 없게 함
+- 비밀번호 실시간 확인으로 동일한 번호인지 check ImageView를 통해 알려줌
+- ID 중복확인 기능 분리
