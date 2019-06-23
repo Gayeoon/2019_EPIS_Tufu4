@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -33,8 +34,8 @@ public class LoginActivity extends BaseActivity {
     public String url = "http://192.168.0.39:3000";
 
     EditText eid, epw;
-    ImageButton login, join, find;
-
+    ImageButton login;
+    TextView join, find;
     public String id = "", pw = "";
 
     @Override
@@ -46,8 +47,8 @@ public class LoginActivity extends BaseActivity {
         epw = (EditText) findViewById(R.id.pw);
 
         login = (ImageButton) findViewById(R.id.login);
-        join = (ImageButton) findViewById(R.id.join);
-        find = (ImageButton) findViewById(R.id.find);
+        join = (TextView) findViewById(R.id.join);
+        find = (TextView) findViewById(R.id.find);
 
 
         login.setOnClickListener(new View.OnClickListener() {

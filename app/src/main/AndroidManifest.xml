@@ -42,6 +42,7 @@
         <activity
             android:name=".HospitalActivity"
             android:theme="@style/NoTheme" >
+
         </activity>
         <activity
             android:name=".JoinActivity"
@@ -80,11 +81,7 @@
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
         <activity android:name=".TempActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".RegInfoActivity"
@@ -95,8 +92,12 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".SelectPicActivity">
+        <activity android:name=".SelectPicActivity" android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

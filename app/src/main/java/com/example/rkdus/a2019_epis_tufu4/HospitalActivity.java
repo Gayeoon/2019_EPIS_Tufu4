@@ -2,6 +2,7 @@ package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +42,10 @@ public class HospitalActivity extends BaseActivity {
     TextView name, tcount, new_count, wait_count, finish_count;
     ImageButton status, community, alarm, confirm_new, confirm_wait, confirm_finish;
 
-    Bitmap profile;
+    ImageView imageView;
 
+    Bitmap bm;
+    byte[] profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +53,14 @@ public class HospitalActivity extends BaseActivity {
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");
+
+//        profile = intent.getByteArrayExtra("profile");
+//
+//        bm = BitmapFactory.decodeByteArray(profile, 0, profile.length);
+//
+//        Log.e(TAG, "byte[] : "+profile.toString());
+//        Log.e(TAG, "Bitmap : "+bm.toString());
+
 
         name = (TextView) findViewById(R.id.name);
         tcount = (TextView) findViewById(R.id.count);
@@ -63,8 +75,12 @@ public class HospitalActivity extends BaseActivity {
         confirm_wait = (ImageButton) findViewById(R.id.confirm_wait);
         confirm_finish = (ImageButton) findViewById(R.id.confirm_finish);
 
-        new HospitalName().execute(url + "/getHospitalName");
-        new NewMessage().execute(url + "getReservationCount");
+        imageView = (ImageView)findViewById(R.id.profile);
+
+        imageView.setImageBitmap(bm);
+
+        new HospitalData().execute(url + "/getHospitalData");
+
 
         status.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,126 +133,17 @@ public class HospitalActivity extends BaseActivity {
         });
     }
 
-    private int Newmessage(String id) {
-        // id 가지고 메세지 몇개 왔는지 검색
 
-        return 0;
-    }
 
-    /* HospitalName : ID 값을 통해 해당되는 병원 이름 요청
+    /* HospitalData : ID 값을 통해 해당되는 병원 메인 페이지에 필요한 모든 데이터 요청
      *
-     * Uri  --->   /getHospitalName
-     * Parm  --->   {"user":{"id":"test"}} 전송
-     * Result  --->   {"result":"병원이름"} 결과 값 */
-
-    public class HospitalName extends AsyncTask<String, String, String> {
-
-        @Override
-
-        protected String doInBackground(String... urls) {
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                JSONObject tmp = new JSONObject();
-
-                tmp.accumulate("id", id);
-
-                jsonObject.accumulate("user", tmp);
-
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
-
-                try {
-
-                    URL url = new URL(urls[0]);
-                    con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Cache-Control", "no-cache");
-                    con.setRequestProperty("Content-Type", "application/json");
-                    con.setRequestProperty("Accept", "text/html");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.connect();
-
-                    //서버로 보내기위해서 스트림 만듬
-                    OutputStream outStream = con.getOutputStream();
-
-                    //버퍼를 생성하고 넣음
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-
-                    Log.e(TAG, jsonObject.toString());
-                    writer.write(jsonObject.toString());
-                    writer.flush();
-                    writer.close();//버퍼를 받아줌
-
-                    //서버로 부터 데이터를 받음
-                    InputStream stream = con.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-
-                    return buffer.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();//버퍼를 닫아줌
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            JSONObject json = null;
-
-            try {
-                json = new JSONObject(result);
-
-                if (json.get("result") == null) {
-                    new HospitalName().execute(url + "getHospitalName");
-                } else {
-                    hos_name = (String) json.get("result");
-
-                    name.setText(hos_name);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.e(TAG, result);
-
-        }
-    }
-
-    /* NewMessage : ID 값을 통해 해당되는 병원에 예약한 환자 수 요청
-     * Default -> 0
+     * 필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수
      *
-     * Uri  --->   /getReservationCount
+     * Uri  --->   /getHospitalData
      * Parm  --->   {"user":{"id":"test"}} 전송
-     * Result  --->   {"result":{"new":3,"wait":12,"finish":10}} 결과 값 */
+     * Result  --->   {"result":{"name":"병원이름","new":3,"wait":12,"finish":10}} 결과 값 */
 
-    public class NewMessage extends AsyncTask<String, String, String> {
+    public class HospitalData extends AsyncTask<String, String, String> {
 
         @Override
 
@@ -317,20 +224,26 @@ public class HospitalActivity extends BaseActivity {
 
             JSONObject json = null;
             int temp_new, temp_wait, temp_finish;
+            String temp;
+            byte[] tempByte[];
 
             try {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new NewMessage().execute(url + "getReservationCount");
+                    new HospitalData().execute(url + "/getHospitalData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
+                    hos_name = jsonObject.getString("name");
                     temp_new = jsonObject.getInt("new");
                     temp_wait = jsonObject.getInt("wait");
                     temp_finish = jsonObject.getInt("finish");
+                    temp = jsonObject.getString("profile");
 
+
+                    name.setText(hos_name);
                     new_count.setText(temp_new + "건");
                     wait_count.setText(temp_wait + "건");
                     finish_count.setText(temp_finish + "건");
