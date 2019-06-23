@@ -10,6 +10,8 @@ import android.widget.ImageView;
 /*
 시작 액티비티
 병원과 개인 선택할 수 있는 메인 페이지
+*** layout 완료.
+
 - 이해원
  */
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         // 뷰 클릭 이벤트
         ivStartHospital.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event) { // 병원용
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         switchActvityIntent = new Intent(getApplicationContext(), HospitalActivity.class);
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         ivStartIndividual.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
+            public boolean onTouch(View v, MotionEvent event) { // 사용자용
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         switchActvityIntent = new Intent(getApplicationContext(), MenuActivity.class);
