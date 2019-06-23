@@ -46,4 +46,7 @@
     <dimen name="titleFontSize">15dp</dimen>
     <dimen name="regInfoBtnHeight">30dp</dimen>
 
+    <!-- MainActivity -->
+    <dimen name="mainLogoWidth">180dp</dimen>
+    <dimen name="mainLogoHeight">180dp</dimen>
 </resources>

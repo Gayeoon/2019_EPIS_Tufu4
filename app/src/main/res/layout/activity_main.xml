@@ -9,26 +9,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/ic_group_56"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_group_58"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_group_58"/>
-    </LinearLayout>
+        android:layout_height="@dimen/mainLogoHeight"
+        android:layout_gravity="center_vertical"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/main_logo" />
 
 </LinearLayout>
