@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:weightSum="2"
     tools:context=".MyPageActivity">
 
     <TextView
@@ -14,69 +15,20 @@
         android:background="@color/colorGray"
         android:text="나의 동물 등록증"
         />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraBtn"
+        android:text="카메라 버튼"/>
 
-    <FrameLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.4">
-
-        <com.example.rkdus.a2019_epis_tufu4.MyPageScanCamera
-            android:id="@+id/surfaceView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="142dp"
-            android:layout_height="170dp"
-            android:layout_gravity="bottom|right"
-            app:srcCompat="@android:drawable/screen_background_dark_transparent" />
-
-    </FrameLayout>
-
-    <FrameLayout
+        android:layout_weight="1"
+        android:id="@+id/imageView"/>
+    <TextView
+        android:id="@+id/resultTextView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.7">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_margin="0dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:text="텍스트 인식" />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/camera"
-            android:layout_gravity="right"
-            android:text="촬영"/>
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:id="@+id/scrollViewLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="여기에 텍스트 인식 결과가 표시됩니다."
-                    android:textSize="18sp" />
-            </LinearLayout>
-        </ScrollView>
-
-    </FrameLayout>
+        android:layout_weight="1"/>
 </LinearLayout>

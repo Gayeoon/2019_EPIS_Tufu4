@@ -1,8 +1,19 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +25,7 @@ import android.widget.Toast;
  * - 이해원
  */
 public class MenuActivity extends AppCompatActivity {
+    public static final String TAG = "LogGoGo";
     Intent switchActvityIntent;
     ImageView whatIsRegImg;
     ImageView howToPetRegImg;
@@ -34,6 +46,11 @@ public class MenuActivity extends AppCompatActivity {
         myPageImg = (ImageView) findViewById(R.id.myPageImg);
         regReviseGuideImg = (ImageView) findViewById(R.id.regReviseGuideImg);
         communityImg = (ImageView) findViewById(R.id.communityImg);
+
+        // 권한 확인 및 요청
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            checkCameraPermission();
+        }
 
         // 뷰 클릭 이벤트
         whatIsRegImg.setOnTouchListener(new View.OnTouchListener() {
@@ -128,5 +145,54 @@ public class MenuActivity extends AppCompatActivity {
         });
 
     }
+    /*
+        Camera 관련 권한 체크 상태 확인 함수
+        @return : boolean(true : 체크한 경우, false : 체크 안한 경우)
+         */
+    @TargetApi(Build.VERSION_CODES.M)
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkCameraPermission() {
+        Log.d(TAG, "checkLocationPermission start ");
+        if ( checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
+            // Should we show an explanation?
+            // 권한 팝업에서 한번이라도 거부한 경우 true 리턴.
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA))
+            {
+                // ...
+            }
+            requestPermissions(new String[]{Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+        }
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult start ");
+        if (requestCode == 1) {
+            if (grantResults.length > 0) {
+                for (int i=0; i<grantResults.length; ++i) {
+                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        // 하나라도 거부한다면.
+                        new AlertDialog.Builder(this).setTitle("알림").setMessage("카메라 권한을 허용해주셔야 해당 서비스를 이용하실 수 있습니다.")
+                                .setPositiveButton("종료", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        finish();
+                                    }
+                                }).setNegativeButton("권한 설정", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                        .setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
+                                getApplicationContext().startActivity(intent);
+                            }
+                        }).setCancelable(false).show();
+                        return;
+                    }
+                }
+            }
+        }
+    }
 }

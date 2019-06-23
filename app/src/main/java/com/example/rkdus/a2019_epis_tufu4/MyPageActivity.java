@@ -8,20 +8,24 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
-import android.hardware.Camera;
+import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,6 +38,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /*
  * 사용자
@@ -41,66 +47,80 @@ import java.io.OutputStream;
  * - 이해원
  */
 public class MyPageActivity extends AppCompatActivity {
-
     public static final String TAG = "LogGoGo";
-    TessBaseAPI tessBaseAPI;
+    final static int CHECK_PICTURE = 200;
+    static final int REQUEST_TAKE_PICTURE = 1;
 
-    Button button1, button2;
+    TessBaseAPI tessBaseAPI;
+    Button cameraBtn;
     ImageView imageView;
-    MyPageScanCamera surfaceView;
+    Bitmap resultBitmap;
     TextView textView;
+
+    String currentPicturePath;
+    Uri photoUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_page);
-
-        imageView = (ImageView) findViewById(R.id.imageView);
-        surfaceView = (MyPageScanCamera) findViewById(R.id.surfaceView);
-        textView = (TextView) findViewById(R.id.textView);
-
-        button1 = (Button) findViewById(R.id.button);
-        button2 = (Button) findViewById(R.id.camera);
 
         // 권한 확인 및 요청
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkCameraPermission();
+
         }
+        else
+            init();
 
-        // 화면 켜진 상태 유지
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        button2.setOnClickListener(new View.OnClickListener() {
+        cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                capture();
+                sendTakePhotoIntent();
+                processImage();
             }
         });
-
-        tessBaseAPI = new TessBaseAPI();
-        String dir = getFilesDir() + "/tesseract";
-        if(checkLanguageFile(dir+"/tessdata"))
-            tessBaseAPI.init(dir, "eng");
     }
 
-    boolean checkLanguageFile(String dir)
+    private void init() {
+        setContentView(R.layout.activity_my_page);
+
+        // 뷰 정의
+        cameraBtn = (Button) findViewById(R.id.cameraBtn);
+        imageView = (ImageView) findViewById(R.id.imageView);
+        textView = (TextView) findViewById(R.id.resultTextView);
+
+        // Tesseract 설정
+        Log.d(TAG, "init end ");
+        tessBaseAPI = new TessBaseAPI();
+        String dir = getFilesDir() + "/tesseract";
+        String[] language = {"eng", "kor"};
+        if(checkLanguageFile(dir+"/tessdata", language)) {
+            Log.d(TAG, "tessBaseAPI start ");
+            tessBaseAPI.init(dir, "eng+kor");
+            Log.d(TAG, "tessBaseAPI init end ");
+        }
+    }
+
+    /*
+    Tesseract API 중 인식할 문자의 언어 체크하는 함수
+     */
+    boolean checkLanguageFile(String dir, String[] language)
     {
         Log.d(TAG, "checkLanguageFile");
         File file = new File(dir);
-        if(file.mkdirs()) {
-            if(!file.exists())
-                createFiles(dir);
-        }
-        else if(file.exists()){
-            String filePath = dir + "/eng.traineddata";
+        file.mkdirs();
+        for (int i = 0; i < language.length; i++) {
+            String lang = language[i];
+            String filePath = dir + "/" + lang + ".traineddata"; // ex) dir/kor.traineddata
             File langDataFile = new File(filePath);
             if(!langDataFile.exists())
-                createFiles(dir);
+                createFiles(filePath, lang);
         }
         return true;
     }
 
-    private void createFiles(String dir)
+    private void createFiles(String destfile, String language)
     {
         Log.d(TAG, "createFiles");
         AssetManager assetMgr = this.getAssets();
@@ -109,11 +129,8 @@ public class MyPageActivity extends AppCompatActivity {
         OutputStream outputStream = null;
 
         try {
-            inputStream = assetMgr.open("tessdata/eng.traineddata");
-
-            String destFile = dir + "/eng.traineddata";
-
-            outputStream = new FileOutputStream(destFile);
+            inputStream = assetMgr.open("tessdata/" + language + ".traineddata");   // ex) tessdata/kor.trainneddata
+            outputStream = new FileOutputStream(destfile);
 
             byte[] buffer = new byte[1024];
             int read;
@@ -129,57 +146,153 @@ public class MyPageActivity extends AppCompatActivity {
         }
     }
 
-    private void capture()
-    {
-        surfaceView.capture(new Camera.PictureCallback() {
-            @Override
-            public void onPictureTaken(byte[] bytes, Camera camera) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 8;
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                bitmap = GetRotatedBitmap(bitmap, 90);
-
-                imageView.setImageBitmap(bitmap);
-
-                button1.setEnabled(false);
-                button1.setText("텍스트 인식중...");
-                new AsyncTess().execute(bitmap);
-
-                camera.startPreview();
-            }
-        });
+    /*
+    tesseract API를 사용하여 OCR 진행
+     */
+    public void processImage() {
+        String OCRresult = null;
+        tessBaseAPI.setImage(resultBitmap);
+        OCRresult = tessBaseAPI.getUTF8Text();
+        textView.setText(OCRresult);
     }
 
-    public synchronized static Bitmap GetRotatedBitmap(Bitmap bitmap, int degrees) {
-        if (degrees != 0 && bitmap != null) {
-            Matrix m = new Matrix();
-            m.setRotate(degrees, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "MyCard_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPicturePath = image.getAbsolutePath();
+        return image;
+    }
+
+    /*
+    인텐트로 카메라로 사진을 찍으라고 요청을 보내는 함수
+    Uri값도 같이 넘김.
+     */
+    private void sendTakePhotoIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
             try {
-                Bitmap b2 = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), m, true);
-                if (bitmap != b2) {
-                    bitmap = b2;
-                }
-            } catch (OutOfMemoryError ex) {
-                ex.printStackTrace();
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
             }
         }
-        return bitmap;
     }
 
-    private class AsyncTess extends AsyncTask<Bitmap, Integer, String> {
-        @Override
-        protected String doInBackground(Bitmap... mRelativeParams) {
-            tessBaseAPI.setImage(mRelativeParams[0]);
-            return tessBaseAPI.getUTF8Text();
+    /*
+    이미지 회전시키는 함수
+     */
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    /*
+    정면으로 회전시킨 비트맵 이미지 반환 함수
+     */
+    /*
+     *bitmap 흑백으로 변환
+     */
+    private Bitmap bitmapGrayScale(final Bitmap orgBitmap){
+        Log.i("gray", "in");
+        int width, height;
+        height = orgBitmap.getHeight();
+        width = orgBitmap.getWidth();
+        Bitmap bmpGrayScale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bmpGrayScale);
+        Paint paint = new Paint();
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.setSaturation(0);
+        ColorMatrixColorFilter colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
+        paint.setColorFilter(colorMatrixColorFilter);
+        canvas.drawBitmap(orgBitmap, 0, 0, paint);
+        return bmpGrayScale;
+
+    }
+
+    // 카메라로 촬영한 영상을 가져오는 부분
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if(resultCode == RESULT_OK) {
+            switch (requestCode) {
+//                case REQUEST_TAKE_PICTURE:
+//                    if (resultCode == RESULT_OK && intent.hasExtra("data")) {
+//                        Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
+//                        if (bitmap != null) {
+//                            // imageView.setImageBitmap(bitmap);
+//                            // 비트맵 -> Byte Array로 변경하여 인텐트 담아 전송
+////                            Intent myPageImageIntent = new Intent(getApplicationContext(), MyPageImageActivity.class);
+////                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+////                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+////                            byte[] byteArray = stream.toByteArray();
+////                            intent.putExtra("image", byteArray);
+////                            startActivityForResult(myPageImageIntent, CHECK_PICTURE);
+//                        }
+//                    }
+//                    break;
+                case REQUEST_TAKE_PICTURE:
+                    File file = new File(currentPicturePath);
+                    Bitmap bitmap = null;
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                        if (bitmap != null) {
+                            // 촬영한 비트맵을 정면으로 보이기 위해 회전시키는 작업
+                            ExifInterface ei = new ExifInterface(currentPicturePath);
+                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                            switch(orientation) {
+                                case ExifInterface.ORIENTATION_ROTATE_90:
+                                    Log.d(TAG, "90도");
+                                    resultBitmap = rotateImage(bitmap, 90);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_180:
+                                    Log.d(TAG, "180도");
+                                    resultBitmap = rotateImage(bitmap, 180);
+                                    break;
+                                case ExifInterface.ORIENTATION_ROTATE_270:
+                                    Log.d(TAG, "270도");
+                                    resultBitmap = rotateImage(bitmap, 270);
+                                    break;
+                                case ExifInterface.ORIENTATION_NORMAL:
+                                default:
+                                    resultBitmap = bitmap;
+                            }
+                            resultBitmap = bitmapGrayScale(resultBitmap);
+                            imageView.setImageBitmap(resultBitmap);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case CHECK_PICTURE:
+                    break;
+            }
         }
-
-        protected void onPostExecute(String result) {
-            textView.setText(result);
-            Toast.makeText(getApplicationContext(), ""+result, Toast.LENGTH_LONG).show();
-
-            button1.setEnabled(true);
-            button1.setText("텍스트 인식");
+        else {
+            if(intent.hasExtra("result")) {
+                switch (intent.getStringExtra("result")) {
+                    case "300":
+                        Toast.makeText(getApplicationContext(), "Intent에 이미지 값이 담겨오지 않은 경우", Toast.LENGTH_LONG).show();
+                        break;
+                    case "301":
+                        Toast.makeText(getApplicationContext(), "Intent가 null인 경우", Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
         }
     }
 
@@ -195,13 +308,16 @@ public class MyPageActivity extends AppCompatActivity {
                 checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
             // Should we show an explanation?
             // 권한 팝업에서 한번이라도 거부한 경우 true 리턴.
-            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
+            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA))
             {
                 // ...
             }
             requestPermissions(new String[]{Manifest.permission.CAMERA,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     1);
+        }
+        else {
+            init();
         }
     }
 

@@ -62,3 +62,18 @@
 2019.06.17
 - SearchActivity에서 병원 클릭 시 서버에 KEY를 주고 ID값을 받기 위한 POST 요청 함수 작성
 - SearchActivity SearchItemData에 KEY 값 저장하기 위한 변수 추가
+
+~ 2019.06.23
+- SearchActivity 거리순, 앱 등록 필터링 코드 작성 완료. 테스트 X
+- SearchActivity 사용 주소 : /getHospitalData
+- MessageActivity 사용 주소 : /sendMessage
+-> 서버는 자체적으로 열어서 테스트 가능했지만, DB는 접속 못함
+-> VPN 실패
+- MainActivity svg 파일로 레이아웃 작성
+-> MainActivity 레이아웃 완료.
+-> MainActivity 시작 액티비티로 설정
+--> 이미지 누르면 이동함
+-> Pixel 2 XL 사이즈로 레이아웃 작성
+- MyPageActivity 카메라 사용해서 스캔 작성중
+-> 카메라 사용 및 촬영, 임시파일 저장, GrayScale까진 완료.
+-> Tesseract 테스트 필요.

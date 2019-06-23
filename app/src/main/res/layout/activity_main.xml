@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,10 +8,71 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
+        android:id="@+id/mainLogo"
+        android:layout_width="@dimen/mainLogoWidth"
         android:layout_height="@dimen/mainLogoHeight"
-        android:layout_gravity="center_vertical"
         android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:layout_marginTop="@dimen/mainLogoMarginTop"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/startImgLayout"
         app:srcCompat="@drawable/main_logo" />
 
-</LinearLayout>
+    <LinearLayout
+        android:id="@+id/startImgLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/mainLogo"
+        app:layout_constraintBottom_toTopOf="@+id/mainImage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+        <ImageView
+            android:id="@+id/startHospital"
+            android:layout_width="@dimen/mainStartImgWidth"
+            android:layout_height="@dimen/mainStartImgHeight"
+            android:layout_marginRight="@dimen/mainBtnBetweenMargin"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/mainImage"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/startIndividual"
+            app:layout_constraintTop_toBottomOf="@+id/mainLogo"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/main_hospital_btn" />
+
+        <ImageView
+            android:id="@+id/startIndividual"
+            android:layout_width="@dimen/mainStartImgWidth"
+            android:layout_height="@dimen/mainStartImgHeight"
+            android:layout_marginLeft="@dimen/mainBtnBetweenMargin"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toBottomOf="@+id/mainLogo"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/startHospital"
+            app:layout_constraintBottom_toTopOf="@+id/mainImage"
+            app:srcCompat="@drawable/main_individual_btn" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/mainImgHeight"
+        android:adjustViewBounds="true"
+        android:background="@drawable/main_pet"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        />
+
+</android.support.constraint.ConstraintLayout>

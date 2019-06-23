@@ -3,28 +3,13 @@
     package="com.example.rkdus.a2019_epis_tufu4">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.DIAL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- 카메라(스캔) 관련 -->
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.autofocus"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.front"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera.front.autofocus"
-        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -49,9 +34,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme" >
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -72,21 +55,14 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
-            android:theme="@style/NoTheme" >
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".MessageTypeActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".TempActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".TempActivity"></activity>
         <activity
             android:name=".RegInfoActivity"
             android:theme="@style/NoTheme" />
@@ -95,10 +71,26 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoTheme" />
-        <activity android:name=".SelectPicActivity" android:theme="@style/NoTheme">
+            android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name=".SelectPicActivity"></activity>
+        <activity android:name=".MyPageImageActivity"></activity>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.rkdus.a2019_epis_tufu4"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
     </application>
 
 </manifest>

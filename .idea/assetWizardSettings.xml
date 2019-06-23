@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,8 +19,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_main_logo_1" />
-                            <entry key="sourceFile" value="C:\Users\user\Desktop\agriculture\main\main_logo_1.svg" />
+                            <entry key="height" value="12" />
+                            <entry key="outputName" value="main_logo" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\user\Desktop\agriculture\main\logo\그룹 45.svg" />
+                            <entry key="width" value="12" />
                           </map>
                         </option>
                       </PersistentState>
