@@ -130,3 +130,30 @@
     이후 하나씩 계속 밀려서 결과값이 보내지던 오류.
  --> 각 post마다 메소드 하나씩 만들어서 깔끔하게 분리했던 거 그냥 안으로 다 넣어버림.
  ---> 중복되는 코드 너무 많아서 코드 리팩토링 필요. (사용했던 함수 지우지 않고 주석처리, but 이전 함수들도 결과 처리 방식 리팩토링 필요.)
+
+2019.06.24
+- DB 테이블 수정 
+ -> RESERVATION_TB 칼럼 변경
+    /*
+        - RESERVATION_TB
+
+        INDEX: int auto_increment   -> PK
+        // 병원 정보 //
+        ID: char(20) NOT NULL
+        HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+        
+        // 예약 정보 //
+        TYPE: int DEFAULT 0
+        OWNER_NAME: char(30) NOT NULL
+        ADDRESS: char(120)
+        PHONE_NUMBER: char(15)
+        PET_NAME: char(30) NOT NULL
+        RACE: char(30) NOT NULL
+        PET_COLOR: char(15)
+        PET_BIRTH: char(20)
+        NEUTRALIZATION: int NOT NULL
+        PET_GENDER: int NOT NULL
+        
+        // 예약 확인 //
+        REGIST_STATE: int DEFAULT 0
+    */

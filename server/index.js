@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const multiparty = require('multiparty');
 const xlsx = require('xlsx');
+const fs = require('fs');
 
 const app = express();
 
@@ -135,11 +136,26 @@ app.post('/getJoin', async(req, res, next) => {
                 INSERT INTO USER_TB (ID, PW, HOSPITAL_KEY, HOSPITAL_NAME) 
                 SELECT '${user.id}', '${user.pw}', HOSPITAL_KEY, HOSPITAL_NAME
                 from HOSPITALINFO_TB 
-                where HOSPITAL_NAME = '${user.hospital}' AND PHONE_NUMBER = '${user.number}';`
-            await connection.query(query);
-            ret.result = 1; // 성공
-            connection.release(); // db 연결 끝
-            res.json(ret)
+                where PHONE_NUMBER = '${user.number}';`
+                // where HOSPITAL_NAME = '${user.hospital}' AND PHONE_NUMBER = '${user.number}';`
+            await connection.query(query, function(err, result) {
+                console.log("connection query")
+                try {
+                    console.log(result.affectedRows)
+                    if (result.affectedRows != 0) { // 잘 들어갔다
+                        ret.result = 1; // 성공
+                    } else {
+                        ret.result = 0; // 실패
+                    }
+                    connection.release(); // db 연결 끝
+                    res.json(ret)
+                } catch (err) {
+                    console.error("\tERROR : \n" + err)
+                    ret.result = 0; // 실패
+                    connection.release(); // db 연결 끝
+                    res.json(ret)
+                }
+            });
         } catch (err) {
             console.log('Query Error\n\n');
             console.log(err);
@@ -166,6 +182,48 @@ app.post('/getLogin', async(req, res, next) => {
         const user = req.body.user;
         const ret = { result: "init" };
         try {
+            let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${user.id}' AND PW = '${user.pw}';`
+            console.log(user.id, user.pw)
+
+            await connection.query(query, function(err, rows, fields) {
+                if (rows.length) {
+                    ret.result = 1;
+                } else {
+                    ret.result = 0;
+                }
+                console.log("length : " + rows.length)
+                connection.release(); // db 연결 끝
+                res.json(ret)
+            });
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(null)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/getProfile', async(req, res, next) => {
+    console.log('\n\nCALL getLogin');
+    /*
+        {"user": {
+            "name": "홍길동",
+            "profile": "바이너리 파일"
+        }}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: "init" };
+        try {
+            fs.readFile(`./image/${user.nameAAAAAAAAAAA}`, function(err, data) {
+                console.log(data);
+            })
             let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${user.id}' AND PW = '${user.pw}';`
             console.log(user.id, user.pw)
 
@@ -260,8 +318,8 @@ app.post('/getHospitalName', async(req, res, next) => {
     }
 });
 
-app.post('/getHospitalData', async(req, res, next) => {
-    console.log('\n\nCALL getHospitalData');
+app.post('/searchHospitalData', async(req, res, next) => {
+    console.log('\n\nCALL searchHospitalData');
     /*
         {"searchword": "힐링동물병원"}
     */
@@ -303,6 +361,10 @@ app.post('/getReservationCount', async(req, res, next) => {
     console.log('\n\nCALL getReservationCount');
     /*
         {"user": {"id": "test"}}
+        신규예약    :    1
+        등록대기-1    :    2
+        등록대기-2    :    3
+        등록완료    :    4
     */
     try {
         const connection = await pool.getConnection(async conn => conn);
@@ -316,6 +378,74 @@ app.post('/getReservationCount', async(req, res, next) => {
                 ret.result = rows[0].count;
                 connection.release(); // db 연결 끝
                 res.json(ret)
+            });
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/sendMessage', async(req, res, next) => {
+    console.log('\n\nCALL sendMessage');
+    /*
+        {
+            "key": "hospital key",
+            "type": "1 / 2" -> 1 : 내장형, 2 : 외장형,
+            "ownerName": "",
+            "address": "",
+            "phone_number": "",
+            "petName": "",
+            "race": "",
+            "petColor": "",
+            "petBirth": "",
+            "neutralization": "",
+            "petGender": "",
+        }
+
+        REGIST_STATE
+            신규예약    :    1
+            등록대기-1    :    2
+            등록대기-2    :    3
+            등록완료    :    4
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const msg = req.body
+        const ret = { result: 0 };
+        try {
+            let query = `INSERT INTO RESERVATION_TB 
+                ('ID', 
+                'HOSPITAL_KEY', 'TYPE', 'OWNER_NAME', 'ADDRESS', 'PHONE_NUMBER', 'PET_NAME', 
+                'RACE', 'PET_COLOR', 'PET_BIRTH', 'NEUTRALIZATION', 'PET_GENDER', 'REGIST_STATE') 
+            VALUES 
+                ( (SELECT ID from USER_TB where HOSPITAL_KEY = '${msg.key}'), 
+                '${msg.key}', '${msg.type}', '${msg.ownerName}', '${msg.address}', '${msg.phone_number}', '${msg.petName}', 
+                '${msg.race}', '${msg.petColor}', '${msg.petBirth}', '${msg.neutralization}', '${msg.petGender}', '1');`
+
+            await connection.query(query, function(err, result) {
+                console.log("connection query")
+                try {
+                    console.log(result.affectedRows)
+                    if (result.affectedRows != 0) { // 잘 들어갔다
+                        ret.result = "OK"; // 성공
+                    } else {
+                        ret.result = err; // 실패
+                    }
+                    connection.release(); // db 연결 끝
+                    res.json(ret)
+                } catch (err) {
+                    console.error("\tERROR : \n" + err)
+                    ret.result = err; // 실패
+                    connection.release(); // db 연결 끝
+                    res.json(ret)
+                }
             });
 
         } catch (err) {
@@ -610,7 +740,7 @@ const updateHospitalData = async(payload) => {
 //     }
 // }
 
-// const getHospitalData = async(payload) => {
+// const searchHospitalData = async(payload) => {
 //     /*
 //         {"searchword": "힐링동물병원"}
 //     */
