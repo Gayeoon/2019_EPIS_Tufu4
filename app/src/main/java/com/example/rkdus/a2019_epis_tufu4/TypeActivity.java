@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -39,7 +38,7 @@ public class TypeActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "등록 인식 표 등록방법 click", Toast.LENGTH_LONG).show();
-                        gotoRegiInfoIntent = new Intent(getApplicationContext(), RegInfoActivity.class);
+                        gotoRegiInfoIntent = new Intent(getApplicationContext(), HowToRegActivity.class);
                         gotoRegiInfoIntent.putExtra("type", "id"); // 인텐트에 타입 값 등록
                         startActivity(gotoRegiInfoIntent);
                         break;
@@ -55,7 +54,7 @@ public class TypeActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "내장형 등록방법 click", Toast.LENGTH_LONG).show();
-                        gotoRegiInfoIntent = new Intent(getApplicationContext(), RegInfoActivity.class);
+                        gotoRegiInfoIntent = new Intent(getApplicationContext(), HowToRegActivity.class);
                         gotoRegiInfoIntent.putExtra("type", "inner"); // 인텐트에 타입 값 등록
                         startActivity(gotoRegiInfoIntent);
                         break;
@@ -71,7 +70,7 @@ public class TypeActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "외장형 등록방법 click", Toast.LENGTH_LONG).show();
-                        gotoRegiInfoIntent = new Intent(getApplicationContext(), RegInfoActivity.class);
+                        gotoRegiInfoIntent = new Intent(getApplicationContext(), HowToRegActivity.class);
                         gotoRegiInfoIntent.putExtra("type", "outer"); // 인텐트에 타입 값 등록
                         startActivity(gotoRegiInfoIntent);
                         break;

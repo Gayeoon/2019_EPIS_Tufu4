@@ -3,10 +3,14 @@
     <!-- Nexus 5X  //  411 x 731 dp  //  1080 x 1920 px  //  5.2 inch -->
 
     <!-- MenuActivity -->
-    <dimen name="menuImgWidth">150dp</dimen>
-    <dimen name="menuImgHeight">100dp</dimen>
+    <dimen name="menuLogoHeight">160dp</dimen>
+    <dimen name="menuBtnWidth">190dp</dimen>
+    <dimen name="menuBtnHeight">185dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
-    <dimen name="menuMargin">20dp</dimen>
+    <dimen name="menuBetweenMargin">0dp</dimen>
+    <dimen name="menuLogoMarginTop">50dp</dimen>
+    <dimen name="menuLogoMarginLeft">38dp</dimen>
+    <dimen name="menuLogoMarginBottom">20dp</dimen>
 
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
@@ -41,7 +45,7 @@
     <dimen name="searchBtnMarginLeft">10dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
 
-    <!-- RegInfoActivity -->
+    <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
     <dimen name="titleFontSize">15dp</dimen>

@@ -35,4 +35,6 @@
         android:text="TextView"
         app:layout_constraintTop_toBottomOf="@+id/readDB"
         tools:layout_editor_absoluteX="175dp" />
+
+
 </android.support.constraint.ConstraintLayout>

@@ -15,6 +15,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,6 +41,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import Catalano.Imaging.FastBitmap;
+import Catalano.Imaging.Filters.BradleyLocalThreshold;
 
 /*
  * 사용자
@@ -76,8 +80,9 @@ public class MyPageActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendTakePhotoIntent();
-                processImage();
+//                sendTakePhotoIntent();
+                Intent intent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -94,7 +99,7 @@ public class MyPageActivity extends AppCompatActivity {
         Log.d(TAG, "init end ");
         tessBaseAPI = new TessBaseAPI();
         String dir = getFilesDir() + "/tesseract";
-        String[] language = {"eng", "kor"};
+        String[] language = {"eng, kor"};
         if(checkLanguageFile(dir+"/tessdata", language)) {
             Log.d(TAG, "tessBaseAPI start ");
             tessBaseAPI.init(dir, "eng+kor");
@@ -150,9 +155,12 @@ public class MyPageActivity extends AppCompatActivity {
     tesseract API를 사용하여 OCR 진행
      */
     public void processImage() {
+        Log.d(TAG, "processImage");
         String OCRresult = null;
         tessBaseAPI.setImage(resultBitmap);
+        Log.d(TAG, "setImage");
         OCRresult = tessBaseAPI.getUTF8Text();
+        Log.d(TAG, "getUTF8Text");
         textView.setText(OCRresult);
     }
 
@@ -236,7 +244,7 @@ public class MyPageActivity extends AppCompatActivity {
 //                        if (bitmap != null) {
 //                            // imageView.setImageBitmap(bitmap);
 //                            // 비트맵 -> Byte Array로 변경하여 인텐트 담아 전송
-////                            Intent myPageImageIntent = new Intent(getApplicationContext(), MyPageImageActivity.class);
+////                            Intent myPageImageIntent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
 ////                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 ////                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
 ////                            byte[] byteArray = stream.toByteArray();
@@ -271,8 +279,25 @@ public class MyPageActivity extends AppCompatActivity {
                                 default:
                                     resultBitmap = bitmap;
                             }
-                            resultBitmap = bitmapGrayScale(resultBitmap);
+                            // resultBitmap = bitmapGrayScale(resultBitmap);
+                            FastBitmap fb = new FastBitmap(resultBitmap);
+                            fb.toGrayscale();
+                            BradleyLocalThreshold bradley = new BradleyLocalThreshold();
+                            bradley.applyInPlace(fb);
+                            resultBitmap = fb.toBitmap();
+
+//                            Paint paint = new Paint();
+//                            paint.setColorFilter(new ColorMatrixColorFilter(createThresholdMatrix(128)));
+//                            Canvas c = new Canvas(resultBitmap);
+//                            c.drawBitmap(resultBitmap, 0, 0, paint);
+
                             imageView.setImageBitmap(resultBitmap);
+
+                            Toast.makeText(getApplicationContext(), "이미지 출력 완료! 문자 추출합니다.", Toast.LENGTH_SHORT).show();
+                            cameraBtn.setEnabled(false);
+                            cameraBtn.setText("텍스트 인식중...");
+                            new AsyncTess().execute(resultBitmap);
+                            // processImage();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -293,6 +318,40 @@ public class MyPageActivity extends AppCompatActivity {
                         break;
                 }
             }
+        }
+    }
+
+    // matrix that changes gray scale picture into black and white at given threshold.
+// It works this way:
+// The matrix after multiplying returns negative values for colors darker than threshold
+// and values bigger than 255 for the ones higher.
+// Because the final result is always trimed to bounds (0..255) it will result in bitmap made of black and white pixels only
+    public static ColorMatrix createThresholdMatrix(int threshold) {
+        ColorMatrix matrix = new ColorMatrix(new float[] {
+                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
+                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
+                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
+                0f, 0f, 0f, 1f, 0f
+        });
+        return matrix;
+    }
+
+    private class AsyncTess extends AsyncTask<Bitmap, Integer, String> {
+        @Override
+        protected String doInBackground(Bitmap... mRelativeParams) {
+            Log.d(TAG, "AsyncTess doinBackground");
+            tessBaseAPI.setImage(mRelativeParams[0]);
+            return tessBaseAPI.getUTF8Text();
+        }
+
+        protected void onPostExecute(String result) {
+            Log.d(TAG, "result : " + result);
+            String resultText = result.replaceAll("[^ㄱ-ㅎ가-힣a-zA-Z0-9]+", " ");  // 한글, 영어, 숫자 빼고 다 지우기
+            textView.setText(result);
+            Toast.makeText(getApplicationContext(), ""+result, Toast.LENGTH_LONG).show();
+
+            cameraBtn.setEnabled(true);
+            cameraBtn.setText("텍스트 인식");
         }
     }
 

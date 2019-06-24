@@ -4,14 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ReviseActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/statusBarHeight"
-        android:gravity="center"
-        android:background="@color/colorGray"
-        android:text="동물 등록증 수정 가이드"
-        />
 
 </LinearLayout>

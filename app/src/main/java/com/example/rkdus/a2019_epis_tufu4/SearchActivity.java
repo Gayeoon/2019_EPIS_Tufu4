@@ -347,13 +347,13 @@ public class SearchActivity extends AppCompatActivity {
         // 서버 접속 실행
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
             Log.d(TAG, "2");
-            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/getHospitalData", "searchword");
+            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
         }
         else {
             Log.d(TAG, "3");
-            searchAsyncTask.execute("/getHospitalData", "searchword");
+            searchAsyncTask.execute("/searchHospitalData", "searchword");
         }
-        //searchAsyncTask.execute("/getHospitalData", "searchword");
+        //searchAsyncTask.execute("/searchHospitalData", "searchword");
         showListView();    // 리스트뷰 표시
     }
 

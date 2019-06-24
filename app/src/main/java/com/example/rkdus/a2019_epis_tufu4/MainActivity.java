@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) { // 병원용
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        switchActvityIntent = new Intent(getApplicationContext(), HospitalActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

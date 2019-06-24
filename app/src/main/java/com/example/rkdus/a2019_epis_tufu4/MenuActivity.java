@@ -29,7 +29,7 @@ public class MenuActivity extends AppCompatActivity {
     Intent switchActvityIntent;
     ImageView whatIsRegImg;
     ImageView howToPetRegImg;
-    ImageView searchPetRegPlaceImg;
+    ImageView searchHospitalImg;
     ImageView myPageImg;
     ImageView regReviseGuideImg;
     ImageView communityImg;
@@ -42,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
         // 뷰 정의
         whatIsRegImg = (ImageView) findViewById(R.id.whatIsPetRegImg);
         howToPetRegImg = (ImageView) findViewById(R.id.howToPetRegImg);
-        searchPetRegPlaceImg = (ImageView) findViewById(R.id.searchPetRegPlaceImg);
+        searchHospitalImg = (ImageView) findViewById(R.id.searchHospitalImg);
         myPageImg = (ImageView) findViewById(R.id.myPageImg);
         regReviseGuideImg = (ImageView) findViewById(R.id.regReviseGuideImg);
         communityImg = (ImageView) findViewById(R.id.communityImg);
@@ -59,7 +59,7 @@ public class MenuActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "WhatIsRegImg click", Toast.LENGTH_LONG).show();
-                        switchActvityIntent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), WhatIsRegActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -83,7 +83,7 @@ public class MenuActivity extends AppCompatActivity {
                 return true;
             }
         });
-        searchPetRegPlaceImg.setOnTouchListener(new View.OnTouchListener() {
+        searchHospitalImg.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {

@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- MenuActivity -->
-    <dimen name="menuImgWidth">150dp</dimen>
-    <dimen name="menuImgHeight">100dp</dimen>
+    <dimen name="menuLogoHeight">140dp</dimen>
+    <dimen name="menuBtnWidth">170dp</dimen>
+    <dimen name="menuBtnHeight">170dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
-    <dimen name="menuMargin">20dp</dimen>
+    <dimen name="menuBetweenMargin">20dp</dimen>
+    <dimen name="menuLogoMarginTop">50dp</dimen>
+    <dimen name="menuLogoMarginLeft">60dp</dimen>
+    <dimen name="menuLogoMarginBottom">0dp</dimen>
 
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
@@ -40,7 +44,7 @@
     <dimen name="searchBtnMarginLeft">10dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
 
-    <!-- RegInfoActivity -->
+    <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
     <dimen name="titleFontSize">15dp</dimen>

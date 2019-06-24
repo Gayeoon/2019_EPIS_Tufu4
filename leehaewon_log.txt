@@ -77,3 +77,12 @@
 - MyPageActivity 카메라 사용해서 스캔 작성중
 -> 카메라 사용 및 촬영, 임시파일 저장, GrayScale까진 완료.
 -> Tesseract 테스트 필요.
+
+2019.06.24
+- svg에서 shadow는 vector drawable로 추출이 안된다.
+-> 각종 api, 라이브러리 사용했는데 shadow color 변경은 되지 않는다.
+-> shadow color 변경은 API 28 이상부터 사용 가능함.
+-> 고심 끝에 shadow box를 png로 만들어 background에 사용.
+- MenuActivity 레이아웃 완료.
+-> 레이아웃 수정
+- WhatIsRegActivity 레이아웃 완료.

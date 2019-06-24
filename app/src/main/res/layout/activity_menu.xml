@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,86 +7,125 @@
     android:orientation="vertical"
     tools:context=".MenuActivity">
 
-    <TextView
+
+    <ImageView
+        android:id="@+id/menuImage"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/statusBarHeight"
-        android:gravity="center"
-        android:background="@color/colorGray"
-        android:text="상태 제목 표시줄"
+        android:layout_height="300dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:background="@drawable/menu_pet"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:background="@color/colorBlue"
-            android:layout_gravity="center"
-            android:id="@+id/whatIsPetRegImg"
-            />
+            android:id="@+id/menuLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/menuLogoHeight"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/menuLogoMarginLeft"
+            android:layout_marginTop="@dimen/menuLogoMarginTop"
+            android:layout_marginBottom="@dimen/menuLogoMarginBottom"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1"
+            app:srcCompat="@drawable/menu_logo" />
 
-        <ImageView
-            android:id="@+id/howToPetRegImg"
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:layout_gravity="center"
-            android:background="@color/colorOrange"
-            android:layout_marginLeft="@dimen/menuMargin"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                >
+
+                <ImageView
+                    android:id="@+id/whatIsPetRegImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:layout_marginRight="@dimen/menuBetweenMargin"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_what_is_reg_btn" />
+
+
+                <ImageView
+                    android:id="@+id/howToPetRegImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_how_to_reg_btn" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/searchHospitalImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:layout_marginRight="@dimen/menuBetweenMargin"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_reservation_btn" />
+
+                <ImageView
+                    android:id="@+id/myPageImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_my_page_btn" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/regReviseGuideImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:layout_marginRight="@dimen/menuBetweenMargin"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_reg_revise_guide_btn" />
+
+                <ImageView
+                    android:id="@+id/communityImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/menuBtnHeight"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="@drawable/menu_shadow"
+                    app:srcCompat="@drawable/menu_community_btn" />
+
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <ImageView
-            android:id="@+id/searchPetRegPlaceImg"
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:layout_gravity="center"
-
-            android:background="@color/colorBlue"
-            />
-
-        <ImageView
-            android:id="@+id/myPageImg"
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:background="@color/colorGray"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/menuMargin"
-            />
-
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <ImageView
-            android:id="@+id/regReviseGuideImg"
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:layout_gravity="center"
-            android:background="@color/colorBlue"
-            />
-
-        <ImageView
-            android:id="@+id/communityImg"
-            android:layout_width="@dimen/menuImgWidth"
-            android:layout_height="@dimen/menuImgHeight"
-            android:background="@color/colorGray"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/menuMargin"
-            />
-
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

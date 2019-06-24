@@ -43,7 +43,7 @@
     <dimen name="searchOptLayoutHeight">20dp</dimen>
     <dimen name="searchOptLayoutMarginTop">10dp</dimen>
 
-    <!-- RegInfoActivity -->
+    <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
     <dimen name="titleFontSize">15dp</dimen>

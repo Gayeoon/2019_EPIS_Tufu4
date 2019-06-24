@@ -2,6 +2,7 @@ package com.example.rkdus.a2019_epis_tufu4;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 /*
  * 사용자
@@ -9,11 +10,14 @@ import android.os.Bundle;
  * 정보 출력 액티비티
  * - 이해원
  */
-public class RegistrationActivity extends AppCompatActivity {
+public class WhatIsRegActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        setContentView(R.layout.activity_what_is_reg);
+
+        ImageView ivRegInfo = (ImageView) findViewById(R.id.regInfoImg);
+        ivRegInfo.setImageResource(R.drawable.what_is_reg_info);
     }
 }
