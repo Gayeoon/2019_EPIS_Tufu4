@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +45,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_IMAGE = 2;
 
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.65:3000";
 
     private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;
@@ -54,6 +55,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     ImageButton man, woman;
     Drawable drawable = null;
     byte[] byteArray;
+    String profile="";
 
     String id = "";
 
@@ -62,8 +64,8 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pic);
 
-        //Intent intent = getIntent();
-        //id = intent.getStringExtra("id");
+       // Intent intent = getIntent();
+       // id = intent.getStringExtra("id");
 
         iv_UserPhoto = (ImageView) findViewById(R.id.user_image);
         Button btn_agreeJoin = (Button) findViewById(R.id.upload);
@@ -107,30 +109,26 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
         else if (v.getId() == R.id.man){
             drawable = getResources().getDrawable(R.drawable.pic_man);
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//            byteArray = stream.toByteArray();
+//            profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+//            Log.e("SelectPicActivity", profile);
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            new profileDB().execute(url+"/putProfile");
 
-            byteArray = stream.toByteArray();
-
-            new profileDB().execute(url+"/getProfile");
 
 //            Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
 //            intent.putExtra("profile", byteArray);
 //            startActivity(intent);
+
         } else if (v.getId() == R.id.woman){
             drawable = getResources().getDrawable(R.drawable.pic_woman);
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            new profileDB().execute(url+"/putProfile");
 
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-            byteArray = stream.toByteArray();
-
-            new profileDB().execute(url+"/getProfile");
 
 //            Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
 //            intent.putExtra("profile", byteArray);
@@ -235,8 +233,8 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
      * 저장 성공 -> int 1
      * 저장 실패 -> int 0
      *
-     * Uri  --->   /getProfile
-     * Parm  --->   {"user":{"profile":"두개 중 니가 가능한 방식으로 넣어서 보내주겠음!"}} 전송
+     * Uri  --->   /putProfile
+     * Parm  --->   {"user":{"id":"id","profile":"aafsefw"}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
     public class profileDB extends AsyncTask<String, String, String> {
@@ -246,11 +244,18 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         protected String doInBackground(String... urls) {
 
             try {
+                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+
+                byteArray = bos.toByteArray();
+                profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("profile", byteArray);
+                tmp.accumulate("id", id);
+                tmp.accumulate("profile", profile);
 
                 jsonObject.accumulate("user", tmp);
 
@@ -325,7 +330,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new profileDB().execute(url+"/getProfile");
+                    new profileDB().execute(url+"/putProfile");
                 } else {
                     succes = (int) json.get("result");
 

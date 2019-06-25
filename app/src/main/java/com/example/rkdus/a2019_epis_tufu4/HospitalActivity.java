@@ -51,8 +51,8 @@ public class HospitalActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
 
-        Intent intent = getIntent();
-        id = intent.getStringExtra("id");
+//        Intent intent = getIntent();
+//        id = intent.getStringExtra("id");
 
 //        profile = intent.getByteArrayExtra("profile");
 //
@@ -77,9 +77,7 @@ public class HospitalActivity extends BaseActivity {
 
         imageView = (ImageView)findViewById(R.id.profile);
 
-        imageView.setImageBitmap(bm);
-
-        new HospitalData().execute(url + "/getHospitalData");
+       // new HospitalData().execute(url + "/getHospitalData");
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -114,14 +112,19 @@ public class HospitalActivity extends BaseActivity {
         confirm_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 신규 등록 예약 화면
+                Intent intent2 = new Intent(getApplicationContext(), NewReservationActivity.class);
+                //intent2.putExtra("id", id);
+                startActivity(intent2);
             }
         });
 
         confirm_wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 등록 대기 목록 화면
+                Intent intent2 = new Intent(getApplicationContext(), NewReservationActivity.class);
+                //intent2.putExtra("id", id);
+                startActivity(intent2);
+
             }
         });
 
@@ -141,7 +144,7 @@ public class HospitalActivity extends BaseActivity {
      *
      * Uri  --->   /getHospitalData
      * Parm  --->   {"user":{"id":"test"}} 전송
-     * Result  --->   {"result":{"name":"병원이름","new":3,"wait":12,"finish":10}} 결과 값 */
+     * Result  --->   {"result":{"name":"병원이름","new":3,"wait1":12,"wait2":12,"finish":10,"profile":"akflsjekjflsjf"}} 결과 값 */
 
     public class HospitalData extends AsyncTask<String, String, String> {
 
@@ -238,15 +241,20 @@ public class HospitalActivity extends BaseActivity {
 
                     hos_name = jsonObject.getString("name");
                     temp_new = jsonObject.getInt("new");
-                    temp_wait = jsonObject.getInt("wait");
+                    temp_wait = jsonObject.getInt("wait1") + jsonObject.getInt("wait2");
                     temp_finish = jsonObject.getInt("finish");
                     temp = jsonObject.getString("profile");
 
+                    profile = Base64.decode(temp, Base64.DEFAULT);
+                    bm = BitmapFactory.decodeByteArray(profile, 0, profile.length);
+                    imageView.setImageBitmap(bm);
 
                     name.setText(hos_name);
                     new_count.setText(temp_new + "건");
                     wait_count.setText(temp_wait + "건");
                     finish_count.setText(temp_finish + "건");
+
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

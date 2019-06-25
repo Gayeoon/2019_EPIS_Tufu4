@@ -41,7 +41,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalActivity"
-            android:theme="@style/NoTheme" >
+            android:theme="@style/NoTheme">
 
         </activity>
         <activity
@@ -49,7 +49,9 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme">
+
+        </activity>
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -70,14 +72,14 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".MessageTypeActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".TempActivity"></activity>
+        <activity android:name=".TempActivity" />
         <activity
             android:name=".HowToRegActivity"
             android:theme="@style/NoTheme" />
@@ -86,7 +88,8 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoTheme">
+            android:theme="@style/NoTheme" />
+        <activity android:name=".SelectPicActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -94,10 +97,10 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".SelectPicActivity"></activity>
         <activity
             android:name=".MyPageCameraActivity"
             android:theme="@style/NoTheme"></activity>
+
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -106,8 +109,19 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".NewReservationActivity"
+            android:theme="@style/NoTheme">
+
+        </activity>
+        <activity
+            android:name=".WaitReservationActivity"
+            android:theme="@style/NoTheme">
+
+        </activity>
     </application>
 
 </manifest>

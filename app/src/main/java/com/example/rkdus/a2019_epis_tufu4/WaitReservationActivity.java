@@ -1,20 +1,18 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,57 +26,102 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
-public class LoginActivity extends BaseActivity {
-    public static final String TAG = "LoginActivity";
-    public String url = "http://192.168.0.65:3000";
+public class WaitReservationActivity extends BaseActivity {
 
-    EditText eid, epw;
-    ImageButton login;
-    TextView join, find;
-    public String id = "", pw = "";
+    String TAG = "ResrvationActivity";
+    public String url = "http://192.168.0.39:3000";
+
+    ListView listView;
+    MyAdapter myAdapter;
+    String owner, animal, id;
+
+    class MyAdapter extends BaseAdapter {
+        ArrayList<WaitReservationItem> items = new ArrayList<WaitReservationItem>();
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return items.get(i);
+        }
+
+        public void addItem(WaitReservationItem item) {
+            items.add(item);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View convertview, ViewGroup viewGroup) {
+            WaitReservationView view = new WaitReservationView(getApplicationContext());
+
+            WaitReservationItem item = items.get(i);
+            view.setowner(item.getowner());
+            view.setanimal(item.getanimal());
+            view.setCall(item.getCall());
+            return view;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_wait_reservation);
 
-        eid = (EditText) findViewById(R.id.id);
-        epw = (EditText) findViewById(R.id.pw);
+        //        Intent getintet = getIntent();
+//        id = getintet.getStringExtra("id");
 
-        login = (ImageButton) findViewById(R.id.login);
-        join = (TextView) findViewById(R.id.join);
-        find = (TextView) findViewById(R.id.find);
+        listView = (ListView) findViewById(R.id.waitList);
+
+        myAdapter = new MyAdapter();
+
+        ArrayList<String> titles = new ArrayList<>();
+
+        myAdapter.addItem(new WaitReservationItem("김가연", "뿡이", false));
+        myAdapter.addItem(new WaitReservationItem("이해원", "허뻥", false));
+        myAdapter.addItem(new WaitReservationItem("정지원", "맥북", true));
+        myAdapter.addItem(new WaitReservationItem("김가연", "뿡이", false));
+        myAdapter.addItem(new WaitReservationItem("이해원", "허뻥", true));
+        myAdapter.addItem(new WaitReservationItem("정지원", "맥북", true));
 
 
-        login.setOnClickListener(new View.OnClickListener() {
+        listView.setAdapter(myAdapter);
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
-            public void onClick(View v) {
-                id = eid.getText().toString();
-                pw = epw.getText().toString();
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                final WaitReservationItem item = (WaitReservationItem) myAdapter.getItem(i);
 
-                new loginDB().execute(url+"/getLogin");
+                item.setCall(true);
+
+                myAdapter.notifyDataSetChanged();
+                listView.invalidate();
+
+                String tel = "tel:01044910778";
+                startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
             }
         });
 
-        join.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), JoinActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
-    /* loginDB : 로그인
-     * 로그인 성공 -> int 1
-     * 로그인 실패 -> int 0
+    /* ReservationCheck : 병원 ID, 주인 이름, 강아지 이름 값을 통해 주인 전화번호 요청 $ 예약상태 3으로 변경 (현재 : 2)
      *
-     * Uri  --->   /getLogin
-     * Parm  --->   {"user":{"id":"test", "pw":"0000"}} 전송
-     * Result  --->   {"result":1} 결과 값 */
+     *     *
+     * Uri  --->   //putChangeWait
+     * Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
+     * Result  --->   {"result":"010-4491-0778"} 결과 값 */
 
-    public class loginDB extends AsyncTask<String, String, String> {
+    public class ReservationCheck extends AsyncTask<String, String, String> {
 
         @Override
 
@@ -90,7 +133,8 @@ public class LoginActivity extends BaseActivity {
                 JSONObject tmp = new JSONObject();
 
                 tmp.accumulate("id", id);
-                tmp.accumulate("pw", pw);
+                tmp.accumulate("owner", owner);
+                tmp.accumulate("animal", animal);
 
                 jsonObject.accumulate("user", tmp);
 
@@ -115,7 +159,7 @@ public class LoginActivity extends BaseActivity {
                     //버퍼를 생성하고 넣음
                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
 
-                    Log.e("LoginActivity", jsonObject.toString());
+                    Log.e(TAG, jsonObject.toString());
                     writer.write(jsonObject.toString());
                     writer.flush();
                     writer.close();//버퍼를 받아줌
@@ -130,7 +174,6 @@ public class LoginActivity extends BaseActivity {
                         buffer.append(line);
                     }
 
-                    Log.e("LoginActivity!!!! : ", buffer.toString());
                     return buffer.toString();
 
                 } catch (MalformedURLException e) {
@@ -160,32 +203,23 @@ public class LoginActivity extends BaseActivity {
             super.onPostExecute(result);
 
             JSONObject json = null;
-            int succes = 0;
 
             try {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new loginDB().execute(url+"/getLogin");
-                } else {
-                    succes = (int) json.get("result");
+                    new ReservationCheck().execute(url + "/putChangeWait ");
 
-                    if (succes == 1) {
-                        Toast.makeText(getApplicationContext(), "로그인 성공!!", Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
-                        intent.putExtra("id", id);
-                        startActivity(intent);
-                    } else {
-                        Toast.makeText(getApplicationContext(), "로그인 실패!!", Toast.LENGTH_LONG).show();
-                    }
-                }
+                } else {
+                    String tel = "tel:"+json.get("result").toString();
+                    startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
+                                    }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-            Log.e("LoginActivity", result);
+            Log.e(TAG, result);
 
         }
     }
 }
-

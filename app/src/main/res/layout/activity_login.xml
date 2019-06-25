@@ -1,88 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_back"
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
+    <ImageView
+        android:id="@+id/mainLogo"
+        android:layout_width="@dimen/mainLogoWidth"
+        android:layout_height="@dimen/mainLogoHeight"
+        android:layout_marginTop="@dimen/mainLogoMarginTop"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/startImgLayout"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/main_logo" />
+
+
     <LinearLayout
+        android:id="@+id/startImgLayout"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/mainImage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mainLogo">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="185dp"
+            android:layout_marginTop="200dp"
             android:orientation="vertical">
 
             <EditText
-                android:layout_marginTop="50dp"
                 android:id="@+id/id"
-                android:paddingLeft="15dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_marginTop="50dp"
                 android:layout_weight="1"
-                android:textSize="12sp"
                 android:background="@drawable/login_input"
-                android:hint="ID" />
+                android:hint="ID"
+                android:paddingLeft="15dp"
+                android:textSize="12sp" />
 
             <EditText
                 android:id="@+id/pw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
                 android:layout_margin="10dp"
-                android:textSize="12sp"
                 android:layout_weight="1"
                 android:background="@drawable/login_input"
                 android:hint="PASSWORD"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:paddingLeft="15dp"
+                android:textSize="12sp" />
 
             <ImageButton
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="15dp"
                 android:layout_gravity="center_horizontal"
+                android:layout_margin="17dp"
                 android:background="@drawable/login" />
 
             <FrameLayout
-                android:layout_margin="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
 
                 <TextView
                     android:id="@+id/join"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="회원가입"
-                    android:textSize="12sp"
-                    android:textColor="#FFFFFF"
                     android:shadowColor="#FF464646"
-                    android:shadowRadius="3.0"/>
+                    android:shadowRadius="3.0"
+                    android:text="회원가입"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/find"
-                    android:text="아이디 / 패스워드찾기"
                     android:layout_width="wrap_content"
-                    android:textSize="12sp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:textColor="#ffffff"
                     android:shadowColor="#FF464646"
-                    android:shadowRadius="3.0"/>
+                    android:shadowRadius="3.0"
+                    android:text="아이디 / 패스워드찾기"
+                    android:textColor="#ffffff"
+                    android:textSize="12sp" />
 
             </FrameLayout>
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/mainImage"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/mainImgHeight"
+        android:adjustViewBounds="true"
+        android:background="@drawable/main_pet"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

@@ -40,7 +40,7 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.65:3000";
 
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;
     ImageButton next_one, next_two;
@@ -224,31 +224,7 @@ public class JoinActivity extends BaseActivity {
             }
         });
 
-        eid.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (eid.getText().toString().equals("")) {
-                    overlap.setBackgroundResource(R.drawable.join_overlapoff);
-                    overlap.setEnabled(false);
-                } else {
-                    overlap.setBackgroundResource(R.drawable.join_overlapon);
-                    overlap.setEnabled(true);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        epw.addTextChangedListener(new TextWatcher() {
+       epw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -402,6 +378,7 @@ public class JoinActivity extends BaseActivity {
                     success = (int) json.get("result");
 
                     if (success == 2) {
+                        overlap.setBackgroundResource(R.drawable.join_overlapon);
                         epw.setEnabled(true);
                         eid.setEnabled(false);
                         overlap.setEnabled(false);
@@ -440,7 +417,11 @@ public class JoinActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
+                tmp.accumulate("hospital", hospital);
+                tmp.accumulate("name", name);
+                tmp.accumulate("number", number);
                 tmp.accumulate("id", id);
+                tmp.accumulate("pw", pw);
 
                 jsonObject.accumulate("user", tmp);
 
