@@ -29,6 +29,8 @@
     <dimen name="messageSpinnerHeight">30dp</dimen>
     <dimen name="messageTextMargin">5dp</dimen>
 
+    <dimen name="msgEditTextMarginBottom">10dp</dimen>
+    <dimen name="msgLayoutBetweenMargin">10dp</dimen>
     <!-- MessageTypeActivity -->
     <dimen name="messageTypeImgWidth">100dp</dimen>
     <dimen name="messageTypeImgHeight">100dp</dimen>

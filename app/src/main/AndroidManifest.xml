@@ -25,11 +25,11 @@
         android:required="false" />
 
     <application
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -41,21 +41,13 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".JoinActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -78,9 +70,6 @@
             android:name=".CommunityActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MessageTypeActivity"
-            android:theme="@style/NoTheme" />
-        <activity
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
         <activity android:name=".TempActivity" />
@@ -92,15 +81,14 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoTheme" />
-        <activity android:name=".SelectPicActivity">
+            android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-        <activity
-            android:name=".MyPageCameraActivity"
-            android:theme="@style/NoTheme"></activity>
-
+        <activity android:name=".SelectPicActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -114,14 +102,13 @@
 
         <activity
             android:name=".NewReservationActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".WaitReservationActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
+        <activity android:name=".FilterPopupActivity"
+            android:theme="@style/PopupTheme"
+            ></activity>
     </application>
 
 </manifest>

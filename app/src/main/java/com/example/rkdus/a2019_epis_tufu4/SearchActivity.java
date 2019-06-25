@@ -28,7 +28,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,8 +41,6 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -54,16 +51,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -79,7 +72,7 @@ import java.util.List;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String SERVER_URL = "http://192.168.0.65:3000";
+    public static final String SERVER_URL = "http://192.168.0.39:3000";
     public static final String TAG = "LogGoGo";
 
     /*
@@ -95,7 +88,8 @@ public class SearchActivity extends AppCompatActivity {
         SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
      */
 
-    boolean isSearchCurrentLocation, isSignUpApp;
+    static final int GET_FILTER = 100;
+    boolean isSearchCurrentLocation, isSignUpApp, isBestReservationCount;
     final String switchOnColor = "#0067A3";
     final String switchOffColor = "#000000";
     final String fileName = "searchResult";
@@ -107,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<SearchItemData> signUpAppList = new ArrayList<>();
     SearchAsyncTask searchAsyncTask;
 
-    ImageView ivSearchBtn;
+    ImageView ivSearchBtn, ivFilterBtn;
     EditText eSearch;
     TextView searchCurrentLocationSwitch;
     ListView lvSearchList;
@@ -126,6 +120,7 @@ public class SearchActivity extends AppCompatActivity {
 
         // 레이아웃 뷰 정의
         ivSearchBtn = (ImageView) findViewById(R.id.searchBtn);
+        ivFilterBtn = (ImageView) findViewById(R.id.filterBtn);
         eSearch = (EditText) findViewById(R.id.searchEditText);
         searchCurrentLocationSwitch = (TextView) findViewById(R.id.isSearchCurrentLocation);
         ctvIsSignUpApp = (CheckedTextView) findViewById(R.id.isSignUpApp);
@@ -135,15 +130,6 @@ public class SearchActivity extends AppCompatActivity {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-
-        Button button = (Button) findViewById(R.id.temp);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
-                startActivity(intent);
-            }
-        });
 
         searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
 
@@ -173,6 +159,23 @@ public class SearchActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "검색 이미지 click", Toast.LENGTH_LONG).show();
                         if(setSearchWord())
                             SearchHospitalData();
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
+                }
+                return true;
+            }
+        });
+
+        // 필터 이미지 클릭 이벤트
+        ivFilterBtn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Toast.makeText(getApplicationContext(), "필터 이미지 click", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), FilterPopupActivity.class);
+                        startActivityForResult(intent, GET_FILTER);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
                         break;
@@ -698,7 +701,7 @@ public class SearchActivity extends AppCompatActivity {
                     SearchItemData item = arrayList.get(position);
                     Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
                     if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
-                        Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
                         intent.putExtra("key", item.getHospitalKey());  // Hospital_Key를 인텐트에 담아서
                         startActivity(intent);  // MessageTypeActivity 실행
                     }
@@ -721,8 +724,10 @@ public class SearchActivity extends AppCompatActivity {
             JSONArray jsonArray = jsonObject.getJSONArray("result");
             Log.d(TAG, "JsonArray size : " + jsonArray.length());
             Log.d(TAG, "JsonArray string size : " + jsonArray.toString().length());
+
+            // Gson사용. JSONArray to ArrayList
             Gson gson = new Gson();
-            ArrayList<SearchItemData> temp = gson.fromJson(jsonArray.toString(), new TypeToken<ArrayList<SearchItemData>>(){}.getType());
+            ArrayList<SearchResultData> temp = gson.fromJson(jsonArray.toString(), new TypeToken<ArrayList<SearchResultData>>(){}.getType());
 
             Log.d(TAG, "SearchList size : " + temp.size());
             for(int i = 0; i < 100; i++) {
@@ -908,5 +913,21 @@ public class SearchActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+            switch (requestCode) {
+                case GET_FILTER:
+                    if(resultCode == RESULT_OK) {
+                        Log.d(TAG, "팝업창에서 확인 누름!");
+                    }
+                    else {
+                        Log.d(TAG, "팝업창에서 취소 누름!");
+                    }
+                    break;
+                default:
+                    break;
+            }
     }
 }

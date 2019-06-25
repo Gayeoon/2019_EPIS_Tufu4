@@ -26,9 +26,10 @@
     <dimen name="messageTextWidth">80dp</dimen>
     <dimen name="messageTextHeight">100dp</dimen>
     <dimen name="messageEditTextWidth">240dp</dimen>
-    <dimen name="messageEditTextHeight">100dp</dimen>
+    <dimen name="messageEditTextHeight">40dp</dimen>
     <dimen name="messageTextMargin">10dp</dimen>
-
+    <dimen name="messageTextMarginBottom">10dp</dimen>
+    <dimen name="msgLayoutBetweenMargin">10dp</dimen>
 
     <!-- MessageTypeActivity -->
     <dimen name="messageTypeImgWidth">100dp</dimen>

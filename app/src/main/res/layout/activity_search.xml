@@ -63,14 +63,24 @@
 
         <TextView
             android:id="@+id/isSearchCurrentLocation"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="가까운 위치 순서"
             android:layout_marginRight="20dp"
-            android:gravity="right"
+            android:gravity="center"
             android:layout_gravity="center_vertical"
             android:clickable="true"
             />
+
+        <ImageView
+            android:id="@+id/filterBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/searchBtnMarginRight"
+            android:layout_marginLeft="@dimen/searchBtnMarginLeft"
+            android:background="@drawable/temp"
+            />
+
     </LinearLayout>
 
     <LinearLayout
@@ -87,25 +97,8 @@
             android:layout_weight="3"
             android:textSize="15dp"
             android:textStyle="bold"
+            android:textAlignment="center"
             android:text="업체명"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:text="대표자명"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:text="업체전화번호"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -114,7 +107,8 @@
             android:gravity="center"
             android:textSize="15dp"
             android:textStyle="bold"
-            android:text="등록"/>
+            android:textAlignment="center"
+            android:text="대표자명"/>
 
     </LinearLayout>
     <ListView
@@ -123,10 +117,5 @@
         android:layout_height="wrap_content"
         >
     </ListView>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/temp"/>
 
 </LinearLayout>
