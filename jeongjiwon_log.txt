@@ -157,3 +157,16 @@
         // 예약 확인 //
         REGIST_STATE: int DEFAULT 0
     */
+
+2019.06.25
+- DB 테이블 수정 
+ -> USER_TB 추가
+    /*
+        - USER_TB
+        
+        ID: varchar(20)   -> PK
+        PW: varchar(30) NOT NULL
+        HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+        HOSPITAL_NAME: char(50) NOT NULL
+        PROFILE: varchar(20000) DEFAULT NULL
+    */

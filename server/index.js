@@ -54,6 +54,8 @@ app.use(bodyParser.urlencoded({
     CONFIRM: int DEFAULT 0
 */
 
+const profile_file_path = './image/';
+
 const mysql = require('mysql2/promise')
 const pool = mysql.createPool({
     host: 'localhost',
@@ -79,6 +81,11 @@ app.get('/', (req, res, next) => {
     console.log(str);
     res.send(str);
 });
+
+
+/*
+ * 병원
+ */
 
 app.post('/getIdCheck', async(req, res, next) => {
     console.log('\n\nCALL getIdCheck');
@@ -144,6 +151,21 @@ app.post('/getJoin', async(req, res, next) => {
                     console.log(result.affectedRows)
                     if (result.affectedRows != 0) { // 잘 들어갔다
                         ret.result = 1; // 성공
+                        console.log(`가입한 아이디 : ${user.id}`)
+                        query = `UPDATE HospitalInfo_TB SET SIGNUP_APP = '1' WHERE HOSPITAL_KEY = (
+                            SELECT HOSPITAL_KEY from USER_TB where ID = '${user.id}');`
+                        try {
+                            connection.query(query, function(err, result) {
+                                console.log("connection query")
+                                if (result.affectedRows != 0) // 잘 들어갔다
+                                    ret.result = 1; // 성공
+                                else ret.result = 0; // 실패
+                            });
+                        } catch (err) {
+                            console.error(err)
+                            ret.result = 0; // 실패
+                        }
+
                     } else {
                         ret.result = 0; // 실패
                     }
@@ -208,32 +230,36 @@ app.post('/getLogin', async(req, res, next) => {
     }
 });
 
-app.post('/getProfile', async(req, res, next) => {
-    console.log('\n\nCALL getLogin');
+app.post('/putProfile', async(req, res, next) => {
+    console.log('\n\nCALL putProfile\n');
     /*
         {"user": {
-            "name": "홍길동",
-            "profile": "바이너리 파일"
+            "id": "test",
+            "profile": ""
         }}
     */
     try {
         const connection = await pool.getConnection(async conn => conn);
         const user = req.body.user;
-        const ret = { result: "init" };
+        const ret = { result: 0 };
         try {
-            fs.readFile(`./image/${user.nameAAAAAAAAAAA}`, function(err, data) {
-                console.log(data);
-            })
-            let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${user.id}' AND PW = '${user.pw}';`
-            console.log(user.id, user.pw)
+            console.log("LENGTH ::::: " + user.profile.length)
+            user.id = user.id.trim();
+            const file_path = `${profile_file_path}${user.id}.bmp`
+            let query = `UPDATE USER_TB SET PROFILE = '${file_path}' where id = '${user.id}';`
+
+            const bitmap = Buffer.from(user.profile, 'base64');
+            fs.writeFileSync(file_path, bitmap);
+            console.log('******** base64로 인코딩되었던 파일 쓰기 성공 ********');
 
             await connection.query(query, function(err, rows, fields) {
-                if (rows.length) {
+                console.log(rows)
+                if (rows != null) { // auto commit ok 잘 들어갔다
+                    // if (rows.affectedRows != 0) { // auto commit ok 잘 들어갔다
                     ret.result = 1;
                 } else {
                     ret.result = 0;
                 }
-                console.log("length : " + rows.length)
                 connection.release(); // db 연결 끝
                 res.json(ret)
             });
@@ -288,22 +314,81 @@ app.post('/getThreeCheck', async(req, res, next) => {
     }
 });
 
-app.post('/getHospitalName', async(req, res, next) => {
-    console.log('\n\nCALL getHospitalName');
+app.post('/getHospitalData', async(req, res, next) => {
+    console.log('\n\nCALL getHospitalData');
     /*
         {"user": {"id": "test"}}
     */
     try {
         const connection = await pool.getConnection(async conn => conn);
         const user = req.body.user;
-        const ret = { result: 0 };
+        const ret = {
+            result: {
+                name: "",
+                new: 0,
+                wait1: 0,
+                wait2: 0,
+                finish: 0,
+                profile: ""
+            }
+        };
         try {
-            let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${user.id}';`
+            user.id = user.id.trim();
+            const file_path = `${profile_file_path}${user.id}.bmp`
+
+            let query = `SELECT HOSPITAL_NAME as 'hospital_name', REGIST_STATE as 'regist_state', COUNT(*) as 'count' 
+            from RESERVATION_TB as A join USER_TB as B 
+            on A.HOSPITAL_KEY = B.HOSPITAL_KEY AND B.ID = '${user.id}'
+            GROUP BY REGIST_STATE;`
+
             await connection.query(query, function(err, rows, fields) {
-                // only 병원이 가입했을 경우
-                if (rows.length) ret.result = rows[0].HOSPITAL_NAME;
-                connection.release(); // db 연결 끝
-                res.json(ret)
+                console.log("SSSSSSS")
+                console.log(rows)
+
+                const bitmap = fs.readFileSync(file_path);
+                const profile = Buffer.from(bitmap).toString('base64');
+                ret.result.profile = profile;
+
+                if (rows.length) {
+                    ret.result.name = rows[0].hospital_name;
+                    Array.prototype.forEach.call(rows, (el, idx) => {
+                        switch (el.regist_state) {
+                            case 1:
+                                ret.result.new = el.count;
+                                break;
+                            case 2:
+                                ret.result.wait1 = el.count;
+                                break;
+                            case 3:
+                                ret.result.wait2 = el.count;
+                                break;
+                            case 4:
+                                ret.result.finish = el.count;
+                                break;
+                            default:
+                                ret.result.name = "there is no hospital";
+                                break;
+                        }
+                    });
+                    console.log(`get ${ret.result.name} of regist_state`)
+                        // console.log(ret)
+                    connection.release(); // db 연결 끝
+                    res.json(ret)
+                } else {
+                    try {
+                        let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${user.id}';`
+                        connection.query(query, function(err, rows, fields) {
+                            console.log(rows[0].HOSPITAL_NAME)
+                            ret.result.name = rows[0].HOSPITAL_NAME;
+                            connection.release(); // db 연결 끝
+                            res.json(ret)
+                        });
+                    } catch (err) {
+                        console.error(err);
+                        connection.release(); // db 연결 끝
+                        res.json(ret)
+                    }
+                }
             });
 
         } catch (err) {
@@ -318,6 +403,75 @@ app.post('/getHospitalName', async(req, res, next) => {
     }
 });
 
+// app.post('/getHospitalName', async(req, res, next) => {
+//     console.log('\n\nCALL getHospitalName');
+//     /*
+//         {"user": {"id": "test"}}
+//     */
+//     try {
+//         const connection = await pool.getConnection(async conn => conn);
+//         const user = req.body.user;
+//         const ret = { result: 0 };
+//         try {
+//             let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${user.id}';`
+//             await connection.query(query, function(err, rows, fields) {
+//                 // only 병원이 가입했을 경우
+//                 if (rows.length) ret.result = rows[0].HOSPITAL_NAME;
+//                 connection.release(); // db 연결 끝
+//                 res.json(ret)
+//             });
+
+//         } catch (err) {
+//             console.log('Query Error\n\n');
+//             console.log(err);
+//             connection.release();
+//             res.json(ret)
+//         }
+//     } catch (err) {
+//         console.log('DB Error');
+//         return false;
+//     }
+// });
+
+// app.post('/getReservationCount', async(req, res, next) => {
+//     console.log('\n\nCALL getReservationCount');
+//     /*
+//         {"user": {"id": "test"}}
+//         신규예약    :    1
+//         등록대기-1    :    2
+//         등록대기-2    :    3
+//         등록완료    :    4
+//     */
+//     try {
+//         const connection = await pool.getConnection(async conn => conn);
+//         const user = req.body.user
+//         const ret = { result: 0 };
+//         try {
+//             console.log(user.id);
+//             let query = `SELECT COUNT(*) as count from RESERVATION_TB where ID = '${user.id}';`
+//             await connection.query(query, function(err, rows, fields) {
+//                 console.log(`count : ${rows[0].count}`)
+//                 ret.result = rows[0].count;
+//                 connection.release(); // db 연결 끝
+//                 res.json(ret)
+//             });
+
+//         } catch (err) {
+//             console.log('Query Error\n\n');
+//             console.log(err);
+//             connection.release();
+//             res.json(ret)
+//         }
+//     } catch (err) {
+//         console.log('DB Error');
+//         return false;
+//     }
+// });
+
+/*
+ * 병원
+ */
+
 app.post('/searchHospitalData', async(req, res, next) => {
     console.log('\n\nCALL searchHospitalData');
     /*
@@ -329,6 +483,8 @@ app.post('/searchHospitalData', async(req, res, next) => {
         const ret = { result: 0 };
         try {
             let query;
+
+            console.log(`searchword : ${searchword}`)
 
             // 병원명이나 대표자명에 searchword가 포함된 col을 찾아서 보낸다.
             if (searchword == 'allHospitalData')
@@ -345,41 +501,6 @@ app.post('/searchHospitalData', async(req, res, next) => {
                 connection.release(); // db 연결 끝
                 res.json(ret)
             });
-        } catch (err) {
-            console.log('Query Error\n\n');
-            console.log(err);
-            connection.release();
-            res.json(ret)
-        }
-    } catch (err) {
-        console.log('DB Error');
-        return false;
-    }
-});
-
-app.post('/getReservationCount', async(req, res, next) => {
-    console.log('\n\nCALL getReservationCount');
-    /*
-        {"user": {"id": "test"}}
-        신규예약    :    1
-        등록대기-1    :    2
-        등록대기-2    :    3
-        등록완료    :    4
-    */
-    try {
-        const connection = await pool.getConnection(async conn => conn);
-        const user = req.body.user
-        const ret = { result: 0 };
-        try {
-            console.log(user.id);
-            let query = `SELECT COUNT(*) as count from RESERVATION_TB where ID = '${user.id}';`
-            await connection.query(query, function(err, rows, fields) {
-                console.log(`count : ${rows[0].count}`)
-                ret.result = rows[0].count;
-                connection.release(); // db 연결 끝
-                res.json(ret)
-            });
-
         } catch (err) {
             console.log('Query Error\n\n');
             console.log(err);
@@ -434,7 +555,7 @@ app.post('/sendMessage', async(req, res, next) => {
                 try {
                     console.log(result.affectedRows)
                     if (result.affectedRows != 0) { // 잘 들어갔다
-                        ret.result = "OK"; // 성공
+                        ret.result = 1; // 성공
                     } else {
                         ret.result = err; // 실패
                     }
@@ -459,6 +580,10 @@ app.post('/sendMessage', async(req, res, next) => {
         return false;
     }
 });
+
+/*
+ * DB 
+ */
 
 app.get('/updateHospitalData', (req, res, next) => {
     console.log('\n\nCALL GET updateHospitalData');

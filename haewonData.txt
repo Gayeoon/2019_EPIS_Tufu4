@@ -1,0 +1,75 @@
+
+               ***************  다 만들면 체크해 주세요!!  ***************
+
+ --------------------------------------------------------------------------------------
+
+ searchHospitalData : ID 값을 통해 해당되는 병원 메인 페이지에 필요한 모든 데이터 요청
+
+ 필요 데이터 : HOSPITAL_KEY, CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP
+
+ Uri  --->   /searchHospitalData
+ Parm  --->   {"key": "1"} 전송
+ Result  --->   
+    { "result": [
+            {
+                "CEO_NAME": "임성준",
+                "HOSPITAL_NAME": "서울YES동물병원",
+                "PHONE_NUMBER": "031-272-1313",
+                "ADDRESS1": "경기도 용인시 수지구 죽전동",
+                "ADDRESS2": "1174-1번지 벤포스타 101~103호",
+                "SIGNUP_APP": 0
+            }
+        ]}
+
+CHECK
+
+ --------------------------------------------------------------------------------------
+
+ searchHospitalData : ID 값을 통해 해당되는 병원 메인 페이지에 필요한 모든 데이터 요청
+
+ 필요 데이터 : HOSPITAL_KEY, CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP
+
+ Uri  --->   /searchHospitalData
+ Parm  --->   {"searchword": "서울YES동물병원"} 전송
+ Result  --->   
+    { "result": [
+            {
+                "HOSPITAL_KEY": 2020,
+                "CEO_NAME": "임성준",
+                "HOSPITAL_NAME": "서울YES동물병원",
+                "PHONE_NUMBER": "031-272-1313",
+                "ADDRESS1": "경기도 용인시 수지구 죽전동",
+                "ADDRESS2": "1174-1번지 벤포스타 101~103호",
+                "SIGNUP_APP": 0
+            }
+        ]}
+
+CHECK
+
+ --------------------------------------------------------------------------------------
+
+ sendMessage : 프로필 사진 db에 저장
+ default -> int 0
+ 저장 성공 -> int 1
+ 저장 실패 -> err
+
+ Uri  --->   /sendMessage
+ Parm  --->   
+    {
+      "key": "hospital key",
+      "type": "1 / 2" -> 1 : 내장형, 2 : 외장형,
+      "ownerName": "",
+      "address": "",
+      "phone_number": "",
+      "petName": "",
+      "race": "",
+      "petColor": "",
+      "petBirth": "",
+      "neutralization": "",
+      "petGender": "",
+    }
+ Result  --->   {"result":1} 결과 값
+
+CHECK
+
+ --------------------------------------------------------------------------------------
