@@ -2,393 +2,412 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="25dp"
-    android:layout_marginBottom="10dp"
     android:layout_gravity="center"
-    android:gravity="center"
-    android:layout_marginTop="10dp"
-    android:orientation="vertical">
+    android:layout_margin="15dp"
+    android:gravity="center">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/owner_info" />
-
-        <TableLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/reservation"
-            android:paddingBottom="10dp"
-            android:paddingLeft="13dp"
-            android:paddingRight="15dp">
+            android:orientation="vertical">
 
-            <TableRow android:layout_margin="6dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="성명"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/grayback"
+                    android:padding="15dp">
 
-                <TextView
-                    android:id="@+id/owner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:fontFamily="@font/notosansregular"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
 
-            <TableRow android:layout_margin="6dp">
+                    </TableRow>
 
-                <TextView
+                    <TableRow android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="성명"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/owner"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/input"
+                            android:fontFamily="@font/notosansregular"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="주민등록번호"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/resident"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="전화번호"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/phone"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="주민등록 주소"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/resAddr"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="현거주지 주소"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/nowAddr"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="4"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <ImageView
                     android:layout_width="wrap_content"
+                    android:layout_height="73dp"
+                    android:background="@drawable/owner_info" />
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+                <TableLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="주민등록번호"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="45dp"
+                    android:background="@drawable/grayback"
+                    android:padding="15dp">
 
-                <TextView
-                    android:id="@+id/resident"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
-
-            </TableRow>
-
-            <TableRow android:layout_margin="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="전화번호"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/phone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
-
-            </TableRow>
-
-            <TableRow android:layout_margin="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="주민등록 주소"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/resAddr"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
-
-            </TableRow>
-
-            <TableRow android:layout_margin="6dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="현거주지 주소"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/nowAddr"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
-
-            </TableRow>
-
-        </TableLayout>
+                    <TableRow android:layout_margin="6dp">
 
 
-    </LinearLayout>
+                    </TableRow>
 
-    <LinearLayout
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/animal_info" />
+                    <TableRow android:layout_margin="6dp">
 
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/reservation"
-            android:paddingBottom="10dp"
-            android:paddingLeft="13dp"
-            android:paddingRight="15dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="이름"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/animal"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:fontFamily="@font/notosansregular"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="이름"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/animal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:fontFamily="@font/notosansregular"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="품종"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/variety"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="품종"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/variety"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="털색깔"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/furColor"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="털색깔"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/furColor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="성별"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/gender"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="성별"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/gender"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="중성화"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/neutralization"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="중성화"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/neutralization"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="생년월일"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/birthday"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="생년월일"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/birthday"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="취득일"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/acqDate"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="취득일"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
 
-                <TextView
-                    android:id="@+id/acqDate"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                    <TableRow android:layout_margin="6dp">
 
-            </TableRow>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:text="특이사항"
+                            android:textColor="#000000"
+                            android:textSize="14sp" />
 
-            <TableRow android:layout_margin="6dp">
+                        <TextView
+                            android:id="@+id/special"
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:paddingLeft="8dp"
+                            android:textColor="#5a5a5a"
+                            android:textSize="12sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:text="특이사항"
-                    android:textColor="#000000"
-                    android:textSize="12sp" />
+                    </TableRow>
+                </TableLayout>
 
-                <TextView
-                    android:id="@+id/special"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="4"
-                    android:background="@drawable/reservation_input"
-                    android:paddingLeft="8dp"
-                    android:textColor="#5a5a5a"
-                    android:textSize="10sp" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="73dp"
+                    android:background="@drawable/animal_info" />
+            </RelativeLayout>
 
-            </TableRow>
-        </TableLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
 
-    </LinearLayout>
+                <ImageButton
+                    android:id="@+id/check"
+                    android:layout_width="110dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/reservation_check" />
+            </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal">
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/check"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/reservation_check" />
 
-    </LinearLayout>
+    </ScrollView>
+
+
 </LinearLayout>

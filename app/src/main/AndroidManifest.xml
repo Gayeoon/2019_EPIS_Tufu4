@@ -50,7 +50,11 @@
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ReservationActivity"
@@ -90,11 +94,7 @@
             android:name=".MainActivity"
             android:theme="@style/NoTheme" />
         <activity android:name=".SelectPicActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity

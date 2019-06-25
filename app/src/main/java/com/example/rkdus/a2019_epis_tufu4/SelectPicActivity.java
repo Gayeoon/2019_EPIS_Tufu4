@@ -1,8 +1,10 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,6 +12,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,11 +43,16 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SelectPicActivity extends BaseActivity implements View.OnClickListener {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
     private static final int CROP_FROM_IMAGE = 2;
+    private static final int MULTIPLE_PERMISSIONS = 101;
+
+    private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
     public String url = "http://192.168.0.65:3000";
 
@@ -59,13 +68,14 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
     String id = "";
 
+                Bitmap bitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_pic);
 
-       // Intent intent = getIntent();
-       // id = intent.getStringExtra("id");
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
 
         iv_UserPhoto = (ImageView) findViewById(R.id.user_image);
         Button btn_agreeJoin = (Button) findViewById(R.id.upload);
@@ -74,8 +84,25 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
         btn_agreeJoin.setOnClickListener(this);
 
+        checkPermissions();
+
     }
 
+    private boolean checkPermissions() {
+        int result;
+        List<String> permissionList = new ArrayList<>();
+        for (String pm : permissions) {
+            result = ContextCompat.checkSelfPermission(this, pm);
+            if (result != PackageManager.PERMISSION_GRANTED) { //사용자가 해당 권한을 가지고 있지 않을 경우 리스트에 해당 권한명 추가
+                permissionList.add(pm);
+            }
+        }
+        if (!permissionList.isEmpty()) { //권한이 추가되었으면 해당 리스트가 empty가 아니므로 request 즉 권한을 요청합니다.
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
     @Override
     public void onClick(View v) {
         id_view = v.getId();
@@ -110,7 +137,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         else if (v.getId() == R.id.man){
             drawable = getResources().getDrawable(R.drawable.pic_man);
 
-//            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
 //            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 //            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 //            byteArray = stream.toByteArray();
@@ -126,6 +153,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
         } else if (v.getId() == R.id.woman){
             drawable = getResources().getDrawable(R.drawable.pic_woman);
+            bitmap = ((BitmapDrawable) drawable).getBitmap();
 
             new profileDB().execute(url+"/putProfile");
 
@@ -166,6 +194,10 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                 mImageCaptureUri = data.getData();
             }
             case PICK_FROM_CAMERA: {
+
+                this.grantUriPermission("com.android.camera", mImageCaptureUri ,
+                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
                 Intent intent = new Intent("com.android.camera.action.CROP");
                 intent.setDataAndType(mImageCaptureUri, "image/*");
 
@@ -188,6 +220,9 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
                 if (extras != null) {
                     Bitmap photo = extras.getParcelable("data");
+                    bitmap = photo;
+
+                    // 여기
                     iv_UserPhoto.setImageBitmap(photo);
 
                     storeCropImage(photo, filePath);
@@ -200,6 +235,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                     f.delete();
                 }
             }
+
         }
     }
 
@@ -229,6 +265,44 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MULTIPLE_PERMISSIONS: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < permissions.length; i++) {
+                        if (permissions[i].equals(this.permissions[0])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+                            }
+                        } else if (permissions[i].equals(this.permissions[1])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+
+                            }
+                        } else if (permissions[i].equals(this.permissions[2])) {
+                            if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                                showNoPermissionToastAndFinish();
+
+                            }
+                        }
+                    }
+                } else {
+                    showNoPermissionToastAndFinish();
+                }
+                return;
+            }
+        }
+    }
+
+
+    //권한 획득에 동의를 하지 않았을 경우 아래 Toast 메세지를 띄우며 해당 Activity를 종료시킵니다.
+    private void showNoPermissionToastAndFinish() {
+        Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
     /* profileDB : 프로필 사진 db에 저장
      * 저장 성공 -> int 1
      * 저장 실패 -> int 0
@@ -244,13 +318,16 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         protected String doInBackground(String... urls) {
 
             try {
-                Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
 
                 byteArray = bos.toByteArray();
-                profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
+                profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+              //  profile = byteArray.toString();
+
+                Log.e("SelectPicActivity", profile);
+                Log.e("SelectPicActivity", profile.length() +"");
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 

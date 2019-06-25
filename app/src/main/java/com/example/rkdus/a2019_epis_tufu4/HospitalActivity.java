@@ -32,7 +32,7 @@ import java.net.URL;
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.65:3000";
 
     String id;
     String hos_name;
@@ -51,8 +51,8 @@ public class HospitalActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
 
-//        Intent intent = getIntent();
-//        id = intent.getStringExtra("id");
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
 
 //        profile = intent.getByteArrayExtra("profile");
 //
@@ -77,7 +77,7 @@ public class HospitalActivity extends BaseActivity {
 
         imageView = (ImageView)findViewById(R.id.profile);
 
-       // new HospitalData().execute(url + "/getHospitalData");
+        new HospitalData().execute(url + "/getHospitalData");
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class HospitalActivity extends BaseActivity {
         confirm_wait.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent2 = new Intent(getApplicationContext(), NewReservationActivity.class);
+                Intent intent2 = new Intent(getApplicationContext(), WaitReservationActivity.class);
                 //intent2.putExtra("id", id);
                 startActivity(intent2);
 
@@ -244,6 +244,8 @@ public class HospitalActivity extends BaseActivity {
                     temp_wait = jsonObject.getInt("wait1") + jsonObject.getInt("wait2");
                     temp_finish = jsonObject.getInt("finish");
                     temp = jsonObject.getString("profile");
+
+                    //  profile = Encoding.UTF8.GetBytes(str);
 
                     profile = Base64.decode(temp, Base64.DEFAULT);
                     bm = BitmapFactory.decodeByteArray(profile, 0, profile.length);
