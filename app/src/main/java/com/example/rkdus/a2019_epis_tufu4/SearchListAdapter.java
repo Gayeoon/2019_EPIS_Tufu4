@@ -49,13 +49,12 @@ public class SearchListAdapter extends BaseAdapter {
 
         // 각각의 데이터 뷰에 넣기
         TextView hospitalNameText = (TextView) convertView.findViewById(R.id.hospitalNameTextView);
-        TextView ceoNameText = (TextView) convertView.findViewById(R.id.ceoNameTextView);
         TextView phoneNumText = (TextView) convertView.findViewById(R.id.phoneNumTextView);
         TextView signUpAppText = (TextView) convertView.findViewById(R.id.signUpAppTextView);
 
         hospitalNameText.setText(listData.get(position).getHospitalName());
-        ceoNameText.setText(listData.get(position).getCeoName());
         phoneNumText.setText(listData.get(position).getPhoneNum());
+        signUpAppText.setText(listData.get(position).getSignUpAppSymbol());
 
 
         return convertView;

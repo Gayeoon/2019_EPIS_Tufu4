@@ -32,6 +32,7 @@ public class MessageTypeActivity extends AppCompatActivity {
         if(searchActivityIntent != null) {    // 인텐트 null 체크
             if(searchActivityIntent.hasExtra("key")) {   // 값이 담겨온 경우
                 hospitalKey = searchActivityIntent.getExtras().toString(); // 타입 값 String에 저장
+                Toast.makeText(getApplicationContext(), "hospital key : " + hospitalKey, Toast.LENGTH_LONG).show();
                 switchActvityIntent = new Intent(getApplicationContext(), MessageActivity.class);
                 switchActvityIntent.putExtra("key", hospitalKey);
             }

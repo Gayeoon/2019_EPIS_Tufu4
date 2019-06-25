@@ -36,6 +36,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +47,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,6 +58,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -73,7 +79,7 @@ import java.util.List;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String SERVER_URL = "http://192.168.1.3:3000";
+    public static final String SERVER_URL = "http://192.168.0.65:3000";
     public static final String TAG = "LogGoGo";
 
     /*
@@ -96,6 +102,7 @@ public class SearchActivity extends AppCompatActivity {
     LocationManager locationManager;
 
     String searchWord;
+    ArrayList<JSONObject> searchArray = new ArrayList<>();
     ArrayList<SearchItemData> searchList = new ArrayList<>();
     ArrayList<SearchItemData> signUpAppList = new ArrayList<>();
     SearchAsyncTask searchAsyncTask;
@@ -138,6 +145,8 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
+
         // EditText 자판 리스너 이벤트
         eSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -146,7 +155,7 @@ public class SearchActivity extends AppCompatActivity {
                     case EditorInfo.IME_ACTION_SEARCH: // 자판에서 검색 모양 아이콘을 누르면
                         Toast.makeText(getApplicationContext(), "검색을 시작합니다.", Toast.LENGTH_LONG).show();
                         if(setSearchWord())
-                            showSearchList();
+                            SearchHospitalData();
                         break;
                     default:
                         return false;
@@ -163,7 +172,7 @@ public class SearchActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "검색 이미지 click", Toast.LENGTH_LONG).show();
                         if(setSearchWord())
-                            showSearchList();
+                            SearchHospitalData();
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
                         break;
@@ -204,7 +213,7 @@ public class SearchActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "현재 위치로 찾기 시작합니다.", Toast.LENGTH_LONG).show();
                     isSearchCurrentLocation = true;
                 }
-                switchLocationOnOff();  // 현재 상태에 따라 on / off 변경
+                showListView();  // 현재 상태에 따라 on / off 변경
             }
         });
 
@@ -243,17 +252,23 @@ public class SearchActivity extends AppCompatActivity {
     @return latlon(double[2]) - 위도, 경도
      */
     private Location addressToLatLon(Context context, String address) {
+        List<Address> addressList = null;
         Log.d(TAG, "addressToLatLon start");
         Geocoder coder = new Geocoder(context);
-        Location myLocation = new Location("");
+        Log.d(TAG, "addressToLatLon start2");
         try {
-            List<Address> addressList = coder.getFromLocationName(address, 1);  // 1개의 주소만 가져옴
-            double lat = addressList.get(0).getLatitude();
-            double lon = addressList.get(0).getLongitude();
-            myLocation.setLatitude(lat);
-            myLocation.setLongitude(lon);
-
-            return myLocation;
+            addressList = coder.getFromLocationName(address, 1);  // 1개의 주소만 가져옴
+            Log.d(TAG, "addressList22 : " + addressList.size());
+            if(addressList.isEmpty())
+                return null;
+            else {
+                Location myLocation = new Location("");
+                double lat = addressList.get(0).getLatitude();
+                double lon = addressList.get(0).getLongitude();
+                myLocation.setLatitude(lat);
+                myLocation.setLongitude(lon);
+                return myLocation;
+            }
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(TAG, "주소 변환 실패");
@@ -294,10 +309,10 @@ public class SearchActivity extends AppCompatActivity {
         // 현재 사용자의 위도 경도 획득
         Location myLocation = getLatLon();
         Log.d(TAG, "my lat : " + myLocation.getLatitude() + " , my lon : " + myLocation.getLongitude());
-        Log.d(TAG, String.valueOf(calculateDistance(
-                36.363386, 127.351442,
-                36.360738, 127.351450
-        )));
+//        Log.d(TAG, String.valueOf(calculateDistance(
+//                36.363386, 127.351442,
+//                36.360738, 127.351450
+//        )));
 
         // 인자로 받은 ArrayList에 거리 계산해서 넣기
         Iterator<SearchItemData> itemDataIterator = arrayList.iterator();
@@ -323,16 +338,30 @@ public class SearchActivity extends AppCompatActivity {
     /*
     현재 위치로 찾기 클릭에 따른 찾기 온오프 기능 구현 함수
      */
-    private void switchLocationOnOff() {
+    private void showListView() {
 
-        showListView();
+        final ArrayList<SearchItemData> arrayList = getNeedToShowListView();
+        if(arrayList.isEmpty()) // null check
+            return;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setSearchListView(arrayList);
+                    }
+                });
+            }
+        });
     }
 
     /*
     조건에 따라 리스트 보여주는 함수
      */
-    private void showSearchList() {
-        Log.d(TAG, "showSearchList start");
+    private void SearchHospitalData() {
+        Log.d(TAG, "SearchHospitalData start");
         try {   // 현재 searchAsyncTask가 작동중인지 확인. 두 번 실행은 오류남
             if(searchAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
                 searchAsyncTask.cancel(true);
@@ -345,16 +374,11 @@ public class SearchActivity extends AppCompatActivity {
         searchList.clear();
         signUpAppList.clear();
         // 서버 접속 실행
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB) {
-            Log.d(TAG, "2");
-            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
-        }
-        else {
-            Log.d(TAG, "3");
-            searchAsyncTask.execute("/searchHospitalData", "searchword");
-        }
-        //searchAsyncTask.execute("/searchHospitalData", "searchword");
-        showListView();    // 리스트뷰 표시
+//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
+//            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
+//        else
+        searchAsyncTask.execute("/searchHospitalData", "searchword");
+        // showListView();    // 리스트뷰 표시
     }
 
     /*
@@ -362,6 +386,13 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void setSignUpAppList() {
         Log.d(TAG, "setSignUpAppList start");
+
+        // 검색 결과를 담은 ArrayList의 값이 없는 경우 함수 종료
+        if(searchList.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "검색한 결과가 없기에 필터가 불가능합니다.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         // 이미 배열 내 값이 존재한 경우 함수 종료
         if(!signUpAppList.isEmpty())
             return;
@@ -381,8 +412,8 @@ public class SearchActivity extends AppCompatActivity {
     /*
     온오프에 따른 어플등록 업체만 보기 유무 설정해서 출력하는 함수
      */
-    private void showListView() {
-        Log.d(TAG, "showListView start");
+    private ArrayList<SearchItemData> getNeedToShowListView() {
+        Log.d(TAG, "getNeedToShowListView start");
         if(isSignUpApp) {
             if(isSearchCurrentLocation)     setLocationList(signUpAppList); // 현재 위치 킨 경우
             else {
@@ -395,7 +426,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
             }
-            setSearchListView(signUpAppList);
+            return signUpAppList;
         }
         else {
             if(isSearchCurrentLocation)     setLocationList(searchList);
@@ -408,7 +439,7 @@ public class SearchActivity extends AppCompatActivity {
                     }
                 });
             }
-            setSearchListView(searchList);
+            return searchList;
         }
     }
 
@@ -422,23 +453,24 @@ public class SearchActivity extends AppCompatActivity {
             Log.d(TAG, "SearchAsyncTask doInBackground");
             String search_url = SERVER_URL + strings[0];    // URL
             String type = strings[1];
+            // POST 전송방식을 위한 설정
+            HttpURLConnection con = null;
+            BufferedReader reader = null;
+
             // 서버에 특정 키워드 디비에서 검색 요청
             try {
                 JSONObject jsonObject = setJSONForSendPost(strings); // type(목적)에 맞는 JSONObject 생성하기
                 Log.d(TAG, "url : " + search_url);
                 Log.d(TAG, "type : " + type);
-                // POST 전송방식을 위한 설정
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
                 URL url = new URL(search_url);  // URL 객체 생성
                 Log.d(TAG, "jsonObject String : " + jsonObject.toString());
                 con = (HttpURLConnection) url.openConnection();
                 con.setConnectTimeout(10 * 1000);   // 서버 접속 시 연결 시간
-                con.setReadTimeout(9 * 1000);   // Read시 연결 시간
+                con.setReadTimeout(10 * 1000);   // Read시 연결 시간
                 con.setRequestMethod("POST"); // POST방식 설정
                 con.setRequestProperty("Content-Type", "application/json"); // application JSON 형식으로 전송
                 con.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-                con.setRequestProperty("Accept", "application/json"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
+                con.setRequestProperty("Accept", "text/html"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
                 con.setDoOutput(true); // Outstream으로 post 데이터를 넘겨주겠다는 의미
                 con.setDoInput(true); // Inputstream으로 서버로부터 응답을 받겠다는 의미
 
@@ -450,36 +482,53 @@ public class SearchActivity extends AppCompatActivity {
                 writer.flush();
                 writer.close(); // 버퍼를 받아줌
 
+                con.connect();
+
                 // 응답 코드 구분
                 int responseCode = con.getResponseCode();   // 응답 코드 설정
-                Log.d(TAG, "7");
                 if(responseCode == HttpURLConnection.HTTP_OK)  // 200 정상 연결
-                    Log.d(TAG, "responseCode : " + String.valueOf(123));
+                    //서버로 부터 데이터를 받음
+                {
+                    InputStream stream = con.getInputStream();
+//                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    byte[] bytes = new byte[1024];
+                    int count;
+                    while ((count = stream.read(bytes)) > 0) {
+                        baos.write(bytes, 0, count);
+                    }
+
+                    byte[] fileArray = baos.toByteArray();
+                    Log.d(TAG, "읽어들인 바이트 수 : " + fileArray.length);
+                    Log.d(TAG, "ByteArrayOutputStream size : " + baos.size());
+
+                    String line = new String(baos.toByteArray());    // 한 줄씩 읽어오기 위한 임시 String 변수
+                    ByteArrayInputStream bais = new ByteArrayInputStream(fileArray);
+//                    while (bais.read(bytes) != -1) {
+//                        line += new String(bytes);
+//                        Log.d(TAG, "ByteArrayOutputStream String : " + new String(bytes));
+//                    }
+
+                    if(saveJSONFile(baos, fileName)) {
+                        Log.d(TAG, "save JSON File success!");
+                        return line;
+                    }
+                    else {
+                        Log.d(TAG, "save JSON File failed!");
+                        return null;
+                    }
+//                    while((line = reader.readLine()) != null){
+//                        buffer.append(line); // buffer에 데이터 저장
+//                        Log.d(TAG, buffer.toString());
+//                    }
+//                    return buffer.toString(); //서버로 부터 받은 값을 리턴해줌
+                }
                 else {  // 정상 연결 아닐 시
-                    Log.d(TAG, "responseCode : " + String.valueOf(345));
+                    printConnectionError(con);
                     return null;
                 }
-
-                //서버로 부터 데이터를 받음
-                InputStream stream = con.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(stream));
-                StringBuffer buffer = new StringBuffer();
-                String line;    // 한 줄씩 읽어오기 위한 임시 String 변수
-                while((line = reader.readLine()) != null){
-                    Log.d(TAG, line);
-                    buffer.append(line); // buffer에 데이터 저장
-                }
-                Log.d(TAG, buffer.toString());
-                // type에 따른 메소드 실행
-                if(type.equals("searchword")) {
-                    setSearchListArray(buffer.toString());
-                }
-                return buffer.toString(); //서버로 부터 받은 값을 리턴해줌
-//                }
-//                else {  // 연결이 잘 안됨
-//                    printConnectionError(con);
-//                }
-
                 /*
                 String tag;
                 // 각각 값을 제대로 받았는지 체크하기 위한 boolean
@@ -511,33 +560,71 @@ public class SearchActivity extends AppCompatActivity {
             } catch (JSONException e) { // JSON 객체 오류
                 e.printStackTrace();
                 Log.d(TAG, String.valueOf(e));
+            } finally {
+                if (con != null) {
+                    con.disconnect();
+                }
             }
-
             return null;
         }
 
         @Override
-        protected void onPostExecute(String bufstr) {
+        protected void onPostExecute(String s) {
+            if(s.equals(null))
+                return;
+            setSearchListArray(s);
+            ArrayList<SearchItemData> arrayList = getNeedToShowListView();
+            if(arrayList.isEmpty()) // null check
+                return;
 
+            setSearchListView(arrayList);
         }
     }
 
     /*
     JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
      */
-    private JSONObject StringToJSON(String JSONstr) throws ParseException {
+    private JSONObject StringToJSON(String JSONstr) {
         Log.d(TAG, "StringToJSON start");
 
-        JSONParser parser = new JSONParser();
-        Object obj = parser.parse(JSONstr);
-        JSONObject jsonObject = (JSONObject) obj;
+//        JSONParser parser = new JSONParser();
+//        Object obj = parser.parse(JSONstr);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(JSONstr);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return jsonObject;
+    }
+
+    /*
+    FileOutputStream을 사용해서 서버에서 받은 데이터 전부 파일로 저장하기
+     */
+    private boolean saveJSONFile(ByteArrayOutputStream byteArrayOutputStream, String filename) {
+        Log.d(TAG, "saveJSONFile start");
+
+        filename += ".json";
+        // 파일 생성(덮어쓰기)
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+            byteArrayOutputStream.writeTo(fileOutputStream);    // 파일에 작성
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /*
     json 파일 불러와서 String으로 리턴하기
      */
-    private String loadJSONFIle(String filename) {
+    private String loadJSONFile(String filename) {
         Log.d(TAG, "loadJSONFIle start");
 
         String result = null;
@@ -586,48 +673,39 @@ public class SearchActivity extends AppCompatActivity {
     String 파라미터를 받아 ArrayList에 저장
      */
     private void setSearchListArray(String bufstr) {
-        try {
-            Log.d(TAG, "setSearchListArray start");
-            JSONObject jsonObject = StringToJSON(bufstr);   // JSON 객체 생성
-            JSONObjTofile(jsonObject, fileName);  // json파일로 저장
-            putJSONInArrayList(jsonObject); // ArrayList에 넣기
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        Log.d(TAG, "setSearchListArray start");
+        JSONObject jsonObject = StringToJSON(bufstr);   // JSON 객체 생성
+        // JSONObjTofile(jsonObject, fileName);  // json파일로 저장
+        putJSONInArrayList(jsonObject); // ArrayList에 넣기
     }
 
     /*
     ListView에 ArrayList 넣고 출력
     */
     private void setSearchListView(final ArrayList<SearchItemData> arrayList) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(TAG, "setSearchListView start");
-                        SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
-                        lvSearchList.setAdapter(listAdapter);
-                        // 클릭 이벤트
-                        lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                SearchItemData item = arrayList.get(position);
-                                Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
-                                if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
-                                    Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
-                                    intent.putExtra("key", item.getHospitalKey());  // Hospital_Key를 인텐트에 담아서
-                                    startActivity(intent);  // MessageTypeActivity 실행
-                                }
-                                else
-                                    Toast.makeText(getApplicationContext(), "어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
-                            }
-                        });
+            Log.d(TAG, "setSearchListView start");
+            if(arrayList.isEmpty())
+                Log.d(TAG, "setSearchListView array empty");
+
+            SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
+            lvSearchList.setAdapter(listAdapter);
+            Log.d(TAG, "set Adapter success");
+            Toast.makeText(getApplicationContext(), "출력을 완료했습니다.", Toast.LENGTH_LONG).show();
+            // 클릭 이벤트
+            lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    SearchItemData item = arrayList.get(position);
+                    Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
+                    if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
+                        Intent intent = new Intent(getApplicationContext(), MessageTypeActivity.class);
+                        intent.putExtra("key", item.getHospitalKey());  // Hospital_Key를 인텐트에 담아서
+                        startActivity(intent);  // MessageTypeActivity 실행
                     }
-                });
-            }
-        });
+                    else
+                        Toast.makeText(getApplicationContext(), "어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
+                }
+                        });
     }
 
     /*
@@ -640,32 +718,75 @@ public class SearchActivity extends AppCompatActivity {
     private void putJSONInArrayList(JSONObject jsonObject) {
         try {
             Log.d(TAG, "putJSONInArrayList start");
-
             JSONArray jsonArray = jsonObject.getJSONArray("result");
-            searchList.clear(); // 검색결과리스트 내 값 전부 초기화
-            signUpAppList.clear();  // 앱등록된리스트 내 값 전부 초기화
-            for(int i = 0; i<jsonArray.length(); i++) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
-                jsonObject = jsonArray.getJSONObject(i);
-                SearchItemData searchItemData = new SearchItemData(
-                        jsonObject.getInt("HOSPITAL_KEY"),
-                        jsonObject.getString("CEO_NAME"),
-                        jsonObject.getString("HOSPITAL_NAME"),
-                        jsonObject.getString("PHONE_NUMBER"),
-                        jsonObject.getString("ADDRESS1"),
-                        jsonObject.getString("ADDRESS2"),
-                        jsonObject.getBoolean("SIGNUP_APP")
-                );
-                // 위도, 경도 저장
-                Location location = addressToLatLon(getApplicationContext(), searchItemData.getAddress1() + searchItemData.getAddress2()); // 주소 -> 위도, 경도
-                searchItemData.setLatitude(location.getLatitude());
-                searchItemData.setLongitude(location.getLongitude());
+            Log.d(TAG, "JsonArray size : " + jsonArray.length());
+            Log.d(TAG, "JsonArray string size : " + jsonArray.toString().length());
+            Gson gson = new Gson();
+            ArrayList<SearchItemData> temp = gson.fromJson(jsonArray.toString(), new TypeToken<ArrayList<SearchItemData>>(){}.getType());
 
-                searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
+            Log.d(TAG, "SearchList size : " + temp.size());
+            for(int i = 0; i < 100; i++) {
+                Log.d(TAG, "this index : " + i);
+                Log.d(TAG, "this : " + temp.get(i).getHospitalName());
             }
+//            for(int i = jsonArray.length() - 1; i >= 0; i--) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
+//                jsonObject = jsonArray.getJSONObject(i);
+//
+//                Location location = addressToLatLon( // 주소 -> 위도, 경도
+//                        getApplicationContext(),
+//                        jsonObject.getString("ADDRESS1")
+//                );
+//                // 위도, 경도 저장
+//                if(location != null) {  // null이 아닌 경우
+//                    jsonObject.accumulate("lat", location.getLatitude());
+//                    jsonObject.accumulate("lon", location.getLongitude());
+//                }
+//                searchArray.add(jsonObject); // 한 셋트 ArrayList에 넣기
+//                Log.d(TAG, "searchList 개수 : " + searchArray.size());
+//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+//    private void putJSONInArrayList(JSONObject jsonObject) {
+//        try {
+//            Log.d(TAG, "putJSONInArrayList start");
+//            JSONArray jsonArray = jsonObject.getJSONArray("result");
+//            Log.d(TAG, "JsonArray size : " + jsonArray.length());
+//            for(int i = jsonArray.length() - 1; i >= 0; i--) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
+//                jsonObject = jsonArray.getJSONObject(i);
+//                SearchItemData searchItemData = new SearchItemData(
+//                        jsonObject.getInt("HOSPITAL_KEY"),
+//                        jsonObject.getString("CEO_NAME"),
+//                        jsonObject.getString("HOSPITAL_NAME"),
+//                        jsonObject.getString("PHONE_NUMBER"),
+//                        jsonObject.getString("ADDRESS1"),
+//                        jsonObject.getString("ADDRESS2"),
+//                        getBoolSignUpApp(jsonObject.getInt("SIGNUP_APP"))
+//                );
+//                Log.d(TAG, "putJSONInArrayList searchItemData : " + searchItemData.getHospitalName());
+//                Log.d(TAG, "searchItemData.getAddress1() : " + searchItemData.getAddress1());
+//                Log.d(TAG, "searchItemData.getAddress2() : " + searchItemData.getAddress2());
+//                if(searchItemData.getAddress2().equals(null))
+//                    Log.d(TAG, "searchItemData.getAddress2() is null !");
+//
+//                Location location = addressToLatLon( // 주소 -> 위도, 경도
+//                        getApplicationContext(),
+//                        searchItemData.getAddress1()
+//                );
+//                // 위도, 경도 저장
+//                if(location != null) {  // null이 아닌 경우
+//                    searchItemData.setLatitude(location.getLatitude());
+//                    searchItemData.setLongitude(location.getLongitude());
+//                }
+//                searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
+//                Log.d(TAG, "searchList 개수 : " + searchList.size());
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     /*
     HttpURLConnection 연결 잘 안되는 경우 원인 내용 Log 출력
@@ -716,7 +837,10 @@ public class SearchActivity extends AppCompatActivity {
         String type = strings[1];
         Log.d(TAG, "setJSONForSendPost type : " + type);
         if(type.equals("searchword")) {
-            jsonObject.accumulate("searchword", URLEncoder.encode(searchWord, "utf-8")); // 검색어 인코딩까지 수행
+            jsonObject.accumulate("searchword", searchWord); // 검색어 인코딩까지 수행
+        }
+        if(type.equals("all")) {
+            jsonObject.accumulate("searchword", "allHospitalData"); // 검색어 인코딩까지 수행
         }
 //        else if(type.equals("id")) {
 //            jsonObject.accumulate("key", strings[2]);
@@ -725,6 +849,16 @@ public class SearchActivity extends AppCompatActivity {
         return jsonObject;
     }
 
+    /*
+    SIGNUP_APP int to boolean
+    0 : 등록 X
+    1 : 등록 O
+     */
+    private boolean getBoolSignUpApp(int signUpApp) {
+        if(signUpApp == 1)
+            return true;
+        return false;
+    }
     /*
     Location 관련 권한 체크 상태 확인 함수
     @return : boolean(true : 체크한 경우, false : 체크 안한 경우)

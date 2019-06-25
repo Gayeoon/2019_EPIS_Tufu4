@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
@@ -80,9 +81,9 @@ public class MyPageActivity extends AppCompatActivity {
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                sendTakePhotoIntent();
-                Intent intent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
-                startActivity(intent);
+                sendTakePhotoIntent();
+//                Intent intent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
+//                startActivity(intent);
             }
         });
     }
@@ -99,10 +100,10 @@ public class MyPageActivity extends AppCompatActivity {
         Log.d(TAG, "init end ");
         tessBaseAPI = new TessBaseAPI();
         String dir = getFilesDir() + "/tesseract";
-        String[] language = {"eng, kor"};
-        if(checkLanguageFile(dir+"/tessdata", language)) {
+        String[] language = {"eng"};
+        if(checkLanguageFile(dir + "/tessdata", language)) {
             Log.d(TAG, "tessBaseAPI start ");
-            tessBaseAPI.init(dir, "eng+kor");
+            tessBaseAPI.init(dir, "eng");
             Log.d(TAG, "tessBaseAPI init end ");
         }
     }
