@@ -3,6 +3,78 @@
 
  --------------------------------------------------------------------------------------
 
+ NewReservationListData : ID값을 통해 신규 예약한 명단 리스트를 출력
+
+ 이름과 예약 등록 날짜만 반환!
+
+ Uri  --->   /getNewtReservationListData
+ Parm  --->   {"user":{"id":"test","state":1}} 전송
+ Result  --->   {"result":{"internal":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}],"external":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]
+                                          ,"dogtag":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]}} 결과 값
+
+ * ps. 결과값 : result Object 안에 JSONArray : internal, external, dogtag  세개 넣어서!!
+
+ --------------------------------------------------------------------------------------
+
+ ReservationData : ID, 주인 이름, type 값을 통해 예약 데이터 요청
+
+  type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
+
+ Uri  --->   /getReservationData
+ Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
+ Result  --->   {"result":{"owner":"김가연","resident":"960708-2","phone":"010-4491-0778","resAddr":"대전","nowAddr":"궁동",
+ "animal":"뿡이","variety":"시츄","furColor":"흰색+갈색","gender":"남","neutralization":"했움","birthday":"2008-04-04","acqDate":"2008-04-04","special":"겁이 많아요ㅠㅠ"}} 결과 값
+
+ --------------------------------------------------------------------------------------
+
+ ReservationCheck : ID, 주인 이름, type 값을 통해 해당 데이터 상태를 등록 대기 상태로 변경
+
+  type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
+
+  변경 성공하면 -> int 1
+  변경 실패하면 -> int 0
+
+  * id/name/type이 일치하는 데이터의 state를 1에서 2로 변경! *
+
+  Uri  --->   /putChangeState
+  Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
+  Result  --->   {"result":1} 결과 값 */
+
+ --------------------------------------------------------------------------------------
+
+ CallReservation : 병원 ID, 주인 이름, 강아지 이름 값을 통해 주인 전화번호 요청 & 예약상태 DB 변경
+
+ 예약상태 3으로 변경 (현재 : 2)
+
+ Uri  --->   /putChangeWait
+ Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
+ Result  --->   {"result":"010-4491-0778"} 결과 값
+
+ --------------------------------------------------------------------------------------
+
+ WaitReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력
+
+ state 2와 state 3 상태의 리스트 요청
+
+ 주인 이름과 반려 동물 이름만 반환!
+
+ Uri  --->   /getWaitReservationListData
+ Parm  --->   {"user":{"id":"test"}} 전송
+ Result  --->   {"result":{"wait":[{"owner":"김가연","animal":"뿡이"},{"owner":"정지원","animal":"맥북"}]}} 결과 값
+
+ ps. 결과값 : result Object 안에 JSONArray : wait 넣어서!!
+
+ --------------------------------------------------------------------------------------
+
+ ReservationInfoData : ID, 주인 이름, 강아지 이름 값을 통해 예약 데이터 요청
+
+ Uri  --->   /getReservationInfoData
+ Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
+ Result  --->   {"result":{"owner":"김가연","resident":"960708-2","phone":"010-4491-0778","resAddr":"대전","nowAddr":"궁동",
+ "animal":"뿡이","variety":"시츄","furColor":"흰색+갈색","gender":"남","neutralization":"했움","birthday":"2008-04-04","acqDate":"2008-04-04","special":"겁이 많아요ㅠㅠ"}} 결과 값
+
+ --------------------------------------------------------------------------------------
+
  HospitalData : ID 값을 통해 해당되는 병원 메인 페이지에 필요한 모든 데이터 요청
 
  필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수

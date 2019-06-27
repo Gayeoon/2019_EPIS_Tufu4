@@ -1,8 +1,12 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,11 +17,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class NewReservationActivity extends BaseActivity {
+    public static final String TAG = "NewReservationActivity";
+    public String url = "http://192.168.0.39:3000";
 
     ListView internalList, externalList, dogtagList;
     MyAdapter internalAdapter, externalAdapter, dogtagAdapter;
@@ -70,8 +90,8 @@ public class NewReservationActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_reservation);
 
-//        Intent getintet = getIntent();
-//        id = getintet.getStringExtra("id");
+        Intent getintet = getIntent();
+        id = getintet.getStringExtra("id");
 
         internalBtn = (ImageButton) findViewById(R.id.internal);
         externalBtn = (ImageButton) findViewById(R.id.external);
@@ -192,92 +212,262 @@ public class NewReservationActivity extends BaseActivity {
 
         String nowTime = sdf.format(date);
 
-        internalCount.setText("6");
-        externalCount.setText("11");
-        dogtagCount.setText("2");
+//        JSONObject tmp = new JSONObject();
+//        JSONObject jsonObject = new JSONObject();
+//
+//        //여기
+//        try {
+//
+//            JSONArray internalArray = new JSONArray("[{'name':'김가연','time':'2019-06-24'},{'name':'정지원','time':'2019-05-22'},{'name':'박지민','time':'2017-08-03'}]");
+//
+//            tmp.accumulate("internal", internalArray);
+//
+//            JSONArray externalArray = new JSONArray("[{'name':'김가연','time':'2019-06-24'},{'name':'정지원','time':'2019-05-22'},{'name':'박지민','time':'2017-08-03'}]");
+//
+//            tmp.accumulate("external", externalArray);
+//
+//            JSONArray dogtagArray = new JSONArray("[{'name':'김가연','time':'2019-06-24'},{'name':'정지원','time':'2019-05-22'},{'name':'박지민','time':'2017-08-03'}]");
+//
+//            tmp.accumulate("dogtag", dogtagArray);
+//
+//
+//            jsonObject.accumulate("result", tmp);
+//
+//            Log.e(TAG, jsonObject.toString());
+//
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
-        internalAdapter = new MyAdapter();
 
-        ArrayList<String> intitles = new ArrayList<>();
+//
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        internalList.setAdapter(internalAdapter);
+//
 
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        internalList.setAdapter(internalAdapter);
 
-        internalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        ArrayList<String> extitles = new ArrayList<>();
+//
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        externalList.setAdapter(externalAdapter);
+//
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final NewReservationItem item = (NewReservationItem) internalAdapter.getItem(i);
-                final String name = item.getName();
 
-                Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
-                //intent.putExtra("id", id);
-                intent.putExtra("name", name);
-                intent.putExtra("type", 1);
-                startActivity(intent);
+
+//        ArrayList<String> titles = new ArrayList<>();
+//
+//        dogtagAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//        dogtagAdapter.addItem(new NewReservationItem("김가연", nowTime));
+//
+//        dogtagList.setAdapter(dogtagAdapter);
+//
+
+
+        new NewReservationListData().execute(url + "/getNewtReservationListData");
+
+    }
+
+    /* NewReservationListData : ID값을 통해 신규 예약한 명단 리스트를 출력
+     *
+     *
+     * Uri  --->   /getNewtReservationListData
+     * Parm  --->   {"user":{"id":"test","state":1}} 전송
+     * Result  --->   {"result":{"internal":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}],"external":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]
+     *                                          ,"dogtag":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]}} 결과 값
+     *
+     * ps. 결과값 : result Object 안에 JSONArray : internal, external, dogtag  세개 넣어서!!  */
+
+    public class NewReservationListData extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+                tmp.accumulate("state", 1);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e(TAG, jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
+            return null;
+        }
 
-        externalAdapter = new MyAdapter();
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
-        ArrayList<String> extitles = new ArrayList<>();
+            JSONObject json = null;
 
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        externalList.setAdapter(externalAdapter);
+            internalAdapter = new MyAdapter();
+            externalAdapter = new MyAdapter();
+            dogtagAdapter = new MyAdapter();
 
-        externalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            JSONArray internal = null, external = null, dogtag = null;
 
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final NewReservationItem item = (NewReservationItem) externalAdapter.getItem(i);
-                final String name = item.getName();
+            try {
+                json = new JSONObject(result);
 
-                Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
-                //intent.putExtra("id", id);
-                intent.putExtra("name", name);
-                intent.putExtra("type", 2);
-                startActivity(intent);
+                if (json.get("result") == null) {
+                    new NewReservationListData().execute(url + "/getNewtReservationListData");
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject = json.getJSONObject("result");
+
+                    internal = jsonObject.getJSONArray("internal");
+                    external = jsonObject.getJSONArray("external");
+                    dogtag = jsonObject.getJSONArray("dogtag");
+
+                    Log.e(TAG, internal.length() + "");
+                    for (int i = 0; i < internal.length(); i++) {
+                        JSONObject jsonTemp = internal.getJSONObject(i);
+                        internalAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                    }
+                    internalList.setAdapter(internalAdapter);
+                    internalCount.setText(internal.length() + "");
+
+                    internalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            final NewReservationItem item = (NewReservationItem) internalAdapter.getItem(i);
+                            final String name = item.getName();
+
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("name", name);
+                            intent.putExtra("type", 1);
+                            startActivity(intent);
+                        }
+                    });
+
+                    for (int i = 0; i < external.length(); i++) {
+                        JSONObject jsonTemp = external.getJSONObject(i);
+                        externalAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                    }
+                    externalList.setAdapter(externalAdapter);
+                    externalCount.setText(external.length() + "");
+
+                    externalList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            final NewReservationItem item = (NewReservationItem) externalAdapter.getItem(i);
+                            final String name = item.getName();
+
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("name", name);
+                            intent.putExtra("type", 2);
+                            startActivity(intent);
+                        }
+                    });
+
+                    for (int i = 0; i < dogtag.length(); i++) {
+                        JSONObject jsonTemp = dogtag.getJSONObject(i);
+                        dogtagAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                    }
+                    dogtagList.setAdapter(dogtagAdapter);
+                    dogtagCount.setText(dogtag.length() + "");
+
+                    dogtagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            final NewReservationItem item = (NewReservationItem) dogtagAdapter.getItem(i);
+                            final String name = item.getName();
+
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("name", name);
+                            intent.putExtra("type", 3);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
 
-        dogtagAdapter = new MyAdapter();
 
-        ArrayList<String> titles = new ArrayList<>();
+            Log.e(TAG, result);
 
-        dogtagAdapter.addItem(new NewReservationItem("김가연", nowTime));
-        dogtagAdapter.addItem(new NewReservationItem("김가연", nowTime));
-
-        dogtagList.setAdapter(dogtagAdapter);
-
-        dogtagList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                final NewReservationItem item = (NewReservationItem) dogtagAdapter.getItem(i);
-                final String name = item.getName();
-
-                Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
-                //intent.putExtra("id", id);
-                intent.putExtra("name", name);
-                intent.putExtra("type", 3);
-                startActivity(intent);
-            }
-        });
+        }
     }
 
 

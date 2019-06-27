@@ -113,7 +113,7 @@ public class HospitalActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), NewReservationActivity.class);
-                //intent2.putExtra("id", id);
+                intent2.putExtra("id", id);
                 startActivity(intent2);
             }
         });
@@ -122,7 +122,7 @@ public class HospitalActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), WaitReservationActivity.class);
-                //intent2.putExtra("id", id);
+                intent2.putExtra("id", id);
                 startActivity(intent2);
 
             }

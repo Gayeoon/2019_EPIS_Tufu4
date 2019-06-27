@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:orientation="vertical"
     android:background="#ffffff"
-    tools:context=".WaitReservationActivity">
+    android:orientation="vertical"
+    tools:context=".FinishReservationActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -30,25 +30,24 @@
             android:layout_gravity="center"
             android:fontFamily="@font/notosansbold"
             android:gravity="center"
-            android:text="등록대기"
+            android:text="등록완료"
             android:textColor="#2eb8ff"
             android:textSize="18sp" />
 
     </FrameLayout>
 
     <ListView
-        android:id="@+id/waitList"
+        android:id="@+id/finishList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="5dp"
-        android:background="@android:color/transparent"
-        android:layout_marginRight="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="7dp"
+        android:background="@drawable/grayback"
         android:clipToPadding="false"
-        android:divider="#ffffff"
-        android:dividerHeight="7dp"
-        android:padding="8dp"
+        android:dividerHeight="1dp"
+        android:padding="3dp"
         android:scrollbarStyle="outsideOverlay"></ListView>
 
 </LinearLayout>
