@@ -403,70 +403,80 @@ app.post('/getHospitalData', async(req, res, next) => {
     }
 });
 
-// app.post('/getHospitalName', async(req, res, next) => {
-//     console.log('\n\nCALL getHospitalName');
-//     /*
-//         {"user": {"id": "test"}}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         const user = req.body.user;
-//         const ret = { result: 0 };
-//         try {
-//             let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${user.id}';`
-//             await connection.query(query, function(err, rows, fields) {
-//                 // only 병원이 가입했을 경우
-//                 if (rows.length) ret.result = rows[0].HOSPITAL_NAME;
-//                 connection.release(); // db 연결 끝
-//                 res.json(ret)
-//             });
+app.post('/getReservationInfoData', async(req, res, next) => {
+    console.log('\n\nCALL getReservationInfoData');
+    /*
+        {"user": {
+            "id": "test",
+            "owner_name": "김가연",
+            "pet_name": "뿡이"
+        }}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: 0 };
+        try {
+            let query = `SELECT 
+            OWNER_NAME,OWNER_RESIDENT,OWNER_PHONE_NUMBER,OWNER_ADDRESS1,OWNER_ADDRESS2,
+            PET_NAME,PET_VARIETY,PET_COLOR,PET_GENDER,PET_NEUTRALIZATION,PET_BIRTH,
+            ASK_DATE,ETC
+            from RESERVATION_TB where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND PET_NAME = '${user.pet_name}';`
+            await connection.query(query, function(err, rows, fields) {
+                ret.result = rows
+                connection.release(); // db 연결 끝
+                res.json(ret)
+            });
 
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             res.json(ret)
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// });
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
 
-// app.post('/getReservationCount', async(req, res, next) => {
-//     console.log('\n\nCALL getReservationCount');
-//     /*
-//         {"user": {"id": "test"}}
-//         신규예약    :    1
-//         등록대기-1    :    2
-//         등록대기-2    :    3
-//         등록완료    :    4
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         const user = req.body.user
-//         const ret = { result: 0 };
-//         try {
-//             console.log(user.id);
-//             let query = `SELECT COUNT(*) as count from RESERVATION_TB where ID = '${user.id}';`
-//             await connection.query(query, function(err, rows, fields) {
-//                 console.log(`count : ${rows[0].count}`)
-//                 ret.result = rows[0].count;
-//                 connection.release(); // db 연결 끝
-//                 res.json(ret)
-//             });
+app.post('/getReservationInfoData', async(req, res, next) => {
+    console.log('\n\nCALL getReservationInfoData');
+    /*
+        {"user": {
+            "id": "test",
+            "owner_name": "김가연",
+            "pet_name": "뿡이"
+        }}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: 0 };
+        try {
+            let query = `SELECT 
+            OWNER_NAME,OWNER_RESIDENT,OWNER_PHONE_NUMBER,OWNER_ADDRESS1,OWNER_ADDRESS2,
+            PET_NAME,PET_VARIETY,PET_COLOR,PET_GENDER,PET_NEUTRALIZATION,PET_BIRTH,
+            ASK_DATE,ETC
+            from RESERVATION_TB where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND PET_NAME = '${user.pet_name}';`
+            await connection.query(query, function(err, rows, fields) {
+                ret.result = rows
+                connection.release(); // db 연결 끝
+                res.json(ret)
+            });
 
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             res.json(ret)
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// });
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
 
 /*
  * 병원
@@ -669,260 +679,3 @@ const updateHospitalData = async(payload) => {
         return false;
     }
 }
-
-
-/* 
- * database 
- * 
- * async, await 필수 -> Promise 는 오류뜸
- */
-
-// var rett = {
-//     result: 0
-// };
-
-// const getIdCheck = async(payload) => {
-//     /*
-//         {"user": {"id": "test"}}
-//     */
-//     var rett = { result: 0 }
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             let query = `SELECT ID from USER_TB where ID = '${payload.user.id}';`
-
-//             // function(err, rows, fields) {
-//             //     if (rows.length) {
-//             //         rett.result = 1;
-//             //         console.log(`${payload.user.id}가 중복됩니다`)
-//             //     } else {
-//             //         rett.result = 2;
-//             //         console.log(`${payload.user.id}가 중복되지 않습니다`)
-//             //     }
-//             //     console.log("222222\n")
-//             //         // connection.close();
-//             //     connection.release();
-//             //     console.log("33333\n")
-//             // })
-
-//             await connection.query(query, function(err, rows, fields) {
-//                 // console.log(rows)
-//                 if (rows.length) {
-//                     rett.result = 1;
-//                     console.log(`${payload.user.id}가 중복됩니다`)
-//                 } else {
-//                     rett.result = 2;
-//                     console.log(`${payload.user.id}가 중복되지 않습니다`)
-//                 }
-//                 console.log("222222\n")
-//             });
-
-//             connection.release(); // db 연결 끝
-//             console.log("33333\n")
-//             console.log(rett)
-//             return rett
-
-
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const getJoin = async(payload) => {
-//     /*
-//        {"user":{
-//            "hospital":"힐링힐스동물병원", 
-//            "name":"박성민", 
-//            "number":"031-708-0078", 
-//            "id":"test", 
-//            "pw":"1234"
-//         }}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         const user = payload.user;
-//         try {
-//             let query = `
-//                 INSERT INTO USER_TB (ID, PW, HOSPITAL_KEY, HOSPITAL_NAME) 
-//                 SELECT '${user.id}', '${user.pw}', HOSPITAL_KEY, HOSPITAL_NAME
-//                 from HOSPITALINFO_TB 
-//                 where HOSPITAL_NAME = '${user.hospital}' AND PHONE_NUMBER = '${user.number}';`
-//             await connection.query(query);
-//             rett.result = 1; // 성공
-//             connection.release(); // db 연결 끝
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             rett.result = 0; // 실패
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const getLogin = async(payload) => {
-//     /*
-//         {"user": {
-//             "id": "test",
-//             "pw": "0000"
-//         }}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             let query = `SELECT HOSPITAL_KEY from USER_TB where ID = '${payload.user.id}' AND PW = '${payload.user.pw}';`
-//             console.log(payload)
-//             console.log(payload.user.id, payload.user.pw)
-
-//             await connection.query(query, function(err, rows, fields) {
-//                 if (rows.length) {
-//                     rett.result = 1;
-//                 } else {
-//                     rett.result = 0;
-//                 }
-//                 console.log("length : " + rows.length)
-//             });
-//             connection.release(); // db 연결 끝
-
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const getThreeCheck = async(payload) => {
-//     /*
-//         {"user":{
-//             "hospital":"미리내동물병원",
-//             "name":"김가연",
-//             "number":"031-574-7580"
-//         }}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             let query = `SELECT HOSPITAL_KEY from HOSPITALINFO_TB where CEO_NAME = '${payload.user.name}' AND PHONE_NUMBER = '${payload.user.number}';`
-//             await connection.query(query, function(err, rows, fields) {
-//                 if (rows.length) {
-//                     rett.result = 1;
-//                 } else {
-//                     rett.result = 2;
-//                 }
-//                 console.log("length : " + rows.length)
-//             });
-//             connection.release(); // db 연결 끝
-
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const getHospitalName = async(payload) => {
-//     /*
-//         {"user": {"id": "test"}}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             let query = `SELECT HOSPITAL_NAME from USER_TB where ID = '${payload.user.id}';`
-//             await connection.query(query, function(err, rows, fields) {
-//                 rett.result = rows[0].HOSPITAL_NAME;
-//             });
-//             connection.release(); // db 연결 끝
-
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const searchHospitalData = async(payload) => {
-//     /*
-//         {"searchword": "힐링동물병원"}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             let query;
-
-//             // 병원명이나 대표자명에 searchword가 포함된 col을 찾아서 보낸다.
-//             if (payload.searchword == 'allHospitalData')
-//                 query = `SELECT * from HOSPITALINFO_TB`
-//             else
-//                 query = `SELECT HOSPITAL_KEY, CEO_NAME, HOSPITAL_NAME, PHONE_NUMBER, ADDRESS1, ADDRESS2, SIGNUP_APP from HOSPITALINFO_TB
-//             WHERE CEO_NAME LIKE '%${payload.searchword}%' OR HOSPITAL_NAME LIKE '%${payload.searchword}%';`
-
-//             // console.log(query)
-//             await connection.query(query, function(err, rows, fields) {
-//                 // console.log("ROWs : " + rows)
-//                 rett.result = rows;
-//                 console.log(rett)
-//             });
-//             connection.release(); // db 연결 끝
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }
-
-// const getReservationCount = async(payload) => {
-//     /*
-//         {"user": {"id": "test"}}
-//     */
-//     try {
-//         const connection = await pool.getConnection(async conn => conn);
-//         try {
-//             console.log(payload.user.id);
-//             let query = `SELECT COUNT(*) as count from RESERVATION_TB where ID = '${payload.user.id}';`
-//             await connection.query(query, function(err, rows, fields) {
-//                 console.log(`count : ${rows[0].count}`)
-//                 rett.result = rows[0].count;
-//             });
-//             connection.release(); // db 연결 끝
-
-//         } catch (err) {
-//             console.log('Query Error\n\n');
-//             console.log(err);
-//             connection.release();
-//             return false;
-//         }
-//     } catch (err) {
-//         console.log('DB Error');
-//         return false;
-//     }
-// }

@@ -139,18 +139,18 @@
 
         INDEX: int auto_increment   -> PK
         // 병원 정보 //
-        ID: char(20) NOT NULL
+        ID: varchar(20) NOT NULL
         HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
         
         // 예약 정보 //
         TYPE: int DEFAULT 0
-        OWNER_NAME: char(30) NOT NULL
-        ADDRESS: char(120)
-        PHONE_NUMBER: char(15)
-        PET_NAME: char(30) NOT NULL
-        RACE: char(30) NOT NULL
-        PET_COLOR: char(15)
-        PET_BIRTH: char(20)
+        OWNER_NAME: varchar(30) NOT NULL
+        ADDRESS: varchar(120)
+        PHONE_NUMBER: varchar(15)
+        PET_NAME: varchar(30) NOT NULL
+        RACE: varchar(30) NOT NULL
+        PET_COLOR: varchar(15)
+        PET_BIRTH: varchar(20)
         NEUTRALIZATION: int NOT NULL
         PET_GENDER: int NOT NULL
         
@@ -169,4 +169,35 @@
         HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
         HOSPITAL_NAME: char(50) NOT NULL
         PROFILE: varchar(20000) DEFAULT NULL
+    */
+
+2019.06.29
+- DB 테이블 수정 
+ -> RESERVATION_TB 칼럼 변경
+    /*
+        - RESERVATION_TB
+
+        INDEX: int auto_increment   -> PK
+        // 병원 정보 //
+        ID: varchar(20) NOT NULL
+        HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
+        
+        // 예약 정보 //
+        TYPE: int DEFAULT 0
+        OWNER_NAME: varchar(12) NOT NULL
+        OWNER_RESIDENT: varchar(10) NOT NULL // 주민등록번호
+        OWNER_PHONE_NUMBER: varchar(15)
+        OWNER_ADDRESS1: varchar(120)
+        OWNER_ADDRESS2: varchar(120)
+        PET_NAME: varchar(30) NOT NULL
+        PET_VARIETY: varchar(30) NOT NULL
+        PET_COLOR: varchar(15)
+        PET_GENDER: int NOT NULL
+        PET_NEUTRALIZATION: int NOT NULL
+        PET_BIRTH: varchar(15)
+        ASK_DATE: varchar(15)
+        ETC: varchar(150)
+        
+        // 예약 확인 //
+        REGIST_STATE: int DEFAULT 0
     */
