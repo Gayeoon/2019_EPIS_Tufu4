@@ -201,3 +201,4 @@
         // 예약 확인 //
         REGIST_STATE: int DEFAULT 0
     */
+- 병원 기능 완성
