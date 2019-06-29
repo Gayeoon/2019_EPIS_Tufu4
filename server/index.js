@@ -12,48 +12,6 @@ app.use(bodyParser.urlencoded({
     extended: false
 }));
 
-/*
-    - USER_TB
-    
-    ID: varchar(20)   -> PK
-    PW: varchar(30) NOT NULL
-    HOSPITAL_KEY: varchar(20) NOT NULL   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
-    HOSPITAL_NAME: char(50) NOT NULL
-
-    
-    - HospitalInfo_TB
-    
-    HOSPITAL_KEY: int   -> PK
-    CEO_NAME: char(30) NOT NULL
-    HOSPITAL_NAME: char(50) NOT NULL
-    PHONE_NUMBER: char(15) DEFAULT NULL
-    ADDRESS1: char(80) DEFAULT NULL
-    ADDRESS2: char(50) DEFAULT NULL
-    SIGNUP_APP: tinyint(1) NOT NULL DEFAULT 0
-
-
-    - RESERVATION_TB
-
-    INDEX: int auto_increment   -> PK
-    // 병원 정보 //
-    ID: char(20) NOT NULL
-    HOSPITAL_KEY: int   -> FK (HospitalInfo_TB.HOSPITAL_KEY)
-    
-    // 예약 정보 //
-    OWNER_NAME: char(30) NOT NULL
-    ADDRESS: char(120)
-    PHONE_NUMBER: char(15)
-    PET_NAME: char(30) NOT NULL
-    RACE: char(30) NOT NULL
-    PET_COLOR: char(15)
-    PET_BIRTH: char(20)
-    NEUTRALIZATION: int NOT NULL
-    PET_GENDER: int NOT NULL
-    
-    // 예약 확인 //
-    CONFIRM: int DEFAULT 0
-*/
-
 const profile_file_path = './image/';
 
 const mysql = require('mysql2/promise')
@@ -403,8 +361,148 @@ app.post('/getHospitalData', async(req, res, next) => {
     }
 });
 
-app.post('/getReservationInfoData', async(req, res, next) => {
-    console.log('\n\nCALL getReservationInfoData');
+app.post('/getNewtReservationListData', async(req, res, next) => {
+    console.log('\n\nCALL getNewtReservationListData');
+    /*
+        {"user": {
+            "id": "test",
+            "state": "1"
+        }}
+
+        type - > 1: 내장형 / 2: 외장형 / 3: 등록인식표
+    */
+
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = {
+            result: {
+                internal: [],
+                external: [],
+                dogtag: []
+            }
+        };
+        try {
+            let query = `SELECT OWNER_NAME, ASK_DATE, TYPE from RESERVATION_TB where ID = '${user.id}'
+            AND REGIST_STATE = '${user.state}';`
+            await connection.query(query, function(err, rows, fields) {
+                console.log(rows)
+                const arr = rows;
+                const tmp = { OWNER_NAME: 'owner', ASK_DATE: '2000-01-01' };
+                Array.prototype.forEach.call(arr, (el, idx) => {
+                    console.log(el.TYPE)
+                    switch (el.TYPE) {
+                        case 1: // 내장형
+                            tmp.OWNER_NAME = el.OWNER_NAME;
+                            tmp.ASK_DATE = el.ASK_DATE;
+                            ret.result.internal.push(tmp);
+                            break;
+                        case 2: // 외장형
+                            tmp.OWNER_NAME = el.OWNER_NAME;
+                            tmp.ASK_DATE = el.ASK_DATE;
+                            ret.result.external.push(tmp);
+                            break;
+                        case 3: // 등록인식표
+                            tmp.OWNER_NAME = el.OWNER_NAME;
+                            tmp.ASK_DATE = el.ASK_DATE;
+                            ret.result.dogtag.push(tmp);
+                            break;
+                    }
+                })
+                connection.release();
+                res.json(ret)
+            });
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/getReservationData', async(req, res, next) => {
+    console.log('\n\nCALL getReservationData');
+    /*
+        {"user": {
+            "id": "test",
+            "owner_name": "김가연",
+            "type": "1"
+        }}
+    */
+
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: 0 };
+        try {
+            let query = `SELECT 
+        OWNER_NAME,OWNER_RESIDENT,OWNER_PHONE_NUMBER,OWNER_ADDRESS1,OWNER_ADDRESS2,
+        PET_NAME,PET_VARIETY,PET_COLOR,PET_GENDER,PET_NEUTRALIZATION,PET_BIRTH,
+        ASK_DATE,ETC
+        from RESERVATION_TB where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND TYPE = '${user.type}';`
+            await connection.query(query, function(err, rows, fields) {
+                ret.result = rows
+                connection.release(); // db 연결 끝
+                res.json(ret)
+            });
+
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/putChangeState', async(req, res, next) => {
+    console.log('\n\nCALL putChangeState');
+    /*
+        {"user": {
+            "id": "test",
+            "owner_name": "김가연",
+            "type": "1"
+        }}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: 0 };
+        try {
+            let query = `UPDATE RESERVATION_TB SET REGIST_STATE = '2' 
+            where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND TYPE = '${user.type}';`
+
+            await connection.query(query, function(err, reuslt) {
+                if (result.affectedRows) { // DB의 값이 변경된 것이 있다면
+                    ret.result = 1;
+                } else {
+                    ret.result = 0;
+                }
+                connection.release(); // db 연결 끝
+                res.json(ret)
+            });
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/putChangeWait', async(req, res, next) => {
+    console.log('\n\nCALL putChangeWait');
     /*
         {"user": {
             "id": "test",
@@ -417,13 +515,55 @@ app.post('/getReservationInfoData', async(req, res, next) => {
         const user = req.body.user;
         const ret = { result: 0 };
         try {
-            let query = `SELECT 
-            OWNER_NAME,OWNER_RESIDENT,OWNER_PHONE_NUMBER,OWNER_ADDRESS1,OWNER_ADDRESS2,
-            PET_NAME,PET_VARIETY,PET_COLOR,PET_GENDER,PET_NEUTRALIZATION,PET_BIRTH,
-            ASK_DATE,ETC
-            from RESERVATION_TB where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND PET_NAME = '${user.pet_name}';`
+            let query = `SELECT OWNER_PHONE_NUMBER from RESERVATION_TB 
+            where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND PET_NAME = '${user.pet_name}';`
+
             await connection.query(query, function(err, rows, fields) {
-                ret.result = rows
+                ret.result = rows;
+                query = `UPDATE RESERVATION_TB SET REGIST_STATE = '3' 
+                where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND PET_NAME = '${user.pet_name}';`
+
+                try {
+                    connection.query(query, function(err, result) {
+                        if (!result.affectedRows) { // DB의 값이 아무것도 변경된 것이 없다면
+                            ret.result = 0;
+                        }
+                        connection.release(); // db 연결 끝
+                        res.json(ret)
+                    });
+                } catch (err) {
+                    console.log('Query Error\n\n');
+                    console.log(err);
+                    connection.release();
+                    res.json(ret)
+                }
+            });
+        } catch (err) {
+            console.log('Query Error\n\n');
+            console.log(err);
+            connection.release();
+            res.json(ret)
+        }
+    } catch (err) {
+        console.log('DB Error');
+        return false;
+    }
+});
+
+app.post('/getWaitReservationListData', async(req, res, next) => {
+    console.log('\n\nCALL getWaitReservationListData');
+    /*
+        {"user": { "id": "test" }}
+    */
+    try {
+        const connection = await pool.getConnection(async conn => conn);
+        const user = req.body.user;
+        const ret = { result: { wait: [] } };
+        try {
+            let query = `SELECT OWNER_NAME, PET_NAME
+            from RESERVATION_TB where REGIST_STATE = '2' OR REGIST_STATE = '3';`
+            await connection.query(query, function(err, rows, fields) {
+                ret.result.wait = rows
                 connection.release(); // db 연결 끝
                 res.json(ret)
             });
