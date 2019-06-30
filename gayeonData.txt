@@ -10,9 +10,11 @@ NewReservationListData: ID값을 통해 신규 예약한 명단 리스트를 출
   Uri-- - > /getNewtReservationListData
 Parm-- - > {
   "user": {
-    "id": "test",
-    "state": 1
-  }
+            "id": "test",
+            "state": "1"
+        }
+
+        type - > 1: 내장형 / 2: 외장형 / 3: 등록인식표
 }
 전송
 Result-- - > {
@@ -37,10 +39,10 @@ type - > 1: 내장형 / 2: 외장형 / 3: 등록인식표
 Uri-- - > /getReservationData
 Parm-- - > {
   "user": {
-    "id": "test",
-    "OWNER_NAME": "김가연",
-    "type": 1
-  }
+            "id": "test",
+            "owner_name": "김가연",
+            "type": "1"
+        }
 }
 전송
 Result-- - > {
@@ -78,10 +80,10 @@ id / name / type이 일치하는 데이터의 state를 1 에서 2 로 변경!
 Uri-- - > /putChangeState
 Parm-- - > {
   "user": {
-    "id": "test",
-    "name": "김가연",
-    "type": 1
-  }
+            "id": "test",
+            "owner_name": "김가연",
+            "type": "1"
+        }
 }
 전송
 Result-- - > {
@@ -100,10 +102,10 @@ CallReservation: 병원 ID, 주인 이름, 강아지 이름 값을 통해 주인
 Uri-- - > /putChangeWait
 Parm-- - > {
   "user": {
-    "id": "test",
-    "owner": "김가연",
-    "animal": "뿡이"
-  }
+            "id": "test",
+            "owner_name": "김가연",
+            "pet_name": "뿡이"
+        }
 }
 전송
 Result-- - > {
@@ -152,10 +154,10 @@ ReservationInfoData: ID, 주인 이름, 강아지 이름 값을 통해 예약 �
 Uri-- - > /getReservationInfoData
 Parm-- - > {
   "user": {
-    "id": "test",
-    "owner": "김가연",
-    "animal": "뿡이"
-  }
+            "id": "test",
+            "owner_name": "김가연",
+            "pet_name": "뿡이"
+        }
 }
 전송
 Result-- - > 결과 값 {
