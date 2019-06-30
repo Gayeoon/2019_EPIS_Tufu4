@@ -20,14 +20,16 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,7 +46,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -54,6 +55,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -72,7 +74,7 @@ import java.util.List;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String SERVER_URL = "http://192.168.0.39:3000";
+    public static final String SERVER_URL = "http://172.30.1.26:3000";
     public static final String TAG = "LogGoGo";
 
     /*
@@ -93,14 +95,19 @@ public class SearchActivity extends AppCompatActivity {
     final String switchOnColor = "#0067A3";
     final String switchOffColor = "#000000";
     final String fileName = "searchResult";
+    int indexStartNum;
     LocationManager locationManager;
 
     String searchWord;
-    ArrayList<JSONObject> searchArray = new ArrayList<>();
+    ArrayList<SearchResultData> searchResultList = new ArrayList<>();
     ArrayList<SearchItemData> searchList = new ArrayList<>();
-    ArrayList<SearchItemData> signUpAppList = new ArrayList<>();
+    ArrayList<SearchResultData> signUpAppList = new ArrayList<>();
     SearchAsyncTask searchAsyncTask;
+    // SearchListAdapter listAdapter;
+    SearchListAdapter adapter;
 
+    RecyclerView searchRecyclerView;
+    TabLayout listTabLayout;
     ImageView ivSearchBtn, ivFilterBtn;
     EditText eSearch;
     TextView searchCurrentLocationSwitch;
@@ -115,8 +122,8 @@ public class SearchActivity extends AppCompatActivity {
         // 변수 값 초기화
         isSearchCurrentLocation = false;
         isSignUpApp = false;
-        searchAsyncTask = new SearchAsyncTask();
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
+        indexStartNum = 1; // 현재 1페이지부터 5페이지까지.
 
         // 레이아웃 뷰 정의
         ivSearchBtn = (ImageView) findViewById(R.id.searchBtn);
@@ -124,15 +131,18 @@ public class SearchActivity extends AppCompatActivity {
         eSearch = (EditText) findViewById(R.id.searchEditText);
         searchCurrentLocationSwitch = (TextView) findViewById(R.id.isSearchCurrentLocation);
         ctvIsSignUpApp = (CheckedTextView) findViewById(R.id.isSignUpApp);
-        lvSearchList = (ListView) findViewById(R.id.searchListView);
+        // lvSearchList = (ListView) findViewById(R.id.searchListView);
+        searchRecyclerView = (RecyclerView) findViewById(R.id.searchListView);
+        listTabLayout = (TabLayout) findViewById(R.id.listTablayout);
 
         // 권한 확인 및 요청
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             checkLocationPermission();
         }
-
+        searchAsyncTask = new SearchAsyncTask();
         searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
 
+        //setTabIndex();
         // EditText 자판 리스너 이벤트
         eSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -222,11 +232,32 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    private void setTabIndex(ArrayList<SearchResultData> arrayList) {
+        int tabSize = arrayList.size();
+        int maxTabSize = tabSize / 8;   // ex. 40개면 5페이지. 39개면 4페이지.
+        listTabLayout.removeAllTabs(); // tab item 제거
+        if(tabSize <= 8) {
+            listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(indexStartNum)));
+        }
+        else {
+//            if(size % 8 == 0) {
+//                for(int i = indexStartNum)
+//            }
+//            else {
+//
+//            }
+        }
+        for(int i = 0; i < 5; i++) {    // tab 추가.
+            listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(indexStartNum + i)));
+        }
+    }
+
     @Override
     protected void onDestroy() {
         // 배열과 AsyncTask 초기화
         searchList.clear();
         signUpAppList.clear();
+        searchAsyncTask = new SearchAsyncTask();
         try {
             if(searchAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
                 searchAsyncTask.cancel(true);
@@ -343,7 +374,9 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void showListView() {
 
-        final ArrayList<SearchItemData> arrayList = getNeedToShowListView();
+        // final ArrayList<SearchItemData> arrayList = getNeedToShowListView();
+        final ArrayList<SearchResultData> arrayList = getNeedToShowListView();
+        Log.d(TAG, "showListView ArrayList size : " + arrayList.size());
         if(arrayList.isEmpty()) // null check
             return;
 
@@ -365,6 +398,7 @@ public class SearchActivity extends AppCompatActivity {
      */
     private void SearchHospitalData() {
         Log.d(TAG, "SearchHospitalData start");
+        searchAsyncTask = new SearchAsyncTask();
         try {   // 현재 searchAsyncTask가 작동중인지 확인. 두 번 실행은 오류남
             if(searchAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
                 searchAsyncTask.cancel(true);
@@ -377,10 +411,10 @@ public class SearchActivity extends AppCompatActivity {
         searchList.clear();
         signUpAppList.clear();
         // 서버 접속 실행
-//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
-//            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
-//        else
-        searchAsyncTask.execute("/searchHospitalData", "searchword");
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
+            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
+        else
+            searchAsyncTask.execute("/searchHospitalData", "searchword");
         // showListView();    // 리스트뷰 표시
     }
 
@@ -391,7 +425,7 @@ public class SearchActivity extends AppCompatActivity {
         Log.d(TAG, "setSignUpAppList start");
 
         // 검색 결과를 담은 ArrayList의 값이 없는 경우 함수 종료
-        if(searchList.isEmpty()) {
+        if(searchResultList.isEmpty()) {
             Toast.makeText(getApplicationContext(), "검색한 결과가 없기에 필터가 불가능합니다.", Toast.LENGTH_LONG).show();
             return;
         }
@@ -400,49 +434,55 @@ public class SearchActivity extends AppCompatActivity {
         if(!signUpAppList.isEmpty())
             return;
 
-        System.arraycopy(searchList, 0, signUpAppList, 0, searchList.size()); // deep copy
+        // System.arraycopy(searchList, 0, signUpAppList, 0, searchList.size()); // deep copy
         // signUpAppList = searchList; // copy
-        Iterator<SearchItemData> itemDataIterator = signUpAppList.iterator();
+        Iterator<SearchResultData> itemDataIterator = searchResultList.iterator();
         while(itemDataIterator.hasNext()) {
-            SearchItemData searchItemData = itemDataIterator.next();
+            SearchResultData searchResultData = itemDataIterator.next();
 
             // 등록 여부 off인 값 삭제
-            if(!searchItemData.getSignUpApp())
-                itemDataIterator.remove();
+            if(searchResultData.getBoolSIGNUP_APP())
+                Log.d(TAG, "showListView ArrayList signUpApp : " + searchResultData.getSIGNUP_APP());
+                signUpAppList.add(searchResultData);
         }
     }
 
     /*
     온오프에 따른 어플등록 업체만 보기 유무 설정해서 출력하는 함수
      */
-    private ArrayList<SearchItemData> getNeedToShowListView() {
+    private ArrayList<SearchResultData> getNeedToShowListView() {
         Log.d(TAG, "getNeedToShowListView start");
         if(isSignUpApp) {
-            if(isSearchCurrentLocation)     setLocationList(signUpAppList); // 현재 위치 킨 경우
+            if(isSearchCurrentLocation)
+                Log.d(TAG, "현재위치 ㅇ");
+                //setLocationList(signUpAppList); // 현재 위치 킨 경우
             else {
                 setSignUpAppList();             // 현재 위치 끈 경우
                 // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                Collections.sort(signUpAppList, new Comparator<SearchItemData>() {
+                Collections.sort(signUpAppList, new Comparator<SearchResultData>() {
                     @Override
-                    public int compare(SearchItemData s1, SearchItemData s2) {
-                        return s1.getHospitalName().compareTo(s2.getHospitalName());
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
                     }
                 });
             }
+            Log.d(TAG, "showListView ArrayList size : " + signUpAppList.size());
             return signUpAppList;
         }
         else {
             if(isSearchCurrentLocation)     setLocationList(searchList);
             else {
+                Log.d(TAG, "compare 실행");
                 // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                Collections.sort(searchList, new Comparator<SearchItemData>() {
+                Collections.sort(searchResultList, new Comparator<SearchResultData>() {
                     @Override
-                    public int compare(SearchItemData s1, SearchItemData s2) {
-                        return s1.getHospitalName().compareTo(s2.getHospitalName());
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
                     }
                 });
             }
-            return searchList;
+            Log.d(TAG, "compare 완료");
+            return searchResultList;
         }
     }
 
@@ -473,7 +513,7 @@ public class SearchActivity extends AppCompatActivity {
                 con.setRequestMethod("POST"); // POST방식 설정
                 con.setRequestProperty("Content-Type", "application/json"); // application JSON 형식으로 전송
                 con.setRequestProperty("Accept-Charset", "UTF-8"); // Accept-Charset 설정.
-                con.setRequestProperty("Accept", "text/html"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
+                con.setRequestProperty("Accept", "text/json"); // 서버에 response 데이터를 html로 받음 -> JSON 또는 xml
                 con.setDoOutput(true); // Outstream으로 post 데이터를 넘겨주겠다는 의미
                 con.setDoInput(true); // Inputstream으로 서버로부터 응답을 받겠다는 의미
 
@@ -493,8 +533,6 @@ public class SearchActivity extends AppCompatActivity {
                     //서버로 부터 데이터를 받음
                 {
                     InputStream stream = con.getInputStream();
-//                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
 
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     byte[] bytes = new byte[1024];
@@ -503,30 +541,10 @@ public class SearchActivity extends AppCompatActivity {
                         baos.write(bytes, 0, count);
                     }
 
-                    byte[] fileArray = baos.toByteArray();
-                    Log.d(TAG, "읽어들인 바이트 수 : " + fileArray.length);
-                    Log.d(TAG, "ByteArrayOutputStream size : " + baos.size());
-
-                    String line = new String(baos.toByteArray());    // 한 줄씩 읽어오기 위한 임시 String 변수
-                    ByteArrayInputStream bais = new ByteArrayInputStream(fileArray);
-//                    while (bais.read(bytes) != -1) {
-//                        line += new String(bytes);
-//                        Log.d(TAG, "ByteArrayOutputStream String : " + new String(bytes));
-//                    }
-
-                    if(saveJSONFile(baos, fileName)) {
-                        Log.d(TAG, "save JSON File success!");
-                        return line;
-                    }
-                    else {
-                        Log.d(TAG, "save JSON File failed!");
-                        return null;
-                    }
-//                    while((line = reader.readLine()) != null){
-//                        buffer.append(line); // buffer에 데이터 저장
-//                        Log.d(TAG, buffer.toString());
-//                    }
-//                    return buffer.toString(); //서버로 부터 받은 값을 리턴해줌
+                    byte[] fileArray = baos.toByteArray();  // byte화
+                    String allString = new String(baos.toByteArray());    // byte to string
+                    // ByteArrayInputStream bais = new ByteArrayInputStream(fileArray);
+                    return allString;
                 }
                 else {  // 정상 연결 아닐 시
                     printConnectionError(con);
@@ -573,13 +591,14 @@ public class SearchActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String s) {
-            if(s.equals(null))
+                if(s.equals(null))
                 return;
             setSearchListArray(s);
-            ArrayList<SearchItemData> arrayList = getNeedToShowListView();
-            if(arrayList.isEmpty()) // null check
+            ArrayList<SearchResultData> arrayList = getNeedToShowListView();
+            if(arrayList.isEmpty()) { // null check
+                Log.d(TAG, "getNeedToShowListView result is empty");
                 return;
-
+            }
             setSearchListView(arrayList);
         }
     }
@@ -685,30 +704,31 @@ public class SearchActivity extends AppCompatActivity {
     /*
     ListView에 ArrayList 넣고 출력
     */
-    private void setSearchListView(final ArrayList<SearchItemData> arrayList) {
-            Log.d(TAG, "setSearchListView start");
-            if(arrayList.isEmpty())
-                Log.d(TAG, "setSearchListView array empty");
+    private void setSearchListView(final ArrayList<SearchResultData> arrayList) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        searchRecyclerView.setLayoutManager(linearLayoutManager);
 
-            SearchListAdapter listAdapter = new SearchListAdapter(arrayList);
-            lvSearchList.setAdapter(listAdapter);
-            Log.d(TAG, "set Adapter success");
+        adapter = new SearchListAdapter(arrayList);
+        adapter.resetAll(arrayList);
+        searchRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        Log.d(TAG, "setSearchListView start");
             Toast.makeText(getApplicationContext(), "출력을 완료했습니다.", Toast.LENGTH_LONG).show();
             // 클릭 이벤트
-            lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    SearchItemData item = arrayList.get(position);
-                    Toast.makeText(getApplicationContext(), item.getHospitalName() + item.getSignUpAppSymbol(), Toast.LENGTH_LONG).show();
-                    if(item.getSignUpApp()) {   // 앱 등록 되어있을 시
-                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
-                        intent.putExtra("key", item.getHospitalKey());  // Hospital_Key를 인텐트에 담아서
-                        startActivity(intent);  // MessageTypeActivity 실행
-                    }
-                    else
-                        Toast.makeText(getApplicationContext(), "어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
-                }
-                        });
+//            lvSearchList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    SearchResultData item = arrayList.get(position);
+//                    Toast.makeText(getApplicationContext(), item.getHOSPITAL_NAME() + ", " + item.getCEO_NAME(), Toast.LENGTH_LONG).show();
+//                    if(item.getBoolSIGNUP_APP()) {   // 앱 등록 되어있을 시
+//                        Intent intent = new Intent(getApplicationContext(), MessageActivity.class);
+//                        intent.putExtra("key", item.getHOSPITAL_KEY());  // Hospital_Key를 인텐트에 담아서
+//                        startActivity(intent);  // MessageTypeActivity 실행
+//                    }
+//                    else
+//                        Toast.makeText(getApplicationContext(), "어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
+//                }
+//                        });
     }
 
     /*
@@ -717,6 +737,7 @@ public class SearchActivity extends AppCompatActivity {
 
     /*
     Json 형식의 String 변수를 ArrayList 안에 전부 넣기
+    -> Gson 라이브러리를 사용
      */
     private void putJSONInArrayList(JSONObject jsonObject) {
         try {
@@ -727,13 +748,10 @@ public class SearchActivity extends AppCompatActivity {
 
             // Gson사용. JSONArray to ArrayList
             Gson gson = new Gson();
-            ArrayList<SearchResultData> temp = gson.fromJson(jsonArray.toString(), new TypeToken<ArrayList<SearchResultData>>(){}.getType());
+            Type listType = new TypeToken<ArrayList<SearchResultData>>(){}.getType();
+            searchResultList = gson.fromJson(jsonArray.toString(), listType);
 
-            Log.d(TAG, "SearchList size : " + temp.size());
-            for(int i = 0; i < 100; i++) {
-                Log.d(TAG, "this index : " + i);
-                Log.d(TAG, "this : " + temp.get(i).getHospitalName());
-            }
+            Log.d(TAG, "arrayList에 담기 성공!");
 //            for(int i = jsonArray.length() - 1; i >= 0; i--) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
 //                jsonObject = jsonArray.getJSONObject(i);
 //

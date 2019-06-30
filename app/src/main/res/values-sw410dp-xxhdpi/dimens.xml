@@ -36,7 +36,7 @@
     <dimen name="messageTypeImgHeight">100dp</dimen>
     <dimen name="messageTypeMargin">20dp</dimen>
 
-    <!-- FindActivity -->
+    <!-- SearchActivity -->
     <dimen name="searchBarWidth">300dp</dimen>
     <dimen name="searchBarHeight">40dp</dimen>
     <dimen name="searchBarMarginTop">20dp</dimen>
@@ -45,6 +45,11 @@
     <dimen name="searchBtnHeight">30dp</dimen>
     <dimen name="searchBtnMarginLeft">10dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
+
+    <dimen name="searchRecycleViewHeight">320dp</dimen>
+    <dimen name="searchTabViewHeight">50dp</dimen>
+    <dimen name="searchTabViewWidth">200dp</dimen>
+    <dimen name="searchTabViewMarginTop">20dp</dimen>
 
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>

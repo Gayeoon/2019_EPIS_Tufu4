@@ -1,67 +1,73 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 public class SearchResultData {
-    private int hospitalKey;
-    private String ceoName;
-    private String hospitalName;
-    private String phoneNum;
-    private String address1;
-    private String address2;
-    private int signUpApp;
+    private int HOSPITAL_KEY;
+    private String CEO_NAME;
+    private String HOSPITAL_NAME;
+    private String PHONE_NUMBER;
+    private String ADDRESS1;
+    private String ADDRESS2;
+    private int SIGNUP_APP;
 
-    public int getHospitalKey() {
-        return hospitalKey;
+    public int getHOSPITAL_KEY() {
+        return HOSPITAL_KEY;
     }
 
-    public void setHospitalKey(int hospitalKey) {
-        this.hospitalKey = hospitalKey;
+    public void setHOSPITAL_KEY(int HOSPITAL_KEY) {
+        this.HOSPITAL_KEY = HOSPITAL_KEY;
     }
 
-    public String getCeoName() {
-        return ceoName;
+    public String getCEO_NAME() {
+        return CEO_NAME;
     }
 
-    public void setCeoName(String ceoName) {
-        this.ceoName = ceoName;
+    public void setCEO_NAME(String CEO_NAME) {
+        this.CEO_NAME = CEO_NAME;
     }
 
-    public String getHospitalName() {
-        return hospitalName;
+    public String getHOSPITAL_NAME() {
+        return HOSPITAL_NAME;
     }
 
-    public void setHospitalName(String hospitalName) {
-        this.hospitalName = hospitalName;
+    public void setHOSPITAL_NAME(String HOSPITAL_NAME) {
+        this.HOSPITAL_NAME = HOSPITAL_NAME;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+    public String getPHONE_NUMBER() {
+        return PHONE_NUMBER;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setPHONE_NUMBER(String PHONE_NUMBER) {
+        this.PHONE_NUMBER = PHONE_NUMBER;
     }
 
-    public String getAddress1() {
-        return address1;
+    public String getADDRESS1() {
+        return ADDRESS1;
     }
 
-    public void setAddress1(String address1) {
-        this.address1 = address1;
+    public void setADDRESS1(String ADDRESS1) {
+        this.ADDRESS1 = ADDRESS1;
     }
 
-    public String getAddress2() {
-        return address2;
+    public String getADDRESS2() {
+        return ADDRESS2;
     }
 
-    public void setAddress2(String address2) {
-        this.address2 = address2;
+    public void setADDRESS2(String ADDRESS2) {
+        this.ADDRESS2 = ADDRESS2;
     }
 
-    public int isSignUpApp() {
-        return signUpApp;
+    public int getSIGNUP_APP() {
+        return SIGNUP_APP;
     }
 
-    public void setSignUpApp(int signUpApp) {
-        this.signUpApp = signUpApp;
+    public void setSIGNUP_APP(int SIGNUP_APP) {
+        this.SIGNUP_APP = SIGNUP_APP;
+    }
+
+    public boolean getBoolSIGNUP_APP() {
+        if(this.SIGNUP_APP == 1)
+            return true;
+        return false;
     }
 }

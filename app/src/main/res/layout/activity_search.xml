@@ -111,11 +111,22 @@
             android:text="대표자명"/>
 
     </LinearLayout>
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/searchListView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/searchRecycleViewHeight"
         >
-    </ListView>
+    </android.support.v7.widget.RecyclerView>
+    
+    <android.support.design.widget.TabLayout
+        android:id="@+id/listTablayout"
+        android:layout_gravity="center"
+        app:tabGravity="center"
+        app:tabSelectedTextColor="@color/colorBlue"
+        android:layout_marginTop="@dimen/searchTabViewMarginTop"
+        android:layout_width="@dimen/searchTabViewWidth"
+        android:layout_height="@dimen/searchTabViewHeight">
 
+
+    </android.support.design.widget.TabLayout>
 </LinearLayout>

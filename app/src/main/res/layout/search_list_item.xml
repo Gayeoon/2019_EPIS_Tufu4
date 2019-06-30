@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="30dp">
+    android:layout_height="80dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal">
 
        <TextView
@@ -15,35 +16,29 @@
            android:layout_height="wrap_content"
            android:gravity="center"
            android:layout_gravity="center_vertical"
-           android:layout_weight="3"
+           android:layout_weight="5"
+           android:textSize="17dp"
            android:text="업체명"/>
+
+        <ImageView
+            android:id="@+id/signUpAppImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            />
 
         <TextView
             android:id="@+id/ceoNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="2"
             android:gravity="center"
+            android:textSize="17dp"
             android:layout_gravity="center_vertical"
             android:text="대표자명"/>
-
-        <TextView
-            android:id="@+id/phoneNumTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:text="업체전화번호"/>
-
-        <TextView
-            android:id="@+id/signUpAppTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:layout_gravity="center_vertical"
-            android:text="등록"/>
 
     </LinearLayout>
 </LinearLayout>

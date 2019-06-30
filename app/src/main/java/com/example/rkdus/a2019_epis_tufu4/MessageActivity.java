@@ -59,13 +59,16 @@ public class MessageActivity extends AppCompatActivity {
                 type = typeIntent.getStringExtra("type");   // 병원 type값 String에 저장
                 hospitalKey = typeIntent.getStringExtra("id");   // 병원 id값 String에 저장
             }
-            else
+            else {
                 Toast.makeText(getApplicationContext(), "필수 값을 불러올 수 없습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
+                finish();
+            }
+        }
+        else {
+            Toast.makeText(getApplicationContext(), "타입이 선택되지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
             finish();
         }
-        else
-            Toast.makeText(getApplicationContext(), "타입이 선택되지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
-        finish();
+
 
         // 객체 정의
         messageAsyncTask = new MessageAsyncTask();
