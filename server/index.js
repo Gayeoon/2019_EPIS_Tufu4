@@ -446,7 +446,7 @@ app.post('/getReservationData', async(req, res, next) => {
         ASK_DATE,ETC
         from RESERVATION_TB where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND TYPE = '${user.type}';`
             await connection.query(query, function(err, rows, fields) {
-                ret.result = rows
+                ret.result = rows[0]
                 connection.release(); // db 연결 끝
                 res.json(ret)
             });
@@ -480,7 +480,7 @@ app.post('/putChangeState', async(req, res, next) => {
             let query = `UPDATE RESERVATION_TB SET REGIST_STATE = '2' 
             where ID = '${user.id}' AND OWNER_NAME = '${user.owner_name}' AND TYPE = '${user.type}';`
 
-            await connection.query(query, function(err, reuslt) {
+            await connection.query(query, function(err, result) {
                 if (result.affectedRows) { // DB의 값이 변경된 것이 있다면
                     ret.result = 1;
                 } else {
