@@ -116,55 +116,29 @@
         android:layout_height="320dp">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage1"
+            android:id="@+id/searchListViewPage"
             android:layout_width="match_parent"
             android:layout_height="@dimen/searchRecycleViewHeight"
             android:visibility="visible"
             >
         </android.support.v7.widget.RecyclerView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage2"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchRecycleViewHeight"
-            android:visibility="invisible"
-            >
-        </android.support.v7.widget.RecyclerView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage3"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchRecycleViewHeight"
-            android:visibility="invisible"
-            >
-        </android.support.v7.widget.RecyclerView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage4"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchRecycleViewHeight"
-            android:visibility="invisible"
-            >
-        </android.support.v7.widget.RecyclerView>
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage5"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchRecycleViewHeight"
-            android:visibility="invisible"
-            >
-        </android.support.v7.widget.RecyclerView>
     </FrameLayout>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/listTablayout"
-        android:layout_gravity="center"
-        app:tabGravity="center"
-        app:tabSelectedTextColor="@color/colorBlue"
-        android:layout_marginTop="@dimen/searchTabViewMarginTop"
+    <android.support.design.widget.AppBarLayout
+        android:theme="@style/TabTheme"
         android:layout_width="@dimen/searchTabViewWidth"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/searchTabViewMarginTop"
+        app:tabGravity="center"
         android:layout_height="@dimen/searchTabViewHeight">
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/listTablayout"
+            android:layout_gravity="center"
+            app:tabGravity="center"
+            app:tabSelectedTextColor="@color/colorBlue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.design.widget.TabLayout>
 
-    </android.support.design.widget.TabLayout>
+    </android.support.design.widget.AppBarLayout>
 </LinearLayout>

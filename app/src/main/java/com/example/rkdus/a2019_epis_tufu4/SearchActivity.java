@@ -133,7 +133,7 @@ public class SearchActivity extends AppCompatActivity {
         searchCurrentLocationSwitch = (TextView) findViewById(R.id.isSearchCurrentLocation);
         ctvIsSignUpApp = (CheckedTextView) findViewById(R.id.isSignUpApp);
         // lvSearchList = (ListView) findViewById(R.id.searchListView);
-        searchRecyclerView = (RecyclerView) findViewById(R.id.searchListView);
+        searchRecyclerView = (RecyclerView) findViewById(R.id.searchListViewPage);
         listTabLayout = (TabLayout) findViewById(R.id.listTablayout);
 
         // 권한 확인 및 요청
@@ -256,13 +256,25 @@ public class SearchActivity extends AppCompatActivity {
     사용자가 탭을 눌렀을 때
      */
     private void changeTabView(int index) {
+        int tabIndexNum = Integer.parseInt(listTabLayout.getTabAt(index).getText().toString()); // 해당 페이지 번호 가져오기
+        ArrayList<?> arrayList = getArrayListFromFilter();
         switch (index) {
             case 0: // ◀ 버튼 클릭 시
-                showNextPage
+                showNextPage(arrayList, false);
+                break;
             case 1:
-                int pageNum = Integer.parseInt(listTabLayout.getTabAt(index).getText().toString()); // 해당 페이지 번호 가져오기
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                // setListInIndex(arrayList, tabIndexNum); // 해당하는 탭의 index 내에 리스트 생성
+                setSearchListView((ArrayList<SearchResultData>) arrayList, tabIndexNum);
 
             case 6: // ▶ 버튼 클릭 시
+                showNextPage(arrayList, true);
+                break;
+            default:
+                break;
         }
     }
 
@@ -336,15 +348,12 @@ public class SearchActivity extends AppCompatActivity {
     /*
     현재 필터와 조건에 맞는 arraylist 반환
      */
-    private ArrayList<?> getArrayListFromFilter(int filter) {
+    private ArrayList<?> getArrayListFromFilter() {
         this.filter = filter;
-        switch (filter) {
-            case 0:
-                return searchResultList;
-                break;
-            case 1:
-                return
-        }
+        if(isSignUpApp)
+            return signUpAppList;
+        else
+            return searchResultList;
     }
 
     @Override
@@ -710,11 +719,12 @@ public class SearchActivity extends AppCompatActivity {
                 return;
             setSearchListArray(s);
             ArrayList<SearchResultData> arrayList = getNeedToShowListView();
+            indexStartNum = 1;
             if(arrayList.isEmpty()) { // null check
                 Log.d(TAG, "getNeedToShowListView result is empty");
                 return;
             }
-            setSearchListView(arrayList);
+            setSearchListView(arrayList, 1);
         }
     }
 
@@ -845,6 +855,31 @@ public class SearchActivity extends AppCompatActivity {
 //                }
 //                        });
     }
+
+    private void setSearchListView(final ArrayList<SearchResultData> arrayList, int index) {
+        int start = (index - 1) * 8;
+        int end;
+        if(start + 8 >= arrayList.size())   // 만약 리스트로 출력하는 데이터가 8개를 못채우는 경우
+            end = arrayList.size();
+        else
+            end = start + 8;
+        ArrayList<SearchResultData> result = new ArrayList<>();   // adapter에 넣기 위한 임시 arrayList 생성
+        for(int i = start; i < end; i++) {
+            result.add(arrayList.get(i));
+        }
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        searchRecyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new SearchListAdapter(result);
+        adapter.resetAll(arrayList);
+        searchRecyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+        Log.d(TAG, "setSearchListView start");
+        Toast.makeText(getApplicationContext(), "출력을 완료했습니다.", Toast.LENGTH_LONG).show();
+    }
+
+
 
     /*
     어플등록 필터 여부에 따른 Array값 정리
