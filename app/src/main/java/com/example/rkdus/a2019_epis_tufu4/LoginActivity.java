@@ -31,7 +31,7 @@ import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
     public static final String TAG = "LoginActivity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     EditText eid, epw;
     ImageButton login;

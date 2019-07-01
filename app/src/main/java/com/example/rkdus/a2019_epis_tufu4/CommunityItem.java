@@ -1,50 +1,37 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
-import android.graphics.Bitmap;
-
 public class CommunityItem {
-    String name, time, content, comment;
-    Bitmap profile;
+    String title, written;
+    int index;
 
-
-    public CommunityItem(String name, String time, String content, String comment) {
-        this.name = name;
-        this.time = time;
-        this.content = content;
-        this.comment = comment;
+    public CommunityItem(String title, String written, int index) {
+        this.title = title;
+        this.written = written;
+        this.index = index;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setWritten(String time) {
+        this.written = written;
     }
 
-    public String getTime() {
-        return time;
+    public String getWritten() {
+        return written;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public String getContent() {
-        return content;
+    public int getIndex() {
+        return index;
     }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
 
 }

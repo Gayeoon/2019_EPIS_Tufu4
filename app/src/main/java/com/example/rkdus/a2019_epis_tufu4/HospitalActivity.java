@@ -32,7 +32,7 @@ import java.net.URL;
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     String id;
     String hos_name;
@@ -92,22 +92,16 @@ public class HospitalActivity extends BaseActivity {
         community.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //profile = Base64.encodeToString(profile, Base64.DEFAULT);
+                String str_profile = Base64.encodeToString(profile, Base64.DEFAULT);
 
                 Intent intent2 = new Intent(getApplicationContext(), CommunityActivity.class);
-                //intent2.putExtra("profile", profile);
+                intent2.putExtra("user", 2);
+                intent2.putExtra("profile", str_profile);
+                intent2.putExtra("hosName", name.getText().toString());
                 startActivity(intent2);
             }
         });
 
-        alarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Intent intent2 = new Intent(getApplicationContext(), AlarmActivity.class);
-//                intent2.putExtra("id", id);
-//                startActivity(intent2);
-            }
-        });
 
         confirm_new.setOnClickListener(new View.OnClickListener() {
             @Override

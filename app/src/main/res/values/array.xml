@@ -10,4 +10,9 @@
         <item>여성</item>
         <item>중성</item>
     </string-array>
+
+    <string-array name="select">
+        <item>작성자로 검색</item>
+        <item>제목으로 검색</item>
+    </string-array>
 </resources>
