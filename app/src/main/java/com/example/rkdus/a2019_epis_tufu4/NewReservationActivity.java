@@ -37,7 +37,7 @@ import java.util.Date;
 
 public class NewReservationActivity extends BaseActivity {
     public static final String TAG = "NewReservationActivity";
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.56:3000";
 
     ListView internalList, externalList, dogtagList;
     MyAdapter internalAdapter, externalAdapter, dogtagAdapter;
@@ -396,7 +396,7 @@ public class NewReservationActivity extends BaseActivity {
                     Log.e(TAG, internal.length() + "");
                     for (int i = 0; i < internal.length(); i++) {
                         JSONObject jsonTemp = internal.getJSONObject(i);
-                        internalAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                        internalAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
                     }
                     internalList.setAdapter(internalAdapter);
                     internalCount.setText(internal.length() + "");
@@ -412,13 +412,13 @@ public class NewReservationActivity extends BaseActivity {
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 1);
-                            startActivity(intent);
+                            startActivityForResult(intent, 1111);
                         }
                     });
 
                     for (int i = 0; i < external.length(); i++) {
                         JSONObject jsonTemp = external.getJSONObject(i);
-                        externalAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                        externalAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
                     }
                     externalList.setAdapter(externalAdapter);
                     externalCount.setText(external.length() + "");
@@ -434,13 +434,14 @@ public class NewReservationActivity extends BaseActivity {
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 2);
-                            startActivity(intent);
+                            startActivityForResult(intent, 2222);
                         }
                     });
 
                     for (int i = 0; i < dogtag.length(); i++) {
                         JSONObject jsonTemp = dogtag.getJSONObject(i);
-                        dogtagAdapter.addItem(new NewReservationItem(jsonTemp.getString("name"), jsonTemp.getString("time")));
+                        Log.e(TAG, "name : "+jsonTemp.getString("OWNER_NAME"));
+                        dogtagAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
                     }
                     dogtagList.setAdapter(dogtagAdapter);
                     dogtagCount.setText(dogtag.length() + "");
@@ -456,7 +457,7 @@ public class NewReservationActivity extends BaseActivity {
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 3);
-                            startActivity(intent);
+                            startActivityForResult(intent, 3333);
                         }
                     });
                 }
@@ -470,5 +471,25 @@ public class NewReservationActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(RESULT_OK);
+        finish();
+        Log.d("onPostCreate", "onDestroy");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("please", "다시");
+    }
 }

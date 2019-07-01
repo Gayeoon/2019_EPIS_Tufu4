@@ -61,6 +61,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/login_input"
                 android:hint="ID"
+                android:text="gayeon"
                 android:paddingLeft="15dp"
                 android:textSize="12sp" />
 
@@ -70,6 +71,7 @@
                 android:layout_height="27dp"
                 android:layout_margin="10dp"
                 android:layout_weight="1"
+                android:text="1234"
                 android:background="@drawable/login_input"
                 android:hint="PASSWORD"
                 android:layout_gravity="center_horizontal"
@@ -90,27 +92,16 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp">
 
-                <TextView
-                    android:id="@+id/join"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:shadowColor="#FF464646"
-                    android:shadowRadius="3.0"
-                    android:text="회원가입"
-                    android:layout_marginLeft="10dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/find"
+                    android:id="@+id/join"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:shadowColor="#FF464646"
                     android:shadowRadius="3.0"
                     android:layout_marginRight="10dp"
-                    android:text="아이디 / 패스워드찾기"
+                    android:text="회원가입"
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
 

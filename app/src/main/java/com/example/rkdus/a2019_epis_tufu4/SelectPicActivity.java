@@ -54,7 +54,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
     private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
 
-    public String url = "http://192.168.0.65:3000";
+    public String url = "http://192.168.0.56:3000";
 
     private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;

@@ -61,6 +61,7 @@
                             android:layout_weight="4"
                             android:background="@drawable/input"
                             android:fontFamily="@font/notosansregular"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
@@ -82,6 +83,7 @@
                         <TextView
                             android:id="@+id/resident"
                             android:layout_width="0dp"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:background="@drawable/input"
@@ -105,6 +107,7 @@
 
                         <TextView
                             android:id="@+id/phone"
+                            android:gravity="center_vertical"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
@@ -132,6 +135,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
@@ -156,6 +160,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
@@ -213,6 +218,7 @@
                             android:id="@+id/animal"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:fontFamily="@font/notosansregular"
                             android:paddingLeft="8dp"
@@ -237,6 +243,7 @@
                             android:id="@+id/variety"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
@@ -259,6 +266,7 @@
                         <TextView
                             android:id="@+id/furColor"
                             android:layout_width="183dp"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
@@ -286,6 +294,7 @@
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
+                            android:gravity="center_vertical"
                             android:textSize="12sp" />
 
                     </TableRow>
@@ -307,6 +316,7 @@
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
@@ -330,6 +340,7 @@
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
@@ -354,6 +365,7 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
+                            android:gravity="center_vertical"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -374,6 +386,7 @@
                         <TextView
                             android:id="@+id/special"
                             android:layout_width="183dp"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"

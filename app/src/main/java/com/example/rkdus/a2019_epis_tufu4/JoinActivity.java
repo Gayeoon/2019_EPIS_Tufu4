@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,8 +41,7 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    public String url = "http://192.168.0.65:3000";
-
+    public String url = "http://192.168.0.56:3000";
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;
     ImageButton next_one, next_two;
     LinearLayout idpw;
@@ -51,6 +51,7 @@ public class JoinActivity extends BaseActivity {
 
     String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "";
     boolean success;
+    InputMethodManager imm;
 
     Animation slowly_appear, slowlyDisappear;
 
@@ -60,6 +61,8 @@ public class JoinActivity extends BaseActivity {
         setContentView(R.layout.activity_join);
 
         StrictMode.enableDefaults();
+
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         success = false;
 
@@ -631,6 +634,7 @@ public class JoinActivity extends BaseActivity {
                         num3.setEnabled(false);
 
                     } else if (success == 2) {
+                        imm.hideSoftInputFromWindow(num3.getWindowToken(), 0);
 
                         next_one.setEnabled(false);
 
@@ -664,6 +668,7 @@ public class JoinActivity extends BaseActivity {
                                 no.setVisibility(View.GONE);
 
                                 next_one.setEnabled(true);
+                                imm.showSoftInput(num3, 0);
                             }
 
                             public void onAnimationStart(Animation animation) {

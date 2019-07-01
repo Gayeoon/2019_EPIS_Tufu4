@@ -27,14 +27,14 @@
                 android:layout_height="wrap_content"
                 android:text="김가연"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="님의 반려동물 등록 신청"
                 android:textColor="#000000"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -46,7 +46,7 @@
             android:layout_gravity="right"
             android:text="2019.06.24"
             android:textColor="#818181"
-            android:textSize="9sp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

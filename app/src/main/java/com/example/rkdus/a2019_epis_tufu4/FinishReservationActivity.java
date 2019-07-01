@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class FinishReservationActivity extends BaseActivity {
     public static final String TAG = "FinishReservation";
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.56:3000";
 
     ListView listView;
     MyAdapter myAdapter;
@@ -84,47 +84,47 @@ public class FinishReservationActivity extends BaseActivity {
         id = getintet.getStringExtra("id");
 
         listView = (ListView) findViewById(R.id.finishList);
+//
+//        myAdapter = new MyAdapter();
+//
+//        myAdapter.addItem(new FinishReservationItem("김가연", "뿡이"));
+//        myAdapter.addItem(new FinishReservationItem("정지원", "맥북"));
+//        myAdapter.addItem(new FinishReservationItem("이해원", "허뻥"));
+//
+//        listView.setAdapter(myAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
+//                TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
+//
+//                owner = oTextOwner.getText().toString();
+//                animal = oTextAnimal.getText().toString();
+//
+//                Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
+//                intent.putExtra("id", id);
+//                intent.putExtra("owner", owner);
+//                intent.putExtra("animal", animal);
+//                startActivity(intent);
+//            }
+//        });
 
-        myAdapter = new MyAdapter();
-
-        myAdapter.addItem(new FinishReservationItem("김가연", "뿡이"));
-        myAdapter.addItem(new FinishReservationItem("정지원", "맥북"));
-        myAdapter.addItem(new FinishReservationItem("이해원", "허뻥"));
-
-        listView.setAdapter(myAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
-                TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
-
-                owner = oTextOwner.getText().toString();
-                animal = oTextAnimal.getText().toString();
-
-                Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("owner", owner);
-                intent.putExtra("animal", animal);
-                startActivity(intent);
-            }
-        });
-
-        //new WaitReservationListData().execute(url + "/getWaitReservationListData");
+        new FinishReservationListData().execute(url + "/getFinishReservationListData");
     }
 
-    /* WaitReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력
+    /* FinishReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력
      *
-     * state 2와 state 3 상태의 리스트 요청
+     * state 3 상태의 리스트 요청
      *
-     * Uri  --->   /getWaitReservationListData
+     * Uri  --->   /getFinishReservationListData
      * Parm  --->   {"user":{"id":"test"}} 전송
      * Result  --->   {"result":{"wait":[{"owner":"김가연","animal":"뿡이"},{"owner":"정지원","animal":"맥북"}]}} 결과 값
      *
      * ps. 결과값 : result Object 안에 JSONArray : wait 넣어서!!  */
 
-    public class WaitReservationListData extends AsyncTask<String, String, String> {
+    public class FinishReservationListData extends AsyncTask<String, String, String> {
 
         @Override
 
@@ -214,7 +214,7 @@ public class FinishReservationActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new WaitReservationListData().execute(url + "/getWaitReservationListData");
+                    new FinishReservationListData().execute(url + "/getFinishReservationListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -225,9 +225,9 @@ public class FinishReservationActivity extends BaseActivity {
 
                     for (int i = 0; i < wait.length(); i++) {
                         JSONObject jsonTemp = wait.getJSONObject(i);
-                        myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("owner"), jsonTemp.getString("animal")));
+                        myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
                     }
-                    Log.e(TAG, internal.length() + "");
+
                     listView.setAdapter(myAdapter);
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

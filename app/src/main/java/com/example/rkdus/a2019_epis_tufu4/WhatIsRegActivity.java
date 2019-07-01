@@ -19,5 +19,7 @@ public class WhatIsRegActivity extends AppCompatActivity {
 
         ImageView ivRegInfo = (ImageView) findViewById(R.id.regInfoImg);
         ivRegInfo.setImageResource(R.drawable.what_is_reg_info);
+
+
     }
 }

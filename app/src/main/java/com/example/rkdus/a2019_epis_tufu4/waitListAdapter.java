@@ -60,10 +60,26 @@ public class waitListAdapter extends BaseAdapter {
         TextView oTextOwner = (TextView) convertView.findViewById(R.id.owner);
         TextView oTextAnimal = (TextView) convertView.findViewById(R.id.animal);
         ImageView oBtn = (ImageView) convertView.findViewById(R.id.call);
+        ImageView oBtn_finish = (ImageView) convertView.findViewById(R.id.call_finish);
+        ImageView cancel = (ImageView)convertView.findViewById(R.id.cancel);
 
         oTextOwner.setText(m_oData.get(position).strOwner);
         oTextAnimal.setText(m_oData.get(position).strAnimal);
-        oBtn.setOnClickListener(m_oData.get(position).onClickListener);
+
+        if (!m_oData.get(position).bolCal){
+            oBtn_finish.setVisibility(View.VISIBLE);
+            oBtn.setVisibility(View.GONE);
+        } else{
+            oBtn.setOnClickListener(m_oData.get(position).onClickListener);
+        }
+
+        if (m_oData.get(position).state == 2){
+            cancel.setVisibility(View.GONE);
+        } else {
+            cancel.setOnClickListener(m_oData.get(position).onClickListener);
+        }
+
+
 
         convertView.setTag(""+position);
         return convertView;

@@ -32,7 +32,7 @@ import java.net.URL;
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
-    public String url = "http://192.168.0.65:3000";
+    public String url = "http://192.168.0.56:3000";
 
     String id;
     String hos_name;
@@ -114,7 +114,7 @@ public class HospitalActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), NewReservationActivity.class);
                 intent2.putExtra("id", id);
-                startActivity(intent2);
+                startActivityForResult(intent2, 1111);
             }
         });
 
@@ -123,15 +123,16 @@ public class HospitalActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), WaitReservationActivity.class);
                 intent2.putExtra("id", id);
-                startActivity(intent2);
-
+                startActivityForResult(intent2, 1111);
             }
         });
 
         confirm_finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 등록 완료 목록 화면
+                Intent intent2 = new Intent(getApplicationContext(), FinishReservationActivity.class);
+                intent2.putExtra("id", id);
+                startActivity(intent2);
             }
         });
     }
@@ -265,6 +266,14 @@ public class HospitalActivity extends BaseActivity {
             Log.e(TAG, result);
 
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
     }
 
 }

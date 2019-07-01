@@ -32,7 +32,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     String id, name;
     String TAG = "ResrvationActivity";
-    public String url = "http://192.168.0.39:3000";
+    public String url = "http://192.168.0.56:3000";
 
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
@@ -99,7 +99,7 @@ public class ReservationActivity extends AppCompatActivity {
                 JSONObject tmp = new JSONObject();
 
                 tmp.accumulate("id", id);
-                tmp.accumulate("name", name);
+                tmp.accumulate("owner_name", name);
                 tmp.accumulate("type", type);
 
                 jsonObject.accumulate("user", tmp);
@@ -179,19 +179,33 @@ public class ReservationActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
-                    owner.setText(jsonObject.getString("owner"));
-                    resident.setText(jsonObject.getString("resident"));
-                    phone.setText(jsonObject.getString("phone"));
-                    resAddr.setText(jsonObject.getString("resAddr"));
-                    nowAddr.setText(jsonObject.getString("nowAddr"));
-                    animal.setText(jsonObject.getString("animal"));
-                    variety.setText(jsonObject.getString("variety"));
-                    furColor.setText(jsonObject.getString("furColor"));
-                    gender.setText(jsonObject.getString("gender"));
-                    neutralization.setText(jsonObject.getString("neutralization"));
-                    birthday.setText(jsonObject.getString("birthday"));
-                    acqDate.setText(jsonObject.getString("acqDate"));
-                    special.setText(jsonObject.getString("special"));
+                    owner.setText(jsonObject.getString("OWNER_NAME"));
+                    resident.setText(jsonObject.getString("OWNER_RESIDENT"));
+                    phone.setText(jsonObject.getString("OWNER_PHONE_NUMBER"));
+                    resAddr.setText(jsonObject.getString("OWNER_ADDRESS1"));
+                    nowAddr.setText(jsonObject.getString("OWNER_ADDRESS2"));
+                    animal.setText(jsonObject.getString("PET_NAME"));
+                    variety.setText(jsonObject.getString("PET_VARIETY"));
+                    furColor.setText(jsonObject.getString("PET_COLOR"));
+
+                    if (jsonObject.getString("PET_GENDER") == "1"){
+                        gender.setText("남성");
+                    }else{
+                        gender.setText("여성");
+                    }
+
+                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1"){
+                        neutralization.setText("했음");
+                    }else{
+                        neutralization.setText("안했음");
+                    }
+
+
+                    birthday.setText(jsonObject.getString("PET_BIRTH"));
+                    acqDate.setText(jsonObject.getString("ASK_DATE"));
+                    special.setText(jsonObject.getString("ETC"));
+
+                    Log.e(TAG, jsonObject.getString("OWNER_NAME"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -227,7 +241,7 @@ public class ReservationActivity extends AppCompatActivity {
                 JSONObject tmp = new JSONObject();
 
                 tmp.accumulate("id", id);
-                tmp.accumulate("name", name);
+                tmp.accumulate("owner_name", name);
                 tmp.accumulate("type", type);
 
                 jsonObject.accumulate("user", tmp);
