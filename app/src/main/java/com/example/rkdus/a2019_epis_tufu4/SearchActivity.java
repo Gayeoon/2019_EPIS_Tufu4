@@ -97,8 +97,9 @@ public class SearchActivity extends AppCompatActivity {
     final String fileName = "searchResult";
     int indexStartNum;
     LocationManager locationManager;
-
     String searchWord;
+    int filter = 0; // 현재 입힌 필터 종류.     0 : 전체(필터 X)    1 : 최다예약순
+
     ArrayList<SearchResultData> searchResultList = new ArrayList<>();
     ArrayList<SearchItemData> searchList = new ArrayList<>();
     ArrayList<SearchResultData> signUpAppList = new ArrayList<>();
@@ -230,25 +231,119 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        // 탭 레이아웃 클릭 시
+        listTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int pos = tab.getPosition();
+                changeTabView(pos);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
 
-    private void setTabIndex(ArrayList<SearchResultData> arrayList) {
+    /*
+    사용자가 탭을 눌렀을 때
+     */
+    private void changeTabView(int index) {
+        switch (index) {
+            case 0: // ◀ 버튼 클릭 시
+                showNextPage
+            case 1:
+                int pageNum = Integer.parseInt(listTabLayout.getTabAt(index).getText().toString()); // 해당 페이지 번호 가져오기
+
+            case 6: // ▶ 버튼 클릭 시
+        }
+    }
+
+    /*
+    해당 arraylist의 크기를 보고 전체 페이지 크기를 반환.
+     */
+    private int getMaxTabSize(ArrayList<?> arrayList) {
         int tabSize = arrayList.size();
-        int maxTabSize = tabSize / 8;   // ex. 40개면 5페이지. 39개면 4페이지.
+        int maxTabSize = 0;
+        if(tabSize % 8 == 0)    // ex. 40개면 5페이지.
+            maxTabSize = tabSize / 8;
+        else    // 39개여도 5페이지.
+            maxTabSize = (tabSize / 8) + 1;
+        return maxTabSize;
+    }
+
+    /*
+    이전 또는 다음 페이지를 선택하여 새로운 페이지를 출력해야 하는 경우
+     */
+    private void showNextPage(ArrayList<?> arrayList, boolean isUpPage) {
+        int maxSize = getMaxTabSize(arrayList);
+        if(isUpPage) {  // 다음 5개의 페이지를 넘기라고 한다면
+            if(indexStartNum + 5 > maxSize) { // 전체가 12페이지인데 11페이지에서 다음 페이지를 선택한 경우.
+            Log.d(TAG, "Tab 페이지 설정하는데 다음 페이지가 없는 경우. ex) 최대 14페이지인데 11페이지에서 다음 페이지를 클릭하는 경우.");
+            Toast.makeText(getApplicationContext(), "해당 탭 내 최대 페이지입니다.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                indexStartNum += 5;
+                setTabIndex(arrayList); // Tab Page 변경
+            }
+        }
+        else {  // 이전 5개의 페이지를 넘기라고 한다면
+            if(indexStartNum - 5 > 0) { // 전체가 12페이지인데 1페이지에서 이전 페이지를 선택한 경우.
+                Log.d(TAG, "이전 페이지가 존재하지 않습니다. 최소 페이지입니다.");
+                Toast.makeText(getApplicationContext(), "해당 탭 내 최소 페이지입니다.", Toast.LENGTH_LONG).show();
+            }
+            else {
+                indexStartNum -= 5;
+                setTabIndex(arrayList); // Tab Page 변경
+            }
+        }
+    }
+
+    /*
+    Tab Layout에 Tab 생성하는 함수
+     */
+    private void setTabIndex(ArrayList<?> arrayList) {
+        int tabSize = arrayList.size();
+        int maxTabSize = getMaxTabSize(arrayList);
+
         listTabLayout.removeAllTabs(); // tab item 제거
-        if(tabSize <= 8) {
-            listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(indexStartNum)));
+
+        listTabLayout.addTab(listTabLayout.newTab().setText("◀"));
+        if(indexStartNum + 5 > maxTabSize) { // 전체가 12페이지인데 11페이지부터 시작하는 경우.
+            for(int i = indexStartNum; i <= maxTabSize; i++) {
+                listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(i)));
+                Log.d(TAG, String.valueOf(i) + " 페이지 생성!");
+            }
         }
         else {
-//            if(size % 8 == 0) {
-//                for(int i = indexStartNum)
-//            }
-//            else {
-//
-//            }
+            int i = 0;
+            while(i < 5) {
+                listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(indexStartNum + i)));
+                Log.d(TAG, String.valueOf(indexStartNum + i) + " 페이지 생성!");
+                i++;
+            }
         }
-        for(int i = 0; i < 5; i++) {    // tab 추가.
-            listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(indexStartNum + i)));
+        listTabLayout.addTab(listTabLayout.newTab().setText("▶"));
+    }
+
+    /*
+    현재 필터와 조건에 맞는 arraylist 반환
+     */
+    private ArrayList<?> getArrayListFromFilter(int filter) {
+        this.filter = filter;
+        switch (filter) {
+            case 0:
+                return searchResultList;
+                break;
+            case 1:
+                return
         }
     }
 
@@ -453,13 +548,23 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<SearchResultData> getNeedToShowListView() {
         Log.d(TAG, "getNeedToShowListView start");
         if(isSignUpApp) {
-            if(isSearchCurrentLocation)
-                Log.d(TAG, "현재위치 ㅇ");
+            if(isSearchCurrentLocation) {
+                Log.d(TAG, "어플등록 ㅇ, 현재위치 ㅇ");
                 //setLocationList(signUpAppList); // 현재 위치 킨 경우
-            else {
-                setSignUpAppList();             // 현재 위치 끈 경우
-                // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                Collections.sort(signUpAppList, new Comparator<SearchResultData>() {
+            }
+            else if(filter == 1) {  // 최다 예약 순
+                Log.d(TAG, "어플등록 ㅇ, 최다 예약 순 ㅇ");
+                Collections.sort(signUpAppList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getCOUNT()).compareTo(String.valueOf(searchResultData.getCOUNT()));
+                    }
+                });
+            }
+            else { // 필터 X.
+                Log.d(TAG, "어플등록 ㅇ, 필터 X");
+                setSignUpAppList();
+                Collections.sort(signUpAppList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
                         return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
@@ -470,18 +575,28 @@ public class SearchActivity extends AppCompatActivity {
             return signUpAppList;
         }
         else {
-            if(isSearchCurrentLocation)     setLocationList(searchList);
+            if(isSearchCurrentLocation) {
+                Log.d(TAG, "어플등록 X, 현재위치 ㅇ");
+                // setLocationList(searchResultList);
+            }
+            else if(filter == 1) {
+                Log.d(TAG, "어플등록 X, 최다 예약 순 ㅇ");
+                Collections.sort(searchResultList, new Comparator<SearchResultData>() { // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getCOUNT()).compareTo(String.valueOf(searchResultData.getCOUNT()));
+                    }
+                });
+            }
             else {
-                Log.d(TAG, "compare 실행");
-                // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                Collections.sort(searchResultList, new Comparator<SearchResultData>() {
+                Log.d(TAG, "어플등록 X, 필터 X.");
+                Collections.sort(searchResultList, new Comparator<SearchResultData>() { // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
                         return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
                     }
                 });
             }
-            Log.d(TAG, "compare 완료");
             return searchResultList;
         }
     }

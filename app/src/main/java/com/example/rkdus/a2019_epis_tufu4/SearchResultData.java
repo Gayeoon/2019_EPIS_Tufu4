@@ -8,6 +8,15 @@ public class SearchResultData {
     private String ADDRESS1;
     private String ADDRESS2;
     private int SIGNUP_APP;
+    private int COUNT;
+
+    public int getCOUNT() {
+        return COUNT;
+    }
+
+    public void setCOUNT(int COUNT) {
+        this.COUNT = COUNT;
+    }
 
     public int getHOSPITAL_KEY() {
         return HOSPITAL_KEY;

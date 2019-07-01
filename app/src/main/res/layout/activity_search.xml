@@ -111,13 +111,51 @@
             android:text="대표자명"/>
 
     </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/searchListView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/searchRecycleViewHeight"
-        >
-    </android.support.v7.widget.RecyclerView>
-    
+        android:layout_height="320dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="visible"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="invisible"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="invisible"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="invisible"
+            >
+        </android.support.v7.widget.RecyclerView>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="invisible"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </FrameLayout>
     <android.support.design.widget.TabLayout
         android:id="@+id/listTablayout"
         android:layout_gravity="center"
