@@ -35,17 +35,20 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".AlarmActivity"
-            android:theme="@style/NoTheme" />
-        <activity
             android:name=".HospitalActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -67,11 +70,7 @@
         <activity
             android:name=".CommunityActivity"
             android:theme="@style/NoTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".SelectPicActivity" />
 
@@ -90,7 +89,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".WaitReservationActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".FilterPopupActivity"
             android:theme="@style/PopupTheme" />
@@ -99,8 +98,11 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".FinishReservationActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".WriteCommunityActivity"
             android:theme="@style/NoTheme"></activity>
-        <activity android:name=".WriteCommunityActivity"
+        <activity android:name=".ShowCommunityActivity"
             android:theme="@style/NoTheme">
 
         </activity>

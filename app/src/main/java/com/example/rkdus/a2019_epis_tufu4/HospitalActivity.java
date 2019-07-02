@@ -96,8 +96,8 @@ public class HospitalActivity extends BaseActivity {
 
                 Intent intent2 = new Intent(getApplicationContext(), CommunityActivity.class);
                 intent2.putExtra("user", 2);
-                intent2.putExtra("profile", str_profile);
                 intent2.putExtra("hosName", name.getText().toString());
+                //intent2.putExtra("profile", str_profile);
                 startActivity(intent2);
             }
         });

@@ -11,9 +11,9 @@
 
 
     <LinearLayout
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:layout_marginTop="10dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="horizontal">
@@ -79,9 +79,10 @@
         android:layout_marginTop="18dp"
         android:background="@drawable/community_mainbar" />
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         android:layout_weight="1">
 
         <ListView
@@ -91,13 +92,13 @@
             android:layout_marginBottom="5dp"
             android:divider="#d1d1d1"
             android:dividerHeight="1dp"></ListView>
-    </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="2dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -109,6 +110,7 @@
             android:background="@drawable/pre" />
 
         <TextView
+            android:id="@+id/one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -118,22 +120,48 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="@font/notosansbold"
             android:text="2"
             android:textColor="#a3a3a3"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="@font/notosansbold"
             android:text="3"
             android:textColor="#a3a3a3"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/four"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/notosansbold"
+            android:text="4"
+            android:textColor="#a3a3a3"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="@font/notosansbold"
+            android:text="5"
+            android:textColor="#a3a3a3"
+            android:textSize="18sp"
+            android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/next"
@@ -147,7 +175,6 @@
         android:id="@+id/write"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/community_write"
-        android:layout_gravity="right"/>
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/community_write" />
 </LinearLayout>

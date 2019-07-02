@@ -1,12 +1,39 @@
 ﻿**** ** ** ** ** ** * 다 만들면 체크해 주세요!! ** ** ** ** ** ** ** *
 
+ CommentListData : 인덱스 값을 통해 글의 내용과 거기에 달린 댓글 리스트 요청
+
+ Uri  --->   /getCommentListData
+ Parm  --->   {"user":{"article_index":2}} 전송
+ Result  --->   {"result":{"content":[{"ARTICLE_DATE":"2019-06-24","ARTICLE_CONTENT":"랄랄라라ㅏ","IMG_URL_1":"ASFSES","IMG_URL_2":"ASFSES","IMG_URL_3":NULL}]
+                       ,"comment":[{"COMMENT_AUTHOR":"김가연","COMMENT_DATE":"2019-06-24","COMMENT_CONTENT":"그게 글이냐!!"},{"COMMENT_AUTHOR":"정지원","COMMENT_DATE":"2019-07-24","COMMENT_CONTENT":"그래 글이다!!"}]}} 결과 값
+
+ ps. 결과값 : result Object 안에 JSONArray : content, comment  두 개 넣어서!!
+
+    CHECK
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+ CommentDB : 댓글 쓰기
+ 댓글 달기 성공 -> int 1
+ 댓글 달기 실패 -> int 0
+
+ Uri  --->   /putCommentDB
+ Parm  --->   {"user":{"article_index":2,"comment_author":"미리내병원","comment_date":"2019.07.03","comment_content":"커뮤니티가 끝나간당"}} 전송
+ Result  --->   {"result":1} 결과 값
+
+    CHECK
+
+  -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
  CoummunityDB : 프로필 사진 db에 저장
  저장 성공 -> int 1
  저장 실패 -> int 0
 
  Uri  --->   /putCoummunity
- Parm  --->   {"user":{"title":"집에 보내줘","article_author":"김가연","article_date":"2019-07-02","article_content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
+ Parm  --->   {"user":{"article_index":5,"title":"집에 보내줘","article_author":"김가연","article_date":"2019-07-02","article_content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
  Result  --->   {"result":1} 결과 값
+
+    CHECK
 
   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
@@ -19,6 +46,9 @@
  Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","AUTHOR":"김가연","INDEX":1},{"TITLE":"지원아 일어나","AUTHOR":"정지원","INDEX":2}]}} 결과 값
 
  ps. 결과값 : result Object 안에 JSONArray : community 넣어서!!
+
+    CHECK
+
   -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
  SearchCommunity : ID값과 key 값을 통해 값이 포함된 리스트 출력
@@ -30,7 +60,10 @@
  Parm  --->   {"user":{"select":1,"key":"뿡이"}} 전송
  Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","WRITTEN":"김가연","INDEX":1},{"TITLE":"지원아 일어나","WRITTEN":"정지원","INDEX":2}]}} 결과 값
 
- ps. 결과값 : result Object 안에 JSONArray : community 넣어서!!  */
+ ps. 결과값 : result Object 안에 JSONArray : community 넣어서!!
+
+    CHECK
+
    -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
 
  SearchListData : ID값과 key 값을 통해 값이 포함된 리스트 출력
@@ -40,7 +73,7 @@
   Parm  --->   {"user":{"id":"test","key":"뿡이"}} 전송
   Result  --->   {"result":{"state":[{"OWNER_NAME":"김가연","PET_NAME":"뿡이","REGIST_STATE":1},{"OWNER_NAME":"정지원","PET_NAME":"뿡이","REGIST_STATE":2}]}} 결과 값
 
- ps. 결과값 : result Object 안에 JSONArray : state 넣어서!!  */
+ ps. 결과값 : result Object 안에 JSONArray : state 넣어서!!
 
     CHECK
 

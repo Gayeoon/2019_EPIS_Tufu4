@@ -1,5 +1,6 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +19,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.airbnb.lottie.LottieAnimationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,15 +48,17 @@ public class CommunityActivity extends BaseActivity {
     public static final String TAG = "CommunityActivity";
     public String url = "http://192.168.1.11:3000";
 
+    CommunityItem[] itemArray = new CommunityItem[100];
+
     // 사용자면 user 1
     //  병원이면 user 2
-    public int user = 0;
+    int user_state = 0;
 
     // 제목 select 2
     // 작성자 select 1
     public int select = 1;
 
-    String userName = "USER";
+    String user = "USER";
     Bitmap bm;
     byte[] profile;
     ImageView imageView;
@@ -63,9 +68,12 @@ public class CommunityActivity extends BaseActivity {
 
     ImageButton writebtn;
     ImageButton search;
-    TextView search_input;
+    TextView one, two, three, four, five, search_input;
 
+    ImageButton pre, next;
     String title, written, key;
+    int count = 0;
+    int num_two=16, num_three=24, num_four=32, num_five=40;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<CommunityItem> items = new ArrayList<CommunityItem>();
@@ -107,17 +115,49 @@ public class CommunityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
 
-        writebtn = (ImageButton)findViewById(R.id.write);
+        Intent intent = getIntent();
+
+        if (intent.hasExtra("user")){
+            switch (intent.getIntExtra("user", 0)){
+                case 1:
+                    user_state = 1;
+                    user = intent.getStringExtra("userName");
+                    break;
+
+                case 2:
+                    user_state = 2;
+                    user = intent.getStringExtra("hosName");
+
+//                    profile = intent.getByteArrayExtra("profile");
+//                    bm = BitmapFactory.decodeByteArray(profile, 0, profile.length);
+//
+//                    imageView.setImageBitmap(bm);
+//                    // 프로필 사진 지정
+            }
+        }
+
+        one = (TextView) findViewById(R.id.one);
+        two = (TextView) findViewById(R.id.two);
+        three = (TextView) findViewById(R.id.three);
+        four = (TextView) findViewById(R.id.four);
+        five = (TextView) findViewById(R.id.five);
+        pre = (ImageButton) findViewById(R.id.pre);
+        next = (ImageButton) findViewById(R.id.next);
+
+        writebtn = (ImageButton) findViewById(R.id.write);
         writebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), WriteCommunityActivity.class);
-                startActivity(intent);
+                intent.putExtra("id", user);
+                intent.putExtra("count", count);
+                intent.putExtra("state", user_state);
+                startActivityForResult(intent, 1111);
             }
         });
 
         search = (ImageButton) findViewById(R.id.search);
-        search_input = (TextView)findViewById(R.id.search_input);
+        search_input = (TextView) findViewById(R.id.search_input);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,35 +167,205 @@ public class CommunityActivity extends BaseActivity {
             }
         });
 
-/*
-        Intent intent = getIntent();
+        one.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter = new MyAdapter();
 
-        if (intent.hasExtra("user")){
-            switch (intent.getIntExtra("user", 0)){
-                case 1:
-                    // 사용자 닉네임 같은거?
-                    break;
+                for (int i = 0; i < 8; i++) {
+                    myAdapter.addItem(itemArray[i]);
+                }
 
-                case 2:
-                    userName = intent.getStringExtra("hosName");
-                    profile = intent.getByteArrayExtra("profile");
-                    bm = BitmapFactory.decodeByteArray(profile, 0, profile.length);
+                listView.setAdapter(myAdapter);
 
-                    imageView.setImageBitmap(bm);
-                    // 프로필 사진 지정
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
+                        TextView oTextWritten = (TextView) view.findViewById(R.id.written);
+                        TextView oTextTitle = (TextView) view.findViewById(R.id.title);
+
+                        title = oTextTitle.getText().toString();
+                        written = oTextWritten.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
+                        intent.putExtra("title", title);
+                        intent.putExtra("user", user);
+                        intent.putExtra("written", written);
+                        intent.putExtra("index", item.getIndex());
+                        intent.putExtra("state", user_state);
+                        startActivityForResult(intent, 1111);
+                    }
+                });
+
+                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetInvalidated();
             }
-        }
-*/
-        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        });
+
+        two.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter = new MyAdapter();
+
+                for (int i = 8; i < 8+num_two; i++) {
+                    myAdapter.addItem(itemArray[i]);
+                }
+                listView.setAdapter(myAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
+                        TextView oTextWritten = (TextView) view.findViewById(R.id.written);
+                        TextView oTextTitle = (TextView) view.findViewById(R.id.title);
+
+                        title = oTextTitle.getText().toString();
+                        written = oTextWritten.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
+                        intent.putExtra("title", title);
+                        intent.putExtra("user", user);
+                        intent.putExtra("written", written);
+                        intent.putExtra("index", item.getIndex());
+                        intent.putExtra("state", user_state);
+                        startActivityForResult(intent, 1111);
+                    }
+                });
+
+                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetInvalidated();
+            }
+        });
+
+        three.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter = new MyAdapter();
+
+                for (int i = num_two; i < num_two+num_three; i++) {
+                    myAdapter.addItem(itemArray[i]);
+                }
+
+                listView.setAdapter(myAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
+                        TextView oTextWritten = (TextView) view.findViewById(R.id.written);
+                        TextView oTextTitle = (TextView) view.findViewById(R.id.title);
+
+                        title = oTextTitle.getText().toString();
+                        written = oTextWritten.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
+                        intent.putExtra("title", title);
+                        intent.putExtra("user", user);
+                        intent.putExtra("written", written);
+                        intent.putExtra("index", item.getIndex());
+                        intent.putExtra("state", user_state);
+                        startActivityForResult(intent, 1111);
+                    }
+                });
+
+                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetInvalidated();
+            }
+        });
+
+        four.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter = new MyAdapter();
+
+                for (int i = num_three; i < num_three+num_four; i++) {
+                    myAdapter.addItem(itemArray[i]);
+                }
+
+                listView.setAdapter(myAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
+                        TextView oTextWritten = (TextView) view.findViewById(R.id.written);
+                        TextView oTextTitle = (TextView) view.findViewById(R.id.title);
+
+                        title = oTextTitle.getText().toString();
+                        written = oTextWritten.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
+                        intent.putExtra("title", title);
+                        intent.putExtra("user", user);
+                        intent.putExtra("written", written);
+                        intent.putExtra("index", item.getIndex());
+                        intent.putExtra("state", user_state);
+                        startActivityForResult(intent, 1111);
+                    }
+                });
+
+                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetInvalidated();
+            }
+        });
+
+        five.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myAdapter = new MyAdapter();
+
+                for (int i = num_four; i < num_four+num_five; i++) {
+                    myAdapter.addItem(itemArray[i]);
+                }
+
+                listView.setAdapter(myAdapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
+                        TextView oTextWritten = (TextView) view.findViewById(R.id.written);
+                        TextView oTextTitle = (TextView) view.findViewById(R.id.title);
+
+                        title = oTextTitle.getText().toString();
+                        written = oTextWritten.getText().toString();
+
+                        Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
+                        intent.putExtra("title", title);
+                        intent.putExtra("user", user);
+                        intent.putExtra("written", written);
+                        intent.putExtra("index", item.getIndex());
+                        intent.putExtra("state", user_state);
+                        startActivityForResult(intent, 1111);
+                    }
+                });
+
+                myAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetInvalidated();
+            }
+        });
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0){
+                if (position == 0) {
                     select = 1;
-                }else{
+                } else {
                     select = 2;
                 }
             }
@@ -299,10 +509,23 @@ public class CommunityActivity extends BaseActivity {
 
                     state = jsonObject.getJSONArray("community");
 
-
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        myAdapter.addItem(new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX")));
+                        itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
+                        count++;
+                    }
+
+                    viewCount(count);
+
+                    if (count < 8) {
+                        for (int i = 0; i < count; i++) {
+                            myAdapter.addItem(itemArray[i]);
+                            one.setEnabled(false);
+                        }
+                    } else {
+                        for (int i = 0; i < 8; i++) {
+                            myAdapter.addItem(itemArray[i]);
+                        }
                     }
 
                     listView.setAdapter(myAdapter);
@@ -311,16 +534,21 @@ public class CommunityActivity extends BaseActivity {
 
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
                             TextView oTextWritten = (TextView) view.findViewById(R.id.written);
                             TextView oTextTitle = (TextView) view.findViewById(R.id.title);
 
                             title = oTextTitle.getText().toString();
                             written = oTextWritten.getText().toString();
 
-                            Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
+                            Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
                             intent.putExtra("title", title);
+                            intent.putExtra("user", user);
                             intent.putExtra("written", written);
-                            startActivity(intent);
+                            intent.putExtra("index", item.getIndex());
+                            intent.putExtra("state", user_state);
+                            startActivityForResult(intent, 1111);
                         }
                     });
 
@@ -332,6 +560,28 @@ public class CommunityActivity extends BaseActivity {
 
             Log.e(TAG, result);
 
+        }
+    }
+
+    private void viewCount(int count) {
+        if (8 < count && count <= 16) {
+            two.setVisibility(View.VISIBLE);
+            num_two = count - 8;
+        } else if (16 < count && count <= 24) {
+            two.setVisibility(View.VISIBLE);
+            three.setVisibility(View.VISIBLE);
+            num_three = count - 16;
+        } else if (24 < count && count <= 32) {
+            two.setVisibility(View.VISIBLE);
+            three.setVisibility(View.VISIBLE);
+            four.setVisibility(View.VISIBLE);
+            num_four = count - 24;
+        } else if (32 < count && count <= 40) {
+            two.setVisibility(View.VISIBLE);
+            three.setVisibility(View.VISIBLE);
+            four.setVisibility(View.VISIBLE);
+            five.setVisibility(View.VISIBLE);
+            num_five = count - 32;
         }
     }
 
@@ -454,16 +704,21 @@ public class CommunityActivity extends BaseActivity {
 
                         @Override
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            final CommunityItem item = (CommunityItem) myAdapter.getItem(i);
+
                             TextView oTextWritten = (TextView) view.findViewById(R.id.written);
                             TextView oTextTitle = (TextView) view.findViewById(R.id.title);
 
                             title = oTextTitle.getText().toString();
                             written = oTextWritten.getText().toString();
 
-                            Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
+                            Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
                             intent.putExtra("title", title);
                             intent.putExtra("written", written);
-                            startActivity(intent);
+                            intent.putExtra("index", item.getIndex());
+                            intent.putExtra("state", user_state);
+                            intent.putExtra("user", user);
+                            startActivityForResult(intent, 1111);
                         }
                     });
 
@@ -479,5 +734,44 @@ public class CommunityActivity extends BaseActivity {
 
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
+//    public void startAni(){
+//        final LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);
+//
+//        animationView.setAnimation("loading.json");
+//        animationView.loop(true);
+//        //anim.setVisibility(View.VISIBLE);
+//        animationView.playAnimation();
+//        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//                animationView.setRepeatCount(3);
+//                animationView.setVisibility(View.VISIBLE);
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                //anim.setVisibility(View.GONE);
+//                animationView.setVisibility(View.GONE);
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//            }
+//        });
+//    }
 
 }

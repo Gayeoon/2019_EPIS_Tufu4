@@ -42,9 +42,11 @@ public class WriteCommunityActivity extends BaseActivity {
     ImageView btnAddImg, btnWrite;
     EditText txtShow, title;
     byte[] byteArray, picbyte1 = null, picbyte2 = null, picbyte3 = null;
-    String strpic1 = null, strpic2 = null, strpic3 = null;
+    String strpic1 = "", strpic2 = "", strpic3 = "";
 
-    String user = "";
+    String user = "가여니";
+
+    int state, count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +54,9 @@ public class WriteCommunityActivity extends BaseActivity {
         setContentView(R.layout.activity_write_community);
 
         Intent intent = getIntent();
-        user = intent.getStringExtra("user");
-
+        user = intent.getStringExtra("id");
+        state = intent.getIntExtra("state", 0);
+        count = intent.getIntExtra("count", 0);
 
         pic1 = (ImageButton) findViewById(R.id.pic1);
         pic2 = (ImageButton) findViewById(R.id.pic2);
@@ -120,7 +123,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         // TODO: 입력 정보 (인증 사진 및 코멘트) 저장하여 표시
-                        new CoummunityDB().execute(url + "/putCoummunity");
+                        new CommunityDB().execute(url + "/putCommunity");
 
                         break;
                 }
@@ -208,15 +211,15 @@ public class WriteCommunityActivity extends BaseActivity {
         }
     }
 
-    /* CoummunityDB : 프로필 사진 db에 저장
+    /* CommunityDB : 프로필 사진 db에 저장
      * 저장 성공 -> int 1
      * 저장 실패 -> int 0
      *
-     * Uri  --->   /putCoummunity
-     * Parm  --->   {"user":{"title":"집에 보내줘","article_author":"김가연","article_date":"2019-07-02","article_content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
+     * Uri  --->   /putCommunity
+     * Parm  --->   {"user":{"article_index":2,"title":"집에 보내줘","article_author":"김가연","article_date":"2019-07-02","article_content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
-    public class CoummunityDB extends AsyncTask<String, String, String> {
+    public class CommunityDB extends AsyncTask<String, String, String> {
 
         @Override
 
@@ -232,6 +235,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
+                tmp.accumulate("article_index",count);
                 tmp.accumulate("title", title.getText().toString());
                 tmp.accumulate("article_author", user);
                 tmp.accumulate("article_date", nowTime);
@@ -313,7 +317,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CoummunityDB().execute(url + "/putCoummunity");
+                    new CommunityDB().execute(url + "/putCommunity");
                 } else {
                     succes = (int) json.get("result");
 
@@ -332,6 +336,14 @@ public class WriteCommunityActivity extends BaseActivity {
             Log.e("LoginActivity", result);
 
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(RESULT_OK);
+        finish();
+        Log.d("onPostCreate", "onDestroy");
     }
 
 }
