@@ -1,11 +1,19 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Outline;
+import android.media.ExifInterface;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -36,7 +44,6 @@ import java.util.Date;
 
 public class WriteCommunityActivity extends BaseActivity {
     public static final String TAG = "NewReservationActivity";
-    public String url = "http://192.168.1.11:3000";
 
     ImageButton pic1, pic2, pic3;
     ImageView btnAddImg, btnWrite;
@@ -71,12 +78,11 @@ public class WriteCommunityActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        Intent intent = new Intent();
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                         intent.setType("image/*");
-                        intent.putExtra("outputX", 400);
-                        intent.putExtra("outputY", 1000);
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 1);
+
                         break;
                 }
                 return true;
@@ -88,12 +94,11 @@ public class WriteCommunityActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        Intent intent = new Intent();
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                         intent.setType("image/*");
-                        intent.putExtra("outputX", 500);
-                        intent.putExtra("outputY", 500);
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 2);
+
                         break;
                 }
                 return true;
@@ -105,12 +110,18 @@ public class WriteCommunityActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        Intent intent = new Intent();
+//                        Intent intent = new Intent();
+//                        intent.setType("image/*");
+//                        intent.putExtra("outputX", 100);
+//                        intent.putExtra("outputY", 100);
+//                        intent.setAction(Intent.ACTION_GET_CONTENT);
+//                        startActivityForResult(intent, 3);
+
+                        Intent intent = new Intent(Intent.ACTION_PICK);
+                        intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
                         intent.setType("image/*");
-                        intent.putExtra("outputX", 300);
-                        intent.putExtra("outputY", 300);
-                        intent.setAction(Intent.ACTION_GET_CONTENT);
                         startActivityForResult(intent, 3);
+
                         break;
                 }
                 return true;
@@ -123,7 +134,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         // TODO: 입력 정보 (인증 사진 및 코멘트) 저장하여 표시
-                        new CommunityDB().execute(url + "/putCommunity");
+                        new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
 
                         break;
                 }
@@ -139,23 +150,45 @@ public class WriteCommunityActivity extends BaseActivity {
     }
 
     // 이미지를 비트맵 형식으로 받아와 이미지뷰에 표시
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         if (requestCode == 1) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+                String imagePath = getRealPathFromURI(data.getData());
+
                 try {
-                    // 선택한 이미지에서 비트맵 생성
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    // 이미지 표시
-                    pic1.setImageBitmap(img);
+                    int degree = getExifOrientation(imagePath);
+
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    bitmap = getRotatedBitmap(bitmap, degree);
+
+                    Log.e("rotate", degree + "");
+
+                    int viewHeight = 300;
+
+                    float width = bitmap.getWidth();
+                    float height = bitmap.getHeight();
+
+                    if(height > viewHeight)
+                    {
+                        float percente = (float)(height / 100);
+                        float scale = (float)(viewHeight / percente);
+                        width *= (scale / 100);
+                        height *= (scale / 100);
+                    }
+
+                    Bitmap temp = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, true);
+
+
+                    pic1.setImageBitmap(temp);
+
 
                     // 비트맵 형식의 이미지를 Byte Array로 변경하여 인텐트 담아 전송
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byteArray = stream.toByteArray();
 
                     strpic1 = Base64.encodeToString(byteArray, Base64.DEFAULT);
@@ -167,17 +200,38 @@ public class WriteCommunityActivity extends BaseActivity {
         } else if (requestCode == 2) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+                String imagePath = getRealPathFromURI(data.getData());
+
                 try {
-                    // 선택한 이미지에서 비트맵 생성
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    // 이미지 표시
-                    pic2.setImageBitmap(img);
+                    int degree = getExifOrientation(imagePath);
+
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    bitmap = getRotatedBitmap(bitmap, degree);
+
+                    Log.e("rotate", degree + "");
+
+                    int viewHeight = 300;
+
+                    float width = bitmap.getWidth();
+                    float height = bitmap.getHeight();
+
+                    if(height > viewHeight)
+                    {
+                        float percente = (float)(height / 100);
+                        float scale = (float)(viewHeight / percente);
+                        width *= (scale / 100);
+                        height *= (scale / 100);
+                    }
+
+                    Bitmap temp = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, true);
+
+
+                    pic2.setImageBitmap(temp);
+
 
                     // 비트맵 형식의 이미지를 Byte Array로 변경하여 인텐트 담아 전송
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byteArray = stream.toByteArray();
 
                     strpic2 = Base64.encodeToString(byteArray, Base64.DEFAULT);
@@ -189,27 +243,114 @@ public class WriteCommunityActivity extends BaseActivity {
         } else if (requestCode == 3) {
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
+
+                String imagePath = getRealPathFromURI(data.getData());
+
+
                 try {
-                    // 선택한 이미지에서 비트맵 생성
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    // 이미지 표시
-                    pic3.setImageBitmap(img);
+                    int degree = getExifOrientation(imagePath);
+
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                    bitmap = getRotatedBitmap(bitmap, degree);
+
+                    Log.e("rotate", degree + "");
+
+                    int viewHeight = 300;
+
+                    float width = bitmap.getWidth();
+                    float height = bitmap.getHeight();
+
+                    if(height > viewHeight)
+                    {
+                        float percente = (float)(height / 100);
+                        float scale = (float)(viewHeight / percente);
+                        width *= (scale / 100);
+                        height *= (scale / 100);
+                    }
+
+                    Bitmap temp = Bitmap.createScaledBitmap(bitmap, (int) width, (int) height, true);
+
+
+                    pic3.setImageBitmap(temp);
+
 
                     // 비트맵 형식의 이미지를 Byte Array로 변경하여 인텐트 담아 전송
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    img.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
                     byteArray = stream.toByteArray();
 
                     strpic3 = Base64.encodeToString(byteArray, Base64.DEFAULT);
 
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+
             }
         }
     }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        int column_index = 0;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        }
+        return cursor.getString(column_index);
+    }
+
+
+    private Bitmap getRotatedBitmap(Bitmap bitmap, int degree) {
+        if (degree != 0 && bitmap != null) {
+            Matrix matrix = new Matrix();
+            matrix.setRotate(degree, (float) bitmap.getWidth() / 2, (float) bitmap.getHeight() / 2);
+
+            try {
+                Bitmap tmpBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+                if (bitmap != tmpBitmap) {
+                    bitmap.recycle();
+                    bitmap = tmpBitmap;
+                }
+            } catch (OutOfMemoryError e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bitmap;
+    }
+
+    private int getExifOrientation(String filePath) {
+        ExifInterface exif = null;
+        Log.e("rotate", "file : " + filePath);
+        try {
+            exif = new ExifInterface(filePath);
+            Log.e("rotate", filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.e("rotate", "exif : " + exif + "");
+        if (exif != null) {
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            Log.e("rotate", "1");
+            if (orientation != -1) {
+                switch (orientation) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        return 90;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        return 180;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        return 270;
+                }
+            }
+        }
+
+        return 0;
+    }
+
 
     /* CommunityDB : 프로필 사진 db에 저장
      * 저장 성공 -> int 1
@@ -235,7 +376,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("article_index",count);
+                tmp.accumulate("article_index", count);
                 tmp.accumulate("title", title.getText().toString());
                 tmp.accumulate("article_author", user);
                 tmp.accumulate("article_date", nowTime);
@@ -317,7 +458,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommunityDB().execute(url + "/putCommunity");
+                    new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
                 } else {
                     succes = (int) json.get("result");
 

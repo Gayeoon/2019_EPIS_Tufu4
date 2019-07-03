@@ -37,7 +37,6 @@ import java.util.Date;
 
 public class NewReservationActivity extends BaseActivity {
     public static final String TAG = "NewReservationActivity";
-    public String url = "http://192.168.1.11:3000";
 
     ListView internalList, externalList, dogtagList;
     MyAdapter internalAdapter, externalAdapter, dogtagAdapter;
@@ -278,7 +277,7 @@ public class NewReservationActivity extends BaseActivity {
 //
 
 
-        new NewReservationListData().execute(url + "/getNewtReservationListData");
+        new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewtReservationListData");
 
     }
 
@@ -384,7 +383,7 @@ public class NewReservationActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new NewReservationListData().execute(url + "/getNewtReservationListData");
+                    new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewtReservationListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

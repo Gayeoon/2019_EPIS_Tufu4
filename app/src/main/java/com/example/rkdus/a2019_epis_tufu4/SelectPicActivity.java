@@ -53,8 +53,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     private static final int MULTIPLE_PERMISSIONS = 101;
 
     private String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA};
-
-    public String url = "http://192.168.1.11:3000";
+    ;
 
     private Uri mImageCaptureUri;
     private ImageView iv_UserPhoto;
@@ -64,11 +63,12 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     ImageButton man, woman;
     Drawable drawable = null;
     byte[] byteArray;
-    String profile="";
+    String profile = "";
 
     String id = "";
 
-                Bitmap bitmap;
+    Bitmap bitmap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +79,8 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
         iv_UserPhoto = (ImageView) findViewById(R.id.user_image);
         Button btn_agreeJoin = (Button) findViewById(R.id.upload);
-        man = (ImageButton)findViewById(R.id.man);
-        woman = (ImageButton)findViewById(R.id.woman);
+        man = (ImageButton) findViewById(R.id.man);
+        woman = (ImageButton) findViewById(R.id.woman);
 
         btn_agreeJoin.setOnClickListener(this);
 
@@ -103,6 +103,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         }
         return true;
     }
+
     @Override
     public void onClick(View v) {
         id_view = v.getId();
@@ -132,9 +133,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                     .setPositiveButton("사진촬영", cameraListener)
                     .setNeutralButton("앨범선택", albumListener)
                     .setNegativeButton("취소", cancelListener).show();
-        }
-
-        else if (v.getId() == R.id.man){
+        } else if (v.getId() == R.id.man) {
             drawable = getResources().getDrawable(R.drawable.pic_man);
 
             bitmap = ((BitmapDrawable) drawable).getBitmap();
@@ -144,18 +143,18 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 //            profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
 //            Log.e("SelectPicActivity", profile);
 
-            new profileDB().execute(url+"/putProfile");
+            new profileDB().execute(getResources().getString(R.string.url) + "/putProfile");
 
 
 //            Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
 //            intent.putExtra("profile", byteArray);
 //            startActivity(intent);
 
-        } else if (v.getId() == R.id.woman){
+        } else if (v.getId() == R.id.woman) {
             drawable = getResources().getDrawable(R.drawable.pic_woman);
             bitmap = ((BitmapDrawable) drawable).getBitmap();
 
-            new profileDB().execute(url+"/putProfile");
+            new profileDB().execute(getResources().getString(R.string.url) + "/putProfile");
 
 
 //            Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
@@ -195,7 +194,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
             }
             case PICK_FROM_CAMERA: {
 
-                this.grantUriPermission("com.android.camera", mImageCaptureUri ,
+                this.grantUriPermission("com.android.camera", mImageCaptureUri,
                         Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                 Intent intent = new Intent("com.android.camera.action.CROP");
@@ -324,10 +323,10 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                 byteArray = bos.toByteArray();
 
                 profile = Base64.encodeToString(byteArray, Base64.DEFAULT);
-              //  profile = byteArray.toString();
+                //  profile = byteArray.toString();
 
                 Log.e("SelectPicActivity", profile);
-                Log.e("SelectPicActivity", profile.length() +"");
+                Log.e("SelectPicActivity", profile.length() + "");
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
@@ -407,7 +406,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new profileDB().execute(url+"/putProfile");
+                    new profileDB().execute(getResources().getString(R.string.url) + "/putProfile");
                 } else {
                     succes = (int) json.get("result");
 

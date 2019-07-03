@@ -32,7 +32,6 @@ import java.util.ArrayList;
 
 public class FinishReservationActivity extends BaseActivity {
     public static final String TAG = "FinishReservation";
-    public String url = "http://192.168.1.11:3000";
 
     ListView listView;
     MyAdapter myAdapter;
@@ -111,7 +110,7 @@ public class FinishReservationActivity extends BaseActivity {
 //            }
 //        });
 
-        new FinishReservationListData().execute(url + "/getFinishReservationListData");
+        new FinishReservationListData().execute(getResources().getString(R.string.url) + "/getFinishReservationListData");
     }
 
     /* FinishReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력
@@ -214,7 +213,7 @@ public class FinishReservationActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new FinishReservationListData().execute(url + "/getFinishReservationListData");
+                    new FinishReservationListData().execute(getResources().getString(R.string.url) + "/getFinishReservationListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

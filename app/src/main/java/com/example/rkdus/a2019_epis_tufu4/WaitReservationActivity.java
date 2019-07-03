@@ -37,7 +37,6 @@ import java.util.ArrayList;
 public class WaitReservationActivity extends BaseActivity implements View.OnClickListener {
 
     String TAG = "ResrvationActivity";
-    public String url = "http://192.168.1.11:3000";
 
     String owner, animal, id;
 
@@ -53,7 +52,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
         Intent getintet = getIntent();
         id = getintet.getStringExtra("id");
 
-        new WaitReservationListData().execute(url + "/getWaitReservationListData");
+        new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
 
 //        ArrayList<waitItemData> oData = new ArrayList<>();
 //
@@ -114,7 +113,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
                 Log.e(TAG, "owner : " + owner + " animal : " + animal);
 
-                new CallReservation().execute(url + "/putChangeWait ");
+                new CallReservation().execute(getResources().getString(R.string.url) + "/putChangeWait ");
                 break;
 
             case R.id.cancel:
@@ -125,7 +124,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 owner = cTextOwner.getText().toString();
                 animal = cTextAnimal.getText().toString();
 
-                new CancelReservation().execute(url+"/putCancelReservation");
+                new CancelReservation().execute(getResources().getString(R.string.url) +"/putCancelReservation");
                 break;
         }
 
@@ -238,7 +237,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new WaitReservationListData().execute(url + "/getWaitReservationListData");
+                    new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -401,14 +400,14 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CallReservation().execute(url + "/putChangeWait ");
+                    new CallReservation().execute(getResources().getString(R.string.url) + "/putChangeWait ");
 
                 } else {
                     JSONObject temp = json.getJSONObject("result");
                     String tel = "tel:" + temp.get("OWNER_PHONE_NUMBER").toString();
                     startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
 
-                    new WaitReservationListData().execute(url + "/getWaitReservationListData");
+                    new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -517,12 +516,12 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CancelReservation().execute(url+"/putCancelReservation");
+                    new CancelReservation().execute(getResources().getString(R.string.url) +"/putCancelReservation");
                 } else {
                     succes = (int) json.get("result");
 
                     if (succes == 1) {
-                        new WaitReservationListData().execute(url + "/getWaitReservationListData");
+                        new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
                     } else {
                         Toast.makeText(getApplicationContext(), "삭제 실패!!", Toast.LENGTH_LONG).show();
                     }

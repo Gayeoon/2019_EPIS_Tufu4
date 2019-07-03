@@ -46,7 +46,6 @@ import java.util.Date;
  */
 public class CommunityActivity extends BaseActivity {
     public static final String TAG = "CommunityActivity";
-    public String url = "http://192.168.1.11:3000";
 
     CommunityItem[] itemArray = new CommunityItem[100];
 
@@ -163,7 +162,7 @@ public class CommunityActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 key = search_input.getText().toString();
-                new SearchCommunity().execute(url + "/getSearchCommunity");
+                new SearchCommunity().execute(getResources().getString(R.string.url) + "/getSearchCommunity");
             }
         });
 
@@ -376,7 +375,7 @@ public class CommunityActivity extends BaseActivity {
             }
         });
 
-        new CommunityListData().execute(url + "/getCommunityListData");
+        new CommunityListData().execute(getResources().getString(R.string.url) + "/getCommunityListData");
 
         listView = (ListView) findViewById(R.id.communityList);
 //
@@ -503,7 +502,7 @@ public class CommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommunityListData().execute(url + "/getCommunityListData");
+                    new CommunityListData().execute(getResources().getString(R.string.url) + "/getCommunityListData");
                 } else {
                     JSONObject jsonObject = json.getJSONObject("result");
 
@@ -685,17 +684,29 @@ public class CommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new SearchCommunity().execute(url + "/getSearchCommunity");
+                    new CommunityListData().execute(getResources().getString(R.string.url) + "/getSearchCommunity");
                 } else {
                     JSONObject jsonObject = json.getJSONObject("result");
 
                     state = jsonObject.getJSONArray("community");
 
-                    Log.e(TAG, state.length() + "");
-
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        myAdapter.addItem(new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX")));
+                        itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
+                        count++;
+                    }
+
+                    viewCount(count);
+
+                    if (count < 8) {
+                        for (int i = 0; i < count; i++) {
+                            myAdapter.addItem(itemArray[i]);
+                            one.setEnabled(false);
+                        }
+                    } else {
+                        for (int i = 0; i < 8; i++) {
+                            myAdapter.addItem(itemArray[i]);
+                        }
                     }
 
                     listView.setAdapter(myAdapter);
@@ -714,16 +725,17 @@ public class CommunityActivity extends BaseActivity {
 
                             Intent intent = new Intent(getApplicationContext(), ShowCommunityActivity.class);
                             intent.putExtra("title", title);
+                            intent.putExtra("user", user);
                             intent.putExtra("written", written);
                             intent.putExtra("index", item.getIndex());
                             intent.putExtra("state", user_state);
-                            intent.putExtra("user", user);
                             startActivityForResult(intent, 1111);
                         }
                     });
 
-                    myAdapter.notifyDataSetChanged();
                     myAdapter.notifyDataSetInvalidated();
+                    myAdapter.notifyDataSetChanged();
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

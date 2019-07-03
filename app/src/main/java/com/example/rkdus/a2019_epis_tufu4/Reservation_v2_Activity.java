@@ -31,8 +31,6 @@ public class Reservation_v2_Activity extends AppCompatActivity {
 
     String id, strOwner, strAnimal;
     String TAG = "Reservation_v2_Activity";
-    public String url = "http://192.168.1.11:3000";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +55,7 @@ public class Reservation_v2_Activity extends AppCompatActivity {
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
 
-        new ReservationInfoData().execute(url + "/getReservationInfoData");
+        new ReservationInfoData().execute(getResources().getString(R.string.url) + "/getReservationInfoData");
 
     }
 
@@ -156,7 +154,7 @@ public class Reservation_v2_Activity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ReservationInfoData().execute(url + "/getReservationInfoData");
+                    new ReservationInfoData().execute(getResources().getString(R.string.url) + "/getReservationInfoData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

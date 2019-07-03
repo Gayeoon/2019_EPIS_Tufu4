@@ -32,7 +32,6 @@ import java.util.ArrayList;
 
 public class StatusActivity extends BaseActivity {
     public static final String TAG = "StatusActivity";
-    public String url = "http://192.168.1.11:3000";
 
     ListView listView;
     MyAdapter myAdapter;
@@ -93,7 +92,7 @@ public class StatusActivity extends BaseActivity {
             public void onClick(View v) {
                 search_txt = search_input.getText().toString();
 
-                new SearchListData().execute(url + "/getSearchListData");
+                new SearchListData().execute(getResources().getString(R.string.url) + "/getSearchListData");
             }
         });
 
@@ -125,7 +124,7 @@ public class StatusActivity extends BaseActivity {
             }
         });
 
-        new StateListData().execute(url + "/getStateListData");
+        new StateListData().execute(getResources().getString(R.string.url) + "/getStateListData");
     }
 
     /* StateListData : ID값을 통해 전체 리스트를 출력
@@ -228,7 +227,7 @@ public class StatusActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new StateListData().execute(url + "/getStateListData");
+                    new StateListData().execute(getResources().getString(R.string.url) + "/getStateListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -372,7 +371,7 @@ public class StatusActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new SearchListData().execute(url + "/getSearchListData");
+                    new SearchListData().execute(getResources().getString(R.string.url) + "/getSearchListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

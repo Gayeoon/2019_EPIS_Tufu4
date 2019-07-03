@@ -232,7 +232,7 @@ public class MyPageTempActivity extends BaseActivity {
      */
     private void setCurrentTextInEditText() {
         for (int i = 0; i < textViews.length; i++) {
-            editTexts[i].setText(textViews[i].getText().toString());\
+            editTexts[i].setText(textViews[i].getText().toString());
         }
     }
 

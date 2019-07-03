@@ -32,7 +32,6 @@ import java.net.URL;
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";
-    public String url = "http://192.168.1.11:3000";
 
     String id;
     String hos_name;
@@ -77,7 +76,7 @@ public class HospitalActivity extends BaseActivity {
 
         imageView = (ImageView)findViewById(R.id.profile);
 
-        new HospitalData().execute(url + "/getHospitalData");
+        new HospitalData().execute(getResources().getString(R.string.url) + "/getHospitalData");
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -229,7 +228,7 @@ public class HospitalActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new HospitalData().execute(url + "/getHospitalData");
+                    new HospitalData().execute(getResources().getString(R.string.url) + "/getHospitalData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

@@ -31,7 +31,6 @@ import java.net.URL;
 
 public class LoginActivity extends BaseActivity {
     public static final String TAG = "LoginActivity";
-    public String url = "http://192.168.1.11:3000";
 
     EditText eid, epw;
     ImageButton login;
@@ -56,7 +55,8 @@ public class LoginActivity extends BaseActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                new loginDB().execute(url+"/getLogin");
+                Log.e(TAG, getResources().getString(R.string.url) +"/getLogin");
+                new loginDB().execute(getResources().getString(R.string.url) + "/getLogin");
             }
         });
 
@@ -165,7 +165,7 @@ public class LoginActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new loginDB().execute(url+"/getLogin");
+                    new loginDB().execute(getResources().getString(R.string.url) + "/getLogin");
                 } else {
                     succes = (int) json.get("result");
 

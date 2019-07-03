@@ -47,7 +47,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.9"
             android:background="@drawable/community_search_input"
             android:focusable="true"
             android:focusableInTouchMode="true"

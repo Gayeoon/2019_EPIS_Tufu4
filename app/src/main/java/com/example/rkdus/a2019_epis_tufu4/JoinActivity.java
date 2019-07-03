@@ -41,7 +41,6 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    public String url = "http://192.168.0.56:3000";
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;
     ImageButton next_one, next_two;
     LinearLayout idpw;
@@ -256,7 +255,7 @@ public class JoinActivity extends BaseActivity {
                 name = ename.getText().toString();
                 number = num1.getText().toString() + "-" + num2.getText().toString() + "-" + num3.getText().toString();
 
-                new ThreeCheck().execute(url + "/getThreeCheck");
+                new ThreeCheck().execute(getResources().getString(R.string.url) + "/getThreeCheck");
             }
         });
 
@@ -266,7 +265,7 @@ public class JoinActivity extends BaseActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                new JoinDB().execute(url + "/getJoin");
+                new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
             }
         });
 
@@ -275,7 +274,7 @@ public class JoinActivity extends BaseActivity {
             public void onClick(View v) {
                 id = eid.getText().toString();
 
-                new IDCheck().execute(url + "/getIdCheck");
+                new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
             }
         });
     }
@@ -376,7 +375,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new IDCheck().execute(url + "/getIdCheck");
+                    new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
                 } else {
                     success = (int) json.get("result");
 
@@ -499,7 +498,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new JoinDB().execute(url + "/getJoin");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
                 } else {
                     success = (int) json.get("result");
 
@@ -618,7 +617,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ThreeCheck().execute(url + "/getThreeCheck");
+                    new ThreeCheck().execute(getResources().getString(R.string.url) + "/getThreeCheck");
                 } else {
 
                     success = (int) json.get("result");

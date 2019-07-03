@@ -3,6 +3,8 @@ package com.example.rkdus.a2019_epis_tufu4;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,7 +43,6 @@ import java.util.Date;
 
 public class ShowCommunityActivity extends AppCompatActivity {
     public static final String TAG = "ShowCommunityActivity";
-    public String url = "http://192.168.1.11:3000";
 
     ListView listView;
     MyAdapter myAdapter;
@@ -136,13 +137,13 @@ public class ShowCommunityActivity extends AppCompatActivity {
             public void onClick(View v) {
                 comment = comment_txt.getText().toString();
 
-                new CommentDB().execute(url + "/putCommentDB");
+                new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
             }
         });
         txt_title.setText(title);
         txt_id.setText(author);
 
-        new CommentListData().execute(url + "/getCommentListData");
+        new CommentListData().execute(getResources().getString(R.string.url) + "/getCommentListData");
 
 //        myAdapter = new MyAdapter();
 //
@@ -269,7 +270,7 @@ public class ShowCommunityActivity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommentListData().execute(url + "/getCommentListData");
+                    new CommentListData().execute(getResources().getString(R.string.url) + "/getCommentListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -282,31 +283,51 @@ public class ShowCommunityActivity extends AppCompatActivity {
                         txt_content.setText(jsonTemp.getString("ARTICLE_CONTENT"));
                         txt_date.setText(jsonTemp.getString("ARTICLE_DATE"));
 
-                        if (jsonTemp.getString("IMG_URL_1") != null) {
+                        if (!jsonTemp.getString("IMG_URL_1").equals("")) {
                             strpic1 = jsonTemp.getString("IMG_URL_1");
-
+                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_1"));
                             picbyte1 = Base64.decode(strpic1, Base64.DEFAULT);
                             bm1 = BitmapFactory.decodeByteArray(picbyte1, 0, picbyte1.length);
 
-                            pic1.setImageBitmap(bm1);
+                            if (bm1.getWidth() < bm1.getHeight()){
+                                bm1 = Bitmap.createScaledBitmap(
+                                        bm1, bm1.getWidth() * 2, bm1.getHeight() * 2, true);
+                            }
+
+                            Drawable drawable = new BitmapDrawable(bm1);
+
+                            pic1.setBackground(drawable);
                             pic1.setVisibility(View.VISIBLE);
                         }
-                        if (jsonTemp.getString("IMG_URL_2") != null) {
+                        if (!jsonTemp.getString("IMG_URL_2").equals("")) {
                             strpic2 = jsonTemp.getString("IMG_URL_2");
-
+                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_2"));
                             picbyte2 = Base64.decode(strpic2, Base64.DEFAULT);
                             bm2 = BitmapFactory.decodeByteArray(picbyte2, 0, picbyte2.length);
 
-                            pic2.setImageBitmap(bm2);
+                            if (bm2.getWidth() < bm2.getHeight()) {
+                                bm2 = Bitmap.createScaledBitmap(
+                                        bm2, bm2.getWidth() * 2, bm2.getHeight() * 2, true);
+                            }
+                            Drawable drawable = new BitmapDrawable(bm2);
+
+                            pic2.setBackground(drawable);
                             pic2.setVisibility(View.VISIBLE);
                         }
-                        if (jsonTemp.getString("IMG_URL_3") != null) {
+                        if (!jsonTemp.getString("IMG_URL_3").equals("")) {
                             strpic3 = jsonTemp.getString("IMG_URL_3");
-
+                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_3"));
                             picbyte3 = Base64.decode(strpic3, Base64.DEFAULT);
                             bm3 = BitmapFactory.decodeByteArray(picbyte3, 0, picbyte3.length);
 
-                            pic3.setImageBitmap(bm3);
+                            if (bm3.getWidth() < bm3.getHeight()){
+                                bm3 = Bitmap.createScaledBitmap(
+                                        bm3, bm3.getWidth() * 2, bm3.getHeight() * 2, true);
+                            }
+
+                            Drawable drawable = new BitmapDrawable(bm3);
+
+                            pic3.setBackground(drawable);
                             pic3.setVisibility(View.VISIBLE);
                         }
                     }
@@ -434,7 +455,7 @@ public class ShowCommunityActivity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommentDB().execute(url + "/putCommentDB");
+                    new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
                 } else {
                     succes = (int) json.get("result");
 

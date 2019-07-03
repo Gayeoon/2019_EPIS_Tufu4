@@ -32,7 +32,6 @@ public class ReservationActivity extends AppCompatActivity {
 
     String id, name;
     String TAG = "ResrvationActivity";
-    public String url = "http://192.168.1.11:3000";
 
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
@@ -62,14 +61,14 @@ public class ReservationActivity extends AppCompatActivity {
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
 
-        new ReservationData().execute(url + "/getReservationData");
+        new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
 
         check = (ImageButton)findViewById(R.id.check);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ReservationCheck().execute(url + "/putChangeState");
+                new ReservationCheck().execute(getResources().getString(R.string.url) + "/putChangeState");
                 finish();
             }
         });
@@ -174,7 +173,7 @@ public class ReservationActivity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ReservationData().execute(url + "/getReservationData");
+                    new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -317,7 +316,7 @@ public class ReservationActivity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ReservationCheck().execute(url + "/putChangeState");
+                    new ReservationCheck().execute(getResources().getString(R.string.url) + "/putChangeState");
                 } else {
                     success = (int) json.get("result");
 
