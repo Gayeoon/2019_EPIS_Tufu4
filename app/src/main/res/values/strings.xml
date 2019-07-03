@@ -5,4 +5,6 @@
     <string name="permission_1">[설정] > [권한] 에서 권한을 허용할 수 있습니다.</string>
     <string name="permission_2">사진 및 파일을 저장하기 위하여 접근 권한이 필요합니다.</string>
 
+    <!-- MyPage Law -->
+    <string name="mypageLaw">[동물보호법] 제12조 제1항과 같은 법 시행규칙 제8조 제2항,\n 제9조 제3항에 따라 위와같이 등록되었음을 증명합니다.</string>
 </resources>

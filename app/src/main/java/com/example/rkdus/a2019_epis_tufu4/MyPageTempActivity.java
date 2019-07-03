@@ -35,14 +35,14 @@ import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
 마이페이지 액티비티
 - 이해원
  */
-public class MyPageTempActivity extends AppCompatActivity {
+public class MyPageTempActivity extends BaseActivity {
     private static final String TAG = "LogGoGo";
     public static final int CHECK_RESERVATION = 1000;
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
     TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
     TextView tvYear, tvMonth, tvDay;
-    ImageView rewriteBtn;
+    ImageView rewriteBtn, ivCard;
     RecyclerView myReservationRecycler;
 
     // 두 배열의 크기와 순서쌍은 같다고 정의.
@@ -84,6 +84,7 @@ public class MyPageTempActivity extends AppCompatActivity {
         tvDay = (TextView) findViewById(R.id.registDayText);
 
         rewriteBtn = (ImageView) findViewById(R.id.rewriteBtn);
+        ivCard = (ImageView) findViewById(R.id.registrationCardImage);
         myReservationRecycler = (RecyclerView) findViewById(R.id.myReservationRecyclerView);
 
         editTexts = new EditText[]{eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName,
@@ -109,13 +110,15 @@ public class MyPageTempActivity extends AppCompatActivity {
                         if(isRewrite) {
                             isRewrite = false;
                             Toast.makeText(getApplicationContext(), "편집을 완료합니다.", Toast.LENGTH_LONG).show();
-                            rewriteBtn.setImageResource(R.drawable.message_inner);  // 이미지 변경
+                            rewriteBtn.setImageResource(R.drawable.mypage_startrewritebtn);  // 이미지 변경
+                            ivCard.setImageResource(R.drawable.mypage_cardsuccess);
                             setNewTextInTextView();
                             saveFileToMyRegistration();
                         }
                         else {
                             Toast.makeText(getApplicationContext(), "수정을 시작합니다.", Toast.LENGTH_LONG).show();
-                            rewriteBtn.setImageResource(R.drawable.message_outer);  // 이미지 변경
+                            rewriteBtn.setImageResource(R.drawable.mypage_startsavebtn);  // 이미지 변경
+                            ivCard.setImageResource(R.drawable.mypage_cardrewrite);
                             isRewrite = true;
                             setCurrentTextInEditText();
                         }
@@ -225,11 +228,11 @@ public class MyPageTempActivity extends AppCompatActivity {
     }
 
     /*
-    수정이 완료되었을 때 TextView에 옮겨담는 함수
+    수정이 완료되었을 때 EditText에 옮겨담는 함수
      */
     private void setCurrentTextInEditText() {
         for (int i = 0; i < textViews.length; i++) {
-            editTexts[i].setText(textViews[i].getText().toString());
+            editTexts[i].setText(textViews[i].getText().toString());\
         }
     }
 
@@ -265,6 +268,7 @@ public class MyPageTempActivity extends AppCompatActivity {
 
         FileInputStream fileinputStream = null;
         try {
+            Log.d(TAG, "file name : " + filename);
             fileinputStream = openFileInput(filename);
             int size = fileinputStream.available();
             byte[] buffer = new byte[size];
@@ -290,6 +294,7 @@ public class MyPageTempActivity extends AppCompatActivity {
         // 파일 생성(덮어쓰기)
         FileOutputStream fileOutputStream = null;
         try {
+            Log.d(TAG, "file name : " + filename);
             fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
             fileOutputStream.write(jsonObject.toString().getBytes());   // Json 쓰기
             fileOutputStream.flush();

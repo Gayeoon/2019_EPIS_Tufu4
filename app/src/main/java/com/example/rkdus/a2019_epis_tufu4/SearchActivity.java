@@ -77,7 +77,7 @@ import java.util.List;
  * - 이해원
  */
 public class SearchActivity extends AppCompatActivity {
-    public static final String SERVER_URL = "http://192.168.1.11:3000";
+    public static final String SERVER_URL = "http://vowow.cafe24app.com";
     public static final String TAG = "LogGoGo";
 
     /*
@@ -139,10 +139,6 @@ public class SearchActivity extends AppCompatActivity {
         searchRecyclerView = (RecyclerView) findViewById(R.id.searchListViewPage);
         listTabLayout = (TabLayout) findViewById(R.id.listTablayout);
 
-        // 권한 확인 및 요청
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
         searchAsyncTask = new SearchAsyncTask();
         searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
 

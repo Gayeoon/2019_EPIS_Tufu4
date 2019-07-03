@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -96,7 +95,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate.
         // return 인자는 ViewHolder.
         context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_registration_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_reservation_list_item, parent, false);
         return new ItemViewHolder(view);
     }
 

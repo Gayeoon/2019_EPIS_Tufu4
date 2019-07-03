@@ -14,7 +14,7 @@
 
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
-    <dimen name="typeImgHeight">130dp</dimen>
+    <dimen name="typeImgHeight">165dp</dimen>
     <dimen name="typeMargin">23dp</dimen>
 
     <!-- MessageActivity -->
@@ -79,11 +79,12 @@
 
     <!-- MyPageActivity -->
     <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
-    <dimen name="myPageTextHeight">23dp</dimen>
+    <dimen name="myPageTextHeight">10dp</dimen>
     <dimen name="myPageEditTextWidth">130dp</dimen>
-    <dimen name="myPageAddressTextHeight">60dp</dimen>
-    <dimen name="myPageTextMarginTop">5dp</dimen>
+    <dimen name="myPageAddressTextHeight">40dp</dimen>
+    <dimen name="myPageTextMarginTop">8dp</dimen>
     <dimen name="myPageContextWeight">0.18</dimen>
     <dimen name="myPageTextViewWeight">0.32</dimen>
-    <dimen name="myPageDateTextSize">12dp</dimen>
+    <dimen name="myPageDateTextSize">10dp</dimen>
+    <dimen name="myPageTextSize">10dp</dimen>
 </resources>

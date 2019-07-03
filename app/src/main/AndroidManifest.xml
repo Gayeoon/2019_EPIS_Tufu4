@@ -34,7 +34,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
         <activity
             android:name=".MenuActivity"
             android:theme="@style/NoTheme" />
@@ -46,8 +45,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme" >
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -68,8 +66,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
-            android:theme="@style/NoTheme"/>
-
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
@@ -82,7 +79,6 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/NoTheme">
-
         </activity>
         <activity android:name=".SelectPicActivity" />
 
@@ -113,22 +109,30 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".WriteCommunityActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".ShowCommunityActivity"
             android:theme="@style/NoTheme"></activity>
-        <activity android:name=".ShowCommunityActivity"
-            android:theme="@style/NoTheme">
-        </activity>
         <activity
             android:name=".MessagePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".MyPageTempActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".NicnamePopupActivity"
-            android:theme="@style/PopupTheme"
-            ></activity>
+        <activity
+            android:name=".NicnamePopupActivity"
+            android:theme="@style/PopupTheme" />
         <activity
             android:name=".HospitalProfileActivity"
-            android:theme="@style/NoTheme"/>
+            android:theme="@style/NoTheme" />
+        <activity android:name=".SplashActivity"
+            android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
