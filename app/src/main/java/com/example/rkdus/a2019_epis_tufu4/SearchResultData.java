@@ -1,6 +1,12 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
-public class SearchResultData {
+import java.io.Serializable;
+
+/*
+SearchActivity에 사용하는 객체
+검색 시 반환받는 값들을 저장
+ */
+public class SearchResultData implements Serializable {
     private int HOSPITAL_KEY;
     private String CEO_NAME;
     private String HOSPITAL_NAME;
@@ -8,16 +14,34 @@ public class SearchResultData {
     private String ADDRESS1;
     private String ADDRESS2;
     private int SIGNUP_APP;
-    private int COUNT;
+    private int RESERVATION_COUNT;
 
-    public int getCOUNT() {
-        return COUNT;
+    private double lat;
+    private double lon;
+
+    public double getLat() {
+        return lat;
     }
 
-    public void setCOUNT(int COUNT) {
-        this.COUNT = COUNT;
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
+    public double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public int getRESERVATION_COUNT() {
+        return RESERVATION_COUNT;
+    }
+
+    public void setRESERVATION_COUNT(int RESERVATION_COUNT) {
+        this.RESERVATION_COUNT = RESERVATION_COUNT;
+    }
     public int getHOSPITAL_KEY() {
         return HOSPITAL_KEY;
     }

@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public class WaitReservationActivity extends BaseActivity implements View.OnClickListener {
 
     String TAG = "ResrvationActivity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     String owner, animal, id;
 

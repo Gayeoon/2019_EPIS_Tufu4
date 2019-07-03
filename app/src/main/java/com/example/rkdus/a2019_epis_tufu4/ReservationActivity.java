@@ -32,7 +32,7 @@ public class ReservationActivity extends AppCompatActivity {
 
     String id, name;
     String TAG = "ResrvationActivity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
@@ -323,6 +323,9 @@ public class ReservationActivity extends AppCompatActivity {
 
                     if (success == 1) {
                         Toast.makeText(getApplicationContext(), "예약확인!!", Toast.LENGTH_LONG).show();
+
+                        String tel = "tel:" + phone.getText().toString();
+                        startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
 
                         finish();
                     } else {

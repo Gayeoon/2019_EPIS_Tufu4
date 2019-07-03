@@ -30,7 +30,11 @@
     <dimen name="messageTextMargin">5dp</dimen>
 
     <dimen name="msgEditTextMarginBottom">10dp</dimen>
+    <dimen name="msgPostCodeMarginBottom">20dp</dimen>
+    <dimen name="msgTextSize">12dp</dimen>
     <dimen name="msgLayoutBetweenMargin">10dp</dimen>
+    <dimen name="msgLayoutMarginTop">30dp</dimen>
+
     <!-- MessageTypeActivity -->
     <dimen name="messageTypeImgWidth">100dp</dimen>
     <dimen name="messageTypeImgHeight">100dp</dimen>
@@ -47,7 +51,7 @@
     <dimen name="searchBtnHeight">30dp</dimen>
     <dimen name="searchBtnMarginLeft">10dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
-    <dimen name="searchRecycleViewHeight">320dp</dimen>
+    <dimen name="searchRecycleViewHeight">550dp</dimen>
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
@@ -67,4 +71,20 @@
     <dimen name="mainBtnBetweenMargin">35dp</dimen>
     <dimen name="mainImgWidth">200dp</dimen>
     <dimen name="mainImgHeight">350dp</dimen>
+
+    <!-- HospitalProfileActivity -->
+    <dimen name="hosProfImageWidth">200dp</dimen>
+    <dimen name="hosProfImageHeight">200dp</dimen>
+    <dimen name="hosProfImageMarginTop">50dp</dimen>
+    <dimen name="hosProfIconHeight">30dp</dimen>
+
+    <!-- MyPageActivity -->
+    <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
+    <dimen name="myPageTextHeight">30dp</dimen>
+    <dimen name="myPageEditTextWidth">130dp</dimen>
+    <dimen name="myPageAddressTextHeight">60dp</dimen>
+    <dimen name="myPageTextMarginTop">5dp</dimen>
+    <dimen name="myPageContextWeight">0.18</dimen>
+    <dimen name="myPageTextViewWeight">0.32</dimen>
+    <dimen name="myPageDateTextSize">12dp</dimen>
 </resources>

@@ -8,8 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CommunityView extends LinearLayout {
-    TextView name, time, content, comment;
-    ImageView profile;
+    TextView title, written, index;
 
     public CommunityView(Context context) {
         super(context);
@@ -28,28 +27,20 @@ public class CommunityView extends LinearLayout {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.community_item, this, true);
 
-        name = (TextView) findViewById(R.id.name);
-        time = (TextView) findViewById(R.id.time);
-        content = (TextView) findViewById(R.id.content);
-        comment = (TextView) findViewById(R.id.comment);
-
-        profile = (ImageView) findViewById(R.id.profile);
-
+        title = (TextView) findViewById(R.id.title);
+        written = (TextView) findViewById(R.id.written);
+        index = (TextView) findViewById(R.id.index);
     }
 
-    public void setName(String n) {
-        name.setText(n);
+    public void setTitle(String n) {
+        title.setText(n);
     }
 
-    public void setTime(String t) {
-        time.setText(t);
+    public void setWritten(String t) {
+        written.setText(t);
     }
 
-    public void setComment(String c) {
-        comment.setText(c);
-    }
-
-    public void setContent(String c) {
-        content.setText(c);
+    public void setIndex(int i) {
+        index.setText(i);
     }
 }

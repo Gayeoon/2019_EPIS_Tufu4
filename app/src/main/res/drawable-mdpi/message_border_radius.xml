@@ -9,4 +9,6 @@
     <stroke
         android:width="2dp"
         android:color="@color/colorGray" />
+
+    <item android:drawable="@drawable/message_spinner" />
 </shape>

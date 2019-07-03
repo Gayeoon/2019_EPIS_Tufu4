@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class FinishReservationActivity extends BaseActivity {
     public static final String TAG = "FinishReservation";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     ListView listView;
     MyAdapter myAdapter;

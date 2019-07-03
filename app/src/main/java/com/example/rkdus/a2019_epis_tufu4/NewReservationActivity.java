@@ -37,7 +37,7 @@ import java.util.Date;
 
 public class NewReservationActivity extends BaseActivity {
     public static final String TAG = "NewReservationActivity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     ListView internalList, externalList, dogtagList;
     MyAdapter internalAdapter, externalAdapter, dogtagAdapter;

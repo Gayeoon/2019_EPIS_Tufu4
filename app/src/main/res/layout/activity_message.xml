@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,238 +7,769 @@
     android:orientation="vertical"
     tools:context=".MessageActivity">
 
-    <ImageView
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/msgLayoutBetweenMargin"
+    android:layout_marginRight="@dimen/msgLayoutBetweenMargin"
+    android:orientation="vertical">
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/statusBarHeight"
+        android:layout_height="80dp"
+        android:text="예약하기"
+        android:textSize="21dp"
+        android:textColor="#FF5D8D"
+        android:textAlignment="center"
         android:gravity="center"
-        android:background="@color/colorGray"
         />
 
-    <LinearLayout
-        android:layout_width="@dimen/messageWidth"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/border_rectangle"
-        android:layout_marginTop="@dimen/messageMarginTop"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/messageSubjectHeight"
-            android:text="주인 정보"
-            android:textColor="@color/colorWhite"
-            android:layout_gravity="center"
-            android:background="@color/colorDimGray"
-            android:gravity="center"/>
-
-        <TableLayout
+        <LinearLayout
+            android:id="@+id/LinearLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:gravity="center">
+            android:orientation="vertical">
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="소유자" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitEnd"
+                app:layout_constraintDimensionRatio="1:1"
+                app:srcCompat="@drawable/message_ownerinfotitle" />
 
-                <EditText
-                    android:id="@+id/ownerNameText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:fontFamily="@font/notosansregular"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    />
-            </TableRow>
+            <!-- 같은 종류의 정보를 하나로 묶은 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="주소" />
+                <!-- 좌측 메뉴 레이아웃 -->
+                <FrameLayout
+                    android:layout_width="120dp"
+                    android:layout_height="300dp"
+                    >
 
-                <EditText
-                    android:id="@+id/addressText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
+                    <!-- 좌측 메뉴 레이아웃 백그라운드 -->
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="300dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/message_sidelayout"
+                        android:layout_marginBottom="20dp"
+                        />
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="연락처" />
+                    <!-- 좌측 메뉴 레이아웃 텍스트 -->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
 
-                <EditText
-                    android:id="@+id/hpText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
-        </TableLayout>
-    </LinearLayout>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="성명" />
 
-    <LinearLayout
-        android:layout_width="@dimen/messageWidth"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/border_rectangle"
-        android:layout_marginTop="@dimen/messageMarginTop"
-        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="주민등록번호"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/messageSubjectHeight"
-            android:text="반려동물 정보"
-            android:textColor="@color/colorWhite"
-            android:layout_gravity="center"
-            android:background="@color/colorDimGray"
-            android:gravity="center"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="전화번호" />
 
-        <TableLayout
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="주민등록주소"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="현거주지주소"/>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- 우측 메뉴 레이아웃 -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="@dimen/msgLayoutBetweenMargin"
+                    android:layout_marginRight="@dimen/msgLayoutBetweenMargin"
+                    >
+
+                    <!-- 우측 메뉴 소유주 이름 -->
+                    <EditText
+                        android:id="@+id/ownerNameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/notosansbold" />
+
+                    <!-- 우측 메뉴 소유주 주민등록번호 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/ownerRRNBefore"
+                            android:layout_weight="0.45"
+                            android:layout_gravity="left"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"
+                            android:inputType="textNoSuggestions"
+                            android:imeOptions="actionNext"
+                            android:fontFamily="@font/notosansbold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="0.1"
+                            />
+
+                        <EditText
+                            android:id="@+id/ownerRRNAfter"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.45"
+                            android:background="@drawable/message_border_radius"
+                            android:fontFamily="@font/notosansbold"
+                            android:imeOptions="actionNext"
+                            android:inputType="textNoSuggestions"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 소유주 전화번호 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/ownerHPFirst"
+                            android:layout_weight="0.3"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"
+                            android:inputType="textNoSuggestions"
+                            android:imeOptions="actionNext"
+                            android:fontFamily="@font/notosansbold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="0.05"
+                            android:textColor="#66bdbdbd"
+                            android:textAlignment="center"
+                            android:text="-"
+                            />
+
+                        <EditText
+                            android:id="@+id/ownerHPSecond"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/message_border_radius"
+                            android:fontFamily="@font/notosansbold"
+                            android:imeOptions="actionSearch"
+                            android:inputType="textNoSuggestions"
+                            android:paddingLeft="10dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.05"
+                            android:gravity="center"
+                            android:textColor="#66bdbdbd"
+                            android:textAlignment="center"
+                            android:text="-"/>
+
+                        <EditText
+                            android:id="@+id/ownerHPThird"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/message_border_radius"
+                            android:fontFamily="@font/notosansbold"
+                            android:imeOptions="actionNext"
+                            android:inputType="textNoSuggestions"
+                            android:paddingLeft="10dp" />
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 소유주 주민등록주소 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/ownerPostCodeFirst"
+                            android:layout_weight="0.3"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"
+                            android:inputType="textNoSuggestions"
+                            android:imeOptions="actionNext"
+                            android:fontFamily="@font/notosansbold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="0.05"
+                            />
+
+                        <EditText
+                            android:id="@+id/ownerPostCodeSecond"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/message_border_radius"
+                            android:fontFamily="@font/notosansbold"
+                            android:imeOptions="actionSearch"
+                            android:inputType="textNoSuggestions"
+                            android:paddingLeft="10dp" />
+
+                        <ImageView
+                            android:id="@+id/searchPostCodeBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:layout_marginLeft="10dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/message_searchbtn" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/ownerDetailPostCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:hint="상세주소"
+                        android:textSize="@dimen/msgTextSize"
+                        android:layout_marginBottom="@dimen/msgPostCodeMarginBottom"
+                        android:fontFamily="@font/notosansbold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="@dimen/msgPostCodeMarginBottom"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="#FF5D8D"
+                            android:textAlignment="center"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="주민등록주소와 일치"
+                            android:textSize="10dp"
+                            />
+
+                        <CheckBox
+                            android:id="@+id/matchedPostCodeBox"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:button="@null"
+                            android:background="@drawable/message_checkbox"
+                            />
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 소유주 주민등록주소 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <EditText
+                            android:id="@+id/ownerRealPostCodeFirst"
+                            android:layout_weight="0.3"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"
+                            android:inputType="textNoSuggestions"
+                            android:imeOptions="actionNext"
+                            android:fontFamily="@font/notosansbold" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_weight="0.05"
+                            />
+
+                        <EditText
+                            android:id="@+id/ownerRealPostCodeSecond"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:background="@drawable/message_border_radius"
+                            android:fontFamily="@font/notosansbold"
+                            android:imeOptions="actionSearch"
+                            android:inputType="textNoSuggestions"
+                            android:paddingLeft="10dp" />
+
+                        <ImageView
+                            android:id="@+id/searchRealPostCodeBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.3"
+                            android:layout_marginLeft="10dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/message_searchbtn" />
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/ownerRealDetailPostCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:hint="상세주소"
+                        android:textSize="@dimen/msgTextSize"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:fontFamily="@font/notosansbold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/LinearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/msgLayoutMarginTop"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/petInfoImageView"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                app:layout_constraintDimensionRatio="1:1"
+                android:adjustViewBounds="true"
+                android:scaleType="fitEnd"
+                app:srcCompat="@drawable/message_petinfotitle" />
+
+            <!-- 같은 종류의 정보를 하나로 묶은 레이아웃 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!-- 좌측 메뉴 레이아웃 -->
+                <FrameLayout
+                    android:layout_width="120dp"
+                    android:layout_height="500dp"
+                    >
+
+                    <!-- 좌측 메뉴 레이아웃 백그라운드 -->
+                    <ImageView
+                        android:layout_width="120dp"
+                        android:layout_height="500dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/message_sidelayout"
+                        android:layout_marginBottom="20dp"
+                        />
+
+                    <!-- 좌측 메뉴 레이아웃 텍스트 -->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="이름"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="품종"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="털색깔"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="성별"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="중성화"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="생년월일"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="취득일"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:gravity="center_vertical"
+                            android:text="특이사항"/>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- 우측 메뉴 레이아웃 -->
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="@dimen/msgLayoutBetweenMargin"
+                    android:layout_marginRight="@dimen/msgLayoutBetweenMargin"
+                    >
+
+                    <!-- 우측 메뉴 반려동물 이름 -->
+                    <EditText
+                        android:id="@+id/petNameText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/notosansbold" />
+
+                    <!-- 우측 메뉴 반려동물 품종 -->
+                    <EditText
+                        android:id="@+id/petRaceText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/notosansbold" />
+
+                    <!-- 우측 메뉴 반려동물 털 색깔 -->
+                    <EditText
+                        android:id="@+id/petColorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:fontFamily="@font/notosansbold" />
+
+                    <!-- 우측 메뉴 반려동물 성별 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/petFemale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:layout_gravity="left"
+                            app:srcCompat="@drawable/message_petfemale"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1">
+
+                        </View>
+                        <ImageView
+                            android:id="@+id/petMale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/message_petmale"
+                            />
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 반려동물 중성화 여부 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <ImageView
+                            android:id="@+id/petNeutralization"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:layout_gravity="left"
+                            app:srcCompat="@drawable/message_petneutralization"
+                            />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.1">
+
+                        </View>
+                        <ImageView
+                            android:id="@+id/petNotNeutralization"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.45"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            app:srcCompat="@drawable/message_petnotneutralization"
+                            />
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 반려동물 생년월일 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <Spinner
+                            android:id="@+id/petBirthYearSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="17dp"
+                            android:layout_weight="0.45"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/petBirthMonthSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.27"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="5dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="17dp"
+                            ></Spinner>
+
+                        <Spinner
+                            android:id="@+id/petBirthDaySpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.27"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="5dp"
+                            android:layout_gravity="center"
+                            ></Spinner>
+                    </LinearLayout>
+
+                    <!-- 우측 메뉴 반려동물 취득일 -->
+                    <LinearLayout
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <Spinner
+                            android:id="@+id/petGetYearSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="17dp"
+                            android:layout_weight="0.45"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="10dp"></Spinner>
+
+                        <Spinner
+                            android:id="@+id/petGetMonthSpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.27"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="5dp"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="17dp"
+                            ></Spinner>
+
+                        <Spinner
+                            android:id="@+id/petGetDaySpinner"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/messageEditTextHeight"
+                            android:layout_weight="0.27"
+                            android:background="@drawable/message_border_radius"
+                            android:paddingLeft="5dp"
+                            android:layout_gravity="center"
+                            ></Spinner>
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/petSpecialProblem"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:paddingLeft="10dp"
+                        android:inputType="textNoSuggestions"
+                        android:imeOptions="actionNext"
+                        android:textSize="@dimen/msgTextSize"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:fontFamily="@font/notosansbold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginTop="@dimen/msgLayoutMarginTop"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:gravity="center">
+            app:layout_constraintDimensionRatio="1:1"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+            app:srcCompat="@drawable/message_selectwaytitle" />
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="동물명" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/petNameText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
+            <ImageView
+                android:id="@+id/innerBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/message_inner"
+                app:layout_constraintDimensionRatio="1:1" />
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="품종" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05"></View>
 
-                <EditText
-                    android:id="@+id/raceText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
+            <ImageView
+                android:id="@+id/outerBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/message_outer"
+                app:layout_constraintDimensionRatio="1:1" />
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="모색" />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.05"></View>
 
-                <EditText
-                    android:id="@+id/petColorText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
+            <ImageView
+                android:id="@+id/badgeBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/message_badge"
+                app:layout_constraintDimensionRatio="1:1"
+                />
+        </LinearLayout>
 
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="생년월일" />
-
-                <EditText
-                    android:id="@+id/petBirthText"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageEditTextHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:paddingLeft="10dp"
-                    android:inputType="textNoSuggestions"
-                    android:imeOptions="actionNext"
-                    android:fontFamily="@font/notosansregular" />
-            </TableRow>
-
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="성별" />
-
-                <Spinner
-                    android:id="@+id/petGenderSpinner"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageSpinnerHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:fontFamily="@font/notosansregular"
-                    android:textColor="@color/colorBlack"></Spinner>
-            </TableRow>
-
-            <TableRow android:layout_margin="@dimen/messageTextMargin">
-                <TextView
-                    android:layout_width="@dimen/messageTextWidth"
-                    android:layout_height="@dimen/messageTextHeight"
-                    android:fontFamily="@font/notosansregular"
-                    android:text="중성화" />
-
-                <Spinner
-                    android:id="@+id/neutralizationSpinner"
-                    android:layout_width="@dimen/messageEditTextWidth"
-                    android:layout_height="@dimen/messageSpinnerHeight"
-                    android:background="@drawable/border_rectangle"
-                    android:fontFamily="@font/notosansregular"
-                    android:textColor="@color/colorBlack"></Spinner>
-            </TableRow>
-        </TableLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="@dimen/messageWidth"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/messageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
+        <ImageView
+            android:id="@+id/reservationBtn"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:layout_gravity="right"
-            android:text="예약하기"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorDimGray"/>
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/message_reservation"
+            app:layout_constraintDimensionRatio="1:1"
+            />
     </LinearLayout>
-</LinearLayout>
+
+</ScrollView>

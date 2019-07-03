@@ -31,7 +31,7 @@ public class Reservation_v2_Activity extends AppCompatActivity {
 
     String id, strOwner, strAnimal;
     String TAG = "Reservation_v2_Activity";
-    public String url = "http://192.168.0.56:3000";
+    public String url = "http://192.168.1.11:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

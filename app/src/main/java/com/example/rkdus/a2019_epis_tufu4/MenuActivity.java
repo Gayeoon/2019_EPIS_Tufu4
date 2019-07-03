@@ -104,7 +104,7 @@ public class MenuActivity extends AppCompatActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Toast.makeText(getApplicationContext(), "myPageImg click", Toast.LENGTH_LONG).show();
-                        switchActvityIntent = new Intent(getApplicationContext(), MyPageActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), MyPageTempActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

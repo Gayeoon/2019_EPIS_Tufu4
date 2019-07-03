@@ -21,15 +21,33 @@
                 android:layout_marginBottom="3dp"
                 android:layout_width="match_parent"
                 android:text="거리 순"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:clickable="true"
+                />
 
             <TextView
                 android:id="@+id/reservationCount"
                 android:textSize="15dp"
                 android:gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="3dp"
                 android:layout_width="match_parent"
                 android:text="예약횟수 순"
+                android:textColor="@color/colorBlack"
+                android:clickable="true"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/nothing"
+                android:textSize="15dp"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="3dp"
+                android:layout_width="match_parent"
+                android:textColor="@color/colorBlack"
+                android:text="필터 해제"
+                android:clickable="true"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 

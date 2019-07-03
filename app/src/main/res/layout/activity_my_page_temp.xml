@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
+    android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
+    tools:context=".MyPageTempActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="마이페이지"
+        android:textSize="21dp"
+        android:textColor="#FF5D8D"
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
+
+    <ImageView
+        android:id="@+id/rewriteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/message_searchbtn" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="280dp"
+        android:layout_gravity="center"
+        >
+
+        <ImageView
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/message_inner"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="동물등록증"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="등록번호"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/registNumEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/registNumText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="test"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="소 유 자"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/ownerNameEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="test"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="연 락 처"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/ownerHPEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerHPText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="010-6572-0153"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="top|bottom"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="주     소"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/ownerAddressEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageAddressTextHeight"
+                    android:layout_weight="0.82"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerAddressText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageAddressTextHeight"
+                    android:layout_weight="0.82"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:text="청주시 상당구 수영로294"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="동 물 명"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petNameEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="test"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="품    종"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petRaceEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petRaceText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="믹스견"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="모    색"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petColorEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petColorText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="test"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="생 년 월"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petBirthEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petBirthText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="믹스견"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="성 별"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petGenderEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petGenderText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="test"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:text="중 성 화"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/petNeutralizationEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petNeutralizationText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="center|left"
+                    android:paddingLeft="10dp"
+                    android:text="믹스견"
+                    android:textSize="14dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/registYearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="2019"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="년"
+                    android:layout_marginRight="20dp"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:id="@+id/registMonthText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="06"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="월"
+                    android:layout_marginRight="20dp"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:id="@+id/registDayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="25"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="일"
+                    android:layout_marginRight="20dp"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/hosinfo_reservation"
+        />
+
+    <ImageView
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        app:layout_constraintDimensionRatio="1:1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitEnd"
+        app:srcCompat="@drawable/message_petinfotitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myReservationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
+</LinearLayout>
