@@ -37,6 +37,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
@@ -48,7 +49,7 @@ import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionE
  * * 내장형과 외장형을 따로 저장해놓고 진행
  * - 이해원
  */
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
     private static final int SELECT_RESERVATION = 10;
 
@@ -61,6 +62,7 @@ public class MessageActivity extends AppCompatActivity {
     int petGender;  // 0: default,  1: female,  2: male
     int petNeutralization;  // 0: default,  1: neutralization,  2: not neutralization
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
+    boolean checkReservation = false;
 
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
@@ -69,7 +71,7 @@ public class MessageActivity extends AppCompatActivity {
     CheckBox cbMatchedPostCode; // 주민등록주소와 동일 체크박스
 
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
-    ImageView innerBtn, outerBtn, badgeBtn, reservationBtn; // 등록방법, 예약버튼
+    ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
     Spinner sPetBirthYear, sPetBirthMonth, sPetBirthDay, sPetGetYear, sPetGetMonth, sPetGetDay;
 
     ArrayList<String> yearArray = new ArrayList<>();
@@ -114,6 +116,7 @@ public class MessageActivity extends AppCompatActivity {
         outerBtn = (ImageView) findViewById(R.id.outerBtn);
         badgeBtn = (ImageView) findViewById(R.id.badgeBtn);
         reservationBtn = (ImageView) findViewById(R.id.reservationBtn);
+        rewriteBtn = (ImageView) findViewById(R.id.messageRewriteBtn);
         sPetBirthYear = (Spinner) findViewById(R.id.petBirthYearSpinner);
         sPetBirthMonth = (Spinner) findViewById(R.id.petBirthMonthSpinner);
         sPetBirthDay = (Spinner) findViewById(R.id.petBirthDaySpinner);
@@ -198,13 +201,14 @@ public class MessageActivity extends AppCompatActivity {
                 hospitalName = typeIntent.getStringExtra("hospitalName");   // 병원 이름 String에 저장
             }
             // MyPageActivity에서 수정을 통해 받은 MyReservationData 가져오기.
-            else if(typeIntent.hasExtra("data")) {
+            if(typeIntent.hasExtra("data")) {
                 myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
                 printReservationData(myReservationData);
-            }
-            else {
-                Toast.makeText(getApplicationContext(), "필수 값을 불러올 수 없습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
-                finish();
+
+                // 예약 변경인 경우의 설정
+                reservationBtn.setImageResource(R.drawable.message_checkreservationbtn);
+                rewriteBtn.setVisibility(View.VISIBLE);
+                checkReservation = true;
             }
         }
         else {
@@ -217,24 +221,24 @@ public class MessageActivity extends AppCompatActivity {
     예약 수정 시 EditText에 정보 미리 입력시키기.
      */
     private void printReservationData(MyReservationData data) {
-        ownerName = data.getOwnerName();
+        ownerName = data.getOWNER_NAME();
         eOwnerName.setText(ownerName);
 
         // ex) 123456-1234567
-        ownerRRN = data.getOwnerRRN();
+        ownerRRN = data.getOWNER_RESIDENT();
         String[] splitRRN = ownerRRN.split("-");
         eOwnerRRNBefore.setText(splitRRN[0]);
         eOwnerRRNAfter.setText(splitRRN[1]);
 
         // ex) 010-1234-5678
-        ownerHP = data.getOwnerHP();
+        ownerHP = data.getOWNER_PHONE_NUMBER();
         String[] splitHP = ownerHP.split("-");
         eOwnerHP1.setText(splitHP[0]);
         eOwnerHP2.setText(splitHP[1]);
         eOwnerHP3.setText(splitHP[2]);
 
         // ex) 302-765_대전시 유성구 궁동
-        String[] addr1 = data.getOwnerAddress1().split("_");
+        String[] addr1 = data.getOWNER_ADDRESS1().split("_");
         ownerPostCode = addr1[0];
         ownerDetailPostCode = addr1[1];
         String[] splitPostCode = ownerPostCode.split("-");
@@ -243,7 +247,7 @@ public class MessageActivity extends AppCompatActivity {
         eOwnerDetailPostCode.setText(ownerDetailPostCode);
 
         // ex) 302-765_대전시 유성구 궁동
-        String[] addr2 = data.getOwnerAddress2().split("_");
+        String[] addr2 = data.getOWNER_ADDRESS2().split("_");
         ownerRealPostCode = addr2[0];
         ownerRealDetailPostCode = addr2[1];
         String[] splitRealPostCode = ownerRealPostCode.split("-");
@@ -251,15 +255,15 @@ public class MessageActivity extends AppCompatActivity {
         eOwnerRealPostCode2.setText(splitRealPostCode[1]);
         eOwnerRealDetailPostCode.setText(ownerRealDetailPostCode);
 
-        petName = data.getPetName();
+        petName = data.getPET_NAME();
         ePetName.setText(petName);
-        petRace = data.getPetRace();
+        petRace = data.getPET_VARIETY();
         ePetRace.setText(petRace);
-        petColor = data.getPetColor();
+        petColor = data.getPET_COLOR();
         ePetColor.setText(petColor);
 
         // ex) 1996.01.30
-        String[] birth = data.getPetBirth().split(".");
+        String[] birth = data.getPET_BIRTH().split(".");
         petYear = birth[0];
         petMonth = birth[1];
         petDay = birth[2];
@@ -268,7 +272,7 @@ public class MessageActivity extends AppCompatActivity {
         sPetBirthDay.setSelection(getIndexOfSpinner(petDay, dayArray));
 
         // ex) 1996.01.30
-        String[] getDate = data.getDate().split(".");
+        String[] getDate = data.getASK_DATE().split(".");
         petGetYear = getDate[0];
         petGetMonth = getDate[1];
         petGetDay = getDate[2];
@@ -276,10 +280,10 @@ public class MessageActivity extends AppCompatActivity {
         sPetGetMonth.setSelection(getIndexOfSpinner(petGetMonth, monthArray));
         sPetGetDay.setSelection(getIndexOfSpinner(petGetDay, dayArray));
 
-        key = data.getKey();
+        key = data.getHOSPITAL_KEY();
 
         // 0: default, 1: inner, 2: outer, 3: badge
-        type = data.getType();
+        type = data.getTYPE();
         if(type == 1)
             innerBtn.setImageResource(R.drawable.message_innerclick);
         else if(type == 2)
@@ -288,14 +292,14 @@ public class MessageActivity extends AppCompatActivity {
             badgeBtn.setImageResource(R.drawable.message_badgeclick);
 
         // 0: default, 1: female, 2: male
-        petGender = data.getPetGender();
+        petGender = data.getPET_GENDER();
         if(petGender == 1)
             ivPetFemale.setImageResource(R.drawable.message_petfemaleclick);
         else if(petGender == 2)
             ivPetMale.setImageResource(R.drawable.message_petmaleclick);
 
         // 0: default, 1: neutralization, 2: not neutralization
-        petNeutralization = data.getPetNeut();
+        petNeutralization = data.getPET_NEUTRALIZATION();
         if(petNeutralization == 1)
             ivPetNeutalization.setImageResource(R.drawable.message_petneutralizationclick);
         else if(petNeutralization == 2)
@@ -450,15 +454,24 @@ public class MessageActivity extends AppCompatActivity {
         final String fileText = loadJSONFile(filename);
         FileOutputStream fileOutputStream = null;
         try {
+            // 현재 날짜 넣기
+            Calendar cal = new GregorianCalendar();
+            String date = cal.get(Calendar.YEAR) + "년 " + (cal.get(Calendar.MONTH) +1) + "월 " + cal.get(Calendar.DAY_OF_MONTH) + "일";
+            reservationObject.accumulate("DATE", date);
+
             fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
-                fileOutputStream.write(reservationObject.toString().getBytes());   // Json 쓰기
+                Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.put(reservationObject);
+                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
             }
             else {  // 기존에 저장된 파일 존재
                 JSONArray jsonArray = new JSONArray(fileText);
+                Log.d(TAG, "기존에 저장된 파일 존재");
                 for(int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getKey()) { // 키 동일 체크
+                    if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                         // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
                         // jsonArray.remove(i);
                         jsonArray.put(i, jsonObject);   // 덮어씌우기
@@ -600,16 +613,19 @@ public class MessageActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            JSONObject jsonObject = StringToJSON(result);
+            JSONObject resultObject = StringToJSON(result);
+            Log.d(TAG, "result : " + result);
             try {
-                if(jsonObject.getInt("result") == 1) {
+                if(resultObject.getInt("result") == 1) {
                     if(saveMyReservationFile(jsonObject)) {
                         Toast.makeText(getApplicationContext(), "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK);
+                        finish();
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "예약 성공! 저장 실패!", Toast.LENGTH_LONG).show();
                         setResult(RESULT_CANCELED);
+                        finish();
                     }
                 }
                 else {
@@ -771,7 +787,14 @@ public class MessageActivity extends AppCompatActivity {
                            type = 3;
                        }
                        break;
+                   case R.id.rewriteBtn:
+                       if(checkReservation) {
+                           messageAsyncTask = new MessageAsyncTask();
+                           messageAsyncTask.execute("/rewriteMessage");
+                       }
                    case R.id.reservationBtn:
+                       if(checkReservation)
+                           finish();
                        if(setOwnerInfo() && setPetInfo()) {
                            Intent intent = new Intent(getApplicationContext(), MessagePopupActivity.class);
                            startActivityForResult(intent, SELECT_RESERVATION);

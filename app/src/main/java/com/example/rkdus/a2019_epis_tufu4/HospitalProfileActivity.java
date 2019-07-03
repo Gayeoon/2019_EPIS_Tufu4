@@ -1,13 +1,17 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +35,7 @@ import java.util.ArrayList;
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
+import static java.lang.Thread.sleep;
 
 /*
 SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
@@ -86,17 +91,29 @@ public class HospitalProfileActivity extends BaseActivity {
             finish();
         }
 
-        // 검색 이미지 클릭 이벤트
+        // 예약 이미지 클릭 이벤트
         ivReservation.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.hosinfo_translate);
+                        v.startAnimation(animation);
                         Toast.makeText(getApplicationContext(), "예약하기 click", Toast.LENGTH_LONG).show();
                         if(hospitalData.getBoolSIGNUP_APP()) {  // 어플 등록 여부 체크
-                            Intent reservationIntent = new Intent(getApplicationContext(), MessageActivity.class);
-                            reservationIntent.putExtra("key", hospitalData.getHOSPITAL_KEY());
-                            startActivityForResult(reservationIntent, START_RESERVATION);
+                            Log.d(TAG, "key : " + hospitalData.getHOSPITAL_KEY() + ", name : " + hospitalData.getHOSPITAL_NAME());
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //지연시키길 원하는 밀리초 뒤에 동작
+                                    Intent reservationIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                                    reservationIntent.putExtra("key", hospitalData.getHOSPITAL_KEY());
+                                    reservationIntent.putExtra("hospitalName", hospitalData.getHOSPITAL_NAME());
+                                    startActivityForResult(reservationIntent, START_RESERVATION);
+                                }
+                            }, 500);
+
                         }
                         else
                             Toast.makeText(getApplicationContext(), "현재 해당 병원은 어플 등록이 되어있지 않습니다.", Toast.LENGTH_LONG).show();
@@ -123,6 +140,13 @@ public class HospitalProfileActivity extends BaseActivity {
         else                                                // Address1, 2 둘 다 존재
             tvHospitalAddress.setText(hospitalData.getADDRESS1() + " " + hospitalData.getADDRESS2());
 
+        tvHospitalHP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tvHospitalHP.getText().toString()));
+                startActivity(intent);
+            }
+        });
     }
 
     /*

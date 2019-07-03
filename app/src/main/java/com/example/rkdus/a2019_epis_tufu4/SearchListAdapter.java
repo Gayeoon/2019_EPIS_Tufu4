@@ -57,14 +57,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.It
             view = itemView;
             hospitalNameText = itemView.findViewById(R.id.hospitalNameTextView);
             ceoNameText = itemView.findViewById(R.id.ceoNameTextView);
-            signUpAppImage = itemView.findViewById(R.id.imageView);
+            signUpAppImage = itemView.findViewById(R.id.signUpAppImage);
         }
 
         void onBind(SearchResultData data) {
             hospitalNameText.setText(data.getHOSPITAL_NAME());
-            // ceoNameText.setText(data.getCEO_NAME());
-            ceoNameText.setText(String.valueOf(data.getRESERVATION_COUNT()));
-            // signUpAppImage.setImageResource(data.getResId());
+            ceoNameText.setText(data.getCEO_NAME());
+            //ceoNameText.setText(String.valueOf(data.getRESERVATION_COUNT()));
+            if(data.getBoolSIGNUP_APP())    // 등록 시
+                signUpAppImage.setImageResource(R.drawable.search_signupappoicon);
         }
     }
 

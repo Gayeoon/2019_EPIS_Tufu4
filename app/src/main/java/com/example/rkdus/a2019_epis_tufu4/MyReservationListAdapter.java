@@ -68,9 +68,9 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
 
         void onBind(MyReservationData data) {
             final MyReservationData resultData = data;
-            hospitalNameText.setText(data.getHospitalName());
-            typeText.setText(data.getTypeToStr(data.getType()));
-            dateText.setText(data.getDate());
+            hospitalNameText.setText(data.getHOSPITAL_NAME());
+            typeText.setText(data.getTypeToStr(data.getTYPE()));
+            dateText.setText(data.getDATE());
             checkRegistrationImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

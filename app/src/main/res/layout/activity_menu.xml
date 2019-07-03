@@ -13,9 +13,9 @@
         android:id="@+id/menuImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        app:layout_constraintDimensionRatio="1:1"
         android:background="@drawable/menu_pet"
         android:adjustViewBounds="true"
+        app:layout_constraintDimensionRatio="1:1"
         android:scaleType="centerCrop"
         />
 

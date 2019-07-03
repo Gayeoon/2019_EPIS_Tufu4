@@ -70,7 +70,7 @@ public class MyPageTempActivity extends BaseActivity {
 
         tvRegistNum = (TextView) findViewById(R.id.registNumText);
         tvOwnerName = (TextView) findViewById(R.id.ownerNameText);
-        tvOwnerHP = (TextView) findViewById(R.id.ownerAddressText);
+        tvOwnerHP = (TextView) findViewById(R.id.ownerHPText);
         tvOwnerAddress = (TextView) findViewById(R.id.ownerAddressText);
         tvPetName = (TextView) findViewById(R.id.petNameText);
         tvPetRace = (TextView) findViewById(R.id.petRaceText);
@@ -138,6 +138,7 @@ public class MyPageTempActivity extends BaseActivity {
     private void refreshMyReservation() {
         String myReservation = loadJSONFile("reservation");
         if(!TextUtils.isEmpty(myReservation)) { // 지금까지 예약한 정보가 담겨진 파일 불러오기
+            Log.d(TAG, "string :  " + myReservation);
             setReservationListFromStr(myReservation);
             showRecyclerView(reservationList);
         }
@@ -149,6 +150,7 @@ public class MyPageTempActivity extends BaseActivity {
         try {
             JSONArray reservationArray = new JSONArray(myReservation);
             // Gson사용. JSONArray to ArrayList
+            Log.d(TAG, "GSON사용전 :  " + myReservation);
             Gson gson = new Gson();
             Type listType = new TypeToken<ArrayList<MyReservationData>>(){}.getType();
             reservationList = gson.fromJson(reservationArray.toString(), listType);
@@ -164,6 +166,8 @@ public class MyPageTempActivity extends BaseActivity {
 
         final ArrayList<MyReservationData> result = arrayList;
         Log.d(TAG, "reservation ArrayList size : " + result.size());
+        Log.d(TAG, "asd ");
+        Log.d(TAG, "이거예약123함 : " + result.get(0).getHOSPITAL_NAME());
         // UI 작업을 위한 쓰레드 실행
         new Thread(new Runnable() {
             @Override
@@ -171,6 +175,11 @@ public class MyPageTempActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(TAG, "asd ");
+                        Log.d(TAG, "이거예약123함 : " + result.get(0).getHOSPITAL_NAME());
+                        if(!result.isEmpty()) {
+                            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+                        }
                         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
                         myReservationRecycler.setLayoutManager(linearLayoutManager);
                         adapter = new MyReservationListAdapter(result, getApplicationContext());
@@ -196,7 +205,7 @@ public class MyPageTempActivity extends BaseActivity {
                 //해당 위치의 Data get
                 MyReservationData resultData = result.get(position);
                 Toast.makeText(getApplicationContext(),
-                        "병원 이름, 병원 타입 :  (" + resultData.getHospitalName() + ", " + resultData.getTypeToStr(resultData.getType()) + ")",
+                        "병원 이름, 병원 타입 :  (" + resultData.getHOSPITAL_NAME() + ", " + resultData.getTypeToStr(resultData.getTYPE()) + ")",
                         Toast.LENGTH_LONG).show();
             }
         });
@@ -223,6 +232,7 @@ public class MyPageTempActivity extends BaseActivity {
      */
     private void setNewTextInTextView() {
         for (int i = 0; i < editTexts.length; i++) {
+            Log.d(TAG, "result : " + getRemoveWSTextOfEditText(editTexts[i]));
             textViews[i].setText(getRemoveWSTextOfEditText(editTexts[i]));
         }
     }
