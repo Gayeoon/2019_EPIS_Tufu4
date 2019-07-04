@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,8 +37,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
@@ -59,6 +63,7 @@ public class MessageActivity extends BaseActivity {
     String ownerAddress, ownerRealAddress;
     String petName, petRace, petColor, petBirth, petGetDate, petSpecialProblem;
     String petYear, petMonth, petDay, petGetYear, petGetMonth, petGetDay;
+    String askDateOld;
     int petGender;  // 0: default,  1: female,  2: male
     int petNeutralization;  // 0: default,  1: neutralization,  2: not neutralization
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
@@ -272,7 +277,7 @@ public class MessageActivity extends BaseActivity {
         sPetBirthDay.setSelection(getIndexOfSpinner(petDay, dayArray));
 
         // ex) 1996.01.30
-        String[] getDate = data.getASK_DATE().split(".");
+        String[] getDate = data.getREGIST_DATE().split(".");
         petGetYear = getDate[0];
         petGetMonth = getDate[1];
         petGetDay = getDate[2];
@@ -305,6 +310,7 @@ public class MessageActivity extends BaseActivity {
         else if(petNeutralization == 2)
             ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralizationclick);
 
+        askDateOld = data.getASK_DATE();
     }
 
     /*
@@ -448,18 +454,21 @@ public class MessageActivity extends BaseActivity {
 
     /*
     파일 저장하는 함수
+    타입에 따른 ASK_DATE 처리
      */
-    private boolean saveMyReservationFile(JSONObject reservationObject) {
+    private boolean saveMyReservationFile(JSONObject reservationObject, String type) {
         String filename = "reservation.json";
         final String fileText = loadJSONFile(filename);
         FileOutputStream fileOutputStream = null;
         try {
-            // 현재 날짜 넣기
-            Calendar cal = new GregorianCalendar();
-            String date = cal.get(Calendar.YEAR) + "년 " + (cal.get(Calendar.MONTH) +1) + "월 " + cal.get(Calendar.DAY_OF_MONTH) + "일";
-            reservationObject.accumulate("DATE", date);
-
             fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+            // ASK_DATE 수정하는 작업
+            if(type.equals("rewrite")) {    // ASK_DATE_NEW -> ASK_DATE, ASK_DATE_OLD remove
+                reservationObject.remove("ASK_DATE_OLD");
+                reservationObject.accumulate("ASK_DATE", reservationObject.get("ASK_DATE_NEW"));
+                reservationObject.remove("ASK_DATE_NEW");
+            }
+
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
                 JSONArray jsonArray = new JSONArray();
@@ -473,9 +482,12 @@ public class MessageActivity extends BaseActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                         // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
-                        // jsonArray.remove(i);
-                        jsonArray.put(i, jsonObject);   // 덮어씌우기
-                        break;
+                        // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
+                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {
+                            // jsonArray.remove(i);
+                            jsonArray.put(i,reservationObject); // 덮어씌우기
+                            break;
+                        }
                     }
                 }
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
@@ -530,28 +542,15 @@ public class MessageActivity extends BaseActivity {
      */
     private class MessageAsyncTask extends AsyncTask<String, Void, String> {
         JSONObject jsonObject = new JSONObject();
+        String type;
+
         @Override
         protected String doInBackground(String... strings) {
             String search_url = SERVER_URL + strings[0];    // URL
             // 서버에 메세지 정보 전송
             try {
-                // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
-                // Message에 담은 모든 정보 JSONObject에 담기
-                jsonObject.accumulate("HOSPITAL_KEY", key); // key JSONObject에 담기
-                jsonObject.accumulate("TYPE", type); // type JSONObject에 담기
-                jsonObject.accumulate("OWNER_NAME", ownerName);
-                jsonObject.accumulate("OWNER_RESIDENT", ownerRRN);
-                jsonObject.accumulate("OWNER_PHONE_NUMBER", ownerHP);
-                jsonObject.accumulate("OWNER_ADDRESS1", ownerAddress);
-                jsonObject.accumulate("OWNER_ADDRESS2", ownerRealAddress);
-                jsonObject.accumulate("PET_NAME", petName);
-                jsonObject.accumulate("PET_VARIETY", petRace);
-                jsonObject.accumulate("PET_COLOR", petColor);
-                jsonObject.accumulate("PET_GENDER", petGender);
-                jsonObject.accumulate("PET_NEUTRALIZATION", petNeutralization);
-                jsonObject.accumulate("PET_BIRTH", petBirth);
-                jsonObject.accumulate("ASK_DATE", petGetDate);
-                jsonObject.accumulate("ETC", petSpecialProblem);
+                type = strings[1];
+                jsonObject = getJsonObjOfType(type);
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
@@ -605,8 +604,6 @@ public class MessageActivity extends BaseActivity {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
             return null;
         }
@@ -616,8 +613,12 @@ public class MessageActivity extends BaseActivity {
             JSONObject resultObject = StringToJSON(result);
             Log.d(TAG, "result : " + result);
             try {
+                if(TextUtils.isEmpty(resultObject.getString("result"))) {
+                    Toast.makeText(getApplicationContext(), "예약 실패!", Toast.LENGTH_LONG).show();
+                }
+
                 if(resultObject.getInt("result") == 1) {
-                    if(saveMyReservationFile(jsonObject)) {
+                    if(saveMyReservationFile(jsonObject, type)) {
                         Toast.makeText(getApplicationContext(), "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show();
                         setResult(RESULT_OK);
                         finish();
@@ -637,6 +638,50 @@ public class MessageActivity extends BaseActivity {
         }
     }
 
+    /*
+    서버에 전송할 데이터를 타입에 따라 전송하는 타입
+     */
+    private JSONObject getJsonObjOfType(String typeString) {
+        JSONObject tempObject = new JSONObject();
+            try {
+                // 현재 날짜와 시간 구하기
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                Date date = new Date();
+                String nowDate = simpleDateFormat.format(date);
+                Log.d(TAG, "date : " + nowDate);
+
+                // Message에 담은 모든 정보 JSONObject에 담기
+                tempObject.accumulate("HOSPITAL_KEY", key); // key JSONObject에 담기
+                tempObject.accumulate("TYPE", type); // type JSONObject에 담기
+                tempObject.accumulate("OWNER_NAME", ownerName);
+                tempObject.accumulate("OWNER_RESIDENT", ownerRRN);
+                tempObject.accumulate("OWNER_PHONE_NUMBER", ownerHP);
+                tempObject.accumulate("OWNER_ADDRESS1", ownerAddress);
+                tempObject.accumulate("OWNER_ADDRESS2", ownerRealAddress);
+                tempObject.accumulate("PET_NAME", petName);
+                tempObject.accumulate("PET_VARIETY", petRace);
+                tempObject.accumulate("PET_COLOR", petColor);
+                tempObject.accumulate("PET_GENDER", petGender);
+                tempObject.accumulate("PET_NEUTRALIZATION", petNeutralization);
+                tempObject.accumulate("PET_BIRTH", petBirth);
+                tempObject.accumulate("REGIST_DATE", petGetDate);
+                tempObject.accumulate("ETC", petSpecialProblem);
+
+                // ASK_DATE(등록날짜)에 대한 예외 상황처리
+                if(typeString.equals("send")) {
+                    tempObject.accumulate("ASK_DATE", nowDate);
+                }
+                if(typeString.equals("rewrite")) {
+                    tempObject.accumulate("ASK_DATE_OLD", askDateOld);
+                    tempObject.accumulate("ASK_DATE_NEW", nowDate);
+                }
+                return tempObject;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        return null;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -645,7 +690,7 @@ public class MessageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "팝업창에서 확인 누름!");
                     messageAsyncTask = new MessageAsyncTask();
-                    messageAsyncTask.execute("/sendMessage");
+                    messageAsyncTask.execute("/sendMessage", "send");
                 }
                 else {
                     Log.d(TAG, "팝업창에서 취소 누름!");
@@ -790,7 +835,7 @@ public class MessageActivity extends BaseActivity {
                    case R.id.rewriteBtn:
                        if(checkReservation) {
                            messageAsyncTask = new MessageAsyncTask();
-                           messageAsyncTask.execute("/rewriteMessage");
+                           messageAsyncTask.execute("/rewriteMessage", "rewrite");
                        }
                    case R.id.reservationBtn:
                        if(checkReservation)

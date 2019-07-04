@@ -20,13 +20,22 @@ public class MyReservationData implements Serializable {
     String PET_COLOR;
     int PET_GENDER;
     int PET_NEUTRALIZATION;
+
+    public String getREGIST_DATE() {
+        return REGIST_DATE;
+    }
+
+    public void setREGIST_DATE(String REGIST_DATE) {
+        this.REGIST_DATE = REGIST_DATE;
+    }
+
     String PET_BIRTH;
     String ASK_DATE;
     String ETC;
 
     int TYPE;
     String HOSPITAL_NAME;
-    String DATE;
+    String REGIST_DATE;
 
     public int getHOSPITAL_KEY() {
         return HOSPITAL_KEY;
@@ -154,14 +163,6 @@ public class MyReservationData implements Serializable {
 
     public void setHOSPITAL_NAME(String HOSPITAL_NAME) {
         this.HOSPITAL_NAME = HOSPITAL_NAME;
-    }
-
-    public String getDATE() {
-        return DATE;
-    }
-
-    public void setDATE(String DATE) {
-        this.DATE = DATE;
     }
 
     public String getTypeToStr(int type) {   // 1: inner,  2: outer,  3: badge

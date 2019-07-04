@@ -82,10 +82,11 @@
     <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
     <dimen name="myPageTextHeight">25dp</dimen>
     <dimen name="myPageEditTextWidth">130dp</dimen>
+    <dimen name="myPageSubTitleHeight">14dp</dimen>
     <dimen name="myPageAddressTextHeight">60dp</dimen>
     <dimen name="myPageTextMarginTop">5dp</dimen>
     <dimen name="myPageContextWeight">0.18</dimen>
     <dimen name="myPageTextViewWeight">0.32</dimen>
     <dimen name="myPageDateTextSize">12dp</dimen>
-    <dimen name="myPageTextSize">10dp</dimen>
+    <dimen name="myPageTextSize">13dp</dimen>
 </resources>

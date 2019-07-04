@@ -126,6 +126,7 @@
                         android:id="@+id/ownerNameText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/messageEditTextHeight"
+                        android:maxLength="12"
                         android:background="@drawable/message_border_radius"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                         android:paddingLeft="10dp"
@@ -154,6 +155,7 @@
                             android:textSize="15dp"
                             android:inputType="number"
                             android:imeOptions="actionNext"
+                            android:maxLength="6"
                             android:fontFamily="@font/notosansbold" />
 
                         <View
@@ -172,6 +174,7 @@
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionNext"
                             android:inputType="numberPassword"
+                            android:maxLength="7"
                             android:textSize="15dp"
                             android:paddingLeft="10dp" />
                     </LinearLayout>
@@ -193,6 +196,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="number"
                             android:imeOptions="actionNext"
+                            android:maxLength="3"
                             android:textSize="15dp"
                             android:fontFamily="@font/notosansbold" />
 
@@ -215,6 +219,7 @@
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionNext"
                             android:inputType="number"
+                            android:maxLength="4"
                             android:textSize="15dp"
                             android:paddingLeft="10dp" />
 
@@ -236,6 +241,7 @@
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionNext"
                             android:inputType="number"
+                            android:maxLength="4"
                             android:textSize="15dp"
                             android:paddingLeft="10dp" />
                     </LinearLayout>
@@ -324,11 +330,14 @@
 
                         <CheckBox
                             android:id="@+id/matchedPostCodeBox"
-                            android:layout_width="15dp"
-                            android:layout_height="15dp"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
                             android:layout_marginRight="10dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginTop="1dp"
                             android:button="@null"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:background="@drawable/message_checkbox"
                             />
                     </LinearLayout>
@@ -349,7 +358,7 @@
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
                             android:inputType="number"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/msgTextSize"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
@@ -369,7 +378,7 @@
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionSearch"
                             android:inputType="number"
-                            android:textSize="15dp"
+                            android:textSize="@dimen/msgTextSize"
                             android:paddingLeft="10dp" />
 
                         <ImageView
@@ -392,7 +401,7 @@
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
                         android:hint="상세주소"
-                        android:textSize="15dp"
+                        android:textSize="@dimen/msgTextSize"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                         android:fontFamily="@font/notosansbold" />
                 </LinearLayout>
@@ -535,6 +544,7 @@
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
                         android:textSize="15dp"
+                        android:maxLength="15"
                         android:fontFamily="@font/notosansbold" />
 
                     <!-- 우측 메뉴 반려동물 품종 -->
@@ -547,6 +557,7 @@
                         android:paddingLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:maxLength="15"
                         android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
@@ -560,6 +571,7 @@
                         android:paddingLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:maxLength="10"
                         android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
@@ -728,6 +740,7 @@
                         android:imeOptions="actionNext"
                         android:textSize="@dimen/msgTextSize"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:maxLength="30"
                         android:fontFamily="@font/notosansbold" />
                 </LinearLayout>
 
