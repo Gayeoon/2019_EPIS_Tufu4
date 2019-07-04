@@ -9,15 +9,25 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /*
  * 사용자
@@ -26,6 +36,8 @@ import android.widget.Toast;
  */
 public class MenuActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";
+    private final int SELECT_NICNAME = 10;
+
     Intent switchActvityIntent;
     ImageView whatIsRegImg;
     ImageView howToPetRegImg;
@@ -129,8 +141,17 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
-                        startActivity(switchActvityIntent);
+                        // TODO : 저장된 파일에서 불러오기
+                        if(TextUtils.isEmpty(getNicname())) { // 닉네임이 스마트폰 안에 내장되어있지 않은 경우
+                            switchActvityIntent = new Intent(getApplicationContext(), NicnamePopupActivity.class);
+                            startActivityForResult(switchActvityIntent, SELECT_NICNAME);
+                        }
+                        else {  // 닉네임이 스마트폰 안에 내장되어있는 경우
+                            switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
+                            switchActvityIntent.putExtra("user", 1);
+                            switchActvityIntent.putExtra("userName", getNicname());
+                            startActivity(switchActvityIntent);
+                        }
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
                         break;
@@ -140,10 +161,95 @@ public class MenuActivity extends AppCompatActivity {
         });
 
     }
+
     /*
-        Camera 관련 권한 체크 상태 확인 함수
-        @return : boolean(true : 체크한 경우, false : 체크 안한 경우)
-         */
+    닉네임이 담은 파일 폴더 경로 반환
+     */
+    public String getNicnameDirPath() {
+        return Environment.getExternalStorageDirectory().getAbsolutePath() + "/vowow_nicname"; // 폴더 저장 경로
+    }
+
+    /*
+    닉네임이 저장된 파일에서 닉네임 불러오는 함수
+     */
+    public String getNicname() {
+        if(existNicname()) {
+            String line = null;
+            try {
+                BufferedReader buf = new BufferedReader(new FileReader(getNicnameDirPath() + "/nicname.txt"));
+                if((line = buf.readLine()) != null) {   // 파일에서 읽은 값이 null이 아닌 경우
+                    return line;
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        else
+            return null;
+    }
+
+    /*
+    닉네임을 저장하는 함수
+     */
+    public boolean setNicname(String nicname) {
+        if(!existNicname()) {   // 기존에 설정한 닉네임이 존재하지 않는 경우(= 폴더가 존재하지 않는 경우)
+            File file = new File(getNicnameDirPath());
+            file.mkdir();
+        }
+        try {
+            BufferedWriter buf = new BufferedWriter(new FileWriter(getNicnameDirPath() + "/nicname.txt", false));
+            buf.append(nicname);
+            buf.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*
+    닉네임이 저장된 파일이 존재하는지 체크
+    */
+    public boolean existNicname() {
+        File nicnameFIle = new File(getNicnameDirPath()); // 폴더 저장 경로
+        if(!nicnameFIle.exists()) { // 폴더가 존재하지 않으면
+            return false;
+        }
+        else
+            return true;
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        switch (requestCode) {
+            case SELECT_NICNAME:
+                if(resultCode == RESULT_OK) {
+                    String nicname = intent.getStringExtra("nicname");
+                    if(setNicname(nicname)) {
+                        switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
+                        switchActvityIntent.putExtra("user", 1);
+                        switchActvityIntent.putExtra("userName", getNicname());
+                        startActivity(switchActvityIntent);
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "내장 파일 저장 실패.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "취소 버튼 누름.", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    /*
+    Camera 관련 권한 체크 상태 확인 함수
+    @return : boolean(true : 체크한 경우, false : 체크 안한 경우)
+     */
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkCameraPermission() {

@@ -29,6 +29,7 @@
                 android:paddingLeft="10dp"
                 android:text="업체명"
                 android:textColor="#000000"
+                android:maxLength="15"
                 android:textSize="14dp" />
 
             <ImageView

@@ -14,6 +14,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,7 +47,9 @@ public class JoinActivity extends BaseActivity {
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;
     ImageButton next_one, next_two;
     LinearLayout idpw;
-    LinearLayout no;
+    LinearLayout no, vowow;
+
+    WebView webView;
 
     ImageView check, overlap;
 
@@ -53,6 +58,9 @@ public class JoinActivity extends BaseActivity {
     InputMethodManager imm;
 
     Animation slowly_appear, slowlyDisappear;
+
+    CompoundButton cbSignUpApp;
+    boolean isSignUpApp = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +94,13 @@ public class JoinActivity extends BaseActivity {
         idpw = (LinearLayout) findViewById(R.id.idpw);
 
         no = (LinearLayout) findViewById(R.id.no);
+        vowow = (LinearLayout)findViewById(R.id.vowow);
+        cbSignUpApp = (CheckBox)findViewById(R.id.isSignUpApp);
+        webView = (WebView)findViewById(R.id.webview);
+
+        webView.loadUrl("file:///android_asset/vowow_hos.html");
+        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        webView.setScrollbarFadingEnabled(false);
 
         epwCheck.addTextChangedListener(new TextWatcher() {
             @Override
@@ -100,7 +115,6 @@ public class JoinActivity extends BaseActivity {
 
                 if (pw.equals(comfirm)) {
                     check.setBackgroundResource(R.drawable.join_check);
-                    next_two.setEnabled(true);
                     next_two.setBackgroundResource(R.drawable.join_nexton);
                 } else {
                     check.setBackgroundResource(R.drawable.join_fail);
@@ -274,7 +288,27 @@ public class JoinActivity extends BaseActivity {
             public void onClick(View v) {
                 id = eid.getText().toString();
 
-                new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
+                if (id.equals("")){
+                    Toast.makeText(getApplicationContext(), "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
+                }else{
+                    new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
+                }
+            }
+        });
+
+        // 체크박스 클릭 이벤트
+
+        cbSignUpApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(cbSignUpApp.isChecked()) {
+                    isSignUpApp = true;
+                    next_two.setEnabled(true);
+                }
+                else {  // 초기화
+                    isSignUpApp = false;
+                    next_two.setEnabled(false);
+                }
             }
         });
     }
@@ -299,6 +333,7 @@ public class JoinActivity extends BaseActivity {
 
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
+
 
                 tmp.accumulate("id", id);
 
@@ -623,7 +658,7 @@ public class JoinActivity extends BaseActivity {
                     success = (int) json.get("result");
 
                     if (success == 1) {
-
+                        vowow.setVisibility(View.VISIBLE);
                         idpw.setVisibility(View.VISIBLE);
                         next_two.setVisibility(View.VISIBLE);
                         ehospital.setEnabled(false);

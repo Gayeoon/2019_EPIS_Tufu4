@@ -80,7 +80,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -94,6 +94,8 @@
                     android:layout_weight="@dimen/myPageTextViewWeight"
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:maxLength="13"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="gone" />
 
@@ -118,7 +120,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -148,7 +150,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -163,6 +165,7 @@
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="13"
                     android:visibility="gone" />
 
                 <TextView
@@ -185,7 +188,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="top"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -226,7 +229,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -256,7 +259,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -294,7 +297,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -323,7 +326,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -338,6 +341,7 @@
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="10"
                     android:visibility="gone" />
 
                 <TextView
@@ -361,7 +365,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -375,6 +379,7 @@
                     android:layout_weight="@dimen/myPageTextViewWeight"
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
+                    android:maxLength="5"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="gone" />
 
@@ -390,7 +395,7 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
                     android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
                     android:gravity="center"
@@ -405,6 +410,7 @@
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="4"
                     android:visibility="gone" />
 
                 <TextView
@@ -436,6 +442,7 @@
                     android:paddingLeft="10dp"
                     android:text="2019"
                     android:textSize="@dimen/myPageDateTextSize"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     />
 
@@ -447,6 +454,7 @@
                     android:text="년"
                     android:layout_marginRight="20dp"
                     android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
                 <TextView
@@ -457,6 +465,7 @@
                     android:gravity="center"
                     android:paddingLeft="10dp"
                     android:text="06"
+                    android:textColor="@color/colorBlack"
                     android:textStyle="bold"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
@@ -468,6 +477,7 @@
                     android:text="월"
                     android:layout_marginRight="20dp"
                     android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
                 <TextView
@@ -479,6 +489,7 @@
                     android:paddingLeft="10dp"
                     android:text="25"
                     android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
                 <TextView
@@ -489,6 +500,7 @@
                     android:text="일"
                     android:textStyle="bold"
                     android:layout_marginRight="20dp"
+                    android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
             </LinearLayout>
@@ -496,12 +508,13 @@
             <TextView
                 android:id="@+id/centerNameText"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/myPageTextHeight"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:text="유성구청장"
                 android:textSize="@dimen/myPageDateTextSize"
+                android:textColor="@color/colorBlack"
                 android:textStyle="bold"
                 android:visibility="visible"
                 />
@@ -548,7 +561,7 @@
         android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
-        android:layout_height="150dp">
+        android:layout_height="180dp">
         <android.support.v7.widget.RecyclerView
             android:id="@+id/myReservationRecyclerView"
             android:layout_width="match_parent"
