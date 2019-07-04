@@ -1,413 +1,419 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
-import android.Manifest;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.media.ExifInterface;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import com.googlecode.tesseract.android.TessBaseAPI;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
-import Catalano.Imaging.FastBitmap;
-import Catalano.Imaging.Filters.BradleyLocalThreshold;
+import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
 
 /*
- * 사용자
- * 나의 동물 등록증 표시하는 액티비티
- * - 이해원
+마이페이지 액티비티
+- 이해원
  */
-public class MyPageActivity extends AppCompatActivity {
-    public static final String TAG = "LogGoGo";
-    final static int CHECK_PICTURE = 200;
-    static final int REQUEST_TAKE_PICTURE = 1;
+public class MyPageActivity extends BaseActivity {
+    private static final String TAG = "LogGoGo";
+    public static final int CHECK_RESERVATION = 1000;
 
-    TessBaseAPI tessBaseAPI;
-    Button cameraBtn;
-    ImageView imageView;
-    Bitmap resultBitmap;
-    TextView textView;
+    EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
+    TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
+    TextView tvYear, tvMonth, tvDay, tvCenterName;
+    EditText eYear, eMonth, eDay, eCenterName;
 
-    String currentPicturePath;
-    Uri photoUri;
+    ImageView rewriteBtn, ivCard;
+    RecyclerView myReservationRecycler;
 
-
+    // 두 배열의 크기와 순서쌍은 같다고 정의.
+    EditText[] editTexts;
+    TextView[] textViews;
+    ArrayList<MyReservationData> reservationList = new ArrayList<>();
+    MyReservationListAdapter adapter;
+    boolean isRewrite = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_my_page);
 
-        // 권한 확인 및 요청
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkCameraPermission();
+        // 뷰 정의
+        eRegistNum = (EditText) findViewById(R.id.registNumEditText);
+        eOwnerName = (EditText) findViewById(R.id.ownerNameEditText);
+        eOwnerHP = (EditText) findViewById(R.id.ownerHPEditText);
+        eOwnerAddress = (EditText) findViewById(R.id.ownerAddressEditText);
+        ePetName = (EditText) findViewById(R.id.petNameEditText);
+        ePetRace = (EditText) findViewById(R.id.petRaceEditText);
+        ePetColor = (EditText) findViewById(R.id.petColorEditText);
+        ePetBirth = (EditText) findViewById(R.id.petBirthEditText);
+        ePetGender = (EditText) findViewById(R.id.petGenderEditText);
+        ePetNeut = (EditText) findViewById(R.id.petNeutralizationEditText);
 
+        tvRegistNum = (TextView) findViewById(R.id.registNumText);
+        tvOwnerName = (TextView) findViewById(R.id.ownerNameText);
+        tvOwnerHP = (TextView) findViewById(R.id.ownerHPText);
+        tvOwnerAddress = (TextView) findViewById(R.id.ownerAddressText);
+        tvPetName = (TextView) findViewById(R.id.petNameText);
+        tvPetRace = (TextView) findViewById(R.id.petRaceText);
+        tvPetColor = (TextView) findViewById(R.id.petColorText);
+        tvPetBirth = (TextView) findViewById(R.id.petBirthText);
+        tvPetGender = (TextView) findViewById(R.id.petGenderText);
+        tvPetNeut = (TextView) findViewById(R.id.petNeutralizationText);
+
+        tvYear = (TextView) findViewById(R.id.registYearText);
+        tvMonth = (TextView) findViewById(R.id.registMonthText);
+        tvDay = (TextView) findViewById(R.id.registDayText);
+        tvCenterName = (TextView) findViewById(R.id.centerNameText);
+
+        eYear = (EditText) findViewById(R.id.registYearEditText);
+        eMonth = (EditText) findViewById(R.id.registMonthEditText);
+        eDay = (EditText) findViewById(R.id.registDayEditText);
+        eCenterName = (EditText) findViewById(R.id.centerNameEditText);
+
+        rewriteBtn = (ImageView) findViewById(R.id.rewriteBtn);
+        ivCard = (ImageView) findViewById(R.id.registrationCardImage);
+        myReservationRecycler = (RecyclerView) findViewById(R.id.myReservationRecyclerView);
+
+        editTexts = new EditText[]{eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName,
+                ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut, eYear, eMonth, eDay, eCenterName};
+
+        textViews = new TextView[]{tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName,
+                tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut, tvYear, tvMonth, tvDay, tvCenterName};
+
+        String registrationInfo = loadJSONFile("registration");
+        if(!TextUtils.isEmpty(registrationInfo)) { // 이전에 동물등록증을 저장해놨던 경우
+            JSONObject registrationObject = StringToJSON(registrationInfo);
+            printSavedTextInTextView(registrationObject);
         }
-        else
-            init();
 
-        cameraBtn.setOnClickListener(new View.OnClickListener() {
+        refreshMyReservation();
+
+        // 수정 버튼 클릭 이벤트
+        rewriteBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                sendTakePhotoIntent();
-//                Intent intent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
-//                startActivity(intent);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        if(isRewrite) {
+                            isRewrite = false;
+                            Toast.makeText(getApplicationContext(), "편집을 완료합니다.", Toast.LENGTH_SHORT).show();
+                            rewriteBtn.setImageResource(R.drawable.mypage_startrewritebtn);  // 이미지 변경
+                            ivCard.setImageResource(R.drawable.mypage_cardsuccess);
+                            setNewTextInTextView();
+                            saveFileToMyRegistration();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "수정을 시작합니다.", Toast.LENGTH_SHORT).show();
+                            rewriteBtn.setImageResource(R.drawable.mypage_startsavebtn);  // 이미지 변경
+                            ivCard.setImageResource(R.drawable.mypage_cardrewrite);
+                            isRewrite = true;
+                            setCurrentTextInEditText();
+                        }
+                        setVisibleView(isRewrite);
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
+                }
+                return true;
             }
         });
     }
 
-    private void init() {
-        setContentView(R.layout.activity_my_page);
-
-        // 뷰 정의
-        cameraBtn = (Button) findViewById(R.id.cameraBtn);
-        imageView = (ImageView) findViewById(R.id.imageView);
-        textView = (TextView) findViewById(R.id.resultTextView);
-
-        // Tesseract 설정
-        Log.d(TAG, "init end ");
-        tessBaseAPI = new TessBaseAPI();
-        String dir = getFilesDir() + "/tesseract";
-        String[] language = {"eng"};
-        if(checkLanguageFile(dir + "/tessdata", language)) {
-            Log.d(TAG, "tessBaseAPI start ");
-            tessBaseAPI.init(dir, "eng");
-            Log.d(TAG, "tessBaseAPI init end ");
-        }
-    }
-
     /*
-    Tesseract API 중 인식할 문자의 언어 체크하는 함수
+    MyReservation RecyclerView 출력 또는 갱신.
      */
-    boolean checkLanguageFile(String dir, String[] language)
-    {
-        Log.d(TAG, "checkLanguageFile");
-        File file = new File(dir);
-        file.mkdirs();
-        for (int i = 0; i < language.length; i++) {
-            String lang = language[i];
-            String filePath = dir + "/" + lang + ".traineddata"; // ex) dir/kor.traineddata
-            File langDataFile = new File(filePath);
-            if(!langDataFile.exists())
-                createFiles(filePath, lang);
+    private void refreshMyReservation() {
+        String myReservation = loadJSONFile("reservation");
+        if(!TextUtils.isEmpty(myReservation)) { // 지금까지 예약한 정보가 담겨진 파일 불러오기
+            Log.d(TAG, "string :  " + myReservation);
+            setReservationListFromStr(myReservation);
+            showRecyclerView(reservationList);
         }
-        return true;
     }
-
-    private void createFiles(String destfile, String language)
-    {
-        Log.d(TAG, "createFiles");
-        AssetManager assetMgr = this.getAssets();
-
-        InputStream inputStream = null;
-        OutputStream outputStream = null;
-
+    /*
+    JSONArray 방식의 String을 ArrayList로 변환.
+     */
+    private void setReservationListFromStr(String myReservation) {
         try {
-            inputStream = assetMgr.open("tessdata/" + language + ".traineddata");   // ex) tessdata/kor.trainneddata
-            outputStream = new FileOutputStream(destfile);
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, read);
-            }
-            inputStream.close();
-            outputStream.flush();
-            outputStream.close();
-            Log.d(TAG, "파일 저장 완료");
-        }catch (IOException e) {
+            JSONArray reservationArray = new JSONArray(myReservation);
+            // Gson사용. JSONArray to ArrayList
+            Log.d(TAG, "GSON사용전 :  " + myReservation);
+            Gson gson = new Gson();
+            Type listType = new TypeToken<ArrayList<MyReservationData>>(){}.getType();
+            reservationList = gson.fromJson(reservationArray.toString(), listType);
+        } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     /*
-    tesseract API를 사용하여 OCR 진행
+    RecyclerView setting and print 함수
      */
-    public void processImage() {
-        Log.d(TAG, "processImage");
-        String OCRresult = null;
-        tessBaseAPI.setImage(resultBitmap);
-        Log.d(TAG, "setImage");
-        OCRresult = tessBaseAPI.getUTF8Text();
-        Log.d(TAG, "getUTF8Text");
-        textView.setText(OCRresult);
-    }
+    private void showRecyclerView(ArrayList<MyReservationData> arrayList) {
 
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "MyCard_" + timeStamp + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        final ArrayList<MyReservationData> result = arrayList;
+        Log.d(TAG, "reservation ArrayList size : " + result.size());
+        Log.d(TAG, "이거예약123함 : " + result.get(0).getASK_DATE());
+        if(!result.isEmpty()) {
+            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        myReservationRecycler.setLayoutManager(linearLayoutManager);
+        adapter = new MyReservationListAdapter(result, getApplicationContext());
+        adapter.resetAll(result);
+        myReservationRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPicturePath = image.getAbsolutePath();
-        return image;
+        // RecyclerView 클릭 이벤트 초기화
+        setRecyclerViewItemClick(result, adapter);
+
+        // UI 작업을 위한 쓰레드 실행
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(!result.isEmpty()) {
+//                            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+//                        }
+//                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                        myReservationRecycler.setLayoutManager(linearLayoutManager);
+//                        adapter = new MyReservationListAdapter(result, getApplicationContext());
+//                        adapter.resetAll(result);
+//                        myReservationRecycler.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+//
+//                        // RecyclerView 클릭 이벤트 초기화
+//                        setRecyclerViewItemClick(result, adapter);
+//                    }
+//                });
+//            }
+//        });
     }
 
     /*
-    인텐트로 카메라로 사진을 찍으라고 요청을 보내는 함수
-    Uri값도 같이 넘김.
+    RecyclerView Item 개별 클릭 리스너 설정하는 함수
      */
-    private void sendTakePhotoIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
-            } catch (IOException ex) {
-                // Error occurred while creating the File
+    private void setRecyclerViewItemClick(final ArrayList<MyReservationData> result, MyReservationListAdapter myListAdapter) {
+        myListAdapter.setItemClick(new MyReservationListAdapter.ItemClick() {
+            @Override
+            public void onClick(View view, int position) {
+                //해당 위치의 Data get
+                MyReservationData resultData = result.get(position);
+                Toast.makeText(getApplicationContext(),
+                        "병원 이름, 타입 : (" + resultData.getHOSPITAL_NAME() + ", " + resultData.getTypeToStr(resultData.getTYPE()) + ")",
+                        Toast.LENGTH_LONG).show();
             }
-            if (photoFile != null) {
-                photoUri = FileProvider.getUriForFile(this, getPackageName(), photoFile);
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                startActivityForResult(takePictureIntent, REQUEST_TAKE_PICTURE);
-            }
+        });
+    }
+
+    /*
+    EditText의 값 중 공백 확인해서
+    공백이면 "-"를,
+    앞 뒤 공백이 있으면 공백 제거를,
+    공백이 없으면 입력한 문자열을 리턴
+    @return : String(WS인 경우 : "-", else : 공백 제거한 문자열)
+     */
+    private String getRemoveWSTextOfEditText(EditText editText) {
+        String editStr = editText.getText().toString();    // 검색어 임시 변수에 저장.
+        if(TextUtils.isEmpty(editStr.trim())) { // 공백처리
+            return "-";
+        }
+        else
+            return editStr.trim();
+    }
+
+    /*
+    수정이 완료되었을 때 TextView에 옮겨담는 함수
+     */
+    private void setNewTextInTextView() {
+        for (int i = 0; i < editTexts.length; i++) {
+            Log.d(TAG, "result : " + getRemoveWSTextOfEditText(editTexts[i]));
+            textViews[i].setText(getRemoveWSTextOfEditText(editTexts[i]));
         }
     }
 
     /*
-    이미지 회전시키는 함수
+    수정이 완료되었을 때 EditText에 옮겨담는 함수
      */
-    public static Bitmap rotateImage(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    private void setCurrentTextInEditText() {
+        for (int i = 0; i < textViews.length; i++) {
+            String text = textViews[i].getText().toString();
+            if(text.equals("-"))
+                editTexts[i].setText("");
+            else
+                editTexts[i].setText(text);
+        }
     }
 
     /*
-    정면으로 회전시킨 비트맵 이미지 반환 함수
+    저장했던 파일을 불러온 Json 객체를 가지고 TextView에 옮겨담는 함수
      */
+    private void printSavedTextInTextView(JSONObject jsonObject) {
+        try {
+            tvRegistNum.setText(jsonObject.getString("registNum"));
+            tvOwnerName.setText(jsonObject.getString("ownerName"));
+            tvOwnerHP.setText(jsonObject.getString("ownerHP"));
+            tvOwnerAddress.setText(jsonObject.getString("ownerAddress"));
+            tvPetName.setText(jsonObject.getString("petName"));
+            tvPetRace.setText(jsonObject.getString("petRace"));
+            tvPetColor.setText(jsonObject.getString("petColor"));
+            tvPetBirth.setText(jsonObject.getString("petBirth"));
+            tvPetGender.setText(jsonObject.getString("petGender"));
+            tvPetNeut.setText(jsonObject.getString("petNeut"));
+            tvYear.setText(jsonObject.getString("year"));
+            tvMonth.setText(jsonObject.getString("month"));
+            tvDay.setText(jsonObject.getString("day"));
+            tvCenterName.setText(jsonObject.getString("centerName"));
+
+        } catch (JSONException e) {
+            Log.d(TAG, "JSONObject 내용물 중 null이 있네.");
+            e.printStackTrace();
+        }
+    }
+
     /*
-     *bitmap 흑백으로 변환
+    json 파일 불러와서 String으로 리턴하기
      */
-    private Bitmap bitmapGrayScale(final Bitmap orgBitmap){
-        Log.i("gray", "in");
-        int width, height;
-        height = orgBitmap.getHeight();
-        width = orgBitmap.getWidth();
-        Bitmap bmpGrayScale = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmpGrayScale);
-        Paint paint = new Paint();
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.setSaturation(0);
-        ColorMatrixColorFilter colorMatrixColorFilter = new ColorMatrixColorFilter(colorMatrix);
-        paint.setColorFilter(colorMatrixColorFilter);
-        canvas.drawBitmap(orgBitmap, 0, 0, paint);
-        return bmpGrayScale;
+    private String loadJSONFile(String filename) {
+        Log.d(TAG, "loadJSONFIle start");
+
+        String result = null;
+        filename += ".json";
+
+        FileInputStream fileinputStream = null;
+        try {
+            Log.d(TAG, "file name : " + filename);
+            fileinputStream = openFileInput(filename);
+            int size = fileinputStream.available();
+            byte[] buffer = new byte[size];
+            fileinputStream.read(buffer);
+            fileinputStream.close();
+            result = new String(buffer, "UTF-8");
+        } catch (FileNotFoundException e) {
+            Log.d(TAG ,"사전에 등록증을 저장한 내역이 없습니다.");
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /*
+    받아온 String 값 Json 파일로 임시 저장
+     */
+    private boolean JSONObjTofile(JSONObject jsonObject, String filename) {
+        Log.d(TAG, "JSONObjTofile start");
+
+        filename += ".json";
+        // 파일 생성(덮어쓰기)
+        FileOutputStream fileOutputStream = null;
+        try {
+            Log.d(TAG, "file name : " + filename);
+            fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+            fileOutputStream.write(jsonObject.toString().getBytes());   // Json 쓰기
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /*
+    기록한 동물 등록증을 파일에 저장
+     */
+    private void saveFileToMyRegistration() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("registNum", tvRegistNum.getText().toString());
+            jsonObject.accumulate("ownerName", tvOwnerName.getText().toString());
+            jsonObject.accumulate("ownerHP", tvOwnerHP.getText().toString());
+            jsonObject.accumulate("ownerAddress", tvOwnerAddress.getText().toString());
+            jsonObject.accumulate("petName", tvPetName.getText().toString());
+            jsonObject.accumulate("petRace", tvPetRace.getText().toString());
+            jsonObject.accumulate("petColor", tvPetColor.getText().toString());
+            jsonObject.accumulate("petBirth", tvPetBirth.getText().toString());
+            jsonObject.accumulate("petGender", tvPetGender.getText().toString());
+            jsonObject.accumulate("petNeut", tvPetNeut.getText().toString());
+            jsonObject.accumulate("year", tvYear.getText().toString());
+            jsonObject.accumulate("month", tvMonth.getText().toString());
+            jsonObject.accumulate("day", tvDay.getText().toString());
+            jsonObject.accumulate("centerName", tvCenterName.getText().toString());
+
+            if(JSONObjTofile(jsonObject, "registration")) {
+                Log.d(TAG, "JSONObjTofile save success");
+            }
+            else
+                Log.d(TAG, "JSONObjTofile failed");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    // 카메라로 촬영한 영상을 가져오는 부분
+    /*
+    EditText 또는 TextView 전체를 visible, gone 시키는 함수
+    수정 버튼을 눌렀을 경우에 호출됨
+    @param : boolean(true: EditText visible, TextView gone.    false: EditText gone, TextView visible)
+     */
+    private void setVisibleView(boolean visibleEditText) {
+        // EditText Setting
+        for(int i = 0; i < editTexts.length; i++) {
+            editTexts[i].setVisibility(getVisibleResource(visibleEditText));
+        }
+
+        // TextView Setting
+        for(int i = 0; i < textViews.length; i++) {
+            textViews[i].setVisibility(getVisibleResource(!visibleEditText));
+        }
+    }
+
+    private int getVisibleResource(boolean visible) {
+        if(visible)
+            return View.VISIBLE;
+        else
+            return View.GONE;
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if(resultCode == RESULT_OK) {
-            switch (requestCode) {
-//                case REQUEST_TAKE_PICTURE:
-//                    if (resultCode == RESULT_OK && intent.hasExtra("data")) {
-//                        Bitmap bitmap = (Bitmap) intent.getExtras().get("data");
-//                        if (bitmap != null) {
-//                            // imageView.setImageBitmap(bitmap);
-//                            // 비트맵 -> Byte Array로 변경하여 인텐트 담아 전송
-////                            Intent myPageImageIntent = new Intent(getApplicationContext(), MyPageCameraActivity.class);
-////                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-////                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-////                            byte[] byteArray = stream.toByteArray();
-////                            intent.putExtra("image", byteArray);
-////                            startActivityForResult(myPageImageIntent, CHECK_PICTURE);
-//                        }
-//                    }
-//                    break;
-                case REQUEST_TAKE_PICTURE:
-                    File file = new File(currentPicturePath);
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
-                        if (bitmap != null) {
-                            // 촬영한 비트맵을 정면으로 보이기 위해 회전시키는 작업
-                            ExifInterface ei = new ExifInterface(currentPicturePath);
-                            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
-                            switch(orientation) {
-                                case ExifInterface.ORIENTATION_ROTATE_90:
-                                    Log.d(TAG, "90도");
-                                    resultBitmap = rotateImage(bitmap, 90);
-                                    break;
-                                case ExifInterface.ORIENTATION_ROTATE_180:
-                                    Log.d(TAG, "180도");
-                                    resultBitmap = rotateImage(bitmap, 180);
-                                    break;
-                                case ExifInterface.ORIENTATION_ROTATE_270:
-                                    Log.d(TAG, "270도");
-                                    resultBitmap = rotateImage(bitmap, 270);
-                                    break;
-                                case ExifInterface.ORIENTATION_NORMAL:
-                                default:
-                                    resultBitmap = bitmap;
-                            }
-                            // resultBitmap = bitmapGrayScale(resultBitmap);
-                            FastBitmap fb = new FastBitmap(resultBitmap);
-                            fb.toGrayscale();
-                            BradleyLocalThreshold bradley = new BradleyLocalThreshold();
-                            bradley.applyInPlace(fb);
-                            resultBitmap = fb.toBitmap();
-
-//                            Paint paint = new Paint();
-//                            paint.setColorFilter(new ColorMatrixColorFilter(createThresholdMatrix(128)));
-//                            Canvas c = new Canvas(resultBitmap);
-//                            c.drawBitmap(resultBitmap, 0, 0, paint);
-
-                            imageView.setImageBitmap(resultBitmap);
-
-                            Toast.makeText(getApplicationContext(), "이미지 출력 완료! 문자 추출합니다.", Toast.LENGTH_SHORT).show();
-                            cameraBtn.setEnabled(false);
-                            cameraBtn.setText("텍스트 인식중...");
-                            new AsyncTess().execute(resultBitmap);
-                            // processImage();
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    break;
-                case CHECK_PICTURE:
-                    break;
-            }
-        }
-        else {
-            if(intent.hasExtra("result")) {
-                switch (intent.getStringExtra("result")) {
-                    case "300":
-                        Toast.makeText(getApplicationContext(), "Intent에 이미지 값이 담겨오지 않은 경우", Toast.LENGTH_LONG).show();
-                        break;
-                    case "301":
-                        Toast.makeText(getApplicationContext(), "Intent가 null인 경우", Toast.LENGTH_LONG).show();
-                        break;
+        switch (requestCode) {
+            case CHECK_RESERVATION:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "예약 수정 성공!");
+                    refreshMyReservation();
                 }
-            }
-        }
-    }
-
-    // matrix that changes gray scale picture into black and white at given threshold.
-// It works this way:
-// The matrix after multiplying returns negative values for colors darker than threshold
-// and values bigger than 255 for the ones higher.
-// Because the final result is always trimed to bounds (0..255) it will result in bitmap made of black and white pixels only
-    public static ColorMatrix createThresholdMatrix(int threshold) {
-        ColorMatrix matrix = new ColorMatrix(new float[] {
-                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
-                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
-                85.f, 85.f, 85.f, 0.f, -255.f * threshold,
-                0f, 0f, 0f, 1f, 0f
-        });
-        return matrix;
-    }
-
-    private class AsyncTess extends AsyncTask<Bitmap, Integer, String> {
-        @Override
-        protected String doInBackground(Bitmap... mRelativeParams) {
-            Log.d(TAG, "AsyncTess doinBackground");
-            tessBaseAPI.setImage(mRelativeParams[0]);
-            return tessBaseAPI.getUTF8Text();
-        }
-
-        protected void onPostExecute(String result) {
-            Log.d(TAG, "result : " + result);
-            String resultText = result.replaceAll("[^ㄱ-ㅎ가-힣a-zA-Z0-9]+", " ");  // 한글, 영어, 숫자 빼고 다 지우기
-            textView.setText(result);
-            Toast.makeText(getApplicationContext(), ""+result, Toast.LENGTH_LONG).show();
-
-            cameraBtn.setEnabled(true);
-            cameraBtn.setText("텍스트 인식");
-        }
-    }
-
-    /*
-    Camera 관련 권한 체크 상태 확인 함수
-    @return : boolean(true : 체크한 경우, false : 체크 안한 경우)
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkCameraPermission() {
-        Log.d(TAG, "checkLocationPermission start ");
-        if ( checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ) {
-            // Should we show an explanation?
-            // 권한 팝업에서 한번이라도 거부한 경우 true 리턴.
-            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA))
-            {
-                // ...
-            }
-            requestPermissions(new String[]{Manifest.permission.CAMERA,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    1);
-        }
-        else {
-            init();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult start ");
-        if (requestCode == 1) {
-            if (grantResults.length > 0) {
-                for (int i=0; i<grantResults.length; ++i) {
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        // 하나라도 거부한다면.
-                        new AlertDialog.Builder(this).setTitle("알림").setMessage("카메라 권한을 허용해주셔야 해당 서비스를 이용하실 수 있습니다.")
-                                .setPositiveButton("종료", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        finish();
-                                    }
-                                }).setNegativeButton("권한 설정", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                        .setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                                getApplicationContext().startActivity(intent);
-                            }
-                        }).setCancelable(false).show();
-                        return;
-                    }
+                else {
+                    Log.d(TAG, "예약 수정하고 파일 저장 실패!");
                 }
-            }
+                break;
+            default:
+                break;
         }
     }
-
 }

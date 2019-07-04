@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -113,7 +112,7 @@ public class MenuActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        switchActvityIntent = new Intent(getApplicationContext(), MyPageTempActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), MyPageActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -176,6 +175,7 @@ public class MenuActivity extends AppCompatActivity {
         if(existNicname()) {
             String line = null;
             try {
+                Log.d(TAG, Environment.getExternalStorageDirectory().getAbsolutePath() + "/vowow_nicname");
                 BufferedReader buf = new BufferedReader(new FileReader(getNicnameDirPath() + "/nicname.txt"));
                 if((line = buf.readLine()) != null) {   // 파일에서 읽은 값이 null이 아닌 경우
                     return line;
@@ -236,10 +236,8 @@ public class MenuActivity extends AppCompatActivity {
                         startActivity(switchActvityIntent);
                     }
                     else
-                        Toast.makeText(getApplicationContext(), "내장 파일 저장 실패.", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "내장 파일 저장 실패");
                 }
-                else
-                    Toast.makeText(getApplicationContext(), "취소 버튼 누름.", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;

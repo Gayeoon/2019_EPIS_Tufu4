@@ -40,6 +40,7 @@ import static java.lang.Thread.sleep;
 /*
 SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
 나오는 병원의 프로필 화면
+- 이해원
  */
 public class HospitalProfileActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
@@ -99,7 +100,6 @@ public class HospitalProfileActivity extends BaseActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.hosinfo_translate);
                         v.startAnimation(animation);
-                        Toast.makeText(getApplicationContext(), "예약하기 click", Toast.LENGTH_LONG).show();
                         if(hospitalData.getBoolSIGNUP_APP()) {  // 어플 등록 여부 체크
                             Log.d(TAG, "key : " + hospitalData.getHOSPITAL_KEY() + ", name : " + hospitalData.getHOSPITAL_NAME());
                             final Handler handler = new Handler();

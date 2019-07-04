@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.example.rkdus.a2019_epis_tufu4.MyPageTempActivity.CHECK_RESERVATION;
+import static com.example.rkdus.a2019_epis_tufu4.MyPageActivity.CHECK_RESERVATION;
 
 /*
 MyPageActivity RecyclerView의 Adapter
@@ -70,7 +70,9 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
             final MyReservationData resultData = data;
             hospitalNameText.setText(data.getHOSPITAL_NAME());
             typeText.setText(data.getTypeToStr(data.getTYPE()));
-            dateText.setText(data.getASK_DATE());
+
+            String[] date = data.getASK_DATE().split("\\s");
+            dateText.setText(date[0]);
             checkRegistrationImage.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {

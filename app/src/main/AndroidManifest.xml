@@ -60,9 +60,6 @@
             android:name=".TypeActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MyPageActivity"
-            android:theme="@style/NoTheme" />
-        <activity
             android:name=".ReviseActivity"
             android:theme="@style/NoTheme" />
         <activity
@@ -119,7 +116,7 @@
             android:name=".MessagePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".MyPageTempActivity"
+            android:name=".MyPageActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".NicnamePopupActivity"

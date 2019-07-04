@@ -791,6 +791,7 @@
             >
 
             <TextView
+                android:id="@+id/individualInfoText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
@@ -799,6 +800,7 @@
                 android:text="개인정보수집 및 이용약관에 동의합니다."
                 android:textColor="#FF5D8D"
                 android:textSize="14dp"
+                android:clickable="true"
                 />
 
             <CheckBox

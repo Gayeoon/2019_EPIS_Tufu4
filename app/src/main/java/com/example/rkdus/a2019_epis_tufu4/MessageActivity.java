@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -59,7 +60,7 @@ public class MessageActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
 
     private static final int SELECT_RESERVATION = 10;
-    private static final int CHECK_INDIVIDUALINFO = 11;
+    private static final int CHECK_INDIVIDUALINFO = 111;
     private static final int SEARCH_POSTCODE = 100;
     private static final int SEARCH_REALPOSTCODE = 101;
 
@@ -75,6 +76,7 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
 
+    TextView individualInfoText;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerPostCode, eOwnerDetailPostCode, eOwnerRealPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
@@ -133,6 +135,7 @@ public class MessageActivity extends BaseActivity {
         sPetGetYear = (Spinner) findViewById(R.id.petGetYearSpinner);
         sPetGetMonth = (Spinner) findViewById(R.id.petGetMonthSpinner);
         sPetGetDay = (Spinner) findViewById(R.id.petGetDaySpinner);
+        individualInfoText = (TextView) findViewById(R.id.individualInfoText);
 
         setDateArrayForSpinner();
 
@@ -203,6 +206,16 @@ public class MessageActivity extends BaseActivity {
         });
 
         // 체크박스 클릭 이벤트
+        individualInfoText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!cbCheckIndividualInfo.isChecked()) {
+                    cbCheckIndividualInfo.setChecked(true);
+                    Intent intent = new Intent(getApplicationContext(), IndividualInfoPopupActivity.class);
+                    startActivityForResult(intent, CHECK_INDIVIDUALINFO);
+                }
+            }
+        });
         cbCheckIndividualInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -746,6 +759,7 @@ public class MessageActivity extends BaseActivity {
                     Toast.makeText(getApplicationContext(), "정보제공에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
                     cbCheckIndividualInfo.setChecked(false);
                 }
+                break;
             case SEARCH_POSTCODE:
                 if(resultCode == RESULT_OK) {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
@@ -763,6 +777,7 @@ public class MessageActivity extends BaseActivity {
                     eOwnerRealDetailPostCode.setText(postCodeItem.getAddress());
                     ownerRealDetailPostCode = postCodeItem.getAddress();
                 }
+                break;
             default:
                 break;
         }

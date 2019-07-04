@@ -182,7 +182,6 @@ public class SearchActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        Toast.makeText(getApplicationContext(), "필터 이미지 click", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), FilterPopupActivity.class);
                         startActivityForResult(intent, GET_FILTER);
                         break;

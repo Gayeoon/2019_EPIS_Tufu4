@@ -5,30 +5,617 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:weightSum="2"
+    android:background="@color/colorWhite"
     tools:context=".MyPageActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/statusBarHeight"
+        android:layout_height="80dp"
+        android:text="마이페이지"
+        android:textSize="18dp"
+        android:textColor="#FF5D8D"
+        android:textAlignment="center"
         android:gravity="center"
-        android:background="@color/colorGray"
-        android:text="나의 동물 등록증"
         />
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cameraBtn"
-        android:text="카메라 버튼"/>
+
 
     <ImageView
+        android:id="@+id/rewriteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
+        android:layout_marginBottom="10dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/mypage_startrewritebtn" />
+
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:id="@+id/imageView"/>
+        android:layout_height="280dp"
+        android:layout_gravity="center"
+        >
+
+        <ImageView
+            android:id="@+id/registrationCardImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/mypage_cardsuccess"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center_horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="동 물 등 록 증"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_registnum"
+                    />
+
+                <EditText
+                    android:id="@+id/registNumEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:inputType="number"
+                    android:maxLength="13"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/registNumText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_ownername"
+                    />
+
+                <EditText
+                    android:id="@+id/ownerNameEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:text="이해원"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_ownerhp"
+                    />
+
+                <EditText
+                    android:id="@+id/ownerHPEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="13"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerHPText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:gravity="center|left"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_gravity="top"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:gravity="center"
+                    android:layout_marginTop="7dp"
+                    app:srcCompat="@drawable/mypage_address"
+                    />
+
+                <EditText
+                    android:id="@+id/ownerAddressEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageAddressTextHeight"
+                    android:layout_weight="0.82"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ownerAddressText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageAddressTextHeight"
+                    android:layout_weight="0.82"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_petname"
+                    android:textSize="@dimen/myPageTextSize" />
+
+                <EditText
+                    android:id="@+id/petNameEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:gravity="top"
+                    android:paddingLeft="10dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petNameText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_petrace"
+                    />
+
+                <EditText
+                    android:id="@+id/petRaceEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petRaceText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_petcolor"
+                    />
+
+                <EditText
+                    android:id="@+id/petColorEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petColorText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_birth"
+                    />
+
+                <EditText
+                    android:id="@+id/petBirthEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="10"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petBirthText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/myPageTextMarginTop"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_petgender"
+                    />
+
+                <EditText
+                    android:id="@+id/petGenderEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:maxLength="5"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petGenderText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageSubTitleHeight"
+                    android:layout_weight="@dimen/myPageContextWeight"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    app:srcCompat="@drawable/mypage_petneut"
+                    />
+
+                <EditText
+                    android:id="@+id/petNeutralizationEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:background="@color/colorWhite"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:maxLength="4"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/petNeutralizationText"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_weight="@dimen/myPageTextViewWeight"
+                    android:gravity="top|left"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageTextSize"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="3dp"
+                >
+
+                <EditText
+                    android:id="@+id/registYearEditText"
+                    android:layout_width="40dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:textColor="@color/colorBlack"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/registYearText"
+                    android:layout_width="40dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="2019"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:visibility="visible"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="년"
+                    android:layout_marginRight="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <EditText
+                    android:id="@+id/registMonthEditText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="06"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/registMonthText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="06"
+                    android:textColor="@color/colorBlack"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:visibility="visible"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="월"
+                    android:layout_marginRight="15dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <EditText
+                    android:id="@+id/registDayEditText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
+
+                <TextView
+                    android:id="@+id/registDayText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="25"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:visibility="visible"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="일"
+                    android:textStyle="bold"
+                    android:layout_marginRight="20dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/centerNameText"
+                android:layout_width="100dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="2dp"
+                android:text="유성구청장"
+                android:textSize="16dp"
+                android:textColor="@color/colorBlack"
+                android:textStyle="bold"
+                android:visibility="visible"
+                />
+
+            <EditText
+                android:id="@+id/centerNameEditText"
+                android:layout_width="100dp"
+                android:layout_height="21dp"
+                android:background="@color/colorWhite"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:textSize="16dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <TextView
-        android:id="@+id/resultTextView"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:textSize="12dp"
+        android:textColor="@color/colorBlack"
+        android:gravity="left|center"
+        android:layout_gravity="center"
+        android:text="@string/mypageLaw"
+        />
+
+    <ImageView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        app:layout_constraintDimensionRatio="1:1"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:srcCompat="@drawable/mypage_reservationlisttitle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
+        android:layout_height="220dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/myReservationRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="10dp"
+            >
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
 </LinearLayout>
