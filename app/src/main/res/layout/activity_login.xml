@@ -99,6 +99,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:shadowColor="#FF464646"
+                    android:shadowDx="3"
+                    android:shadowDy="3"
                     android:shadowRadius="7.0"
                     android:layout_marginRight="10dp"
                     android:text="회원가입"

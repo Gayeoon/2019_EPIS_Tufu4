@@ -277,14 +277,14 @@ public class NewReservationActivity extends BaseActivity {
 //
 
 
-        new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewtReservationListData");
+        new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewReservationListData");
 
     }
 
     /* NewReservationListData : ID값을 통해 신규 예약한 명단 리스트를 출력
      *
      *
-     * Uri  --->   /getNewtReservationListData
+     * Uri  --->   /getNewReservationListData
      * Parm  --->   {"user":{"id":"test","state":1}} 전송
      * Result  --->   {"result":{"internal":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}],"external":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]
      *                                          ,"dogtag":[{"name":"김가연","time":"2019-06-24"},{"name":"정지원","time":"2019-05-22"}]}} 결과 값
@@ -383,7 +383,7 @@ public class NewReservationActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewtReservationListData");
+                    new NewReservationListData().execute(getResources().getString(R.string.url) + "/getNewReservationListData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

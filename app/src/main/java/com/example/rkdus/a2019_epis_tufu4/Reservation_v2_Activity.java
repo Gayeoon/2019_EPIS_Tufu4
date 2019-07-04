@@ -182,7 +182,7 @@ public class Reservation_v2_Activity extends AppCompatActivity {
 
 
                     birthday.setText(jsonObject.getString("PET_BIRTH"));
-                    acqDate.setText(jsonObject.getString("ASK_DATE"));
+                    acqDate.setText(jsonObject.getString("REGIST_DATE"));
                     special.setText(jsonObject.getString("ETC"));
 
                     Log.e(TAG, jsonObject.getString("OWNER_NAME"));

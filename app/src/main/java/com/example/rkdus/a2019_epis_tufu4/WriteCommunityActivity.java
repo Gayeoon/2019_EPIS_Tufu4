@@ -43,7 +43,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class WriteCommunityActivity extends BaseActivity {
-    public static final String TAG = "NewReservationActivity";
+    public static final String TAG = "WriteCommunityActivity";
 
     ImageButton pic1, pic2, pic3;
     ImageView btnAddImg, btnWrite;
@@ -474,7 +474,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 e.printStackTrace();
             }
 
-            Log.e("LoginActivity", result);
+            Log.e("WriteCommunityActivity", result);
 
         }
     }
