@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
         // (임의로 출력 확인을 위해 적은것 뿐, 원래는 앱 로딩 끝나면 바로 넘어가게 되어있음)
         mHandler = new Handler();
         // mRunnable 내부 run() 실행하려면 기다려야 하는 delayMillis
-        mHandler.postDelayed(mRunnable, 3000);
+        mHandler.postDelayed(mRunnable, 4500);
     }
 
     @Override

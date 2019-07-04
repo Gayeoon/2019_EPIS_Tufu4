@@ -32,7 +32,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -76,7 +78,7 @@ import java.util.List;
  * 출력된 리스트에서 앱 등록이 된 병원업체 클릭하면 예약 화면으로 진행
  * - 이해원
  */
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity {
     public static final String SERVER_URL = "http://vowow.cafe24app.com";
     public static final String TAG = "LogGoGo";
 
@@ -115,8 +117,8 @@ public class SearchActivity extends AppCompatActivity {
     TabLayout listTabLayout;
     ImageView ivSearchBtn, ivFilterBtn;
     EditText eSearch;
-    TextView searchCurrentLocationSwitch;
     CheckedTextView ctvIsSignUpApp;
+    CheckBox cbSignUpApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,8 +135,8 @@ public class SearchActivity extends AppCompatActivity {
         ivSearchBtn = (ImageView) findViewById(R.id.searchBtn);
         ivFilterBtn = (ImageView) findViewById(R.id.filterBtn);
         eSearch = (EditText) findViewById(R.id.searchEditText);
-        searchCurrentLocationSwitch = (TextView) findViewById(R.id.isSearchCurrentLocation);
-        ctvIsSignUpApp = (CheckedTextView) findViewById(R.id.isSignUpApp);
+        // ctvIsSignUpApp = (CheckedTextView) findViewById(R.id.isSignUpApp);
+        cbSignUpApp = (CheckBox) findViewById(R.id.isSignUpApp);
         // lvSearchList = (ListView) findViewById(R.id.searchListView);
         searchRecyclerView = (RecyclerView) findViewById(R.id.searchListViewPage);
         listTabLayout = (TabLayout) findViewById(R.id.listTablayout);
@@ -193,17 +195,15 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        // 어플등록 체크박스 체크 이벤트
-        ctvIsSignUpApp.setOnClickListener(new View.OnClickListener() {
+        // 체크박스 클릭 이벤트
+        cbSignUpApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                CheckedTextView view = (CheckedTextView) v;
-                view.toggle();
-                if(view.isChecked()) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(cbSignUpApp.isChecked()) {
                     isSignUpApp = true;
                     Toast.makeText(getApplicationContext(), "어플등록업체 보기 체크", Toast.LENGTH_LONG).show();
                 }
-                else {
+                else {  // 초기화
                     isSignUpApp = false;
                     Toast.makeText(getApplicationContext(), "어플등록업체 보기 체크 X", Toast.LENGTH_LONG).show();
                 }
@@ -211,24 +211,24 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        // 현재위치로 찾기 클릭 시
-        searchCurrentLocationSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isSearchCurrentLocation) {   // 만약 현재 위치로 찾기로 리스트를 보여주고 있는 경우
-                    searchCurrentLocationSwitch.setTextColor(Color.parseColor(switchOffColor));  // 색상변경
-
-                    Toast.makeText(getApplicationContext(), "현재 위치로 찾기 종료합니다.", Toast.LENGTH_LONG).show();
-                    isSearchCurrentLocation = false;
-                }
-                else {  // 현재 위치로 찾고 싶은 경우
-                    searchCurrentLocationSwitch.setTextColor(Color.parseColor(switchOnColor));  // 색상변경
-                    Toast.makeText(getApplicationContext(), "현재 위치로 찾기 시작합니다.", Toast.LENGTH_LONG).show();
-                    isSearchCurrentLocation = true;
-                }
-                showListView();  // 현재 상태에 따라 on / off 변경
-            }
-        });
+//        // 현재위치로 찾기 클릭 시
+//        searchCurrentLocationSwitch.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(isSearchCurrentLocation) {   // 만약 현재 위치로 찾기로 리스트를 보여주고 있는 경우
+//                    searchCurrentLocationSwitch.setTextColor(Color.parseColor(switchOffColor));  // 색상변경
+//
+//                    Toast.makeText(getApplicationContext(), "현재 위치로 찾기 종료합니다.", Toast.LENGTH_LONG).show();
+//                    isSearchCurrentLocation = false;
+//                }
+//                else {  // 현재 위치로 찾고 싶은 경우
+//                    searchCurrentLocationSwitch.setTextColor(Color.parseColor(switchOnColor));  // 색상변경
+//                    Toast.makeText(getApplicationContext(), "현재 위치로 찾기 시작합니다.", Toast.LENGTH_LONG).show();
+//                    isSearchCurrentLocation = true;
+//                }
+//                showListView();  // 현재 상태에 따라 on / off 변경
+//            }
+//        });
 
         // 탭 레이아웃 클릭 시
         listTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -268,15 +268,21 @@ public class SearchActivity extends AppCompatActivity {
     사용자가 탭을 눌렀을 때 호출
      */
     private void changeTabView(int index) {
-        String page = listTabLayout.getTabAt(index).getText().toString();   // Tab Page Index로 불러오기
-        int tabIndexNum;
-
-        if(page.equals("◀"))   // 이전 페이지로 가는 경우
+        int tabIndexNum = 0;
+        String page = null;
+        if(index == 0) {
             tabIndexNum = -2;
-        else if(page.equals("▶"))  // 다음 페이지로 가는 경우
+        }
+        else if(index == listTabLayout.getTabCount() - 1) {
             tabIndexNum = -1;
-        else
+        }
+        else {
+            page = listTabLayout.getTabAt(index).getText().toString();   // Tab Page Index로 불러오기
+        }
+
+        if((tabIndexNum != -2) && (tabIndexNum != -1)) {
             tabIndexNum = Integer.parseInt(page); // 해당 페이지 번호 가져오기
+        }
         ArrayList<?> arrayList = getArrayListFromFilter();
         switch (tabIndexNum) {
             case -2: // ◀ 버튼 클릭 시
@@ -345,14 +351,14 @@ public class SearchActivity extends AppCompatActivity {
 
         isPageRefresh = true;   // 페이지 갱신
         if(maxTabSize == 0) {
-            listTabLayout.addTab(listTabLayout.newTab().setText("◀"));
+            listTabLayout.addTab(listTabLayout.newTab().setIcon(R.drawable.search_lefttab));
             listTabLayout.addTab(listTabLayout.newTab().setText("1"));
-            listTabLayout.addTab(listTabLayout.newTab().setText("▶"));
+            listTabLayout.addTab(listTabLayout.newTab().setIcon(R.drawable.search_righttab));
             listTabLayout.getTabAt(1).select();
             return;
         }
 
-        listTabLayout.addTab(listTabLayout.newTab().setText("◀"));
+        listTabLayout.addTab(listTabLayout.newTab().setIcon(R.drawable.search_lefttab));
         if(indexStartNum + 5 > maxTabSize) { // 전체가 12페이지인데 11페이지부터 시작하는 경우.
             for(int i = indexStartNum; i <= maxTabSize; i++) {
                 listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(i)));
@@ -367,7 +373,7 @@ public class SearchActivity extends AppCompatActivity {
                 i++;
             }
         }
-        listTabLayout.addTab(listTabLayout.newTab().setText("▶"));
+        listTabLayout.addTab(listTabLayout.newTab().setIcon(R.drawable.search_righttab));
         // 한번 선택하기
         listTabLayout.getTabAt(1).select();
     }
@@ -839,13 +845,9 @@ public class SearchActivity extends AppCompatActivity {
         else
             end = start + 8;
         ArrayList<SearchResultData> result = new ArrayList<>();   // adapter에 넣기 위한 임시 arrayList 생성
-        Log.d(TAG, "start : " + start + ", end : " + end);
         for(int i = start; i < end; i++) {
             result.add(arrayList.get(i));
         }
-
-        Log.d(TAG, "result size : " + result.size());
-        Log.d(TAG, "result 1 name : " + result.get(0).getHOSPITAL_NAME());
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         searchRecyclerView.setLayoutManager(linearLayoutManager);
@@ -867,8 +869,6 @@ public class SearchActivity extends AppCompatActivity {
         try {
             Log.d(TAG, "putJSONInArrayList start");
             JSONArray jsonArray = jsonObject.getJSONArray("result");
-            Log.d(TAG, "JsonArray size : " + jsonArray.length());
-            Log.d(TAG, "JsonArray string size : " + jsonArray.toString().length());
 
             // Gson사용. JSONArray to ArrayList
             Gson gson = new Gson();

@@ -47,17 +47,15 @@
                 <!-- 좌측 메뉴 레이아웃 -->
                 <FrameLayout
                     android:layout_width="120dp"
-                    android:layout_height="300dp"
+                    android:layout_height="match_parent"
                     >
 
                     <!-- 좌측 메뉴 레이아웃 백그라운드 -->
                     <ImageView
-                        android:layout_width="120dp"
-                        android:layout_height="300dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:scaleType="fitXY"
-                        app:srcCompat="@drawable/message_sidelayout"
-                        android:layout_marginBottom="20dp"
-                        />
+                        app:srcCompat="@drawable/message_sidelayout" />
 
                     <!-- 좌측 메뉴 레이아웃 텍스트 -->
                     <LinearLayout
@@ -69,23 +67,26 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:layout_marginTop="15dp"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="성명" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="주민등록번호"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="전화번호" />
 
                         <TextView
@@ -93,6 +94,8 @@
                             android:layout_height="40dp"
                             android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:textColor="#FF87AA"
+                            android:paddingLeft="10dp"
                             android:text="주민등록주소"/>
 
                         <TextView
@@ -100,6 +103,10 @@
                             android:layout_height="40dp"
                             android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:textSize="14dp"
+                            android:textColor="#FF87AA"
+                            android:paddingLeft="10dp"
+                            android:layout_marginTop="75dp"
                             android:text="현거주지주소"/>
                     </LinearLayout>
                 </FrameLayout>
@@ -124,6 +131,8 @@
                         android:paddingLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:layout_marginTop="15dp"
+                        android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
                     <!-- 우측 메뉴 소유주 주민등록번호 -->
@@ -142,7 +151,8 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="textNoSuggestions"
+                            android:textSize="15dp"
+                            android:inputType="number"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
@@ -161,7 +171,8 @@
                             android:background="@drawable/message_border_radius"
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionNext"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="numberPassword"
+                            android:textSize="15dp"
                             android:paddingLeft="10dp" />
                     </LinearLayout>
 
@@ -180,8 +191,9 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
                             android:imeOptions="actionNext"
+                            android:textSize="15dp"
                             android:fontFamily="@font/notosansbold" />
 
                         <TextView
@@ -201,8 +213,9 @@
                             android:layout_weight="0.3"
                             android:background="@drawable/message_border_radius"
                             android:fontFamily="@font/notosansbold"
-                            android:imeOptions="actionSearch"
-                            android:inputType="textNoSuggestions"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:paddingLeft="10dp" />
 
                         <TextView
@@ -222,7 +235,8 @@
                             android:background="@drawable/message_border_radius"
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionNext"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:paddingLeft="10dp" />
                     </LinearLayout>
 
@@ -241,7 +255,8 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
@@ -260,7 +275,8 @@
                             android:background="@drawable/message_border_radius"
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionSearch"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:paddingLeft="10dp" />
 
                         <ImageView
@@ -303,7 +319,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="주민등록주소와 일치"
-                            android:textSize="10dp"
+                            android:textSize="12dp"
                             />
 
                         <CheckBox
@@ -332,7 +348,8 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
@@ -351,7 +368,8 @@
                             android:background="@drawable/message_border_radius"
                             android:fontFamily="@font/notosansbold"
                             android:imeOptions="actionSearch"
-                            android:inputType="textNoSuggestions"
+                            android:inputType="number"
+                            android:textSize="15dp"
                             android:paddingLeft="10dp" />
 
                         <ImageView
@@ -374,7 +392,7 @@
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
                         android:hint="상세주소"
-                        android:textSize="@dimen/msgTextSize"
+                        android:textSize="15dp"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                         android:fontFamily="@font/notosansbold" />
                 </LinearLayout>
@@ -408,16 +426,15 @@
                 <!-- 좌측 메뉴 레이아웃 -->
                 <FrameLayout
                     android:layout_width="120dp"
-                    android:layout_height="500dp"
+                    android:layout_height="match_parent"
                     >
 
                     <!-- 좌측 메뉴 레이아웃 백그라운드 -->
                     <ImageView
                         android:layout_width="120dp"
-                        android:layout_height="500dp"
+                        android:layout_height="match_parent"
                         android:scaleType="fitXY"
                         app:srcCompat="@drawable/message_sidelayout"
-                        android:layout_marginBottom="20dp"
                         />
 
                     <!-- 좌측 메뉴 레이아웃 텍스트 -->
@@ -430,51 +447,59 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="5dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:layout_marginTop="15dp"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:gravity="center_vertical"
                             android:text="이름"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="품종"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="털색깔"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="성별"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                            android:layout_marginTop="40dp"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="중성화"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="생년월일"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="취득일"/>
 
                         <TextView
@@ -482,6 +507,8 @@
                             android:layout_height="40dp"
                             android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textColor="#FF87AA"
                             android:text="특이사항"/>
                     </LinearLayout>
                 </FrameLayout>
@@ -504,8 +531,10 @@
                         android:background="@drawable/message_border_radius"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                         android:paddingLeft="10dp"
+                        android:layout_marginTop="15dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
                     <!-- 우측 메뉴 반려동물 품종 -->
@@ -518,6 +547,7 @@
                         android:paddingLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
                     <!-- 우측 메뉴 반려동물 털 색깔 -->
@@ -530,6 +560,7 @@
                         android:paddingLeft="10dp"
                         android:inputType="textNoSuggestions"
                         android:imeOptions="actionNext"
+                        android:textSize="15dp"
                         android:fontFamily="@font/notosansbold" />
 
                     <!-- 우측 메뉴 반려동물 성별 -->
@@ -619,6 +650,7 @@
                             android:layout_gravity="center"
                             android:layout_marginRight="17dp"
                             android:layout_weight="0.45"
+                            android:textSize="15dp"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"></Spinner>
 
@@ -631,6 +663,7 @@
                             android:paddingLeft="5dp"
                             android:layout_gravity="center"
                             android:layout_marginRight="17dp"
+                            android:textSize="15dp"
                             ></Spinner>
 
                         <Spinner
@@ -640,6 +673,7 @@
                             android:layout_weight="0.27"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="5dp"
+                            android:textSize="15dp"
                             android:layout_gravity="center"
                             ></Spinner>
                     </LinearLayout>
@@ -759,17 +793,40 @@
                 />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/reservationBtn"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="right"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/message_reservation"
-            app:layout_constraintDimensionRatio="1:1"
-            />
+            android:gravity="right"
+            >
+
+            <ImageView
+                android:id="@+id/messageRewriteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_gravity="right"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/message_rewritebtn"
+                app:layout_constraintDimensionRatio="1:1"
+                android:visibility="gone"
+                />
+
+            <ImageView
+                android:id="@+id/reservationBtn"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/message_reservation"
+                app:layout_constraintDimensionRatio="1:1"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

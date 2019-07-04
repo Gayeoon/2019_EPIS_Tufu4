@@ -41,7 +41,7 @@
     <dimen name="searchBtnMarginRight">10dp</dimen>
 
     <dimen name="searchOptLayoutHeight">20dp</dimen>
-    <dimen name="searchOptLayoutMarginTop">10dp</dimen>
+    <dimen name="searchOptLayoutMarginTop">15dp</dimen>
 
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>

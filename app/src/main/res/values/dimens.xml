@@ -32,7 +32,7 @@
     <dimen name="msgEditTextMarginBottom">10dp</dimen>
     <dimen name="msgPostCodeMarginBottom">20dp</dimen>
     <dimen name="msgTextSize">12dp</dimen>
-    <dimen name="msgLayoutBetweenMargin">10dp</dimen>
+    <dimen name="msgLayoutBetweenMargin">20dp</dimen>
     <dimen name="msgLayoutMarginTop">30dp</dimen>
 
     <!-- MessageTypeActivity -->
@@ -49,12 +49,12 @@
 
     <dimen name="searchBtnWidth">30dp</dimen>
     <dimen name="searchBtnHeight">30dp</dimen>
-    <dimen name="searchBtnMarginLeft">10dp</dimen>
+    <dimen name="searchFilterMarginLeft">100dp</dimen>
     <dimen name="searchBtnMarginRight">10dp</dimen>
-    <dimen name="searchRecycleViewHeight">550dp</dimen>
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
+    <dimen name="searchRecycleViewHeight">500dp</dimen>
 
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
@@ -80,7 +80,7 @@
 
     <!-- MyPageActivity -->
     <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
-    <dimen name="myPageTextHeight">10dp</dimen>
+    <dimen name="myPageTextHeight">25dp</dimen>
     <dimen name="myPageEditTextWidth">130dp</dimen>
     <dimen name="myPageAddressTextHeight">60dp</dimen>
     <dimen name="myPageTextMarginTop">5dp</dimen>

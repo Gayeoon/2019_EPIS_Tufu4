@@ -30,4 +30,10 @@
 
         <item name="colorAccent">@android:color/white</item>                    <!-- 하단 움직이는 바 색-->
     </style>
+
+    <!-- tab text -->
+    <style name="tabText" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">#A3A3A3</item>
+    </style>
 </resources>
