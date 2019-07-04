@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorWhite"
     tools:context=".MessageActivity">
 
     <LinearLayout
@@ -255,8 +256,8 @@
                         android:weightSum="1">
 
                         <EditText
-                            android:id="@+id/ownerPostCodeFirst"
-                            android:layout_weight="0.3"
+                            android:id="@+id/ownerPostCode"
+                            android:layout_weight="0.6"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
@@ -272,18 +273,6 @@
                             android:gravity="center"
                             android:layout_weight="0.05"
                             />
-
-                        <EditText
-                            android:id="@+id/ownerPostCodeSecond"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/messageEditTextHeight"
-                            android:layout_weight="0.3"
-                            android:background="@drawable/message_border_radius"
-                            android:fontFamily="@font/notosansbold"
-                            android:imeOptions="actionSearch"
-                            android:inputType="number"
-                            android:textSize="15dp"
-                            android:paddingLeft="10dp" />
 
                         <ImageView
                             android:id="@+id/searchPostCodeBtn"
@@ -351,8 +340,8 @@
                         android:weightSum="1">
 
                         <EditText
-                            android:id="@+id/ownerRealPostCodeFirst"
-                            android:layout_weight="0.3"
+                            android:id="@+id/ownerRealPostCode"
+                            android:layout_weight="0.6"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
@@ -368,18 +357,6 @@
                             android:gravity="center"
                             android:layout_weight="0.05"
                             />
-
-                        <EditText
-                            android:id="@+id/ownerRealPostCodeSecond"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/messageEditTextHeight"
-                            android:layout_weight="0.3"
-                            android:background="@drawable/message_border_radius"
-                            android:fontFamily="@font/notosansbold"
-                            android:imeOptions="actionSearch"
-                            android:inputType="number"
-                            android:textSize="@dimen/msgTextSize"
-                            android:paddingLeft="10dp" />
 
                         <ImageView
                             android:id="@+id/searchRealPostCodeBtn"
@@ -811,6 +788,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:text="개인정보수집 및 이용약관에 동의합니다."
+                android:textColor="#FF5D8D"
+                android:textSize="14dp"
+                />
+
+            <CheckBox
+                android:id="@+id/checkIndividualInfo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="10dp"
+                android:button="@null"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/message_checkbox"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="right"
             android:gravity="right"
@@ -826,6 +833,7 @@
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/message_rewritebtn"
                 app:layout_constraintDimensionRatio="1:1"
+                android:clickable="true"
                 android:visibility="gone"
                 />
 
@@ -841,5 +849,6 @@
                 />
         </LinearLayout>
     </LinearLayout>
+
 
 </ScrollView>

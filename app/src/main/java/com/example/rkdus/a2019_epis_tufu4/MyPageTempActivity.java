@@ -41,7 +41,9 @@ public class MyPageTempActivity extends BaseActivity {
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
     TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
-    TextView tvYear, tvMonth, tvDay;
+    TextView tvYear, tvMonth, tvDay, tvCenterName;
+    EditText eYear, eMonth, eDay, eCenterName;
+
     ImageView rewriteBtn, ivCard;
     RecyclerView myReservationRecycler;
 
@@ -82,16 +84,22 @@ public class MyPageTempActivity extends BaseActivity {
         tvYear = (TextView) findViewById(R.id.registYearText);
         tvMonth = (TextView) findViewById(R.id.registMonthText);
         tvDay = (TextView) findViewById(R.id.registDayText);
+        tvCenterName = (TextView) findViewById(R.id.centerNameText);
+
+        eYear = (EditText) findViewById(R.id.registYearEditText);
+        eMonth = (EditText) findViewById(R.id.registMonthEditText);
+        eDay = (EditText) findViewById(R.id.registDayEditText);
+        eCenterName = (EditText) findViewById(R.id.centerNameEditText);
 
         rewriteBtn = (ImageView) findViewById(R.id.rewriteBtn);
         ivCard = (ImageView) findViewById(R.id.registrationCardImage);
         myReservationRecycler = (RecyclerView) findViewById(R.id.myReservationRecyclerView);
 
         editTexts = new EditText[]{eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName,
-                ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut};
+                ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut, eYear, eMonth, eDay, eCenterName};
 
         textViews = new TextView[]{tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName,
-                tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut};
+                tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut, tvYear, tvMonth, tvDay, tvCenterName};
 
         String registrationInfo = loadJSONFile("registration");
         if(!TextUtils.isEmpty(registrationInfo)) { // 이전에 동물등록증을 저장해놨던 경우
@@ -109,14 +117,14 @@ public class MyPageTempActivity extends BaseActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         if(isRewrite) {
                             isRewrite = false;
-                            Toast.makeText(getApplicationContext(), "편집을 완료합니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "편집을 완료합니다.", Toast.LENGTH_SHORT).show();
                             rewriteBtn.setImageResource(R.drawable.mypage_startrewritebtn);  // 이미지 변경
                             ivCard.setImageResource(R.drawable.mypage_cardsuccess);
                             setNewTextInTextView();
                             saveFileToMyRegistration();
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "수정을 시작합니다.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "수정을 시작합니다.", Toast.LENGTH_SHORT).show();
                             rewriteBtn.setImageResource(R.drawable.mypage_startsavebtn);  // 이미지 변경
                             ivCard.setImageResource(R.drawable.mypage_cardrewrite);
                             isRewrite = true;
@@ -166,33 +174,43 @@ public class MyPageTempActivity extends BaseActivity {
 
         final ArrayList<MyReservationData> result = arrayList;
         Log.d(TAG, "reservation ArrayList size : " + result.size());
-        Log.d(TAG, "asd ");
-        Log.d(TAG, "이거예약123함 : " + result.get(0).getHOSPITAL_NAME());
-        // UI 작업을 위한 쓰레드 실행
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(TAG, "asd ");
-                        Log.d(TAG, "이거예약123함 : " + result.get(0).getHOSPITAL_NAME());
-                        if(!result.isEmpty()) {
-                            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
-                        }
-                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                        myReservationRecycler.setLayoutManager(linearLayoutManager);
-                        adapter = new MyReservationListAdapter(result, getApplicationContext());
-                        adapter.resetAll(result);
-                        myReservationRecycler.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
+        Log.d(TAG, "이거예약123함 : " + result.get(0).getASK_DATE());
+        if(!result.isEmpty()) {
+            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        myReservationRecycler.setLayoutManager(linearLayoutManager);
+        adapter = new MyReservationListAdapter(result, getApplicationContext());
+        adapter.resetAll(result);
+        myReservationRecycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
-                        // RecyclerView 클릭 이벤트 초기화
-                        setRecyclerViewItemClick(result, adapter);
-                    }
-                });
-            }
-        });
+        // RecyclerView 클릭 이벤트 초기화
+        setRecyclerViewItemClick(result, adapter);
+
+        // UI 작업을 위한 쓰레드 실행
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if(!result.isEmpty()) {
+//                            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+//                        }
+//                        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//                        myReservationRecycler.setLayoutManager(linearLayoutManager);
+//                        adapter = new MyReservationListAdapter(result, getApplicationContext());
+//                        adapter.resetAll(result);
+//                        myReservationRecycler.setAdapter(adapter);
+//                        adapter.notifyDataSetChanged();
+//
+//                        // RecyclerView 클릭 이벤트 초기화
+//                        setRecyclerViewItemClick(result, adapter);
+//                    }
+//                });
+//            }
+//        });
     }
 
     /*
@@ -265,6 +283,11 @@ public class MyPageTempActivity extends BaseActivity {
             tvPetBirth.setText(jsonObject.getString("petBirth"));
             tvPetGender.setText(jsonObject.getString("petGender"));
             tvPetNeut.setText(jsonObject.getString("petNeut"));
+            tvYear.setText(jsonObject.getString("year"));
+            tvMonth.setText(jsonObject.getString("month"));
+            tvDay.setText(jsonObject.getString("day"));
+            tvCenterName.setText(jsonObject.getString("centerName"));
+
         } catch (JSONException e) {
             Log.d(TAG, "JSONObject 내용물 중 null이 있네.");
             e.printStackTrace();
@@ -338,6 +361,10 @@ public class MyPageTempActivity extends BaseActivity {
             jsonObject.accumulate("petBirth", tvPetBirth.getText().toString());
             jsonObject.accumulate("petGender", tvPetGender.getText().toString());
             jsonObject.accumulate("petNeut", tvPetNeut.getText().toString());
+            jsonObject.accumulate("year", tvYear.getText().toString());
+            jsonObject.accumulate("month", tvMonth.getText().toString());
+            jsonObject.accumulate("day", tvDay.getText().toString());
+            jsonObject.accumulate("centerName", tvCenterName.getText().toString());
 
             if(JSONObjTofile(jsonObject, "registration")) {
                 Log.d(TAG, "JSONObjTofile save success");

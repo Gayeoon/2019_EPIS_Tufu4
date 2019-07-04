@@ -99,9 +99,6 @@ public class SearchActivity extends BaseActivity {
     boolean isSearchCurrentLocation, isSignUpApp;
     boolean isPageRefresh = false;
 
-    final String switchOnColor = "#0067A3";
-    final String switchOffColor = "#000000";
-    final String fileName = "searchResult";
     int indexStartNum;
     LocationManager locationManager;
     String searchWord;
@@ -117,7 +114,7 @@ public class SearchActivity extends BaseActivity {
     TabLayout listTabLayout;
     ImageView ivSearchBtn, ivFilterBtn;
     EditText eSearch;
-    CheckedTextView ctvIsSignUpApp;
+    TextView tvSignUpApp;
     CheckBox cbSignUpApp;
 
     @Override
@@ -140,6 +137,7 @@ public class SearchActivity extends BaseActivity {
         // lvSearchList = (ListView) findViewById(R.id.searchListView);
         searchRecyclerView = (RecyclerView) findViewById(R.id.searchListViewPage);
         listTabLayout = (TabLayout) findViewById(R.id.listTablayout);
+        tvSignUpApp = (TextView) findViewById(R.id.signUpAppText);
 
         searchAsyncTask = new SearchAsyncTask();
         searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
@@ -150,7 +148,7 @@ public class SearchActivity extends BaseActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 switch (actionId) {
                     case EditorInfo.IME_ACTION_SEARCH: // 자판에서 검색 모양 아이콘을 누르면
-                        Toast.makeText(getApplicationContext(), "검색을 시작합니다.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "검색을 시작합니다.", Toast.LENGTH_SHORT).show();
                         if(setSearchWord())
                             SearchHospitalData();
                         break;
@@ -167,7 +165,7 @@ public class SearchActivity extends BaseActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        Toast.makeText(getApplicationContext(), "검색 이미지 click", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "검색을 시작합니다.", Toast.LENGTH_SHORT).show();
                         if(setSearchWord())
                             SearchHospitalData();
                         break;
@@ -195,17 +193,30 @@ public class SearchActivity extends BaseActivity {
             }
         });
 
+        // 체크박스 클릭 이벤트와 동일한 텍스트 클릭 이벤트
+        tvSignUpApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(cbSignUpApp.isChecked()) {
+                    cbSignUpApp.setChecked(false);
+                    isSignUpApp = false;
+                }
+                else {  // 초기화
+                    cbSignUpApp.setChecked(true);
+                    isSignUpApp = true;
+                }
+                showListView();
+            }
+        });
         // 체크박스 클릭 이벤트
         cbSignUpApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cbSignUpApp.isChecked()) {
                     isSignUpApp = true;
-                    Toast.makeText(getApplicationContext(), "어플등록업체 보기 체크", Toast.LENGTH_LONG).show();
                 }
                 else {  // 초기화
                     isSignUpApp = false;
-                    Toast.makeText(getApplicationContext(), "어플등록업체 보기 체크 X", Toast.LENGTH_LONG).show();
                 }
                 showListView();
             }
@@ -765,9 +776,16 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        searchAsyncTask = new SearchAsyncTask();
+        searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
+    }
+
     /*
-    JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
-     */
+        JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
+         */
     public static JSONObject StringToJSON(String JSONstr) {
         Log.d(TAG, "StringToJSON start");
 
@@ -824,9 +842,6 @@ public class SearchActivity extends BaseActivity {
             public void onClick(View view, int position) {
                 //해당 위치의 Data get
                 SearchResultData resultData = result.get(position);
-                Toast.makeText(getApplicationContext(),
-                        "병원 키, 병원 이름 :  (" + resultData.getHOSPITAL_KEY() + ", " + resultData.getHOSPITAL_NAME() + ")",
-                        Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), HospitalProfileActivity.class);
                 intent.putExtra("data", (Serializable) resultData);
                 startActivity(intent);  // MessageTypeActivity 실행
@@ -994,67 +1009,6 @@ public class SearchActivity extends BaseActivity {
 //        }
         Log.d(TAG, "결과 : " + jsonObject.toString());
         return jsonObject;
-    }
-
-    /*
-    SIGNUP_APP int to boolean
-    0 : 등록 X
-    1 : 등록 O
-     */
-    private boolean getBoolSignUpApp(int signUpApp) {
-        if(signUpApp == 1)
-            return true;
-        return false;
-    }
-    /*
-    Location 관련 권한 체크 상태 확인 함수
-    @return : boolean(true : 체크한 경우, false : 체크 안한 경우)
-     */
-    @TargetApi(Build.VERSION_CODES.M)
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void checkLocationPermission() {
-        Log.d(TAG, "checkLocationPermission start ");
-        if ( checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
-                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            // Should we show an explanation?
-            // 권한 팝업에서 한번이라도 거부한 경우 true 리턴.
-            if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION))
-            {
-                // ...
-            }
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        Log.d(TAG, "onRequestPermissionsResult start ");
-        if (requestCode == 1) {
-            if (grantResults.length > 0) {
-                for (int i=0; i<grantResults.length; ++i) {
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        // 하나라도 거부한다면.
-                        new AlertDialog.Builder(this).setTitle("알림").setMessage("위치 권한을 허용해주셔야 해당 서비스를 이용하실 수 있습니다.")
-                                .setPositiveButton("종료", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        finish();
-                                    }
-                                }).setNegativeButton("권한 설정", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                        .setData(Uri.parse("package:" + getApplicationContext().getPackageName()));
-                                getApplicationContext().startActivity(intent);
-                            }
-                        }).setCancelable(false).show();
-                        return;
-                    }
-                }
-            }
-        }
     }
 
     @Override

@@ -112,7 +112,7 @@ public class HospitalProfileActivity extends BaseActivity {
                                     reservationIntent.putExtra("hospitalName", hospitalData.getHOSPITAL_NAME());
                                     startActivityForResult(reservationIntent, START_RESERVATION);
                                 }
-                            }, 500);
+                            }, 450);
 
                         }
                         else

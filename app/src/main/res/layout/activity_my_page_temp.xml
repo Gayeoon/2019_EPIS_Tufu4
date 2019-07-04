@@ -81,9 +81,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_registnum"
                     />
 
@@ -104,7 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -121,9 +121,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_ownername"
                     />
 
@@ -142,18 +142,18 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
-                    android:text="asd"
+                    android:text="이해원"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_ownerhp"
                     />
 
@@ -230,9 +230,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_petname"
                     android:textSize="@dimen/myPageTextSize" />
 
@@ -252,7 +252,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -260,9 +260,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_petrace"
                     />
 
@@ -281,7 +281,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -298,9 +298,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_petcolor"
                     />
 
@@ -319,7 +319,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -327,9 +327,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_birth"
                     />
 
@@ -349,7 +349,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -366,9 +366,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_petgender"
                     />
 
@@ -388,7 +388,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -396,9 +396,9 @@
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageSubTitleHeight"
-                    android:layout_gravity="center"
                     android:layout_weight="@dimen/myPageContextWeight"
-                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
                     app:srcCompat="@drawable/mypage_petneut"
                     />
 
@@ -418,7 +418,7 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_weight="@dimen/myPageTextViewWeight"
-                    android:gravity="center|left"
+                    android:gravity="top|left"
                     android:paddingLeft="10dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
@@ -429,13 +429,26 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/myPageTextMarginTop"
                 android:gravity="center"
+                android:layout_marginTop="3dp"
                 >
+
+                <EditText
+                    android:id="@+id/registYearEditText"
+                    android:layout_width="40dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:textColor="@color/colorBlack"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
 
                 <TextView
                     android:id="@+id/registYearText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="40dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -444,6 +457,7 @@
                     android:textSize="@dimen/myPageDateTextSize"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold"
+                    android:visibility="visible"
                     />
 
                 <TextView
@@ -452,14 +466,27 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="년"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="15dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
+                <EditText
+                    android:id="@+id/registMonthEditText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:text="06"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
                 <TextView
                     android:id="@+id/registMonthText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="25dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -467,7 +494,9 @@
                     android:text="06"
                     android:textColor="@color/colorBlack"
                     android:textStyle="bold"
-                    android:textSize="@dimen/myPageDateTextSize"/>
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:visibility="visible"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -475,14 +504,27 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="월"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="15dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
+                <EditText
+                    android:id="@+id/registDayEditText"
+                    android:layout_width="25dp"
+                    android:layout_height="@dimen/myPageTextHeight"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="@dimen/myPageDateTextSize"
+                    android:background="@color/colorWhite"
+                    android:visibility="gone"
+                    />
+
                 <TextView
                     android:id="@+id/registDayText"
-                    android:layout_width="wrap_content"
+                    android:layout_width="25dp"
                     android:layout_height="@dimen/myPageTextHeight"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -490,6 +532,7 @@
                     android:text="25"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
+                    android:visibility="visible"
                     android:textSize="@dimen/myPageDateTextSize"/>
 
                 <TextView
@@ -507,13 +550,14 @@
 
             <TextView
                 android:id="@+id/centerNameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="21dp"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:paddingLeft="10dp"
+                android:layout_marginTop="2dp"
                 android:text="유성구청장"
-                android:textSize="@dimen/myPageDateTextSize"
+                android:textSize="16dp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"
                 android:visibility="visible"
@@ -521,12 +565,14 @@
 
             <EditText
                 android:id="@+id/centerNameEditText"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/myPageTextHeight"
-                android:layout_weight="@dimen/myPageTextViewWeight"
+                android:layout_width="100dp"
+                android:layout_height="21dp"
                 android:background="@color/colorWhite"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
                 android:paddingLeft="10dp"
-                android:textSize="@dimen/myPageTextSize"
+                android:textSize="16dp"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -537,7 +583,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:textSize="10dp"
+        android:textSize="12dp"
         android:textColor="@color/colorBlack"
         android:gravity="left|center"
         android:layout_gravity="center"
@@ -552,22 +598,22 @@
         app:layout_constraintDimensionRatio="1:1"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-
         android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:srcCompat="@drawable/mypage_reservationlisttitle" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
-        android:layout_height="180dp">
+        android:layout_height="220dp">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/myReservationRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             android:paddingBottom="10dp"
             >
         </android.support.v7.widget.RecyclerView>

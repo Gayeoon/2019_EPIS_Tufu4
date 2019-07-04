@@ -10,8 +10,8 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CALL_PHONE"></uses-permission>
-    
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -46,7 +46,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".ReservationActivity"
             android:theme="@style/NoTheme" />
@@ -68,7 +68,6 @@
         <activity
             android:name=".CommunityActivity"
             android:theme="@style/NoTheme" />
-
         <activity
             android:name=".MessageActivity"
             android:theme="@style/NoTheme" />
@@ -115,8 +114,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".ShowCommunityActivity"
-            android:theme="@style/NoTheme"></activity>
-
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".MessagePopupActivity"
             android:theme="@style/PopupTheme" />
@@ -125,12 +123,12 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".NicnamePopupActivity"
-
-            android:theme="@style/PopupTheme" />
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalProfileActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".SplashActivity"
+        <activity
+            android:name=".SplashActivity"
             android:theme="@style/NoTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -138,8 +136,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".IndividualInfoPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity android:name=".PostCodePopupActivity"
+            android:theme="@style/PopupTheme"
+            ></activity>
     </application>
 
 </manifest>

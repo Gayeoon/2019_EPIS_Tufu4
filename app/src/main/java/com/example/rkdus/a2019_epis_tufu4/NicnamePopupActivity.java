@@ -37,13 +37,12 @@ import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionE
  */
 public class NicnamePopupActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";
-    Button okBtn, cancelBtn;
-    ImageView checkNicnameBtn;
+    ImageView checkNicnameBtn, okBtn;
     EditText eNicname;
     Intent intent;
 
-    String nicname;
-    boolean checkNicname = false;
+    String nickname;
+    boolean checkNickname = false;
     NicnameAsyncTask nicnameAsyncTask;
 
     @Override
@@ -51,45 +50,41 @@ public class NicnamePopupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nicname_popup);
 
-        okBtn = (Button) findViewById(R.id.okBtn);
-        cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        okBtn = (ImageView) findViewById(R.id.okBtn);
         checkNicnameBtn = (ImageView) findViewById(R.id.checkNicnameImage);
         eNicname = (EditText) findViewById(R.id.nicnameEditText);
 
         intent = new Intent();
 
-        okBtn.setOnClickListener(new View.OnClickListener() {
+        okBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                //데이터 전달하기
-                if(checkNicname) { // 중복체크 여부
-                    if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
-                        if(nicname.equals(eNicname.getText().toString())) { // 중복 체크 값과 입력 값이 동일한 경우
-                            nicnameAsyncTask = new NicnameAsyncTask();
-                            nicnameAsyncTask.execute("/addNicname", "add");
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Log.d(TAG, "닉네임 설정");
+                        //데이터 전달하기
+                        if(checkNickname) { // 중복체크 여부
+                            if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
+                                if(nickname.equals(eNicname.getText().toString())) { // 중복 체크 값과 입력 값이 동일한 경우
+                                    nicnameAsyncTask = new NicnameAsyncTask();
+                                    nicnameAsyncTask.execute("/addNickname", "add");
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), "중복검사한 값과 입력한 값이 다릅니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
+                                    checkNickname = false;
+                                }
+                            } else {
+                                Toast.makeText(getApplicationContext(), "입력 칸에 공백이 존재합니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
+                                checkNickname = false;
+                            }
                         }
-                        else {
-                            Toast.makeText(getApplicationContext(), "중복검사한 값과 입력한 값이 다릅니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
-                            checkNicname = false;
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "입력 칸에 공백이 존재합니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
-                        checkNicname = false;
-                    }
+                        else
+                            Toast.makeText(getApplicationContext(), "중복 체크를 먼저 해야 합니다.", Toast.LENGTH_SHORT).show();
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
                 }
-                else {
-                    Toast.makeText(getApplicationContext(), "중복 체크를 먼저 해야 합니다.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //데이터 전달하기
-                setResult(RESULT_CANCELED, intent);
-                //액티비티(팝업) 닫기
-                finish();
+                return true;
             }
         });
 
@@ -100,13 +95,12 @@ public class NicnamePopupActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Log.d(TAG, "닉네임 중복체크");
                         if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
-                            nicname = eNicname.getText().toString();
+                            nickname = eNicname.getText().toString();
                             nicnameAsyncTask = new NicnameAsyncTask();
-                            nicnameAsyncTask.execute("/checkNicname", "check");
+                            nicnameAsyncTask.execute("/checkNickname", "check");
                         }
                         else
                             Toast.makeText(getApplicationContext(), "입력 칸에 공백이 존재합니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
-
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
                         break;
@@ -132,7 +126,7 @@ public class NicnamePopupActivity extends AppCompatActivity {
                 // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
                 // Message에 담은 모든 정보 JSONObject에 담기
-                jsonObject.accumulate("NICNAME", nicname); // key JSONObject에 담기
+                jsonObject.accumulate("NICKNAME", nickname); // key JSONObject에 담기
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
@@ -194,21 +188,25 @@ public class NicnamePopupActivity extends AppCompatActivity {
             JSONObject jsonObject = StringToJSON(result);
             try {
                 int getResult = jsonObject.getInt("result");
+                Log.d(TAG, "result : " + getResult);
                 if(type.equals("check")) {
-                    if(getResult == 1)  // 중복체크 통과
-                        checkNicname = true;
+                    if(getResult == 1) { // 중복체크 통과
+                        Toast.makeText(getApplicationContext(), "중복된 닉네임이 없습니다.", Toast.LENGTH_LONG).show();
+                        checkNickname = true;
+                    }
                     else
                         Toast.makeText(getApplicationContext(), "이미 존재하는 닉네임입니다.", Toast.LENGTH_LONG).show();
                 }
                 else if(type.equals("add")) {
                     if(getResult == 1) {    // DB에 생성 완료
                         Toast.makeText(getApplicationContext(), "닉네임 설정 완료", Toast.LENGTH_LONG).show();
-                        intent.putExtra("nicname", nicname);
+                        intent.putExtra("nicname", nickname);
                         setResult(RESULT_OK, intent);
                         finish();
                     }
-                    else
+                    else {
                         Toast.makeText(getApplicationContext(), "서버 오류입니다. 잠시 후 다시 실행해주세요.", Toast.LENGTH_LONG).show();
+                    }
                 }
                 else
                     Toast.makeText(getApplicationContext(), "서버 오류입니다. 잠시 후 다시 실행해주세요.", Toast.LENGTH_LONG).show();
@@ -225,10 +223,5 @@ public class NicnamePopupActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-    @Override
-    public void onBackPressed() {
-        //안드로이드 백버튼 막기
-        return;
     }
 }

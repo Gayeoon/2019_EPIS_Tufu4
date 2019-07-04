@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -55,7 +57,11 @@ import static com.example.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionE
  */
 public class MessageActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
+
     private static final int SELECT_RESERVATION = 10;
+    private static final int CHECK_INDIVIDUALINFO = 11;
+    private static final int SEARCH_POSTCODE = 100;
+    private static final int SEARCH_REALPOSTCODE = 101;
 
     int key;
     String hospitalName;
@@ -71,9 +77,9 @@ public class MessageActivity extends BaseActivity {
 
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
-    EditText eOwnerPostCode1, eOwnerPostCode2, eOwnerDetailPostCode, eOwnerRealPostCode1, eOwnerRealPostCode2, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
+    EditText eOwnerPostCode, eOwnerDetailPostCode, eOwnerRealPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
-    CheckBox cbMatchedPostCode; // 주민등록주소와 동일 체크박스
+    CheckBox cbMatchedPostCode, cbCheckIndividualInfo; // 주민등록주소와 동일 체크박스
 
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
     ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
@@ -98,13 +104,12 @@ public class MessageActivity extends BaseActivity {
         eOwnerHP1 = (EditText) findViewById(R.id.ownerHPFirst);
         eOwnerHP2 = (EditText) findViewById(R.id.ownerHPSecond);
         eOwnerHP3 = (EditText) findViewById(R.id.ownerHPThird);
-        eOwnerPostCode1 = (EditText) findViewById(R.id.ownerPostCodeFirst);
-        eOwnerPostCode2 = (EditText) findViewById(R.id.ownerPostCodeSecond);
+        eOwnerPostCode = (EditText) findViewById(R.id.ownerPostCode);
         eOwnerDetailPostCode = (EditText) findViewById(R.id.ownerDetailPostCode);
-        eOwnerRealPostCode1 = (EditText) findViewById(R.id.ownerRealPostCodeFirst);
-        eOwnerRealPostCode2 = (EditText) findViewById(R.id.ownerRealPostCodeSecond);
+        eOwnerRealPostCode = (EditText) findViewById(R.id.ownerRealPostCode);
         eOwnerRealDetailPostCode = (EditText) findViewById(R.id.ownerRealDetailPostCode);
         cbMatchedPostCode = (CheckBox) findViewById(R.id.matchedPostCodeBox);
+        cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
 
         // 뷰 정의 - 반려동물
         ePetName = (EditText) findViewById(R.id.petNameText);
@@ -174,16 +179,16 @@ public class MessageActivity extends BaseActivity {
         outerBtn.setOnTouchListener(imageViewClickListener);
         badgeBtn.setOnTouchListener(imageViewClickListener);
         reservationBtn.setOnTouchListener(imageViewClickListener);
+        rewriteBtn.setOnTouchListener(imageViewClickListener);
 
         // 체크박스 클릭 이벤트
         cbMatchedPostCode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cbMatchedPostCode.isChecked()) {
-                    if(checkEditText(eOwnerPostCode1) && checkEditText(eOwnerPostCode2) && checkEditText(eOwnerDetailPostCode)) {
+                    if(checkEditText(eOwnerPostCode)  && checkEditText(eOwnerDetailPostCode)) {
                         // editText 설정
-                        eOwnerRealPostCode1.setText(eOwnerPostCode1.getText().toString());
-                        eOwnerRealPostCode2.setText(eOwnerPostCode2.getText().toString());
+                        eOwnerRealPostCode.setText(eOwnerPostCode.getText().toString());
                         eOwnerRealDetailPostCode.setText(eOwnerDetailPostCode.getText().toString());
                     }
                     else {
@@ -191,11 +196,21 @@ public class MessageActivity extends BaseActivity {
                     }
                 }
                 else {  // 초기화
-                    eOwnerRealPostCode1.setText("");
-                    eOwnerRealPostCode2.setText("");
+                    eOwnerRealPostCode.setText("");
                     eOwnerRealDetailPostCode.setText("");
                 }
             }
+        });
+
+        // 체크박스 클릭 이벤트
+        cbCheckIndividualInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(cbCheckIndividualInfo.isChecked()) {
+                    Intent intent = new Intent(getApplicationContext(), IndividualInfoPopupActivity.class);
+                    startActivityForResult(intent, CHECK_INDIVIDUALINFO);
+                    }
+                }
         });
 
         Intent typeIntent = getIntent();
@@ -207,13 +222,28 @@ public class MessageActivity extends BaseActivity {
             }
             // MyPageActivity에서 수정을 통해 받은 MyReservationData 가져오기.
             if(typeIntent.hasExtra("data")) {
-                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
-                printReservationData(myReservationData);
-
+                checkReservation = true;
                 // 예약 변경인 경우의 설정
                 reservationBtn.setImageResource(R.drawable.message_checkreservationbtn);
+                rewriteBtn = (ImageView) findViewById(R.id.messageRewriteBtn);
                 rewriteBtn.setVisibility(View.VISIBLE);
-                checkReservation = true;
+                rewriteBtn.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if(checkReservation) {
+                                if(setOwnerInfo() && setPetInfo()) {
+                                    messageAsyncTask = new MessageAsyncTask();
+                                    messageAsyncTask.execute("/rewriteMessage", "rewrite");
+                                }
+                            }
+                        }
+                        return true;
+                    }
+                });
+
+                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
+                printReservationData(myReservationData);
             }
         }
         else {
@@ -229,6 +259,8 @@ public class MessageActivity extends BaseActivity {
         ownerName = data.getOWNER_NAME();
         eOwnerName.setText(ownerName);
 
+        hospitalName = data.getHOSPITAL_NAME();
+
         // ex) 123456-1234567
         ownerRRN = data.getOWNER_RESIDENT();
         String[] splitRRN = ownerRRN.split("-");
@@ -242,22 +274,20 @@ public class MessageActivity extends BaseActivity {
         eOwnerHP2.setText(splitHP[1]);
         eOwnerHP3.setText(splitHP[2]);
 
-        // ex) 302-765_대전시 유성구 궁동
+        // ex) 30265_대전시 유성구 궁동
         String[] addr1 = data.getOWNER_ADDRESS1().split("_");
         ownerPostCode = addr1[0];
         ownerDetailPostCode = addr1[1];
-        String[] splitPostCode = ownerPostCode.split("-");
-        eOwnerPostCode1.setText(splitPostCode[0]);
-        eOwnerPostCode2.setText(splitPostCode[1]);
+        // String[] splitPostCode = ownerPostCode.split("-");
+        eOwnerPostCode.setText(ownerPostCode);
         eOwnerDetailPostCode.setText(ownerDetailPostCode);
 
-        // ex) 302-765_대전시 유성구 궁동
+        // ex) 30265_대전시 유성구 궁동
         String[] addr2 = data.getOWNER_ADDRESS2().split("_");
         ownerRealPostCode = addr2[0];
         ownerRealDetailPostCode = addr2[1];
-        String[] splitRealPostCode = ownerRealPostCode.split("-");
-        eOwnerRealPostCode1.setText(splitRealPostCode[0]);
-        eOwnerRealPostCode2.setText(splitRealPostCode[1]);
+        // String[] splitRealPostCode = ownerRealPostCode.split("-");
+        eOwnerRealPostCode.setText(ownerRealPostCode);
         eOwnerRealDetailPostCode.setText(ownerRealDetailPostCode);
 
         petName = data.getPET_NAME();
@@ -268,7 +298,7 @@ public class MessageActivity extends BaseActivity {
         ePetColor.setText(petColor);
 
         // ex) 1996.01.30
-        String[] birth = data.getPET_BIRTH().split(".");
+        String[] birth = data.getPET_BIRTH().split("\\.");
         petYear = birth[0];
         petMonth = birth[1];
         petDay = birth[2];
@@ -277,7 +307,7 @@ public class MessageActivity extends BaseActivity {
         sPetBirthDay.setSelection(getIndexOfSpinner(petDay, dayArray));
 
         // ex) 1996.01.30
-        String[] getDate = data.getREGIST_DATE().split(".");
+        String[] getDate = data.getREGIST_DATE().split("\\.");
         petGetYear = getDate[0];
         petGetMonth = getDate[1];
         petGetDay = getDate[2];
@@ -310,7 +340,11 @@ public class MessageActivity extends BaseActivity {
         else if(petNeutralization == 2)
             ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralizationclick);
 
+        petSpecialProblem = data.getETC();
+        ePetSpecialProblem.setText(petSpecialProblem);
+
         askDateOld = data.getASK_DATE();
+
     }
 
     /*
@@ -371,17 +405,17 @@ public class MessageActivity extends BaseActivity {
         // 이 모든 editText중 하나라도 공백이 있는 경우 false
         if(!checkEditText(eOwnerName) || !checkEditText(eOwnerRRNBefore) || !checkEditText(eOwnerRRNAfter)
                 || !checkEditText(eOwnerHP1) || !checkEditText(eOwnerHP2) || !checkEditText(eOwnerHP3)
-                || !checkEditText(eOwnerPostCode1) || !checkEditText(eOwnerPostCode2) || !checkEditText(eOwnerDetailPostCode)
-                || !checkEditText(eOwnerRealPostCode1) || !checkEditText(eOwnerRealPostCode2) || !checkEditText(eOwnerRealDetailPostCode)) {
+                || !checkEditText(eOwnerPostCode) || !checkEditText(eOwnerDetailPostCode)
+                || !checkEditText(eOwnerRealPostCode) || !checkEditText(eOwnerRealDetailPostCode)) {
             Toast.makeText(getApplicationContext(), "모든 소유주 정보 입력 칸을 채우세요.", Toast.LENGTH_LONG).show();
             return false;
         }
         else {
             ownerRealDetailPostCode = eOwnerRealDetailPostCode.getText().toString();
-            ownerRealPostCode = eOwnerRealPostCode1.getText().toString() + "-" + eOwnerRealPostCode2.getText().toString();
+            ownerRealPostCode = eOwnerRealPostCode.getText().toString();
             ownerDetailPostCode = eOwnerDetailPostCode.getText().toString();
-            ownerPostCode = eOwnerPostCode1.getText().toString() + "-" + eOwnerPostCode2.getText().toString();
-            ownerAddress = ownerPostCode + "_" + ownerRealPostCode;
+            ownerPostCode = eOwnerPostCode.getText().toString();
+            ownerAddress = ownerPostCode + "_" + ownerDetailPostCode;
             ownerRealAddress = ownerRealPostCode + "_" + ownerRealDetailPostCode;
             ownerHP = eOwnerHP1.getText().toString() + "-" + eOwnerHP2.getText().toString() + "-" + eOwnerHP3.getText().toString();
             ownerRRN = eOwnerRRNBefore.getText().toString() + "-" + eOwnerRRNAfter.getText().toString();
@@ -469,6 +503,8 @@ public class MessageActivity extends BaseActivity {
                 reservationObject.remove("ASK_DATE_NEW");
             }
 
+            reservationObject.accumulate("HOSPITAL_NAME", hospitalName);
+
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
                 JSONArray jsonArray = new JSONArray();
@@ -480,16 +516,20 @@ public class MessageActivity extends BaseActivity {
                 Log.d(TAG, "기존에 저장된 파일 존재");
                 for(int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                         // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
                         // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
                         if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {
+                            if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                             // jsonArray.remove(i);
                             jsonArray.put(i,reservationObject); // 덮어씌우기
-                            break;
+                            fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                            fileOutputStream.flush();
+                            fileOutputStream.close();
+                            return true;
                         }
                     }
                 }
+                jsonArray.put(reservationObject);
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
             }
             fileOutputStream.flush();
@@ -696,6 +736,33 @@ public class MessageActivity extends BaseActivity {
                     Log.d(TAG, "팝업창에서 취소 누름!");
                 }
                 break;
+            case CHECK_INDIVIDUALINFO:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "정보제공동의 팝업창에서 확인 누름!");
+                    Toast.makeText(getApplicationContext(), "정보제공에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.d(TAG, "정보제공동의 팝업창에서 취소 누름!");
+                    Toast.makeText(getApplicationContext(), "정보제공에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
+                    cbCheckIndividualInfo.setChecked(false);
+                }
+            case SEARCH_POSTCODE:
+                if(resultCode == RESULT_OK) {
+                    PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
+                    eOwnerPostCode.setText(postCodeItem.getPostcd());
+                    ownerPostCode = postCodeItem.getPostcd();
+                    eOwnerDetailPostCode.setText(postCodeItem.getAddress());
+                    ownerDetailPostCode = postCodeItem.getAddress();
+                }
+                break;
+            case SEARCH_REALPOSTCODE:
+                if(resultCode == RESULT_OK) {
+                    PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
+                    eOwnerRealPostCode.setText(postCodeItem.getPostcd());
+                    ownerRealPostCode = postCodeItem.getPostcd();
+                    eOwnerRealDetailPostCode.setText(postCodeItem.getAddress());
+                    ownerRealDetailPostCode = postCodeItem.getAddress();
+                }
             default:
                 break;
         }
@@ -748,9 +815,13 @@ public class MessageActivity extends BaseActivity {
                switch(v.getId()) {
                    case R.id.searchPostCodeBtn:
                        // 우편번호 API 실행
+                       Intent intent2 = new Intent(getApplicationContext(), PostCodePopupActivity.class);
+                       startActivityForResult(intent2, SEARCH_POSTCODE);
                        break;
                    case R.id.searchRealPostCodeBtn:
                        // 우편번호 API 실행
+                       Intent intent3 = new Intent(getApplicationContext(), PostCodePopupActivity.class);
+                       startActivityForResult(intent3, SEARCH_REALPOSTCODE);
                        break;
                    case R.id.petFemale:
                        if(petGender == 1) { // female 선택 중인 경우
@@ -822,7 +893,7 @@ public class MessageActivity extends BaseActivity {
                        break;
                    case R.id.badgeBtn:
                        if(type == 3) { // neutralization 선택 중인 경우
-                           badgeBtn.setImageResource(R.drawable.message_outer);
+                           badgeBtn.setImageResource(R.drawable.message_badge);
                            type = 0;
                        }
                        else {
@@ -832,17 +903,16 @@ public class MessageActivity extends BaseActivity {
                            type = 3;
                        }
                        break;
-                   case R.id.rewriteBtn:
-                       if(checkReservation) {
-                           messageAsyncTask = new MessageAsyncTask();
-                           messageAsyncTask.execute("/rewriteMessage", "rewrite");
-                       }
                    case R.id.reservationBtn:
-                       if(checkReservation)
+                       if(checkReservation) {
+                           setResult(RESULT_CANCELED);
                            finish();
-                       if(setOwnerInfo() && setPetInfo()) {
-                           Intent intent = new Intent(getApplicationContext(), MessagePopupActivity.class);
-                           startActivityForResult(intent, SELECT_RESERVATION);
+                       }
+                       else {
+                           if(setOwnerInfo() && setPetInfo() && cbCheckIndividualInfo.isChecked()) {    // 정보제공 동의 체크 여부까지 판단
+                               Intent intent = new Intent(getApplicationContext(), MessagePopupActivity.class);
+                               startActivityForResult(intent, SELECT_RESERVATION);
+                           }
                        }
                        break;
                }

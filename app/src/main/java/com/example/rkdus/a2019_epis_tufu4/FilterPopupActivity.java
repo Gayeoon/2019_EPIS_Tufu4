@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FilterPopupActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";
@@ -51,18 +52,19 @@ public class FilterPopupActivity extends AppCompatActivity {
         tvDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type == 2) {
-                    type = 0;
-                    tvNothing.setTextColor(getResources().getColor(R.color.colorBlack));
-                    tvDistance.setTextColor(getResources().getColor(R.color.colorBlack));
-                    tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlack));
-                }
-                else {
-                    type = 2;
-                    tvNothing.setTextColor(getResources().getColor(R.color.colorBlack));
-                    tvDistance.setTextColor(getResources().getColor(R.color.colorBlue));
-                    tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlack));
-                }
+//                if(type == 2) {
+//                    type = 0;
+//                    tvNothing.setTextColor(getResources().getColor(R.color.colorBlack));
+//                    tvDistance.setTextColor(getResources().getColor(R.color.colorBlack));
+//                    tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlack));
+//                }
+//                else {
+//                    type = 2;
+//                    tvNothing.setTextColor(getResources().getColor(R.color.colorBlack));
+//                    tvDistance.setTextColor(getResources().getColor(R.color.colorBlue));
+//                    tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlack));
+//                }
+                Toast.makeText(getApplicationContext(), "해당 기능은 준비중입니다. \n다음 업데이트를 기대하세요!(씽긋)", Toast.LENGTH_LONG).show();
             }
         });
 

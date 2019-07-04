@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="62dp">
+    android:layout_height="122dp">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -29,13 +29,18 @@
                 android:layout_height="25dp"
                 android:gravity="left"
                 android:layout_gravity="center_vertical"
-                android:textSize="17dp"
+                android:layout_marginLeft="15dp"
+                android:textSize="14dp"
+                android:textColor="@color/colorBlack"
                 android:text="업체명"/>
 
             <View
-                android:background="#66bdbdbd"
+                android:background="#ECECEC"
                 android:layout_width="match_parent"
-                android:layout_height="1dp" />
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -48,28 +53,31 @@
                     android:id="@+id/myRegiDataType"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_weight="0.2"
+                    android:layout_weight="0.25"
+                    android:layout_marginLeft="15dp"
                     android:gravity="left"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/colorBlack"
                     android:text="타입"/>
 
                 <TextView
                     android:id="@+id/myRegiDataDate"
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:layout_weight="0.55"
+                    android:layout_weight="0.73"
                     android:gravity="left"
+                    android:layout_marginLeft="15dp"
                     android:layout_gravity="center_vertical"
-                    android:textSize="17dp"
-                    android:paddingLeft="10dp"
+                    android:textSize="14dp"
+                    android:textColor="@color/colorBlack"
                     android:text="년월일"/>
 
                 <ImageView
                     android:id="@+id/myRegiCheckImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     android:adjustViewBounds="true"

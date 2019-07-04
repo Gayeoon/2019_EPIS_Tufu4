@@ -10,6 +10,7 @@ MyPageActivity의 Registration RecyclerView에 담을 객체
  */
 public class MyReservationData implements Serializable {
     int HOSPITAL_KEY;
+    int TYPE;
     String OWNER_NAME;
     String OWNER_RESIDENT;
     String OWNER_PHONE_NUMBER;
@@ -20,6 +21,12 @@ public class MyReservationData implements Serializable {
     String PET_COLOR;
     int PET_GENDER;
     int PET_NEUTRALIZATION;
+    String PET_BIRTH;
+    String REGIST_DATE;
+    String ETC;
+    String ASK_DATE;
+
+    String HOSPITAL_NAME;
 
     public String getREGIST_DATE() {
         return REGIST_DATE;
@@ -28,14 +35,6 @@ public class MyReservationData implements Serializable {
     public void setREGIST_DATE(String REGIST_DATE) {
         this.REGIST_DATE = REGIST_DATE;
     }
-
-    String PET_BIRTH;
-    String ASK_DATE;
-    String ETC;
-
-    int TYPE;
-    String HOSPITAL_NAME;
-    String REGIST_DATE;
 
     public int getHOSPITAL_KEY() {
         return HOSPITAL_KEY;
