@@ -42,6 +42,11 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+ *  WriteCommunityActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class WriteCommunityActivity extends BaseActivity {
     public static final String TAG = "WriteCommunityActivity";
 

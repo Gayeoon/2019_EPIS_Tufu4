@@ -13,6 +13,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+/*
+ *  waitListAdapter
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class waitListAdapter extends BaseAdapter {
 
     LayoutInflater inflater = null;

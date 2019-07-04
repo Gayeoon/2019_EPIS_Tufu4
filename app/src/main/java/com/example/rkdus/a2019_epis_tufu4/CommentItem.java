@@ -1,5 +1,10 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+/*
+*  CommentItem
+*  Copyright 2019, 김가연. All rights reserved.
+*/
+
 public class CommentItem {
     String id, date, comment;
     int index;

@@ -7,6 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  CommunityView
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class CommunityView extends LinearLayout {
     TextView title, written, index;
 

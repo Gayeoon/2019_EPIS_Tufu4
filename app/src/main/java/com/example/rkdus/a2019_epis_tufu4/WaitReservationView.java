@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  WaitReservationView
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class WaitReservationView extends LinearLayout {
     TextView owner, animal;
     ImageView call;

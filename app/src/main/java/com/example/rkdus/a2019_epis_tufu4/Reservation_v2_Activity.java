@@ -25,6 +25,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/*
+ *  Reservation_v2_Activity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class Reservation_v2_Activity extends AppCompatActivity {
 
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;

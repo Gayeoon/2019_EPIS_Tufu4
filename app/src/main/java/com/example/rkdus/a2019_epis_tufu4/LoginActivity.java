@@ -1,6 +1,5 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +27,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+/*
+ *  LoginActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
 
 public class LoginActivity extends BaseActivity {
     public static final String TAG = "LoginActivity";

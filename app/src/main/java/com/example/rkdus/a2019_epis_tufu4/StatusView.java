@@ -7,6 +7,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  StatusView
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class StatusView extends LinearLayout {
     TextView owner, animal;
     ImageView state;

@@ -42,6 +42,11 @@ import java.net.URL;
 
 import static java.lang.Thread.sleep;
 
+/*
+ *  JoinActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class JoinActivity extends BaseActivity {
 
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;

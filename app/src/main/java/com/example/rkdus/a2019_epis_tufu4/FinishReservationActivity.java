@@ -30,6 +30,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/*
+ *  FinishReservationActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class FinishReservationActivity extends BaseActivity {
     public static final String TAG = "FinishReservation";
 

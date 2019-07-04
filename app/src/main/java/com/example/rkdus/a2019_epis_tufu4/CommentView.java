@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  CommentView
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class CommentView extends LinearLayout {
     TextView id, date, comment;
 

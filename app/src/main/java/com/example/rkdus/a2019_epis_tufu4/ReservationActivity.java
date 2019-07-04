@@ -25,6 +25,11 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/*
+ *  ReservationActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class ReservationActivity extends AppCompatActivity {
 
     ImageButton check;

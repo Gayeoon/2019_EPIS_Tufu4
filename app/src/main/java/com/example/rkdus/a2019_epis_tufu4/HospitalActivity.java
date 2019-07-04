@@ -29,6 +29,10 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/*
+ *  HospitalActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
 
 public class HospitalActivity extends BaseActivity {
     public static final String TAG = "HospitalActivity";

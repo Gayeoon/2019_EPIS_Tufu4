@@ -34,6 +34,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+/*
+ *  WaitReservationActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class WaitReservationActivity extends BaseActivity implements View.OnClickListener {
 
     String TAG = "WaitReservationActivity";

@@ -35,6 +35,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+ *  NewReservationActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class NewReservationActivity extends BaseActivity {
     public static final String TAG = "NewReservationActivity";
 

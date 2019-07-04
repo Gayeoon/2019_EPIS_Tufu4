@@ -41,6 +41,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/*
+ *  ShowCommunityActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class ShowCommunityActivity extends AppCompatActivity {
     public static final String TAG = "ShowCommunityActivity";
 

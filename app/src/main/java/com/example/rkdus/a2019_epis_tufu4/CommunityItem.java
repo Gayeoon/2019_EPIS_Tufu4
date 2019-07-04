@@ -1,5 +1,10 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+/*
+ *  CommunityItem
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class CommunityItem {
     String title, written;
     int index;

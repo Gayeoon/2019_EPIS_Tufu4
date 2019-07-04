@@ -144,7 +144,6 @@
                     android:layout_weight="@dimen/myPageTextViewWeight"
                     android:gravity="top|left"
                     android:paddingLeft="10dp"
-                    android:text="이해원"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
 

@@ -41,9 +41,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /*
- * 사용자, 병원
- * 커뮤니티 액티비티
+ *  CommunityActivity
+ *  Copyright 2019, 김가연. All rights reserved.
  */
+
 public class CommunityActivity extends BaseActivity {
     public static final String TAG = "CommunityActivity";
 

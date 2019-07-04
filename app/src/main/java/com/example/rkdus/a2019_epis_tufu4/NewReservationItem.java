@@ -1,5 +1,10 @@
 package com.example.rkdus.a2019_epis_tufu4;
 
+/*
+ *  NewReservationItem
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class NewReservationItem {
     String name, time;
 

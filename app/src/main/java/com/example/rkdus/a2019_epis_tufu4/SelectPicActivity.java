@@ -46,6 +46,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ *  SelectPicActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class SelectPicActivity extends BaseActivity implements View.OnClickListener {
     private static final int PICK_FROM_CAMERA = 0;
     private static final int PICK_FROM_ALBUM = 1;
