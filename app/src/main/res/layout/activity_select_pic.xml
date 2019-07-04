@@ -53,6 +53,7 @@
         android:onClick="onClick" />
 
     <Button
+        android:visibility="gone"
         android:id="@+id/upload"
         android:layout_width="60dp"
         android:layout_height="30dp"

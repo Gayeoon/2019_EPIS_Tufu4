@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 public class WaitReservationActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = "ResrvationActivity";
+    String TAG = "WaitReservationActivity";
 
     String owner, animal, id;
 
@@ -124,7 +124,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 owner = cTextOwner.getText().toString();
                 animal = cTextAnimal.getText().toString();
 
-                new CancelReservation().execute(getResources().getString(R.string.url) +"/putCancelReservation");
+                new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
                 break;
         }
 
@@ -141,14 +141,16 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
     }
 
     /* WaitReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력
-     *
-     * state 2와 state 3 상태의 리스트 요청
-     *
-     * Uri  --->   /getWaitReservationListData
-     * Parm  --->   {"user":{"id":"test"}} 전송
-     * Result  --->   {"result":{"wait":[{"owner":"김가연","animal":"뿡이","state":2},{"owner":"정지원","animal":"맥북"}]}} 결과 값
-     *
-     * ps. 결과값 : result Object 안에 JSONArray : wait 넣어서!!  */
+
+    state 2와 state 3 상태의 리스트 요청
+
+    Uri  --->   /getWaitReservationListData
+    Parm  --->   {"user":{"id":"test"}} 전송
+    Result  --->   {"result":{"wait":[{"OWNER_NAME":"김가연","PET_NAME":"뿡이",
+            "REGIST_STATE":2},{"OWNER_NAME":"정지원",
+            "PET_NAME":"맥북","REGIST_STATE":3}]}} 결과 값
+
+    ps. 결과값 : result Object 안에 JSONArray : wait 넣어서!! */
 
     public class WaitReservationListData extends AsyncTask<String, String, String> {
 
@@ -305,13 +307,14 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
         }
     }
-    /* CallReservation : 병원 ID, 주인 이름, 강아지 이름 값을 통해 주인 전화번호 요청
-     *
-     * 예약상태 3으로 변경 (현재 : 2)
-     *
-     * Uri  --->   /putChangeWait
-     * Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
-     * Result  --->   {"result":"010-4491-0778"} 결과 값 */
+
+    /* CallReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 주인 전화번호 요청
+
+    예약상태 3으로 변경 (현재 : 2)
+
+    Uri  --->   /putChangeWait
+    Parm  --->   {"user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
+    Result  --->   {"result":{OWNER_PHONE_NUMBER:"010-4491-0778"}} 결과 값 */
 
     public class CallReservation extends AsyncTask<String, String, String> {
 
@@ -418,15 +421,15 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름 값을 통해 예약 상태 변경
-     *
-     * 예약상태 4로 변경 (현재 : 3)
-     *
-     * 성공 1 실패 0
-     *
-     * Uri  --->   /putCancelReservation
-     * Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
-     * Result  --->   {"result":1} 결과 값 */
+    /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 예약 상태 변경
+
+    예약상태 4로 변경 (현재 : 3)
+
+    성공 1 실패 0
+
+    Uri  --->   /putCancelReservation
+    Parm  --->   "user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
+        Result  --->   {"result":1} 결과 값 */
 
     public class CancelReservation extends AsyncTask<String, String, String> {
 
@@ -516,7 +519,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CancelReservation().execute(getResources().getString(R.string.url) +"/putCancelReservation");
+                    new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
                 } else {
                     succes = (int) json.get("result");
 

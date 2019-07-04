@@ -63,7 +63,7 @@ public class ReservationActivity extends AppCompatActivity {
 
         new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
 
-        check = (ImageButton)findViewById(R.id.check);
+        check = (ImageButton) findViewById(R.id.check);
 
         check.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,16 +75,18 @@ public class ReservationActivity extends AppCompatActivity {
 
     }
 
-    /* ReservationData : ID, 주인 이름, type 값을 통해 예약 데이터 요청
-     *
-     * 필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수
-     *
-     * type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
-     *
-     * Uri  --->   /getReservationData
-     * Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
-     * Result  --->   {"result":{"owner":"김가연","resident":"960708-2","phone":"010-4491-0778","resAddr":"대전","nowAddr":"궁동",
-     * "animal":"뿡이","variety":"시츄","furColor":"흰색+갈색","gender":"남","neutralization":"했움","birthday":"2008-04-04","acqDate":"2008-04-04","special":"겁이 많아요ㅠㅠ"}} 결과 값 */
+/*    ReservationData : ID, 주인 이름, type 값을 통해 예약 데이터 요청
+
+    필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수
+
+    type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
+
+    Uri  --->   /getReservationData
+    Parm  --->   {"user":{"id":"test","owner_name":"김가연","type":1}} 전송
+    Result  --->  {"result":{"OWNER_NAME":"김가연“,"OWNER_RESIDENT":
+        "960708-0000000","OWNER_PHONE_NUMBER":"010-4491-0778“,"OWNER_ADDRESS1":"대전","OWNER_ADDRESS2":"궁동","PET_NAME":"뿡이“
+                ,"PET_VARIETY":"시츄","PET_COLOR":"흰색+갈색","PET_GENDER":"남“,"PET_NEUTRALIZATION":"했움","PET_BIRTH":"2008-04-04",
+                "REGIST_DATE":"2008-04-04","ETC":"겁이 많아요ㅠㅠ"}} 결과 값 */
 
     public class ReservationData extends AsyncTask<String, String, String> {
 
@@ -187,21 +189,21 @@ public class ReservationActivity extends AppCompatActivity {
                     variety.setText(jsonObject.getString("PET_VARIETY"));
                     furColor.setText(jsonObject.getString("PET_COLOR"));
 
-                    if (jsonObject.getString("PET_GENDER") == "1"){
+                    if (jsonObject.getString("PET_GENDER") == "1") {
                         gender.setText("남성");
-                    }else{
+                    } else {
                         gender.setText("여성");
                     }
 
-                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1"){
+                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1") {
                         neutralization.setText("했음");
-                    }else{
+                    } else {
                         neutralization.setText("안했음");
                     }
 
 
                     birthday.setText(jsonObject.getString("PET_BIRTH"));
-                    acqDate.setText(jsonObject.getString("ASK_DATE"));
+                    acqDate.setText(jsonObject.getString("REGIST_DATE"));
                     special.setText(jsonObject.getString("ETC"));
 
                     Log.e(TAG, jsonObject.getString("OWNER_NAME"));

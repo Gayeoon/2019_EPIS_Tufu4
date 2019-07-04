@@ -508,6 +508,7 @@ public class CommunityActivity extends BaseActivity {
 
                     state = jsonObject.getJSONArray("community");
 
+                    count =  0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
                         itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
@@ -689,7 +690,7 @@ public class CommunityActivity extends BaseActivity {
                     JSONObject jsonObject = json.getJSONObject("result");
 
                     state = jsonObject.getJSONArray("community");
-
+                    count =  0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
                         itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
@@ -733,8 +734,9 @@ public class CommunityActivity extends BaseActivity {
                         }
                     });
 
-                    myAdapter.notifyDataSetInvalidated();
                     myAdapter.notifyDataSetChanged();
+                    myAdapter.notifyDataSetInvalidated();
+
 
                 }
             } catch (JSONException e) {
