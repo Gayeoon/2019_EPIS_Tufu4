@@ -115,7 +115,7 @@ public class JoinActivity extends BaseActivity {
 
                 if (pw.equals(comfirm)) {
                     check.setBackgroundResource(R.drawable.join_check);
-                    next_two.setBackgroundResource(R.drawable.join_nexton);
+
                 } else {
                     check.setBackgroundResource(R.drawable.join_fail);
                 }
@@ -304,10 +304,12 @@ public class JoinActivity extends BaseActivity {
                 if(cbSignUpApp.isChecked()) {
                     isSignUpApp = true;
                     next_two.setEnabled(true);
+                    next_two.setBackgroundResource(R.drawable.join_nexton);
                 }
                 else {  // 초기화
                     isSignUpApp = false;
                     next_two.setEnabled(false);
+                    next_two.setBackgroundResource(R.drawable.join_nextoff);
                 }
             }
         });
