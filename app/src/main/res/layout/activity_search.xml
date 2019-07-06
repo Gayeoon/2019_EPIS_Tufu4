@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
     android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
+    android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
     android:background="@color/colorWhite"
+    android:orientation="vertical"
     tools:context=".SearchActivity">
 
     <RelativeLayout
@@ -27,9 +27,9 @@
             android:fontFamily="@font/notosansbold"
             android:imeOptions="actionSearch"
             android:inputType="textNoSuggestions"
-            android:textSize="16dp"
+            android:paddingLeft="10dp"
             android:textColor="#000000"
-            android:paddingLeft="10dp" />
+            android:textSize="16dp" />
 
         <ImageView
             android:id="@+id/searchBtn"
@@ -37,9 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/searchEditText"
             android:layout_centerVertical="true"
-            android:adjustViewBounds="true"
             android:layout_marginLeft="@dimen/searchBtnMarginLeft"
             android:layout_marginRight="@dimen/searchBtnMarginRight"
+            android:adjustViewBounds="true"
             app:srcCompat="@drawable/search_searchbtn" />
     </RelativeLayout>
 
@@ -54,74 +54,72 @@
             android:id="@+id/signUpAppText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="#FF5D8D"
-            android:textAlignment="center"
             android:layout_gravity="center"
+            android:clickable="true"
             android:gravity="center"
             android:text="어플등록 업체"
-            android:textSize="12dp"
-            android:clickable="true"
-            />
+            android:textAlignment="center"
+            android:textColor="#FF5D8D"
+            android:textSize="12dp" />
 
         <CheckBox
             android:id="@+id/isSignUpApp"
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="5dp"
-            android:button="@null"
             android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/message_checkbox"
-            />
+            android:button="@null" />
 
         <ImageView
             android:id="@+id/filterBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/searchFilterMarginLeft"
             android:layout_gravity="right"
+            android:layout_marginLeft="@dimen/searchFilterMarginLeft"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/search_filterbtn"
-            />
+            app:srcCompat="@drawable/search_filterbtn" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="10dp"
-        >
+        android:orientation="horizontal">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            app:layout_constraintDimensionRatio="1:1"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/search_menubar"
-            />
+            app:layout_constraintDimensionRatio="1:1"
+            app:srcCompat="@drawable/search_menubar" />
 
     </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/searchListViewPage"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/searchRecycleViewHeight"
-            android:visibility="visible"
-            >
-        </android.support.v7.widget.RecyclerView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchRecycleViewHeight">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/listTablayout"
-            android:layout_gravity="center"
-            app:tabGravity="center"
-            app:tabSelectedTextColor="#FF5D8D"
-            app:tabIndicatorColor="@color/colorWhite"
-            app:tabTextAppearance="@style/tabText"
-            android:layout_width="match_parent"
-            android:layout_marginTop="30dp"
-            android:layout_height="50dp">
-        </android.support.design.widget.TabLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/searchListViewPage"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/searchRecycleViewHeight"
+        android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+    </ScrollView>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/listTablayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:tabGravity="center"
+        app:tabIndicatorColor="@color/colorWhite"
+        app:tabSelectedTextColor="#FF5D8D"
+        app:tabTextAppearance="@style/tabText"></android.support.design.widget.TabLayout>
 </LinearLayout>

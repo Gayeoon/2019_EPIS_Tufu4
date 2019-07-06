@@ -264,6 +264,7 @@
                             android:paddingLeft="10dp"
                             android:inputType="number"
                             android:textSize="15dp"
+                            android:maxLength="5"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
@@ -347,6 +348,7 @@
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
                             android:inputType="number"
+                            android:maxLength="5"
                             android:textSize="@dimen/msgTextSize"
                             android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />

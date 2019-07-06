@@ -26,7 +26,7 @@ public class SplashActivity extends Activity {
 //                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
 //                .into(imageView);
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imageView);
-        Glide.with(getApplicationContext()).load(R.raw.splash).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gifImage);
+        Glide.with(getApplicationContext()).load(R.raw.splash_min).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gifImage);
 
         // MainActivity.class 자리에 다음에 넘어갈 액티비티를 넣어주기
         mRunnable = new Runnable() {

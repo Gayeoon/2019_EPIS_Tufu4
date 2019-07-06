@@ -95,7 +95,7 @@
                     android:background="@color/colorWhite"
                     android:paddingLeft="10dp"
                     android:inputType="number"
-                    android:maxLength="13"
+                    android:maxLength="15"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="gone" />
 
@@ -555,7 +555,7 @@
                 android:gravity="center"
                 android:paddingLeft="10dp"
                 android:layout_marginTop="2dp"
-                android:text="유성구청장"
+                android:text="- - - - 장"
                 android:textSize="16dp"
                 android:textColor="@color/colorBlack"
                 android:textStyle="bold"

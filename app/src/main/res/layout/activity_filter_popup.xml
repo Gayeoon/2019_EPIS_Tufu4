@@ -3,86 +3,187 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#eeeeee"
-    android:layout_width="300dp"
+    android:layout_width="wrap_content"
     android:orientation="vertical"
     android:layout_height="wrap_content"
     tools:context=".FilterPopupActivity">
 
-        <!-- Notice -->
+        <!-- Select Filter Notice -->
         <LinearLayout
-            android:padding="24dp"
+            android:id="@+id/selectFilterLayout"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/distanceCount"
-                android:textSize="15dp"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
+            android:visibility="gone"
+            >
+            <LinearLayout
+                android:padding="24dp"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:text="거리 순"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/filterCountry"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:text="지역 별"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:clickable="true"
+                    />
+
+                <TextView
+                    android:id="@+id/distanceCount"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:text="거리 순"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlack"
+                    android:clickable="true"
+                    />
+
+                <TextView
+                    android:id="@+id/reservationCount"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:text="예약횟수 순"
+                    android:textColor="@color/colorBlack"
+                    android:clickable="true"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/nothing"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/colorBlack"
+                    android:text="필터 해제"
+                    android:clickable="true"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View
+                android:background="#66bdbdbd"
+                android:layout_width="match_parent"
+                android:layout_height="1dp" />
+
+            <!-- 닫기 버튼 -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
-                android:clickable="true"
-                />
+                android:weightSum="1">
 
-            <TextView
-                android:id="@+id/reservationCount"
-                android:textSize="15dp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="3dp"
-                android:layout_width="match_parent"
-                android:text="예약횟수 순"
-                android:textColor="@color/colorBlack"
-                android:clickable="true"
-                android:layout_height="wrap_content" />
+                <Button
+                    android:id="@+id/okBtn"
+                    android:text="확인"
+                    android:textSize="15dp"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:background="#00000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_weight="0.5"
+                    />
 
-            <TextView
-                android:id="@+id/nothing"
-                android:textSize="15dp"
-                android:gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="3dp"
-                android:layout_width="match_parent"
-                android:textColor="@color/colorBlack"
-                android:text="필터 해제"
-                android:clickable="true"
-                android:layout_height="wrap_content" />
+                <View
+                    android:background="#66bdbdbd"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:id="@+id/cancelBtn"
+                    android:text="취소"
+                    android:textSize="15dp"
+                    android:padding="16dp"
+                    android:gravity="center"
+                    android:background="#00000000"
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_weight="0.5"
+                    />
+
+            </LinearLayout>
         </LinearLayout>
 
-    <View
-        android:background="#66bdbdbd"
-        android:layout_width="match_parent"
-        android:layout_height="1dp" />
-
-    <!-- 닫기 버튼 -->
+    <!-- 지역 별 -->
     <LinearLayout
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_width="match_parent"
+        android:id="@+id/countryFilterLayout"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
-        android:weightSum="1">
+        android:orientation="horizontal"
+        android:padding="24dp"
+        android:weightSum="1"
+        android:visibility="visible"
+        >
 
-        <Button
-            android:id="@+id/okBtn"
-            android:text="확인"
-            android:textSize="15dp"
-            android:padding="16dp"
-            android:gravity="center"
-            android:background="#00000000"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:layout_weight="0.5"
+        <EditText
+            android:id="@+id/megalopolisEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:hint="광역시/도 입력"
+            android:textSize="11dp"
+            android:maxLength="7"
+            android:imeOptions="actionNext"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.05">
+
+        </View>
+
+        <EditText
+            android:id="@+id/cityEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:hint="시/군/구 입력"
+            android:textSize="11dp"
+            android:textColor="@color/colorBlack"
+            android:maxLength="7"
+            android:imeOptions="actionNext"
+            />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.05">
+
+        </View>
+
+        <EditText
+            android:id="@+id/dongEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:hint="읍/면/동 입력"
+            android:textSize="11dp"
+            android:textColor="@color/colorBlack"
+            android:maxLength="7"
+            android:imeOptions="actionNext"
             />
 
         <View
             android:background="#66bdbdbd"
-            android:layout_width="1dp"
-            android:layout_height="match_parent" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
         <Button
-            android:id="@+id/cancelBtn"
-            android:text="취소"
+            android:id="@+id/okCountryBtn"
+            android:text="선택"
             android:textSize="15dp"
             android:padding="16dp"
             android:gravity="center"
@@ -92,5 +193,5 @@
             android:layout_weight="0.5"
             />
 
-        </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
