@@ -4,7 +4,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.rkdus.a2019_epis_tufu4"
+        applicationId "com.gaze.rkdus.a2019_epis_tufu4"
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
