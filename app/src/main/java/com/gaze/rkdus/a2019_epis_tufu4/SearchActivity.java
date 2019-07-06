@@ -102,6 +102,7 @@ public class SearchActivity extends BaseActivity {
     int indexStartNum;
     LocationManager locationManager;
     String searchWord;
+    String location;
     int filter = 0; // 현재 입힌 필터 종류.     0 : 전체(필터 X)    1 : 최다예약순   2 : 거리순
 
     private GestureDetector gestureDetector;
@@ -374,7 +375,7 @@ public class SearchActivity extends BaseActivity {
                 listTabLayout.addTab(listTabLayout.newTab().setText(String.valueOf(i)));
 //              Log.d(TAG, String.valueOf(i) + " 페이지 생성!");
             }
-        }
+    }
         else {
             int i = 0;
             while(i < 5) {
@@ -514,7 +515,7 @@ public class SearchActivity extends BaseActivity {
 //                return Double.compare(s1.getDistance(), s2.getDistance());
 //            }
 //        });
-//    }
+//    }.
 
     /*
     현재 위치로 찾기 클릭에 따른 찾기 온오프 기능 구현 함수
@@ -552,9 +553,6 @@ public class SearchActivity extends BaseActivity {
         catch (Exception e) {
             e.printStackTrace();
         }
-        // 초기화
-        searchResultList.clear();
-        signUpAppList.clear();
         // 서버 접속 실행
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
             searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
@@ -601,11 +599,17 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<SearchResultData> getNeedToShowListView() {
         Log.d(TAG, "getNeedToShowListView start");
         if(isSignUpApp) {
-            if(filter == 2) {
+            setSignUpAppList(); // SignUpAppList 설정
+            if(filter == 3) {
+                Log.d(TAG, "어플등록 ㅇ, 위치 별 ㅇ");
+
+                // 위치 별 은 그냥 출력하면 됨
+            }
+            else if(filter == 2) {
                 Log.d(TAG, "어플등록 ㅇ, 현재위치 ㅇ");
                 //setLocationList(signUpAppList); // 현재 위치 킨 경우
             }
-            else if(filter == 1) {
+            else if((filter == 4) || (filter == 1)) {
                 Log.d(TAG, "어플등록 ㅇ, 최다 예약 순 ㅇ");
                 Collections.sort(signUpAppList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
                     @Override
@@ -616,7 +620,6 @@ public class SearchActivity extends BaseActivity {
             }
             else { // 필터 X.
                 Log.d(TAG, "어플등록 ㅇ, 필터 X");
-                setSignUpAppList();
                 Collections.sort(signUpAppList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
@@ -628,11 +631,15 @@ public class SearchActivity extends BaseActivity {
             return signUpAppList;
         }
         else {
-            if(filter == 2) {
+            if(filter == 3) {
+                Log.d(TAG, "어플등록 X, 위치 별 ㅇ");
+                // 위치 별 은 그냥 출력하면 됨
+            }
+            else if(filter == 2) {
                 Log.d(TAG, "어플등록 X, 현재위치 ㅇ");
                 // setLocationList(searchResultList);
             }
-            else if(filter == 1) {
+            else if((filter == 4) || (filter == 1)) {
                 Log.d(TAG, "어플등록 X, 최다 예약 순 ㅇ");
                 Collections.sort(searchResultList, new Comparator<SearchResultData>() { // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
                     @Override
@@ -662,6 +669,11 @@ public class SearchActivity extends BaseActivity {
         @Override
         protected String doInBackground(String... strings) {
             Log.d(TAG, "SearchAsyncTask doInBackground");
+
+            // 초기화
+            searchResultList.clear();
+            signUpAppList.clear();
+
             String search_url = SERVER_URL + strings[0];    // URL
             String type = strings[1];
             // POST 전송방식을 위한 설정
@@ -711,32 +723,12 @@ public class SearchActivity extends BaseActivity {
 
                     byte[] fileArray = baos.toByteArray();  // byte화
                     String allString = new String(baos.toByteArray());    // byte to string
-                    // ByteArrayInputStream bais = new ByteArrayInputStream(fileArray);
                     return allString;
                 }
                 else {  // 정상 연결 아닐 시
                     printConnectionError(con);
                     return null;
                 }
-                /*
-                String tag;
-                // 각각 값을 제대로 받았는지 체크하기 위한 boolean
-                boolean isGetHospitalName = false;
-                boolean isGetCeoName = false;
-                boolean isGetPhoneNum = false;
-                int eventType = parser.getEventType();
-
-                // 파싱 시작
-                while (eventType != XmlPullParser.END_DOCUMENT) {
-                    switch (eventType) {
-                        case XmlPullParser.START_DOCUMENT: // xml의 시작순간
-                            break;
-                        case XmlPullParser.END_DOCUMENT: // xml의 끝순간
-                            break;
-                        case XmlPullParser.START_TAG:
-                    }
-                }
-            */
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 Log.d(TAG, String.valueOf(e));
@@ -778,13 +770,11 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        searchAsyncTask = new SearchAsyncTask();
-        searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
     }
 
     /*
-        JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
-         */
+    JSON 형식으로 저장된 String 값을 JSON Object로 변환해서 리턴
+    */
     public static JSONObject StringToJSON(String JSONstr) {
         Log.d(TAG, "StringToJSON start");
 
@@ -993,15 +983,18 @@ public class SearchActivity extends BaseActivity {
     [2] : 1) searchword : X  2) id : hospital_key
     @return : JSONObject(POST 방식으로 요청하기 위해 보내는 값을 담음) - SearchItemData
      */
-    private JSONObject setJSONForSendPost(String... strings) throws JSONException, UnsupportedEncodingException {
+    private JSONObject setJSONForSendPost(String... strings) throws JSONException {
         JSONObject jsonObject = new JSONObject();
         String type = strings[1];
         Log.d(TAG, "setJSONForSendPost type : " + type);
         if(type.equals("searchword")) {
             jsonObject.accumulate("searchword", searchWord); // 검색어 인코딩까지 수행
         }
-        if(type.equals("all")) {
+        else if(type.equals("all")) {
             jsonObject.accumulate("searchword", "allHospitalData"); // 검색어 인코딩까지 수행
+        }
+        else if(type.equals("location")) {
+            jsonObject.accumulate("location", location);
         }
 //        else if(type.equals("id")) {
 //            jsonObject.accumulate("key", strings[2]);
@@ -1019,6 +1012,16 @@ public class SearchActivity extends BaseActivity {
                         if(intent.hasExtra("result"))   // 값 있는지 체크
                             filter = intent.getIntExtra("result", 0);
 
+                        // 만약 지역 별 필터를 입힌 경우
+                        // SearchResultList를 수정해야 함
+                        if(filter == 3 || filter == 4) {
+                            if(intent.hasExtra("location")) {
+                                eSearch.setText("");
+                                location = intent.getStringExtra("location");
+                                searchAsyncTask = new SearchAsyncTask();
+                                searchAsyncTask.execute("/getHospitalLocationData", "location");
+                            }
+                        }
                         ArrayList<SearchResultData> arrayList = getNeedToShowListView();
                         indexStartNum = 1;
 

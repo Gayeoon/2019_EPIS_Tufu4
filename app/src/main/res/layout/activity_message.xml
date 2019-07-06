@@ -72,6 +72,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="성명" />
 
                         <TextView
@@ -80,6 +81,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="주민등록번호"/>
 
                         <TextView
@@ -88,6 +90,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="전화번호" />
 
                         <TextView
@@ -97,6 +100,7 @@
                             android:gravity="center_vertical"
                             android:textColor="#FF87AA"
                             android:paddingLeft="10dp"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="주민등록주소"/>
 
                         <TextView
@@ -104,7 +108,7 @@
                             android:layout_height="40dp"
                             android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                             android:gravity="center_vertical"
-                            android:textSize="14dp"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:textColor="#FF87AA"
                             android:paddingLeft="10dp"
                             android:layout_marginTop="75dp"
@@ -439,6 +443,7 @@
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
                             android:gravity="center_vertical"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="이름"/>
 
                         <TextView
@@ -447,6 +452,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="품종"/>
 
                         <TextView
@@ -455,6 +461,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="털색깔"/>
 
                         <TextView
@@ -463,15 +470,17 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="성별"/>
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="@dimen/msgNeutralizationMarginTop"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="중성화"/>
 
                         <TextView
@@ -480,6 +489,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="생년월일"/>
 
                         <TextView
@@ -488,6 +498,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="취득일"/>
 
                         <TextView
@@ -497,6 +508,7 @@
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
                             android:textColor="#FF87AA"
+                            android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:text="특이사항"/>
                     </LinearLayout>
                 </FrameLayout>

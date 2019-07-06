@@ -4,8 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
-    android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
     android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context=".SearchActivity">
@@ -14,7 +12,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/searchLayoutBetweenmargin"
+
         android:layout_marginTop="@dimen/searchBarMarginTop"
+        android:layout_marginRight="@dimen/searchLayoutBetweenmargin"
         android:orientation="horizontal">
 
         <EditText
@@ -46,7 +47,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/searchOptLayoutHeight"
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginTop="@dimen/searchOptLayoutMarginTop"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
@@ -75,7 +78,7 @@
         <ImageView
             android:id="@+id/filterBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/searchFilterImageHeight"
             android:layout_gravity="right"
             android:layout_marginLeft="@dimen/searchFilterMarginLeft"
             android:adjustViewBounds="true"
@@ -87,7 +90,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
         android:orientation="horizontal">
 
         <ImageView
@@ -96,19 +101,22 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             app:layout_constraintDimensionRatio="1:1"
+
             app:srcCompat="@drawable/search_menubar" />
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/searchRecycleViewHeight">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/searchListViewPage"
-        android:layout_width="match_parent"
         android:layout_height="@dimen/searchRecycleViewHeight"
-        android:visibility="visible"></android.support.v7.widget.RecyclerView>
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/searchListViewPage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/searchRecycleViewHeight"
+            android:visibility="visible"></android.support.v7.widget.RecyclerView>
 
     </ScrollView>
 
@@ -117,7 +125,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/myPageLayoutBetweenMargin"
         android:layout_marginTop="30dp"
+        android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
         app:tabGravity="center"
         app:tabIndicatorColor="@color/colorWhite"
         app:tabSelectedTextColor="#FF5D8D"

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- MenuActivity -->
-    <dimen name="menuLogoHeight">140dp</dimen>
+    <dimen name="menuLogoHeight">120dp</dimen>
     <dimen name="menuBtnWidth">170dp</dimen>
     <dimen name="menuBtnHeight">170dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
@@ -32,8 +32,11 @@
     <dimen name="msgEditTextMarginBottom">10dp</dimen>
     <dimen name="msgPostCodeMarginBottom">20dp</dimen>
     <dimen name="msgTextSize">12dp</dimen>
+    <dimen name="msgLeftLayoutTextSize">13dp</dimen>
+
     <dimen name="msgLayoutBetweenMargin">20dp</dimen>
     <dimen name="msgLayoutMarginTop">30dp</dimen>
+    <dimen name="msgNeutralizationMarginTop">33dp</dimen>
 
     <!-- MessageTypeActivity -->
     <dimen name="messageTypeImgWidth">100dp</dimen>
@@ -50,11 +53,13 @@
     <dimen name="searchBtnWidth">30dp</dimen>
     <dimen name="searchBtnHeight">30dp</dimen>
     <dimen name="searchFilterMarginLeft">100dp</dimen>
+    <dimen name="searchFilterImageHeight">20dp</dimen>
+
     <dimen name="searchBtnMarginRight">10dp</dimen>
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
-    <dimen name="searchRecycleViewHeight">500dp</dimen>
+    <dimen name="searchRecycleViewHeight">200dp</dimen>
 
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
@@ -79,8 +84,18 @@
     <dimen name="hosProfIconHeight">30dp</dimen>
 
     <!-- MyPageActivity -->
+    <dimen name="myPageCardRewriteBtnHeight">27dp</dimen>
+    <dimen name="myPageCardHeight">280dp</dimen>
     <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
     <dimen name="myPageTextHeight">25dp</dimen>
+    <dimen name="myPageMainTitleHeight">80dp</dimen>
+    <dimen name="myPageCardMarginTop">20dp</dimen>
+    <dimen name="myPageCardLayoutHeight">200dp</dimen>
+    <dimen name="myPageCenterNameHeight">18dp</dimen>
+    <dimen name="myPageCenterNameTextSize">16dp</dimen>
+    <dimen name="myPageLawTextSize">11dp</dimen>
+    <dimen name="myPageCardLayoutBetweenMargin">30dp</dimen>
+
     <dimen name="myPageEditTextWidth">130dp</dimen>
     <dimen name="myPageSubTitleHeight">14dp</dimen>
     <dimen name="myPageAddressTextHeight">60dp</dimen>

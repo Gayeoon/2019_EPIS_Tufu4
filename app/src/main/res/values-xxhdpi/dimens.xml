@@ -3,9 +3,10 @@
     <!-- Nexus 5X  //  411 x 731 dp  //  1080 x 1920 px  //  5.2 inch -->
 
     <!-- MenuActivity -->
-    <dimen name="menuLogoHeight">160dp</dimen>
+    <dimen name="menuLogoHeight">120dp</dimen>
+    <dimen name="menuImageHeight">200dp</dimen>
     <dimen name="menuBtnWidth">190dp</dimen>
-    <dimen name="menuBtnHeight">185dp</dimen>
+    <dimen name="menuBtnHeight">170dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
     <dimen name="menuBetweenMargin">0dp</dimen>
     <dimen name="menuLogoMarginTop">50dp</dimen>
@@ -43,7 +44,8 @@
     <!-- SearchActivity -->
     <dimen name="searchBarWidth">300dp</dimen>
     <dimen name="searchBarHeight">30dp</dimen>
-    <dimen name="searchBarMarginTop">80dp</dimen>
+
+    <dimen name="searchBarMarginTop">60dp</dimen>
 
     <dimen name="searchBtnWidth">15dp</dimen>
     <dimen name="searchBtnHeight">20dp</dimen>
@@ -52,8 +54,11 @@
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
-    <dimen name="searchRecycleViewHeight">450dp</dimen>
+    <dimen name="searchRecycleViewHeight">300dp</dimen>
+    <dimen name="searchOptLayoutHeight">20dp</dimen>
+    <dimen name="searchOptLayoutMarginTop">15dp</dimen>
 
+    <dimen name="searchLayoutBetweenmargin">20dp</dimen>
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
@@ -63,12 +68,11 @@
     <!-- MainActivity -->
     <dimen name="mainLogoWidth">160dp</dimen>
     <dimen name="mainLogoHeight">160dp</dimen>
-    <dimen name="mainLogoMarginTop">100dp</dimen>
+    <dimen name="mainLogoMarginTop">80dp</dimen>
     <dimen name="mainStartImgWidth">65dp</dimen>
     <dimen name="mainStartImgHeight">65dp</dimen>
     <dimen name="mainBtnBetweenMargin">35dp</dimen>
-    <dimen name="mainImgWidth">200dp</dimen>
-    <dimen name="mainImgHeight">350dp</dimen>
+    <dimen name="mainImgHeight">310dp</dimen>
 
     <!-- HospitalProfileActivity -->
     <dimen name="hosProfImageWidth">200dp</dimen>

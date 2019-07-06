@@ -47,7 +47,7 @@ import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
 import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
 import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
 
-public class PostCodePopupActivity extends AppCompatActivity {
+public class PostCodePopupActivity extends BaseActivity {
     public final String POSTCODE_URL = "http://biz.epost.go.kr/KpostPortal/openapi2?regkey=2616b9bdd82727fe11562253882955";
     EditText eSearchPostCode;
     Button searchPostCodeBtn;

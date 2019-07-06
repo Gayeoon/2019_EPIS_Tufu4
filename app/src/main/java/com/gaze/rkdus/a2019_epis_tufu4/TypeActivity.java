@@ -15,7 +15,7 @@ import android.widget.Toast;
  * 원하는 정보를 보기 위해 이미지를 클릭하면 정보 표시하는 액티비티로 이동함
  * - 이해원
  */
-public class TypeActivity extends AppCompatActivity {
+public class TypeActivity extends BaseActivity {
     Intent gotoRegiInfoIntent;
     ImageView idTagTypeImg;
     ImageView innerTypeImg;

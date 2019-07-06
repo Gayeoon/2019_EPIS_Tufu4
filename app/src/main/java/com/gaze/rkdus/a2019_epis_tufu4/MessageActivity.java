@@ -474,7 +474,7 @@ public class MessageActivity extends BaseActivity {
     EditText의 값 중 공백 확인
     @return : boolean(true : 앞 뒤 공백 또는 전체 공백이 아님. false : 둘 중 하나라도 해당하는 경우)
      */
-    private boolean checkEditText(EditText editText) {
+    public static boolean checkEditText(EditText editText) {
         String editStr = editText.getText().toString();    // 검색어 임시 변수에 저장.
         if(TextUtils.isEmpty(editStr.trim())) { // 공백처리
             return false;
