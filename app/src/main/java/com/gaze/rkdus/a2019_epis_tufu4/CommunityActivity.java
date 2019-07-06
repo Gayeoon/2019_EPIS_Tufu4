@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,8 +114,19 @@ public class CommunityActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_community);
 
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_community);
+
+        } else {
+            setContentView(R.layout.activity_community_small);
+
+        }
         Intent intent = getIntent();
 
         if (intent.hasExtra("user")){
@@ -357,8 +369,15 @@ public class CommunityActivity extends BaseActivity {
         });
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item);
-        spinner.setAdapter(adapter);
+
+        if (height > 2000){
+            ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item);
+            spinner.setAdapter(adapter);
+        } else {
+            ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item_small);
+            spinner.setAdapter(adapter);
+        }
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

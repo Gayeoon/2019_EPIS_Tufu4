@@ -18,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -77,7 +78,19 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_pic);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_select_pic);
+
+        } else {
+            setContentView(R.layout.activity_select_pic_small);
+
+        }
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

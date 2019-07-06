@@ -59,10 +59,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:fontFamily="@font/notosansregular"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -83,11 +84,12 @@
                         <TextView
                             android:id="@+id/resident"
                             android:layout_width="0dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -108,11 +110,12 @@
                         <TextView
                             android:id="@+id/phone"
                             android:layout_width="0dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -138,6 +141,7 @@
                             android:background="@drawable/input"
                             android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -160,9 +164,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -171,6 +176,7 @@
                 </TableLayout>
 
                 <ImageView
+                    android:id="@+id/ownerbar"
                     android:layout_width="match_parent"
                     android:layout_height="73dp"
                     android:background="@drawable/owner_info" />
@@ -219,9 +225,10 @@
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
-                            android:gravity="center_vertical"
                             android:fontFamily="@font/notosansregular"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -242,10 +249,11 @@
                         <TextView
                             android:id="@+id/variety"
                             android:layout_width="183dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -267,9 +275,10 @@
                             android:id="@+id/furColor"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -291,9 +300,10 @@
                             android:id="@+id/gender"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -307,6 +317,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="10dp"
                             android:layout_weight="1"
+                            android:paddingRight="8dp"
                             android:text="중성화"
                             android:textColor="#000000"
                             android:textSize="14sp" />
@@ -315,9 +326,10 @@
                             android:id="@+id/neutralization"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -339,9 +351,10 @@
                             android:id="@+id/birthday"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -363,9 +376,10 @@
                             android:id="@+id/acqDate"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -390,6 +404,7 @@
                             android:background="@drawable/input"
                             android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -397,6 +412,7 @@
                 </TableLayout>
 
                 <ImageView
+                    android:id="@+id/animalbar"
                     android:layout_width="match_parent"
                     android:layout_height="73dp"
                     android:background="@drawable/animal_info" />

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -44,7 +45,20 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_login);
+            Log.e("Tag", height +"   "+ width);
+        } else {
+            setContentView(R.layout.activity_login_small);
+            Log.e("Tag", height +"   "+ width);
+        }
+
 
         eid = (EditText) findViewById(R.id.id);
         epw = (EditText) findViewById(R.id.pw);
@@ -174,7 +188,7 @@ public class LoginActivity extends BaseActivity {
                     succes = (int) json.get("result");
 
                     if (succes == 1) {
-                        Toast.makeText(getApplicationContext(), "로그인 성공!!", Toast.LENGTH_LONG).show();
+                       // Toast.makeText(getApplicationContext(), "로그인 성공!!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
                         intent.putExtra("id", id);
                         startActivity(intent);

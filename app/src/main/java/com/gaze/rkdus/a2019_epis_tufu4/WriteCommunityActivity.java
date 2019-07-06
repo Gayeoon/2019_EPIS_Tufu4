@@ -1,11 +1,13 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Outline;
+import android.graphics.Point;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,7 +18,9 @@ import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -63,7 +67,19 @@ public class WriteCommunityActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_write_community);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_write_community);
+            Log.e("Tag", height +"   "+ width);
+        } else {
+            setContentView(R.layout.activity_write_community_small);
+            Log.e("Tag", height +"   "+ width);
+        }
 
         Intent intent = getIntent();
         user = intent.getStringExtra("id");
@@ -492,4 +508,10 @@ public class WriteCommunityActivity extends BaseActivity {
         Log.d("onPostCreate", "onDestroy");
     }
 
+    public Point getScreenSize(Activity activity){
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
 }

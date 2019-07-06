@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +41,13 @@ public class FinishReservationActivity extends BaseActivity {
 
     ListView listView;
     MyAdapter myAdapter;
+    MySmallAdapter mySmallAdapter;
 
     ImageButton back;
 
     String id, owner, animal;
+
+    boolean small = false;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<FinishReservationItem> items = new ArrayList<FinishReservationItem>();
@@ -79,6 +83,40 @@ public class FinishReservationActivity extends BaseActivity {
         }
     }
 
+    class MySmallAdapter extends BaseAdapter {
+        ArrayList<FinishReservationItem> items = new ArrayList<FinishReservationItem>();
+
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return items.get(i);
+        }
+
+        public void addItem(FinishReservationItem item) {
+            items.add(item);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View convertview, ViewGroup viewGroup) {
+            FinishReservationView_small view = new FinishReservationView_small(getApplicationContext());
+
+            FinishReservationItem item = items.get(i);
+            view.setowner(item.getowner());
+            view.setanimal(item.getanimal());
+            return view;
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +124,18 @@ public class FinishReservationActivity extends BaseActivity {
 
         Intent getintet = getIntent();
         id = getintet.getStringExtra("id");
+
+        TextView title = (TextView)findViewById(R.id.title) ;
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height < 2000){
+            title.setTextSize(16);
+            small = true;
+        }
 
         listView = (ListView) findViewById(R.id.finishList);
 //
@@ -210,7 +260,11 @@ public class FinishReservationActivity extends BaseActivity {
             JSONObject json = null;
             JSONArray wait = null;
 
-            myAdapter = new MyAdapter();
+            if (small){
+                mySmallAdapter = new MySmallAdapter();
+            }else {
+                myAdapter = new MyAdapter();
+            }
 
             JSONArray internal = null, external = null, dogtag = null;
 
@@ -229,10 +283,18 @@ public class FinishReservationActivity extends BaseActivity {
 
                     for (int i = 0; i < wait.length(); i++) {
                         JSONObject jsonTemp = wait.getJSONObject(i);
-                        myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
+                        if (small){
+                            mySmallAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
+                        }else {
+                            myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
+                        }
                     }
 
-                    listView.setAdapter(myAdapter);
+                    if (small){
+                        listView.setAdapter(mySmallAdapter);
+                    }else {
+                        listView.setAdapter(myAdapter);
+                    }
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

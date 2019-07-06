@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ import java.util.Date;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class ShowCommunityActivity extends AppCompatActivity {
+public class ShowCommunityActivity extends BaseActivity {
     public static final String TAG = "ShowCommunityActivity";
 
     ListView listView;
@@ -64,6 +65,7 @@ public class ShowCommunityActivity extends AppCompatActivity {
     byte[] picbyte1, picbyte2, picbyte3;
 
     int index, count, state;
+    int viewWidth;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<CommentItem> items = new ArrayList<CommentItem>();
@@ -104,7 +106,20 @@ public class ShowCommunityActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_community);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_show_community);
+
+        } else {
+            setContentView(R.layout.activity_show_community_small);
+        }
+
+        viewWidth = dm.widthPixels;
 
         Intent intent = getIntent();
         state = intent.getIntExtra("state", 0);
@@ -133,10 +148,11 @@ public class ShowCommunityActivity extends AppCompatActivity {
         comment_btn = (ImageButton) findViewById(R.id.comment_btn);
         comment_layout = (LinearLayout) findViewById(R.id.comment);
 
-        if (state == 1) {
-            comment_layout.setVisibility(View.GONE);
-            comment_btn.setVisibility(View.GONE);
-        }
+//        if (state == 1) {
+//            comment_layout.setVisibility(View.GONE);
+//            comment_btn.setVisibility(View.GONE);
+//        }
+
         comment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,14 +308,23 @@ public class ShowCommunityActivity extends AppCompatActivity {
                             strpic1 = jsonTemp.getString("IMG_URL_1");
                             Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_1"));
                             picbyte1 = Base64.decode(strpic1, Base64.DEFAULT);
+
                             bm1 = BitmapFactory.decodeByteArray(picbyte1, 0, picbyte1.length);
 
-                            if (bm1.getWidth() < bm1.getHeight()){
-                                bm1 = Bitmap.createScaledBitmap(
-                                        bm1, bm1.getWidth() * 2, bm1.getHeight() * 2, true);
+                            float width = bm1.getWidth();
+                            float height = bm1.getHeight();
+
+                            if(width > viewWidth)
+                            {
+                                float percente = (float)(width / 100);
+                                float scale = (float)(viewWidth / percente);
+                                width *= (scale / 100) * 2.1;
+                                height *= (scale / 100) * 2.1;
                             }
 
-                            Drawable drawable = new BitmapDrawable(bm1);
+                            Bitmap temp = Bitmap.createScaledBitmap(bm1, (int) width, (int) height, true);
+
+                            Drawable drawable = new BitmapDrawable(temp);
 
                             pic1.setBackground(drawable);
                             pic1.setVisibility(View.VISIBLE);
@@ -310,11 +335,20 @@ public class ShowCommunityActivity extends AppCompatActivity {
                             picbyte2 = Base64.decode(strpic2, Base64.DEFAULT);
                             bm2 = BitmapFactory.decodeByteArray(picbyte2, 0, picbyte2.length);
 
-                            if (bm2.getWidth() < bm2.getHeight()) {
-                                bm2 = Bitmap.createScaledBitmap(
-                                        bm2, bm2.getWidth() * 2, bm2.getHeight() * 2, true);
+                            float width = bm2.getWidth();
+                            float height = bm2.getHeight();
+
+                            if(width > viewWidth)
+                            {
+                                float percente = (float)(width / 100);
+                                float scale = (float)(viewWidth / percente);
+                                width *= (scale / 100) * 2.1;
+                                height *= (scale / 100) * 2.1;
                             }
-                            Drawable drawable = new BitmapDrawable(bm2);
+
+                            Bitmap temp = Bitmap.createScaledBitmap(bm2, (int) width, (int) height, true);
+
+                            Drawable drawable = new BitmapDrawable(temp);
 
                             pic2.setBackground(drawable);
                             pic2.setVisibility(View.VISIBLE);
@@ -325,12 +359,20 @@ public class ShowCommunityActivity extends AppCompatActivity {
                             picbyte3 = Base64.decode(strpic3, Base64.DEFAULT);
                             bm3 = BitmapFactory.decodeByteArray(picbyte3, 0, picbyte3.length);
 
-                            if (bm3.getWidth() < bm3.getHeight()){
-                                bm3 = Bitmap.createScaledBitmap(
-                                        bm3, bm3.getWidth() * 2, bm3.getHeight() * 2, true);
+                            float width = bm3.getWidth();
+                            float height = bm3.getHeight();
+
+                            if(width > viewWidth)
+                            {
+                                float percente = (float)(width / 100);
+                                float scale = (float)(viewWidth / percente);
+                                width *= (scale / 100) * 2.1;
+                                height *= (scale / 100) * 2.1;
                             }
 
-                            Drawable drawable = new BitmapDrawable(bm3);
+                            Bitmap temp = Bitmap.createScaledBitmap(bm3, (int) width, (int) height, true);
+
+                            Drawable drawable = new BitmapDrawable(temp);
 
                             pic3.setBackground(drawable);
                             pic3.setVisibility(View.VISIBLE);

@@ -75,7 +75,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="33dp"
         android:layout_marginTop="18dp"
         android:background="@drawable/community_mainbar" />
 
@@ -104,8 +104,8 @@
 
         <ImageButton
             android:id="@+id/pre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
             android:layout_margin="10dp"
             android:background="@drawable/pre" />
 
@@ -117,7 +117,7 @@
             android:fontFamily="@font/notosansbold"
             android:text="1"
             android:textColor="#a3a3a3"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/two"
@@ -127,7 +127,7 @@
             android:fontFamily="@font/notosansbold"
             android:text="2"
             android:textColor="#a3a3a3"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <TextView
@@ -138,7 +138,7 @@
             android:fontFamily="@font/notosansbold"
             android:text="3"
             android:textColor="#a3a3a3"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <TextView
@@ -149,7 +149,7 @@
             android:fontFamily="@font/notosansbold"
             android:text="4"
             android:textColor="#a3a3a3"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <TextView
@@ -160,13 +160,13 @@
             android:fontFamily="@font/notosansbold"
             android:text="5"
             android:textColor="#a3a3a3"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="15dp"
             android:layout_margin="10dp"
             android:background="@drawable/next" />
     </LinearLayout>

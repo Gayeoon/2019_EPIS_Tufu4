@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,11 +42,14 @@ public class StatusActivity extends BaseActivity {
 
     ListView listView;
     MyAdapter myAdapter;
+    MySmallAdapter mySmallAdapter;
 
     ImageButton search;
     TextView search_input;
 
     String id, owner, animal, search_txt;
+
+    boolean small = false;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<StatusItem> items = new ArrayList<StatusItem>();
@@ -77,6 +82,45 @@ public class StatusActivity extends BaseActivity {
             view.setowner(item.getowner());
             view.setanimal(item.getanimal());
             view.setState(item.getState());
+
+
+            return view;
+        }
+    }
+
+    class MySmallAdapter extends BaseAdapter {
+        ArrayList<StatusItem> items = new ArrayList<StatusItem>();
+
+
+        @Override
+        public int getCount() {
+            return items.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return items.get(i);
+        }
+
+        public void addItem(StatusItem item) {
+            items.add(item);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View convertview, ViewGroup viewGroup) {
+            statusView_small view = new statusView_small(getApplicationContext());
+
+            StatusItem item = items.get(i);
+            view.setowner(item.getowner());
+            view.setanimal(item.getanimal());
+            view.setState(item.getState());
+
+
             return view;
         }
     }
@@ -85,12 +129,31 @@ public class StatusActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
+
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int height = dm.heightPixels;
+
+        if (height < 2000) {
+            small = true;
+        }
+
         Intent getintet = getIntent();
 
         id = getintet.getStringExtra("id");
 
+        TextView title = (TextView) findViewById(R.id.title);
         search = (ImageButton) findViewById(R.id.search);
-        search_input = (TextView)findViewById(R.id.search_input);
+        search_input = (TextView) findViewById(R.id.search_input);
+        LinearLayout searchBar = (LinearLayout)findViewById(R.id.searchbar);
+
+        if (height < 2000) {
+            title.setTextSize(16);
+            search_input.setTextSize(12);
+            searchBar.setMinimumWidth(300);
+        }
+
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,31 +166,31 @@ public class StatusActivity extends BaseActivity {
 
         listView = (ListView) findViewById(R.id.stateList);
 
-        myAdapter = new MyAdapter();
-
-        myAdapter.addItem(new StatusItem("김가연", "뿡이", 1));
-        myAdapter.addItem(new StatusItem("정지원", "맥북", 2));
-        myAdapter.addItem(new StatusItem("이해원", "허뻥", 3));
-
-        listView.setAdapter(myAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
-                TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
-
-                owner = oTextOwner.getText().toString();
-                animal = oTextAnimal.getText().toString();
-
-                Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
-                intent.putExtra("id", id);
-                intent.putExtra("owner", owner);
-                intent.putExtra("animal", animal);
-                startActivity(intent);
-            }
-        });
+//        myAdapter = new MyAdapter();
+//
+//        myAdapter.addItem(new StatusItem("김가연", "뿡이", 1));
+//        myAdapter.addItem(new StatusItem("정지원", "맥북", 2));
+//        myAdapter.addItem(new StatusItem("이해원", "허뻥", 3));
+//
+//        listView.setAdapter(myAdapter);
+//
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
+//                TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
+//
+//                owner = oTextOwner.getText().toString();
+//                animal = oTextAnimal.getText().toString();
+//
+//                Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
+//                intent.putExtra("id", id);
+//                intent.putExtra("owner", owner);
+//                intent.putExtra("animal", animal);
+//                startActivity(intent);
+//            }
+//        });
 
         new StateListData().execute(getResources().getString(R.string.url) + "/getStateListData");
     }
@@ -224,7 +287,11 @@ public class StatusActivity extends BaseActivity {
             JSONObject json = null;
             JSONArray state = null;
 
-            myAdapter = new MyAdapter();
+            if (small){
+                mySmallAdapter = new MySmallAdapter();
+            }else{
+                myAdapter = new MyAdapter();
+            }
 
             JSONArray internal = null, external = null, dogtag = null;
 
@@ -243,10 +310,20 @@ public class StatusActivity extends BaseActivity {
 
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+
+                        if (small){
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+
+                        }else{
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        }
                     }
 
-                    listView.setAdapter(myAdapter);
+                    if (small){
+                        listView.setAdapter(mySmallAdapter);
+                    }else{
+                        listView.setAdapter(myAdapter);
+                    }
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -368,7 +445,11 @@ public class StatusActivity extends BaseActivity {
             JSONObject json = null;
             JSONArray state = null;
 
-            myAdapter = new MyAdapter();
+            if (small){
+                mySmallAdapter = new MySmallAdapter();
+            }else{
+                myAdapter = new MyAdapter();
+            }
 
             JSONArray internal = null, external = null, dogtag = null;
 
@@ -387,10 +468,19 @@ public class StatusActivity extends BaseActivity {
 
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        if (small){
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+
+                        }else{
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        }
                     }
 
-                    listView.setAdapter(myAdapter);
+                    if (small){
+                        listView.setAdapter(mySmallAdapter);
+                    }else{
+                        listView.setAdapter(myAdapter);
+                    }
 
                     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -410,8 +500,14 @@ public class StatusActivity extends BaseActivity {
                         }
                     });
 
-                    myAdapter.notifyDataSetChanged();
-                    myAdapter.notifyDataSetInvalidated();
+                    if (small){
+                        mySmallAdapter.notifyDataSetChanged();
+                        mySmallAdapter.notifyDataSetInvalidated();
+                    }else{
+                        myAdapter.notifyDataSetChanged();
+                        myAdapter.notifyDataSetInvalidated();
+                    }
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

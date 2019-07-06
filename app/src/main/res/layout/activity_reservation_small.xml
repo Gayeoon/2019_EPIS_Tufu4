@@ -37,7 +37,7 @@
                     android:background="@drawable/grayback"
                     android:padding="15dp">
 
-                    <TableRow android:layout_margin="6dp">
+                    <TableRow android:layout_margin="3dp">
 
 
                     </TableRow>
@@ -52,20 +52,20 @@
                             android:layout_weight="1"
                             android:text="성명"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/owner"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:background="@drawable/input"
-                            android:paddingRight="8dp"
-                            android:fontFamily="@font/notosansregular"
                             android:gravity="center_vertical"
+                            android:background="@drawable/input"
+                            android:fontFamily="@font/notosansregular"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -79,19 +79,19 @@
                             android:layout_weight="1"
                             android:text="주민등록번호"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/resident"
                             android:layout_width="0dp"
                             android:gravity="center_vertical"
-                            android:paddingRight="8dp"
                             android:layout_height="wrap_content"
+                            android:paddingRight="8dp"
                             android:layout_weight="4"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -105,19 +105,19 @@
                             android:layout_weight="1"
                             android:text="전화번호"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/phone"
-                            android:gravity="center_vertical"
                             android:layout_width="0dp"
-                            android:paddingRight="8dp"
+                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
+                            android:paddingRight="8dp"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -131,19 +131,19 @@
                             android:layout_weight="1"
                             android:text="주민등록 주소"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/resAddr"
                             android:layout_width="0dp"
+                            android:paddingRight="8dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="4"
-                            android:gravity="center_vertical"
-                            android:paddingRight="8dp"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -157,27 +157,28 @@
                             android:layout_weight="1"
                             android:text="현거주지 주소"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/nowAddr"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingRight="8dp"
                             android:layout_weight="4"
+                            android:paddingRight="8dp"
                             android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
                 </TableLayout>
 
                 <ImageView
+                    android:id="@+id/ownerbar"
                     android:layout_width="match_parent"
-                    android:layout_height="73dp"
+                    android:layout_height="63dp"
                     android:background="@drawable/owner_info" />
 
 
@@ -217,19 +218,19 @@
                             android:layout_weight="1"
                             android:text="이름"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/animal"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingRight="8dp"
+                            android:gravity="center_vertical"
                             android:fontFamily="@font/notosansregular"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -243,18 +244,18 @@
                             android:layout_weight="1"
                             android:text="품종"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/variety"
                             android:layout_width="183dp"
-                            android:layout_height="wrap_content"
-                            android:paddingRight="8dp"
                             android:gravity="center_vertical"
+                            android:paddingRight="8dp"
+                            android:layout_height="wrap_content"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -268,18 +269,18 @@
                             android:layout_weight="1"
                             android:text="털색깔"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/furColor"
                             android:layout_width="183dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingRight="8dp"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -293,18 +294,18 @@
                             android:layout_weight="1"
                             android:text="성별"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/gender"
                             android:layout_width="183dp"
-                            android:paddingRight="8dp"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:gravity="center_vertical"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -318,18 +319,18 @@
                             android:layout_weight="1"
                             android:text="중성화"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/neutralization"
-                            android:paddingRight="8dp"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/input"
                             android:gravity="center_vertical"
+                            android:background="@drawable/input"
+                            android:paddingRight="8dp"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -343,18 +344,18 @@
                             android:layout_weight="1"
                             android:text="생년월일"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/birthday"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/input"
-                            android:paddingRight="8dp"
                             android:gravity="center_vertical"
+                            android:paddingRight="8dp"
+                            android:background="@drawable/input"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -368,18 +369,18 @@
                             android:layout_weight="1"
                             android:text="취득일"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/acqDate"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:paddingRight="8dp"
+                            android:gravity="center_vertical"
                             android:background="@drawable/input"
                             android:paddingLeft="8dp"
-                            android:gravity="center_vertical"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
 
@@ -393,25 +394,26 @@
                             android:layout_weight="1"
                             android:text="특이사항"
                             android:textColor="#000000"
-                            android:textSize="14sp" />
+                            android:textSize="10sp" />
 
                         <TextView
                             android:id="@+id/special"
                             android:layout_width="183dp"
-                            android:paddingRight="8dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
+                            android:paddingRight="8dp"
                             android:paddingLeft="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="8sp" />
 
                     </TableRow>
                 </TableLayout>
 
                 <ImageView
+                    android:id="@+id/animalbar"
                     android:layout_width="match_parent"
-                    android:layout_height="73dp"
+                    android:layout_height="63dp"
                     android:background="@drawable/animal_info" />
             </RelativeLayout>
 
@@ -422,6 +424,12 @@
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
+                <ImageButton
+                    android:id="@+id/check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/reservation_check" />
             </LinearLayout>
 
         </LinearLayout>

@@ -8,6 +8,7 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -70,7 +71,19 @@ public class JoinActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_join);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_join);
+            Log.e("Tag", height +"   "+ width);
+        } else {
+            setContentView(R.layout.activity_join_small);
+            Log.e("Tag", height +"   "+ width);
+        }
 
         StrictMode.enableDefaults();
 
@@ -106,6 +119,12 @@ public class JoinActivity extends BaseActivity {
         webView.loadUrl("file:///android_asset/vowow_hos.html");
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
         webView.setScrollbarFadingEnabled(false);
+
+        if (height < 2000) {
+            webView.setInitialScale(120);
+        } else {
+            webView.setInitialScale(210);
+        }
 
         epwCheck.addTextChangedListener(new TextWatcher() {
             @Override

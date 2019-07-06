@@ -19,7 +19,6 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -27,12 +26,11 @@
             android:gravity="center"
             android:text="예약현황"
             android:textColor="#2eb8ff"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/searchbar"
         android:gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="30dp"
@@ -40,7 +38,6 @@
         android:focusableInTouchMode="true"
         android:layout_margin="7dp"
         android:orientation="horizontal"
-        android:layout_gravity="center"
         android:background="@drawable/search">
 
         <EditText

@@ -12,17 +12,17 @@ import android.widget.TextView;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class StatusView extends LinearLayout {
+public class statusView_small extends LinearLayout {
     TextView owner, animal;
     ImageView state;
 
-    public StatusView(Context context) {
+    public statusView_small(Context context) {
         super(context);
 
         init(context);
     }
 
-    public StatusView(Context context, AttributeSet attrs) {
+    public statusView_small(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         init(context);
@@ -32,7 +32,7 @@ public class StatusView extends LinearLayout {
     public void init(Context context) {
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.state_item, this, true);
+        inflater.inflate(R.layout.state_item_small, this, true);
 
         owner = (TextView) findViewById(R.id.owner);
         animal = (TextView) findViewById(R.id.animal);

@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,7 +31,7 @@ import java.net.URL;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class Reservation_v2_Activity extends AppCompatActivity {
+public class Reservation_v2_Activity extends BaseActivity {
 
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;
 
@@ -39,7 +40,18 @@ public class Reservation_v2_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reservation_v2_);
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        if (height > 2000){
+            setContentView(R.layout.activity_reservation_v2_);
+        } else {
+            setContentView(R.layout.activity_reservation_v2_small);
+        }
+
 
         Intent intent = getIntent();
         id = intent.getStringExtra("id");

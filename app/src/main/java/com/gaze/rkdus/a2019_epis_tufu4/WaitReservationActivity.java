@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,6 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
     View.OnClickListener context = this;
     private ListView m_oListView = null;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,20 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
         Intent getintet = getIntent();
         id = getintet.getStringExtra("id");
+
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+
+        int width = dm.widthPixels;
+        int height = dm.heightPixels;
+
+        TextView title;
+        title = (TextView) findViewById(R.id.title);
+
+        if (height > 2000) {
+            title.setTextSize(20);
+        } else {
+            title.setTextSize(16);
+        }
 
         new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
 
