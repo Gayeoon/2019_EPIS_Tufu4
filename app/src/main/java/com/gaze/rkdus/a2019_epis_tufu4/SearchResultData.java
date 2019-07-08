@@ -103,4 +103,15 @@ public class SearchResultData implements Serializable {
             return true;
         return false;
     }
+
+    // ArrayList 내 객체의 값을 contains하기 위한 equals 메소드
+    @Override
+    public boolean equals(Object object) {
+        boolean same = false;
+        if(object != null && object instanceof SearchResultData) {
+            same = this.HOSPITAL_KEY == ((SearchResultData) object).getHOSPITAL_KEY();
+        }
+
+        return same;
+    }
 }

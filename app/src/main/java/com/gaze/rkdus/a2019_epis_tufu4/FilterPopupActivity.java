@@ -50,6 +50,28 @@ public class FilterPopupActivity extends AppCompatActivity {
         okLocationBtn = (Button) findViewById(R.id.okLocationBtn);
         cancelLocationBtn = (Button) findViewById(R.id.cancelLocationBtn);
 
+        Intent getIntent = getIntent();
+
+        if(getIntent != null) {    // 인텐트 null 체크
+
+           if(getIntent.hasExtra("filter"))
+               type = getIntent.getIntExtra("filter", 0);
+               switch (type) {
+                   case 4:
+                       tvLocation.setTextColor(getResources().getColor(R.color.colorBlue));
+                       tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlue));
+                       break;
+                   case 3:
+                       tvLocation.setTextColor(getResources().getColor(R.color.colorBlue));
+                       break;
+                   case 1:
+                       tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlue));
+                       break;
+                       default:
+                           break;
+               }
+        }
+
         intent = new Intent();
 
         tvLocation.setOnClickListener(new View.OnClickListener() {
