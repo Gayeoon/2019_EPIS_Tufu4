@@ -268,6 +268,7 @@
                             android:paddingLeft="10dp"
                             android:textSize="15dp"
                             android:maxLength="5"
+                            android:gravity="left|center"
                             android:fontFamily="@font/notosansbold" />
 
                         <View
@@ -295,7 +296,9 @@
                         android:background="@drawable/message_border_radius"
                         android:paddingLeft="10dp"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
-                        android:textSize="@dimen/msgTextSize"
+                        android:textSize="11dp"
+                        android:gravity="left|center"
+                        android:singleLine="true"
                         />
 
                     <EditText
@@ -361,6 +364,7 @@
                             android:paddingLeft="10dp"
                             android:maxLength="5"
                             android:textSize="@dimen/msgTextSize"
+                            android:gravity="left|center"
                             android:fontFamily="@font/notosansbold" />
 
                         <View
@@ -388,7 +392,9 @@
                         android:background="@drawable/message_border_radius"
                         android:paddingLeft="10dp"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
-                        android:textSize="@dimen/msgTextSize"
+                        android:textSize="11dp"
+                        android:gravity="left|center"
+                        android:singleLine="true"
                         />
 
                     <EditText

@@ -49,7 +49,7 @@ public class HospitalProfileActivity extends BaseActivity {
     int key;
 
     TextView tvHospitalName, tvOwnerName, tvReservationCount, tvHospitalHP, tvHospitalAddress;
-    ImageView ivHospitalImage, ivReservation;
+    ImageView ivHospitalImage, ivHospitalHPImage, ivReservation;
     ProfileAsyncTask profileAsyncTask;
 
     @Override
@@ -81,6 +81,7 @@ public class HospitalProfileActivity extends BaseActivity {
         tvHospitalHP = (TextView) findViewById(R.id.hosProfHospitalHP);
         tvHospitalAddress = (TextView) findViewById(R.id.hosProfHospitalAddress);
         ivHospitalImage = (ImageView) findViewById(R.id.hosProfImage);
+        ivHospitalHPImage = (ImageView) findViewById(R.id.hosProfHospitalHPImage);
         ivReservation = (ImageView) findViewById(R.id.hosProfReservationBtn);
 
         // 병원 정보 객체가 잘 들어왔는지 체크
@@ -91,6 +92,22 @@ public class HospitalProfileActivity extends BaseActivity {
             Toast.makeText(getApplicationContext(), "해당 병원에 대한 정보가 일부 누락되었습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
             finish();
         }
+
+        // 전화 이미지 클릭 이벤트
+        ivHospitalHPImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tvHospitalHP.getText().toString()));
+                        startActivity(intent);
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
+                }
+                return true;
+            }
+        });
 
         // 예약 이미지 클릭 이벤트
         ivReservation.setOnTouchListener(new View.OnTouchListener() {
@@ -112,7 +129,7 @@ public class HospitalProfileActivity extends BaseActivity {
                                     reservationIntent.putExtra("hospitalName", hospitalData.getHOSPITAL_NAME());
                                     startActivityForResult(reservationIntent, START_RESERVATION);
                                 }
-                            }, 450);
+                            }, 380);
 
                         }
                         else

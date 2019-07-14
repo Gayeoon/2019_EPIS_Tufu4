@@ -194,12 +194,13 @@ public class MessageActivity extends BaseActivity {
                     // 모든 주소 입력 칸에 공백이 없어야 함
                     if(checkStringWS(tvOwnerPostCode.getText().toString()) && checkStringWS(tvOwnerPost.getText().toString()) && checkEditText(eOwnerDetailPostCode)) {
                         // 값 설정
-                        tvOwnerRealPost.setText(tvOwnerRealPost.getText().toString());
-                        tvOwnerRealPostCode.setText(tvOwnerRealPostCode.getText().toString());
+                        tvOwnerRealPost.setText(tvOwnerPost.getText().toString());
+                        tvOwnerRealPostCode.setText(tvOwnerPostCode.getText().toString());
                         eOwnerRealDetailPostCode.setText(eOwnerDetailPostCode.getText().toString());
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "공백이 있어서 체크 실패했습니다.", Toast.LENGTH_LONG).show();
+                        cbMatchedPostCode.setChecked(false); // 체크 해제
                     }
                 }
                 else {  // 초기화
@@ -777,8 +778,8 @@ public class MessageActivity extends BaseActivity {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
                     tvOwnerPostCode.setText(postCodeItem.getPostcd());
                     ownerPostCode = postCodeItem.getPostcd();
-                    eOwnerDetailPostCode.setText(postCodeItem.getAddress());
-                    ownerDetailPostCode = postCodeItem.getAddress();
+                    tvOwnerPost.setText(postCodeItem.getAddress());
+                    ownerPost = postCodeItem.getAddress();
                 }
                 break;
             case SEARCH_REALPOSTCODE:
@@ -786,8 +787,8 @@ public class MessageActivity extends BaseActivity {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
                     tvOwnerRealPostCode.setText(postCodeItem.getPostcd());
                     ownerRealPostCode = postCodeItem.getPostcd();
-                    eOwnerRealDetailPostCode.setText(postCodeItem.getAddress());
-                    ownerRealDetailPostCode = postCodeItem.getAddress();
+                    tvOwnerRealPost.setText(postCodeItem.getAddress());
+                    ownerRealPost = postCodeItem.getAddress();
                 }
                 break;
             default:
