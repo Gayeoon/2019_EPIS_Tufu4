@@ -111,7 +111,7 @@
                             android:textSize="@dimen/msgLeftLayoutTextSize"
                             android:textColor="#FF87AA"
                             android:paddingLeft="10dp"
-                            android:layout_marginTop="75dp"
+                            android:layout_marginTop="115dp"
                             android:text="현거주지주소"/>
                     </LinearLayout>
                 </FrameLayout>
@@ -259,17 +259,15 @@
                         android:orientation="horizontal"
                         android:weightSum="1">
 
-                        <EditText
+                        <TextView
                             android:id="@+id/ownerPostCode"
                             android:layout_weight="0.6"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="number"
                             android:textSize="15dp"
                             android:maxLength="5"
-                            android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
                         <View
@@ -289,6 +287,16 @@
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/message_searchbtn" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/ownerPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:paddingLeft="10dp"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:textSize="@dimen/msgTextSize"
+                        />
 
                     <EditText
                         android:id="@+id/ownerDetailPostCode"
@@ -344,17 +352,15 @@
                         android:orientation="horizontal"
                         android:weightSum="1">
 
-                        <EditText
+                        <TextView
                             android:id="@+id/ownerRealPostCode"
                             android:layout_weight="0.6"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:background="@drawable/message_border_radius"
                             android:paddingLeft="10dp"
-                            android:inputType="number"
                             android:maxLength="5"
                             android:textSize="@dimen/msgTextSize"
-                            android:imeOptions="actionNext"
                             android:fontFamily="@font/notosansbold" />
 
                         <View
@@ -374,6 +380,16 @@
                             android:scaleType="fitCenter"
                             app:srcCompat="@drawable/message_searchbtn" />
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/ownerRealPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/messageEditTextHeight"
+                        android:background="@drawable/message_border_radius"
+                        android:paddingLeft="10dp"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:textSize="@dimen/msgTextSize"
+                        />
 
                     <EditText
                         android:id="@+id/ownerRealDetailPostCode"

@@ -2,6 +2,8 @@
 <resources>
     <!-- Nexus 5X (A5 2017)  //  411 x 731 dp  //  1080 x 1920 px  // API 26 -->
 
+    <integer name="searchResultCount">5</integer>
+
     <!-- MenuActivity -->
     <dimen name="menuLogoHeight">130dp</dimen>
     <dimen name="menuImageHeight">245dp</dimen>
@@ -60,7 +62,7 @@
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
-    <dimen name="searchRecycleViewHeight">350dp</dimen>
+    <dimen name="searchRecycleViewHeight">250dp</dimen>
     <dimen name="searchOptLayoutHeight">20dp</dimen>
     <dimen name="searchOptLayoutMarginTop">15dp</dimen>
 
