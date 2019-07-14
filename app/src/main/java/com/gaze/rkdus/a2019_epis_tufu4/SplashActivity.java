@@ -2,14 +2,19 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+
+import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.TAG;
 
 public class SplashActivity extends Activity {
     private Handler mHandler;
@@ -19,6 +24,16 @@ public class SplashActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        StringBuffer sb = new StringBuffer();
+        sb.append("density : " + dm.density);
+        sb.append(" densityDPI : " + dm.densityDpi);
+        sb.append(" widthPixels : " + dm.widthPixels);
+        sb.append(" heightPixels : " + dm.heightPixels);
+        Log.d(TAG, sb.toString());
 
         ImageView imageView = findViewById(R.id.splash);
 //        Glide.with(this)
