@@ -66,7 +66,7 @@ public class MessageActivity extends BaseActivity {
 
     int key;
     String hospitalName;
-    String ownerName, ownerRRN, ownerHP, ownerPostCode, ownerDetailPostCode, ownerRealPostCode, ownerRealDetailPostCode;    // 소유주
+    String ownerName, ownerRRN, ownerHP, ownerPostCode, ownerPost, ownerDetailPostCode, ownerRealPostCode, ownerRealPost, ownerRealDetailPostCode;    // 소유주
     String ownerAddress, ownerRealAddress;
     String petName, petRace, petColor, petBirth, petGetDate, petSpecialProblem;
     String petYear, petMonth, petDay, petGetYear, petGetMonth, petGetDay;
@@ -76,10 +76,10 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
 
-    TextView individualInfoText;
+    TextView individualInfoText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
-    EditText eOwnerPostCode, eOwnerDetailPostCode, eOwnerRealPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
+    EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
     CheckBox cbMatchedPostCode, cbCheckIndividualInfo; // 주민등록주소와 동일 체크박스
 
@@ -106,9 +106,11 @@ public class MessageActivity extends BaseActivity {
         eOwnerHP1 = (EditText) findViewById(R.id.ownerHPFirst);
         eOwnerHP2 = (EditText) findViewById(R.id.ownerHPSecond);
         eOwnerHP3 = (EditText) findViewById(R.id.ownerHPThird);
-        eOwnerPostCode = (EditText) findViewById(R.id.ownerPostCode);
+        tvOwnerPostCode = (TextView) findViewById(R.id.ownerPostCode);
+        tvOwnerPost = (TextView) findViewById(R.id.ownerPost);
         eOwnerDetailPostCode = (EditText) findViewById(R.id.ownerDetailPostCode);
-        eOwnerRealPostCode = (EditText) findViewById(R.id.ownerRealPostCode);
+        tvOwnerRealPostCode = (TextView) findViewById(R.id.ownerRealPostCode);
+        tvOwnerRealPost = (TextView) findViewById(R.id.ownerRealPost);
         eOwnerRealDetailPostCode = (EditText) findViewById(R.id.ownerRealDetailPostCode);
         cbMatchedPostCode = (CheckBox) findViewById(R.id.matchedPostCodeBox);
         cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
@@ -189,17 +191,21 @@ public class MessageActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cbMatchedPostCode.isChecked()) {
-                    if(checkEditText(eOwnerPostCode)  && checkEditText(eOwnerDetailPostCode)) {
-                        // editText 설정
-                        eOwnerRealPostCode.setText(eOwnerPostCode.getText().toString());
+                    // 모든 주소 입력 칸에 공백이 없어야 함
+                    if(checkStringWS(tvOwnerPostCode.getText().toString()) && checkStringWS(tvOwnerPost.getText().toString()) && checkEditText(eOwnerDetailPostCode)) {
+                        // 값 설정
+                        tvOwnerRealPost.setText(tvOwnerPost.getText().toString());
+                        tvOwnerRealPostCode.setText(tvOwnerPostCode.getText().toString());
                         eOwnerRealDetailPostCode.setText(eOwnerDetailPostCode.getText().toString());
                     }
                     else {
                         Toast.makeText(getApplicationContext(), "공백이 있어서 체크 실패했습니다.", Toast.LENGTH_LONG).show();
+                        cbMatchedPostCode.setChecked(false); // 체크 해제
                     }
                 }
                 else {  // 초기화
-                    eOwnerRealPostCode.setText("");
+                    tvOwnerRealPost.setText("");
+                    tvOwnerRealPostCode.setText("");
                     eOwnerRealDetailPostCode.setText("");
                 }
             }
@@ -287,20 +293,25 @@ public class MessageActivity extends BaseActivity {
         eOwnerHP2.setText(splitHP[1]);
         eOwnerHP3.setText(splitHP[2]);
 
-        // ex) 30265_대전시 유성구 궁동
+        // ex) 30265_대전시 유성구 궁동_충남대학교 4층
         String[] addr1 = data.getOWNER_ADDRESS1().split("_");
         ownerPostCode = addr1[0];
-        ownerDetailPostCode = addr1[1];
+        ownerPost = addr1[1];
+        ownerDetailPostCode = addr1[2];
+
         // String[] splitPostCode = ownerPostCode.split("-");
-        eOwnerPostCode.setText(ownerPostCode);
+        tvOwnerPostCode.setText(ownerPostCode);
+        tvOwnerPost.setText(ownerPost);
         eOwnerDetailPostCode.setText(ownerDetailPostCode);
 
-        // ex) 30265_대전시 유성구 궁동
+        // ex) 30265_대전시 유성구 궁동_충남대학교 4층
         String[] addr2 = data.getOWNER_ADDRESS2().split("_");
         ownerRealPostCode = addr2[0];
-        ownerRealDetailPostCode = addr2[1];
+        ownerRealPost = addr2[1];
+        ownerRealDetailPostCode = addr2[2];
         // String[] splitRealPostCode = ownerRealPostCode.split("-");
-        eOwnerRealPostCode.setText(ownerRealPostCode);
+        tvOwnerRealPostCode.setText(ownerRealPostCode);
+        tvOwnerRealPost.setText(ownerRealPost);
         eOwnerRealDetailPostCode.setText(ownerRealDetailPostCode);
 
         petName = data.getPET_NAME();
@@ -418,16 +429,18 @@ public class MessageActivity extends BaseActivity {
         // 이 모든 editText중 하나라도 공백이 있는 경우 false
         if(!checkEditText(eOwnerName) || !checkEditText(eOwnerRRNBefore) || !checkEditText(eOwnerRRNAfter)
                 || !checkEditText(eOwnerHP1) || !checkEditText(eOwnerHP2) || !checkEditText(eOwnerHP3)
-                || !checkEditText(eOwnerPostCode) || !checkEditText(eOwnerDetailPostCode)
-                || !checkEditText(eOwnerRealPostCode) || !checkEditText(eOwnerRealDetailPostCode)) {
+                || !checkStringWS(tvOwnerPostCode.getText().toString()) || !checkStringWS(tvOwnerPost.getText().toString()) || !checkEditText(eOwnerDetailPostCode)
+                || !checkStringWS(tvOwnerRealPostCode.getText().toString()) || !checkStringWS(tvOwnerRealPost.getText().toString()) || !checkEditText(eOwnerRealDetailPostCode)) {
             Toast.makeText(getApplicationContext(), "모든 소유주 정보 입력 칸을 채우세요.", Toast.LENGTH_LONG).show();
             return false;
         }
         else {
             ownerRealDetailPostCode = eOwnerRealDetailPostCode.getText().toString();
-            ownerRealPostCode = eOwnerRealPostCode.getText().toString();
+            ownerRealPostCode = tvOwnerRealPostCode.getText().toString();
+            ownerRealPost = tvOwnerRealPost.getText().toString();
             ownerDetailPostCode = eOwnerDetailPostCode.getText().toString();
-            ownerPostCode = eOwnerPostCode.getText().toString();
+            ownerPostCode = tvOwnerPostCode.getText().toString();
+            ownerPost = tvOwnerPost.getText().toString();
             ownerAddress = ownerPostCode + "_" + ownerDetailPostCode;
             ownerRealAddress = ownerRealPostCode + "_" + ownerRealDetailPostCode;
             ownerHP = eOwnerHP1.getText().toString() + "-" + eOwnerHP2.getText().toString() + "-" + eOwnerHP3.getText().toString();
@@ -763,19 +776,19 @@ public class MessageActivity extends BaseActivity {
             case SEARCH_POSTCODE:
                 if(resultCode == RESULT_OK) {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
-                    eOwnerPostCode.setText(postCodeItem.getPostcd());
+                    tvOwnerPostCode.setText(postCodeItem.getPostcd());
                     ownerPostCode = postCodeItem.getPostcd();
-                    eOwnerDetailPostCode.setText(postCodeItem.getAddress());
-                    ownerDetailPostCode = postCodeItem.getAddress();
+                    tvOwnerPost.setText(postCodeItem.getAddress());
+                    ownerPost = postCodeItem.getAddress();
                 }
                 break;
             case SEARCH_REALPOSTCODE:
                 if(resultCode == RESULT_OK) {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
-                    eOwnerRealPostCode.setText(postCodeItem.getPostcd());
+                    tvOwnerRealPostCode.setText(postCodeItem.getPostcd());
                     ownerRealPostCode = postCodeItem.getPostcd();
-                    eOwnerRealDetailPostCode.setText(postCodeItem.getAddress());
-                    ownerRealDetailPostCode = postCodeItem.getAddress();
+                    tvOwnerRealPost.setText(postCodeItem.getAddress());
+                    ownerRealPost = postCodeItem.getAddress();
                 }
                 break;
             default:

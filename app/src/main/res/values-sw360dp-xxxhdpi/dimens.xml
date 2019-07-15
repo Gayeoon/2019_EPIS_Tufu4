@@ -15,6 +15,7 @@
     <dimen name="menuLogoMarginLeft">38dp</dimen>
     <dimen name="menuLogoMarginBottom">20dp</dimen>
 
+
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
     <dimen name="typeImgHeight">150dp</dimen>
