@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Note 9  //  1440 x 2960 px  // API 27 -->
-
+    <integer name="searchResultCount">8</integer>
     <!-- MenuActivity -->
     <dimen name="menuLogoHeight">160dp</dimen>
     <dimen name="menuImageHeight">300dp</dimen>

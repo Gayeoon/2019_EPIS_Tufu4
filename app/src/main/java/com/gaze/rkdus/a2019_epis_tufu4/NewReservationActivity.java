@@ -3,6 +3,7 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -41,7 +42,7 @@ import java.util.Date;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class NewReservationActivity extends BaseActivity {
+public class NewReservationActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = "NewReservationActivity";
 
     ListView internalList, externalList, dogtagList;
@@ -55,6 +56,16 @@ public class NewReservationActivity extends BaseActivity {
     boolean internalopen, externalopen, dogtagopen = false;
 
     String id;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     class MyAdapter extends BaseAdapter {
         ArrayList<NewReservationItem> items = new ArrayList<NewReservationItem>();
@@ -107,6 +118,9 @@ public class NewReservationActivity extends BaseActivity {
 
         Intent getintet = getIntent();
         id = getintet.getStringExtra("id");
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         internalBtn = (ImageButton) findViewById(R.id.internal);
         externalBtn = (ImageButton) findViewById(R.id.external);

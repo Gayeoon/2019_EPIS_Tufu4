@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class WaitReservationActivity extends BaseActivity implements View.OnClickListener {
+public class WaitReservationActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     String TAG = "WaitReservationActivity";
 
@@ -48,6 +49,8 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
     View.OnClickListener context = this;
     private ListView m_oListView = null;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,9 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
         }
 
         new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
 //        ArrayList<waitItemData> oData = new ArrayList<>();
 //
@@ -157,6 +163,14 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 //                .setCancelable(false)
 //                .show();
 
+    }
+
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     /* WaitReservationListData : ID값을 통해 등록 대기 명단 리스트를 출력

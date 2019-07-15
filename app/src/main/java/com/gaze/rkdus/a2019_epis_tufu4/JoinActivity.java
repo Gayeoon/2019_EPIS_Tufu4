@@ -567,7 +567,7 @@ public class JoinActivity extends BaseActivity {
                         Toast.makeText(getApplicationContext(), "회원가입 성공!!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), SelectPicActivity.class);
                         intent.putExtra("id", id);
-                        startActivity(intent);
+                        startActivityForResult(intent, 4491);
                     } else {
                         Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_LONG).show();
                     }
@@ -755,5 +755,9 @@ public class JoinActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        finish();
+    }
 
 }

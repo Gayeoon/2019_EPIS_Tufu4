@@ -58,10 +58,12 @@ public class FilterPopupActivity extends AppCompatActivity {
                type = getIntent.getIntExtra("filter", 0);
                switch (type) {
                    case 4:
+                       location = getIntent.getStringExtra("location");
                        tvLocation.setTextColor(getResources().getColor(R.color.colorBlue));
                        tvBestReservation.setTextColor(getResources().getColor(R.color.colorBlue));
                        break;
                    case 3:
+                       location = getIntent.getStringExtra("location");
                        tvLocation.setTextColor(getResources().getColor(R.color.colorBlue));
                        break;
                    case 1:

@@ -3,6 +3,7 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class StatusActivity extends BaseActivity {
+public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = "StatusActivity";
 
     ListView listView;
@@ -50,6 +51,16 @@ public class StatusActivity extends BaseActivity {
     String id, owner, animal, search_txt;
 
     boolean small = false;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     class MyAdapter extends BaseAdapter {
         ArrayList<StatusItem> items = new ArrayList<StatusItem>();
@@ -154,6 +165,8 @@ public class StatusActivity extends BaseActivity {
             searchBar.setMinimumWidth(300);
         }
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         search.setOnClickListener(new View.OnClickListener() {
             @Override

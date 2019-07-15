@@ -2,6 +2,7 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -36,7 +37,7 @@ import java.util.ArrayList;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class FinishReservationActivity extends BaseActivity {
+public class FinishReservationActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = "FinishReservation";
 
     ListView listView;
@@ -48,6 +49,16 @@ public class FinishReservationActivity extends BaseActivity {
     String id, owner, animal;
 
     boolean small = false;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     class MyAdapter extends BaseAdapter {
         ArrayList<FinishReservationItem> items = new ArrayList<FinishReservationItem>();
@@ -138,6 +149,10 @@ public class FinishReservationActivity extends BaseActivity {
         }
 
         listView = (ListView) findViewById(R.id.finishList);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
 //
 //        myAdapter = new MyAdapter();
 //

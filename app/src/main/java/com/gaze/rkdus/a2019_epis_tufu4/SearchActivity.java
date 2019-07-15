@@ -104,6 +104,7 @@ public class SearchActivity extends BaseActivity {
     String searchWord;
     String location;
     int filter = 0; // 현재 입힌 필터 종류.     0 : 전체(필터 X)    1 : 최다예약순   2 : 거리순
+    int searchResultCount;
 
     private GestureDetector gestureDetector;
     ArrayList<SearchResultData> searchResultList = new ArrayList<>();
@@ -130,6 +131,7 @@ public class SearchActivity extends BaseActivity {
         isSignUpApp = false;
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
         indexStartNum = 1; // 현재 1페이지부터 5페이지까지.
+        searchResultCount = getResources().getInteger(R.integer.searchResultCount);
 
         // 레이아웃 뷰 정의
         ivSearchBtn = (ImageView) findViewById(R.id.searchBtn);
@@ -188,6 +190,9 @@ public class SearchActivity extends BaseActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Intent intent = new Intent(getApplicationContext(), FilterPopupActivity.class);
                         intent.putExtra("filter", filter);
+                        if(filter == 3 || filter == 4) {
+                            intent.putExtra("location", location);
+                        }
                         startActivityForResult(intent, GET_FILTER);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -873,19 +878,27 @@ public class SearchActivity extends BaseActivity {
     RecyclerView에 Tab, Page 별로 알맞게 결과 데이터를 넣고 출력하는 함수.
      */
     private void setSearchListView(final ArrayList<SearchResultData> arrayList, int index) {
-        int start = (index - 1) * 8;
+
+//        String dimen = "@dimen/searchResultCount";
+//        String packageName = this.getPackageName();
+//        int temp = getResources().getIdentifier(dimen, "values", packageName);
+        int searchResultCount = getResources().getInteger(R.integer.searchResultCount);
+        Log.d(TAG, "이건 dimens searchResultCount 입니다 : " + searchResultCount);
+
+        int start = (index - 1) * searchResultCount;
         int end;
-        if(start + 8 >= arrayList.size())   // 만약 리스트로 출력하는 데이터가 8개를 못채우는 경우
+        if(start + searchResultCount >= arrayList.size())   // 만약 리스트로 출력하는 데이터가 dimens.xml에서 지정한 갯수보다 못채우는 경우
             end = arrayList.size();
         else
-            end = start + 8;
+            end = start + searchResultCount;
         ArrayList<SearchResultData> result = new ArrayList<>();   // adapter에 넣기 위한 임시 arrayList 생성
         for(int i = start; i < end; i++) {
             result.add(arrayList.get(i));
         }
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        searchRecyclerView.setLayoutManager(linearLayoutManager);
+        CustomLinearLayoutManager customLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
+//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        searchRecyclerView.setLayoutManager(customLayoutManager);
         adapter = new SearchListAdapter(result);
         adapter.resetAll(result);
         searchRecyclerView.setAdapter(adapter);
@@ -894,6 +907,22 @@ public class SearchActivity extends BaseActivity {
         // RecyclerView 클릭 이벤트 초기화
         setRecyclerViewItemClick(result, adapter);
 
+    }
+
+    /*
+    RecyclerView Scroll 방지
+     */
+    public class CustomLinearLayoutManager extends LinearLayoutManager {
+        public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+
+        }
+
+        // it will always pass false to RecyclerView when calling "canScrollVertically()" method.
+        @Override
+        public boolean canScrollVertically() {
+            return false;
+        }
     }
 
     /*

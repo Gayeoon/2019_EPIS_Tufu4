@@ -84,7 +84,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (height > 2000){
+        if (height > 2000) {
             setContentView(R.layout.activity_select_pic);
 
         } else {
@@ -202,58 +202,13 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        finish();
+    }
 
-        if (resultCode != RESULT_OK)
-            return;
-
-        switch (requestCode) {
-            case PICK_FROM_ALBUM: {
-                mImageCaptureUri = data.getData();
-            }
-            case PICK_FROM_CAMERA: {
-
-                this.grantUriPermission("com.android.camera", mImageCaptureUri,
-                        Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                Intent intent = new Intent("com.android.camera.action.CROP");
-                intent.setDataAndType(mImageCaptureUri, "image/*");
-
-                intent.putExtra("outputX", 200);
-                intent.putExtra("outputY", 200);
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                intent.putExtra("scale", true);
-                intent.putExtra("return-data", true);
-                startActivityForResult(intent, CROP_FROM_IMAGE);
-                break;
-            }
-            case CROP_FROM_IMAGE: {
-                if (requestCode != RESULT_OK)
-                    return;
-
-                final Bundle extras = data.getExtras();
-
-                String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Vowow/" + System.currentTimeMillis() + ".jpg";
-
-                if (extras != null) {
-                    Bitmap photo = extras.getParcelable("data");
-                    bitmap = photo;
-
-                    // 여기
-                    iv_UserPhoto.setImageBitmap(photo);
-
-                    storeCropImage(photo, filePath);
-                    absoultePath = filePath;
-                    break;
-                }
-
-                File f = new File(mImageCaptureUri.getPath());
-                if (f.exists()) {
-                    f.delete();
-                }
-            }
-
-        }
+    @Override
+    public void onBackPressed(){
+        Toast.makeText(getApplicationContext(), "프로필 사진을 선택하세요.", Toast.LENGTH_SHORT).show();
+        return;
     }
 
     private void storeCropImage(Bitmap bitmap, String filePath) {
@@ -281,6 +236,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
             }
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -432,7 +388,7 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
                         Toast.makeText(getApplicationContext(), "저장 성공!!", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), HospitalActivity.class);
                         intent.putExtra("id", id);
-                        startActivity(intent);
+                        startActivityForResult(intent, 4491);
                     } else {
                         Toast.makeText(getApplicationContext(), "저장 실패!!", Toast.LENGTH_LONG).show();
                     }
@@ -445,5 +401,6 @@ public class SelectPicActivity extends BaseActivity implements View.OnClickListe
 
         }
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -23,10 +24,14 @@ import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -63,6 +68,7 @@ public class WriteCommunityActivity extends BaseActivity {
     String user = "가여니";
 
     int state, count = 0;
+    public MyProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +86,11 @@ public class WriteCommunityActivity extends BaseActivity {
             setContentView(R.layout.activity_write_community_small);
             Log.e("Tag", height +"   "+ width);
         }
+
+      //  Dialog mProgress = new Dialog(getApplicationContext(), R.style.NewDialog);
+       // mProgress.setCancelable(true);
+       // mProgress.setContentView(new ProgressBar(getApplicationContext()), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+       // mProgress.show();
 
         Intent intent = getIntent();
         user = intent.getStringExtra("id");
@@ -155,7 +166,10 @@ public class WriteCommunityActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         // TODO: 입력 정보 (인증 사진 및 코멘트) 저장하여 표시
-                        new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
+                        progressDialog = MyProgressDialog.show(getApplicationContext(),"","",true,true,null);
+
+
+                            new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
 
                         break;
                 }
@@ -388,6 +402,7 @@ public class WriteCommunityActivity extends BaseActivity {
         protected String doInBackground(String... urls) {
 
             try {
+
                 long now = System.currentTimeMillis();
                 Date date = new Date(now);
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -483,9 +498,9 @@ public class WriteCommunityActivity extends BaseActivity {
                 } else {
                     succes = (int) json.get("result");
 
+
                     if (succes == 1) {
                         Toast.makeText(getApplicationContext(), "저장 성공!!", Toast.LENGTH_LONG).show();
-
                         finish();
                     } else {
                         Toast.makeText(getApplicationContext(), "저장 실패!!", Toast.LENGTH_LONG).show();

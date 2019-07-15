@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Nexus 5X  //  411 x 731 dp  //  1080 x 1920 px  //  5.2 inch -->
+    <!-- Galaxy S8 or S8 plus  //  1440 x 2960 px  // API 27 -->
+
+    <integer name="searchResultCount">8</integer>
 
     <!-- MenuActivity -->
     <dimen name="menuLogoHeight">160dp</dimen>
+    <dimen name="menuImageHeight">300dp</dimen>
     <dimen name="menuBtnWidth">190dp</dimen>
-    <dimen name="menuBtnHeight">185dp</dimen>
+    <dimen name="menuBtnHeight">200dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
     <dimen name="menuBetweenMargin">0dp</dimen>
     <dimen name="menuLogoMarginTop">50dp</dimen>
@@ -33,8 +36,12 @@
     <dimen name="msgEditTextMarginBottom">10dp</dimen>
     <dimen name="msgPostCodeMarginBottom">20dp</dimen>
     <dimen name="msgTextSize">15dp</dimen>
+    <dimen name="msgLeftLayoutTextSize">14dp</dimen>
+
     <dimen name="msgLayoutBetweenMargin">20dp</dimen>
     <dimen name="msgLayoutMarginTop">30dp</dimen>
+    <dimen name="msgNeutralizationMarginTop">40dp</dimen>
+
     <!-- MessageTypeActivity -->
     <dimen name="messageTypeImgWidth">100dp</dimen>
     <dimen name="messageTypeImgHeight">100dp</dimen>
@@ -48,12 +55,16 @@
     <dimen name="searchBtnWidth">15dp</dimen>
     <dimen name="searchBtnHeight">20dp</dimen>
     <dimen name="searchFilterMarginLeft">220dp</dimen>
+    <dimen name="searchFilterImageHeight">20dp</dimen>
     <dimen name="searchBtnMarginRight">15dp</dimen>
     <dimen name="searchTabViewHeight">50dp</dimen>
     <dimen name="searchTabViewWidth">200dp</dimen>
     <dimen name="searchTabViewMarginTop">20dp</dimen>
-    <dimen name="searchRecycleViewHeight">150dp</dimen>
 
+    <dimen name="searchRecycleViewHeight">450dp</dimen>
+    <dimen name="searchOptLayoutHeight">20dp</dimen>
+    <dimen name="searchOptLayoutMarginTop">15dp</dimen>
+    <dimen name="searchLayoutBetweenmargin">20dp</dimen>
     <!-- HowToRegActivity -->
     <dimen name="regInfoImgWidth">180dp</dimen>
     <dimen name="regInfoImgHeight">180dp</dimen>
@@ -61,14 +72,14 @@
     <dimen name="regInfoBtnHeight">30dp</dimen>
 
     <!-- MainActivity -->
-    <dimen name="mainLogoWidth">50dp</dimen>
-    <dimen name="mainLogoHeight">50dp</dimen>
+    <dimen name="mainLogoWidth">160dp</dimen>
+    <dimen name="mainLogoHeight">160dp</dimen>
     <dimen name="mainLogoMarginTop">100dp</dimen>
     <dimen name="mainStartImgWidth">65dp</dimen>
     <dimen name="mainStartImgHeight">65dp</dimen>
     <dimen name="mainBtnBetweenMargin">35dp</dimen>
     <dimen name="mainImgWidth">200dp</dimen>
-    <dimen name="mainImgHeight">50dp</dimen>
+    <dimen name="mainImgHeight">350dp</dimen>
 
     <!-- HospitalProfileActivity -->
     <dimen name="hosProfImageWidth">200dp</dimen>
@@ -77,6 +88,17 @@
     <dimen name="hosProfIconHeight">60dp</dimen>
 
     <!-- MyPageActivity -->
+    <dimen name="myPageCardHeight">280dp</dimen>
+    <dimen name="myPageCardRewriteBtnHeight">27dp</dimen>
+    <dimen name="myPageCardMarginTop">20dp</dimen>
+    <dimen name="myPageMainTitleHeight">80dp</dimen>
+    <dimen name="myPageCardLayoutHeight">280dp</dimen>
+    <dimen name="myPageCenterNameHeight">21dp</dimen>
+    <dimen name="myPageCenterNameTextSize">16dp</dimen>
+    <dimen name="myPageLawTextSize">16dp</dimen>
+    <dimen name="myPageCardLayoutBetweenMargin">30dp</dimen>
+
+
     <dimen name="myPageLayoutBetweenMargin">20dp</dimen>
     <dimen name="myPageTextHeight">15dp</dimen>
     <dimen name="myPageSubTitleHeight">12dp</dimen>

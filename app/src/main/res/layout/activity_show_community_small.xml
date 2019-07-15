@@ -117,7 +117,7 @@
                     android:focusableInTouchMode="true"
                     android:layout_height="120dp"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/comment_show"
+                    android:background="@drawable/community_comment_background"
                     android:padding="7dp">
 
                     <EditText
@@ -145,7 +145,7 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical|left"
-                        android:background="@drawable/comment" />
+                        android:background="@drawable/community_comment_ballon" />
                     <TextView
                         android:id="@+id/count"
                         android:layout_gravity="center_vertical|left"
@@ -163,7 +163,7 @@
                         android:layout_width="60dp"
                         android:layout_height="22dp"
                         android:layout_gravity="center_vertical|right"
-                        android:background="@drawable/community_rebtn" />
+                        android:background="@drawable/community_add_comment" />
 
                 </FrameLayout>
 

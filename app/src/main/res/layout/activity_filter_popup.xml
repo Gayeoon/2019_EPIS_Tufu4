@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1"
-            android:padding="24dp"
+            android:padding="20dp"
             >
 
             <EditText
@@ -156,7 +156,7 @@
                 android:id="@+id/cityEditText"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.25"
                 android:hint="시/군/구 입력"
                 android:paddingLeft="5dp"
                 android:background="@color/colorWhite"
@@ -175,7 +175,7 @@
                 android:id="@+id/dongEditText"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="0.3"
+                android:layout_weight="0.28"
                 android:background="@color/colorWhite"
                 android:hint="읍/면/동 입력"
                 android:imeOptions="actionNext"

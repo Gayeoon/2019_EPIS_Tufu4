@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.DisplayMetrics;
@@ -35,7 +37,8 @@ import java.net.URL;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class HospitalActivity extends BaseActivity {
+public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener
+{
     public static final String TAG = "HospitalActivity";
 
     String id;
@@ -47,6 +50,8 @@ public class HospitalActivity extends BaseActivity {
     ImageButton status, community, alarm, confirm_new, confirm_wait, confirm_finish;
 
     ImageView imageView;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     Bitmap bm;
     byte[] profile;
@@ -75,6 +80,8 @@ public class HospitalActivity extends BaseActivity {
 //        Log.e(TAG, "byte[] : "+profile.toString());
 //        Log.e(TAG, "Bitmap : "+bm.toString());
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         name = (TextView) findViewById(R.id.name);
         tcount = (TextView) findViewById(R.id.count);
@@ -145,6 +152,13 @@ public class HospitalActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
 
     /* HospitalData : ID 값을 통해 해당되는 병원 메인 페이지에 필요한 모든 데이터 요청
