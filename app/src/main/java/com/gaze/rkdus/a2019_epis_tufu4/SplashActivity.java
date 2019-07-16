@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
+import java.util.ArrayList;
+
 import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.TAG;
 
 public class SplashActivity extends Activity {
@@ -41,13 +43,12 @@ public class SplashActivity extends Activity {
 //                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
 //                .into(imageView);
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(imageView);
-        Glide.with(getApplicationContext()).load(R.raw.splash_min).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gifImage);
+        Glide.with(getApplicationContext()).load(R.drawable.splash_min).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(gifImage);
 
         // MainActivity.class 자리에 다음에 넘어갈 액티비티를 넣어주기
         mRunnable = new Runnable() {
             @Override
             public void run() {
-
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -57,7 +58,7 @@ public class SplashActivity extends Activity {
 //        // (임의로 출력 확인을 위해 적은것 뿐, 원래는 앱 로딩 끝나면 바로 넘어가게 되어있음)
         mHandler = new Handler();
 //        // mRunnable 내부 run() 실행하려면 기다려야 하는 delayMillis
-        mHandler.postDelayed(mRunnable, 5000);
+        mHandler.postDelayed(mRunnable, 3000);
     }
 
     @Override

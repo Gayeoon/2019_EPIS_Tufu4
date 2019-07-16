@@ -76,10 +76,10 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/NoTheme">
-        </activity>
-        <activity android:name=".SelectPicActivity"
-            android:theme="@style/NoTheme"/>
+            android:theme="@style/NoTheme"></activity>
+        <activity
+            android:name=".SelectPicActivity"
+            android:theme="@style/NoTheme" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -136,9 +136,9 @@
         <activity
             android:name=".IndividualInfoPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".PostCodePopupActivity"
-            android:theme="@style/PopupTheme"
-            ></activity>
+        <activity
+            android:name=".PostCodePopupActivity"
+            android:theme="@style/PopupTheme" />
     </application>
 
 </manifest>

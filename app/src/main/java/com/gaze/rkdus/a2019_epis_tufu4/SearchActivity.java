@@ -649,12 +649,12 @@ public class SearchActivity extends BaseActivity {
                     default:
                         Log.d(TAG, "어플등록 ㅇ, 필터 X");
                         setSignUpAppList(searchResultList); // SignUpAppList 설정
-                        Collections.sort(signUpAppList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                            @Override
-                            public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                                return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
-                            }
-                        });
+//                        Collections.sort(signUpAppList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
+//                            @Override
+//                            public int compare(SearchResultData searchResultData, SearchResultData t1) {
+//                                return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
+//                            }
+//                        });
                         break;
             }
             return signUpAppList;
@@ -687,12 +687,12 @@ public class SearchActivity extends BaseActivity {
                     break;
                 default:
                     Log.d(TAG, "어플등록 X, 필터 X");
-                    Collections.sort(searchResultList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-                        @Override
-                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                            return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
-                        }
-                    });
+//                    Collections.sort(searchResultList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
+//                        @Override
+//                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
+//                            return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
+//                        }
+//                    });
                     break;
             }
             return searchResultList;

@@ -325,7 +325,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textColor="#FF5D8D"
+                            android:textColor="@color/pinkTextColor"
                             android:textAlignment="center"
                             android:layout_gravity="center"
                             android:gravity="center"
@@ -677,7 +677,12 @@
                             android:layout_weight="0.45"
                             android:textSize="15dp"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="10dp"></Spinner>
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:dropDownWidth="match_parent"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            ></Spinner>
 
                         <Spinner
                             android:id="@+id/petBirthMonthSpinner"
@@ -685,10 +690,13 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:layout_weight="0.27"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="5dp"
                             android:layout_gravity="center"
                             android:layout_marginRight="17dp"
                             android:textSize="15dp"
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             ></Spinner>
 
                         <Spinner
@@ -697,9 +705,12 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:layout_weight="0.27"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="5dp"
                             android:textSize="15dp"
                             android:layout_gravity="center"
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             ></Spinner>
                     </LinearLayout>
 
@@ -719,7 +730,11 @@
                             android:layout_marginRight="17dp"
                             android:layout_weight="0.45"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="10dp"></Spinner>
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
+                            ></Spinner>
 
                         <Spinner
                             android:id="@+id/petGetMonthSpinner"
@@ -727,9 +742,12 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:layout_weight="0.27"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="5dp"
                             android:layout_gravity="center"
                             android:layout_marginRight="17dp"
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             ></Spinner>
 
                         <Spinner
@@ -738,8 +756,11 @@
                             android:layout_height="@dimen/messageEditTextHeight"
                             android:layout_weight="0.27"
                             android:background="@drawable/message_border_radius"
-                            android:paddingLeft="5dp"
                             android:layout_gravity="center"
+                            android:spinnerMode="dropdown"
+                            android:overlapAnchor="false"
+                            android:paddingLeft="3dp"
+                            android:paddingRight="3dp"
                             ></Spinner>
                     </LinearLayout>
 
