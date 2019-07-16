@@ -1,5 +1,6 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -66,6 +67,10 @@ public class ShowCommunityActivity extends BaseActivity {
 
     int index, count, state;
     int viewWidth;
+
+    public MyProgressDialog progressDialog;
+
+    Context context;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<CommentItem> items = new ArrayList<CommentItem>();
@@ -153,10 +158,13 @@ public class ShowCommunityActivity extends BaseActivity {
 //            comment_btn.setVisibility(View.GONE);
 //        }
 
+        context = this;
+
         comment_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 comment = comment_txt.getText().toString();
+                progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
 
                 new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
             }
@@ -410,7 +418,6 @@ public class ShowCommunityActivity extends BaseActivity {
     public class CommentDB extends AsyncTask<String, String, String> {
 
         @Override
-
         protected String doInBackground(String... urls) {
 
             try {
@@ -505,6 +512,8 @@ public class ShowCommunityActivity extends BaseActivity {
                     new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
                 } else {
                     succes = (int) json.get("result");
+
+                    progressDialog.dismiss();
 
                     if (succes == 1) {
                         Toast.makeText(getApplicationContext(), "댓글 달기 성공!!", Toast.LENGTH_LONG).show();

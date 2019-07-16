@@ -15,4 +15,5 @@
     <color name="mainColor">#2eb8ff</color>
     <color name="colorAccent">#d1d1d1</color>
     <color name="pinkTextColor">#FF5D8D</color>
+    <color name="trans">#0f000000</color>
 </resources>

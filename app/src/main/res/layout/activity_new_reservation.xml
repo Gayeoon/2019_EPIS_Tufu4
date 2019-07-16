@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".NewReservationActivity">
 
     <LinearLayout
@@ -43,198 +44,217 @@
 
     </FrameLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
             android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/internalBack"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/reservation_back"
-                android:visibility="gone" />
-
-            <ListView
-                android:id="@+id/internalList"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="65dp"
-                android:background="@drawable/reservation_back"
-                android:clipToPadding="false"
-                android:divider="#ffffff"
-                android:padding="8dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:visibility="gone"></ListView>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/internal"
+                <FrameLayout
+                    android:id="@+id/internalBack"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/internal" />
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/reservation_back"
+                    android:visibility="gone" />
 
+                <ListView
+                    android:id="@+id/internalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="65dp"
+                    android:background="@drawable/reservation_back"
+                    android:clipToPadding="false"
+                    android:divider="#ffffff"
+                    android:padding="8dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:visibility="gone"></ListView>
 
-                <TextView
-                    android:id="@+id/internal_count"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/reservation_count"
-                    android:gravity="center"
-                    android:paddingBottom="7dp"
-                    android:text="0"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="71dp"
+                        android:background="@drawable/shadow_down">
+
+                        <ImageButton
+                            android:id="@+id/internal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/new_reservation_inner" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/internal_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/reservation_count"
+                        android:gravity="center"
+                        android:paddingBottom="7dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                </FrameLayout>
 
             </FrameLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/externalBack"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/reservation_back"
-                android:visibility="gone" />
-
-            <ListView
-                android:id="@+id/externalList"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="7"
-                android:layout_marginTop="65dp"
-                android:background="@drawable/reservation_back"
-                android:clipToPadding="false"
-                android:divider="#ffffff"
-                android:dividerHeight="0px"
-                android:padding="8dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:visibility="gone"></ListView>
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/external"
+                <FrameLayout
+                    android:id="@+id/externalBack"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/external" />
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/reservation_back"
+                    android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/external_count"
-                    android:layout_width="wrap_content"
+                <ListView
+                    android:id="@+id/externalList"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_weight="7"
+                    android:background="@drawable/reservation_back"
+                    android:clipToPadding="false"
+                    android:divider="#ffffff"
+                    android:dividerHeight="0px"
+                    android:padding="8dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:visibility="gone"></ListView>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/reservation_count"
-                    android:gravity="center"
-                    android:paddingBottom="7dp"
-                    android:text="0"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="71dp"
+                        android:background="@drawable/shadow_down">
+
+                        <ImageButton
+                            android:id="@+id/external"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/new_reservation_outer" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/external_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/reservation_count"
+                        android:gravity="center"
+                        android:paddingBottom="7dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                </FrameLayout>
 
             </FrameLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <FrameLayout
-                android:id="@+id/dogtagBack"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="40dp"
-                android:background="@drawable/reservation_back"
-                android:visibility="gone" />
-
-            <ListView
-                android:id="@+id/dogtagList"
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="65dp"
-                android:layout_weight="7"
-                android:background="@drawable/reservation_back"
-                android:clipToPadding="false"
-                android:divider="#ffffff"
-                android:dividerHeight="0px"
-                android:padding="8dp"
-                android:scrollbarStyle="outsideOverlay"
-                android:visibility="gone"></ListView>
-
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center">
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
 
-                <ImageButton
-                    android:id="@+id/dogtag"
+                <FrameLayout
+                    android:id="@+id/dogtagBack"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:background="@drawable/dogtag" />
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@drawable/reservation_back"
+                    android:visibility="gone" />
 
-                <TextView
-                    android:id="@+id/dogtag_count"
-                    android:layout_width="wrap_content"
+                <ListView
+                    android:id="@+id/dogtagList"
+                    android:layout_width="match_parent"
+                    android:layout_height="350dp"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="65dp"
+                    android:layout_weight="7"
+                    android:background="@drawable/reservation_back"
+                    android:clipToPadding="false"
+                    android:divider="#ffffff"
+                    android:dividerHeight="0px"
+                    android:padding="8dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:visibility="gone"></ListView>
+
+
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/reservation_count"
-                    android:gravity="center"
-                    android:paddingBottom="7dp"
-                    android:text="0"
-                    android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:gravity="center">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="71dp"
+                        android:background="@drawable/shadow_down">
+
+                        <ImageButton
+                            android:id="@+id/dogtag"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/new_reservation_badge" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/dogtag_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/reservation_count"
+                        android:gravity="center"
+                        android:paddingBottom="7dp"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textSize="14sp" />
+
+                </FrameLayout>
+
 
             </FrameLayout>
 
-
-        </FrameLayout>
-
-    </LinearLayout>
+        </LinearLayout>
 
 
 </LinearLayout>

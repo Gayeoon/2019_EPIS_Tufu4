@@ -2,10 +2,12 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Outline;
 import android.graphics.Point;
@@ -70,6 +72,8 @@ public class WriteCommunityActivity extends BaseActivity {
     int state, count = 0;
     public MyProgressDialog progressDialog;
 
+    Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,18 +83,13 @@ public class WriteCommunityActivity extends BaseActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (height > 2000){
+        if (height > 2000) {
             setContentView(R.layout.activity_write_community);
-            Log.e("Tag", height +"   "+ width);
+            Log.e("Tag", height + "   " + width);
         } else {
             setContentView(R.layout.activity_write_community_small);
-            Log.e("Tag", height +"   "+ width);
+            Log.e("Tag", height + "   " + width);
         }
-
-      //  Dialog mProgress = new Dialog(getApplicationContext(), R.style.NewDialog);
-       // mProgress.setCancelable(true);
-       // mProgress.setContentView(new ProgressBar(getApplicationContext()), new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-       // mProgress.show();
 
         Intent intent = getIntent();
         user = intent.getStringExtra("id");
@@ -103,6 +102,8 @@ public class WriteCommunityActivity extends BaseActivity {
         btnWrite = (ImageView) findViewById(R.id.btnWrite);
         txtShow = (EditText) findViewById(R.id.txtShow);
         title = (EditText) findViewById(R.id.title);
+
+        context = this;
 
         // 버튼 클릭 시 카메라 앨범으로 이동
         pic1.setOnTouchListener(new View.OnTouchListener() {
@@ -166,10 +167,9 @@ public class WriteCommunityActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         // TODO: 입력 정보 (인증 사진 및 코멘트) 저장하여 표시
-                        progressDialog = MyProgressDialog.show(getApplicationContext(),"","",true,true,null);
+                        progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
 
-
-                            new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
+                        new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
 
                         break;
                 }
@@ -207,10 +207,9 @@ public class WriteCommunityActivity extends BaseActivity {
                     float width = bitmap.getWidth();
                     float height = bitmap.getHeight();
 
-                    if(height > viewHeight)
-                    {
-                        float percente = (float)(height / 100);
-                        float scale = (float)(viewHeight / percente);
+                    if (height > viewHeight) {
+                        float percente = (float) (height / 100);
+                        float scale = (float) (viewHeight / percente);
                         width *= (scale / 100);
                         height *= (scale / 100);
                     }
@@ -250,10 +249,9 @@ public class WriteCommunityActivity extends BaseActivity {
                     float width = bitmap.getWidth();
                     float height = bitmap.getHeight();
 
-                    if(height > viewHeight)
-                    {
-                        float percente = (float)(height / 100);
-                        float scale = (float)(viewHeight / percente);
+                    if (height > viewHeight) {
+                        float percente = (float) (height / 100);
+                        float scale = (float) (viewHeight / percente);
                         width *= (scale / 100);
                         height *= (scale / 100);
                     }
@@ -295,10 +293,9 @@ public class WriteCommunityActivity extends BaseActivity {
                     float width = bitmap.getWidth();
                     float height = bitmap.getHeight();
 
-                    if(height > viewHeight)
-                    {
-                        float percente = (float)(height / 100);
-                        float scale = (float)(viewHeight / percente);
+                    if (height > viewHeight) {
+                        float percente = (float) (height / 100);
+                        float scale = (float) (viewHeight / percente);
                         width *= (scale / 100);
                         height *= (scale / 100);
                     }
@@ -387,7 +384,7 @@ public class WriteCommunityActivity extends BaseActivity {
     }
 
 
-    /* CommunityDB : 프로필 사진 db에 저장
+    /* CommunityDB :
      * 저장 성공 -> int 1
      * 저장 실패 -> int 0
      *
@@ -398,7 +395,6 @@ public class WriteCommunityActivity extends BaseActivity {
     public class CommunityDB extends AsyncTask<String, String, String> {
 
         @Override
-
         protected String doInBackground(String... urls) {
 
             try {
@@ -487,6 +483,7 @@ public class WriteCommunityActivity extends BaseActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
+
             JSONObject json = null;
             int succes = 0;
 
@@ -498,6 +495,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 } else {
                     succes = (int) json.get("result");
 
+                    progressDialog.dismiss();
 
                     if (succes == 1) {
                         Toast.makeText(getApplicationContext(), "저장 성공!!", Toast.LENGTH_LONG).show();
@@ -523,7 +521,7 @@ public class WriteCommunityActivity extends BaseActivity {
         Log.d("onPostCreate", "onDestroy");
     }
 
-    public Point getScreenSize(Activity activity){
+    public Point getScreenSize(Activity activity) {
         Display display = activity.getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);

@@ -1,6 +1,7 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.animation.Animator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -75,6 +76,10 @@ public class CommunityActivity extends BaseActivity {
     String title, written, key;
     int count = 0;
     int num_two=16, num_three=24, num_four=32, num_five=40;
+
+    public MyProgressDialog progressDialog;
+
+    Context context;
 
     class MyAdapter extends BaseAdapter {
         ArrayList<CommunityItem> items = new ArrayList<CommunityItem>();
@@ -157,6 +162,9 @@ public class CommunityActivity extends BaseActivity {
         next = (ImageButton) findViewById(R.id.next);
 
         writebtn = (ImageButton) findViewById(R.id.write);
+
+        context = this;
+
         writebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -395,6 +403,7 @@ public class CommunityActivity extends BaseActivity {
             }
         });
 
+        progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
         new CommunityListData().execute(getResources().getString(R.string.url) + "/getCommunityListData");
 
         listView = (ListView) findViewById(R.id.communityList);
@@ -518,6 +527,7 @@ public class CommunityActivity extends BaseActivity {
 
             myAdapter = new MyAdapter();
 
+            progressDialog.dismiss();
             try {
                 json = new JSONObject(result);
 
