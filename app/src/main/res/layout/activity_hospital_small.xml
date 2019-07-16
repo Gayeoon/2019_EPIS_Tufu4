@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="12dp"
-            android:text="병원 이름"
+            android:text=""
             android:textSize="16sp" />
 
         <ImageView
@@ -281,7 +281,7 @@
                     android:layout_width="148dp"
                     android:layout_height="137dp"
                     android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/hospital_reservation" />
+                    app:srcCompat="@drawable/hospital_community" />
             </LinearLayout>
 
 

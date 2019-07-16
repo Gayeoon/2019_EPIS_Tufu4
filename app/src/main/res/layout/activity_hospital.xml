@@ -54,7 +54,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:background="@drawable/pic_woman" />
+                android:background="#ffffff" />
 
             <TextView
                 android:id="@+id/name"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
-                android:text="병원 이름"
+                android:text=""
                 android:textSize="20sp" />
 
             <ImageView
