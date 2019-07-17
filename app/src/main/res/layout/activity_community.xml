@@ -88,10 +88,11 @@
         <ListView
             android:id="@+id/communityList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="700dp"
             android:layout_marginBottom="5dp"
             android:divider="#d1d1d1"
-            android:dividerHeight="1dp"></ListView>
+            android:dividerHeight="1dp"
+            android:scrollbars="none"></ListView>
     </FrameLayout>
 
     <LinearLayout

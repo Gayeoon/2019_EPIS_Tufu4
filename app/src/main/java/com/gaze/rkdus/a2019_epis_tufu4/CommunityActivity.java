@@ -546,6 +546,7 @@ public class CommunityActivity extends BaseActivity {
                     }
 
                     viewCount(count);
+                    one.setEnabled(true);
 
                     if (count < 8) {
                         for (int i = 0; i < count; i++) {
@@ -554,6 +555,7 @@ public class CommunityActivity extends BaseActivity {
                         }
                     } else {
                         for (int i = 0; i < 8; i++) {
+                            one.setEnabled(true);
                             myAdapter.addItem(itemArray[i]);
                         }
                     }
@@ -594,6 +596,10 @@ public class CommunityActivity extends BaseActivity {
     }
 
     private void viewCount(int count) {
+        two.setVisibility(View.GONE);
+        three.setVisibility(View.GONE);
+        four.setVisibility(View.GONE);
+        five.setVisibility(View.GONE);
         if (8 < count && count <= 16) {
             two.setVisibility(View.VISIBLE);
             num_two = count - 8;
@@ -728,7 +734,7 @@ public class CommunityActivity extends BaseActivity {
                     }
 
                     viewCount(count);
-
+                    one.setEnabled(true);
                     if (count < 8) {
                         for (int i = 0; i < count; i++) {
                             myAdapter.addItem(itemArray[i]);
