@@ -211,7 +211,6 @@
                     android:layout_height="@dimen/myPageAddressTextHeight"
                     android:layout_weight="0.82"
                     android:paddingLeft="10dp"
-                    android:paddingTop="5dp"
                     android:textSize="@dimen/myPageTextSize"
                     android:visibility="visible" />
 
