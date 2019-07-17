@@ -65,7 +65,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -91,7 +91,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -117,7 +117,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -143,7 +143,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -169,7 +169,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -230,7 +230,7 @@
                             android:paddingRight="8dp"
 
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -255,7 +255,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -281,7 +281,7 @@
                             android:paddingRight="8dp"
 
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -306,7 +306,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -331,7 +331,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -356,7 +356,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -381,7 +381,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
 
@@ -406,7 +406,7 @@
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                     </TableRow>
                 </TableLayout>

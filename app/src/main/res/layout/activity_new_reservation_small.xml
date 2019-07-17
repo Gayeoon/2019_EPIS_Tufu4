@@ -177,7 +177,7 @@
                     android:paddingBottom="7dp"
                     android:text="0"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="11sp" />
 
             </FrameLayout>
 
@@ -245,7 +245,7 @@
                     android:paddingBottom="7dp"
                     android:text="0"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="11sp" />
 
             </FrameLayout>
 
