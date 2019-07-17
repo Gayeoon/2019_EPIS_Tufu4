@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -47,7 +48,7 @@ import java.util.Date;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class CommunityActivity extends BaseActivity {
+public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener{
     public static final String TAG = "CommunityActivity";
 
     CommunityItem[] itemArray = new CommunityItem[100];
@@ -75,11 +76,22 @@ public class CommunityActivity extends BaseActivity {
     ImageButton pre, next;
     String title, written, key;
     int count = 0;
-    int num_two=16, num_three=24, num_four=32, num_five=40;
+    int num_two, num_three, num_four, num_five;
 
     public MyProgressDialog progressDialog;
+    int size = 8;
 
     Context context;
+
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+    @Override
+    public void onRefresh() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+        mSwipeRefreshLayout.setRefreshing(false);
+    }
 
     class MyAdapter extends BaseAdapter {
         ArrayList<CommunityItem> items = new ArrayList<CommunityItem>();
@@ -125,17 +137,22 @@ public class CommunityActivity extends BaseActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (height > 2000){
+        if (height > 2000) {
             setContentView(R.layout.activity_community);
+            size = 8;
 
         } else {
             setContentView(R.layout.activity_community_small);
-
+            size = 6;
         }
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
         Intent intent = getIntent();
 
-        if (intent.hasExtra("user")){
-            switch (intent.getIntExtra("user", 0)){
+        if (intent.hasExtra("user")) {
+            switch (intent.getIntExtra("user", 0)) {
                 case 1:
                     user_state = 1;
                     user = intent.getStringExtra("userName");
@@ -153,6 +170,10 @@ public class CommunityActivity extends BaseActivity {
             }
         }
 
+        num_two = size * 2;
+        num_three = size * 3;
+        num_four = size * 4;
+        num_five = size * 5;
         one = (TextView) findViewById(R.id.one);
         two = (TextView) findViewById(R.id.two);
         three = (TextView) findViewById(R.id.three);
@@ -192,7 +213,7 @@ public class CommunityActivity extends BaseActivity {
             public void onClick(View v) {
                 myAdapter = new MyAdapter();
 
-                for (int i = 0; i < 8; i++) {
+                for (int i = 0; i < size; i++) {
                     myAdapter.addItem(itemArray[i]);
                 }
 
@@ -230,7 +251,7 @@ public class CommunityActivity extends BaseActivity {
             public void onClick(View v) {
                 myAdapter = new MyAdapter();
 
-                for (int i = 8; i < 8+num_two; i++) {
+                for (int i = size; i < size + num_two; i++) {
                     myAdapter.addItem(itemArray[i]);
                 }
                 listView.setAdapter(myAdapter);
@@ -267,7 +288,7 @@ public class CommunityActivity extends BaseActivity {
             public void onClick(View v) {
                 myAdapter = new MyAdapter();
 
-                for (int i = num_two; i < num_two+num_three; i++) {
+                for (int i = num_two; i < num_two + num_three; i++) {
                     myAdapter.addItem(itemArray[i]);
                 }
 
@@ -305,7 +326,7 @@ public class CommunityActivity extends BaseActivity {
             public void onClick(View v) {
                 myAdapter = new MyAdapter();
 
-                for (int i = num_three; i < num_three+num_four; i++) {
+                for (int i = num_three; i < num_three + num_four; i++) {
                     myAdapter.addItem(itemArray[i]);
                 }
 
@@ -343,7 +364,7 @@ public class CommunityActivity extends BaseActivity {
             public void onClick(View v) {
                 myAdapter = new MyAdapter();
 
-                for (int i = num_four; i < num_four+num_five; i++) {
+                for (int i = num_four; i < num_four + num_five; i++) {
                     myAdapter.addItem(itemArray[i]);
                 }
 
@@ -378,7 +399,7 @@ public class CommunityActivity extends BaseActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
-        if (height > 2000){
+        if (height > 2000) {
             ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item);
             spinner.setAdapter(adapter);
         } else {
@@ -538,7 +559,7 @@ public class CommunityActivity extends BaseActivity {
 
                     state = jsonObject.getJSONArray("community");
 
-                    count =  0;
+                    count = 0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
                         itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
@@ -548,13 +569,13 @@ public class CommunityActivity extends BaseActivity {
                     viewCount(count);
                     one.setEnabled(true);
 
-                    if (count < 8) {
+                    if (count < size) {
                         for (int i = 0; i < count; i++) {
                             myAdapter.addItem(itemArray[i]);
                             one.setEnabled(false);
                         }
                     } else {
-                        for (int i = 0; i < 8; i++) {
+                        for (int i = 0; i < size; i++) {
                             one.setEnabled(true);
                             myAdapter.addItem(itemArray[i]);
                         }
@@ -600,24 +621,24 @@ public class CommunityActivity extends BaseActivity {
         three.setVisibility(View.GONE);
         four.setVisibility(View.GONE);
         five.setVisibility(View.GONE);
-        if (8 < count && count <= 16) {
+        if (size < count && count <= size * 2) {
             two.setVisibility(View.VISIBLE);
-            num_two = count - 8;
-        } else if (16 < count && count <= 24) {
+            num_two = count - size;
+        } else if (size * 2 < count && count <= size * 3) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
-            num_three = count - 16;
-        } else if (24 < count && count <= 32) {
+            num_three = count - size * 2;
+        } else if (size * 3 < count && count <= size * 4) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
             four.setVisibility(View.VISIBLE);
-            num_four = count - 24;
-        } else if (32 < count && count <= 40) {
+            num_four = count - size * 3;
+        } else if (size * 4 < count && count <= size * 5) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
             four.setVisibility(View.VISIBLE);
             five.setVisibility(View.VISIBLE);
-            num_five = count - 32;
+            num_five = count - size * 4;
         }
     }
 
@@ -726,7 +747,7 @@ public class CommunityActivity extends BaseActivity {
                     JSONObject jsonObject = json.getJSONObject("result");
 
                     state = jsonObject.getJSONArray("community");
-                    count =  0;
+                    count = 0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
                         itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
@@ -735,13 +756,13 @@ public class CommunityActivity extends BaseActivity {
 
                     viewCount(count);
                     one.setEnabled(true);
-                    if (count < 8) {
+                    if (count < size) {
                         for (int i = 0; i < count; i++) {
                             myAdapter.addItem(itemArray[i]);
                             one.setEnabled(false);
                         }
                     } else {
-                        for (int i = 0; i < 8; i++) {
+                        for (int i = 0; i < size; i++) {
                             myAdapter.addItem(itemArray[i]);
                         }
                     }
