@@ -271,18 +271,12 @@
                             android:gravity="left|center"
                             android:fontFamily="@font/notosansbold" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:layout_weight="0.05"
-                            />
 
                         <ImageView
                             android:id="@+id/searchPostCodeBtn"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.4"
                             android:layout_marginLeft="10dp"
                             android:adjustViewBounds="true"
                             android:scaleType="fitCenter"
@@ -367,18 +361,11 @@
                             android:gravity="left|center"
                             android:fontFamily="@font/notosansbold" />
 
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:layout_weight="0.05"
-                            />
-
                         <ImageView
                             android:id="@+id/searchRealPostCodeBtn"
                             android:layout_width="0dp"
                             android:layout_height="@dimen/messageEditTextHeight"
-                            android:layout_weight="0.3"
+                            android:layout_weight="0.4"
                             android:layout_marginLeft="10dp"
                             android:adjustViewBounds="true"
                             android:scaleType="fitCenter"
