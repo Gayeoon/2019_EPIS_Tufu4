@@ -79,18 +79,18 @@ public class FilterPopupActivity extends AppCompatActivity {
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(type == 3) {     // 지역 별
-                    type = 0;
-                    tvLocation.setTextColor(getResources().getColor(R.color.colorBlack));
-                }
-                else if(type == 4) {    // 지역 별 + 최다 예약 순
-                    type = 1;
-                    tvLocation.setTextColor(getResources().getColor(R.color.colorBlack));
-                }
-                else {  // 지역 별 필터가 체크되어있지 않은 경우
+//                if(type == 3) {     // 지역 별
+//                    type = 0;
+//                    tvLocation.setTextColor(getResources().getColor(R.color.colorBlack));
+//                }
+//                else if(type == 4) {    // 지역 별 + 최다 예약 순
+//                    type = 1;
+//                    tvLocation.setTextColor(getResources().getColor(R.color.colorBlack));
+//                }
+//                else {  // 지역 별 필터가 체크되어있지 않은 경우
                     tvNothing.setTextColor(getResources().getColor(R.color.colorBlack));
                     startLocationFilterLayout();    // Location Layout 시작
-                }
+//                }
             }
         });
 
@@ -178,6 +178,8 @@ public class FilterPopupActivity extends AppCompatActivity {
         locationFilterLayout.setVisibility(View.VISIBLE);
         selectFilterLayout.setVisibility(View.GONE);
 
+        // TODO SearchActivity에서 가져온 location 값을 불러와 EditText에 뿌려주기. location을 띄어쓰기가 아니라 다른 문자로 변경한 다음 SearchActivity에서 가공해야 할 듯.
+
         Log.d(TAG, "oKLocationBtn click");
         okLocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +227,7 @@ public class FilterPopupActivity extends AppCompatActivity {
                 eCity.setText("");
                 eDong.setText("");
 
+                location = "";
                 locationFilterLayout.setVisibility(View.GONE);
                 selectFilterLayout.setVisibility(View.VISIBLE);
                 tvLocation.setTextColor(getResources().getColor(R.color.colorBlack));

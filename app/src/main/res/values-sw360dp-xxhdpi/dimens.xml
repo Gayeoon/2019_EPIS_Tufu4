@@ -3,8 +3,8 @@
     <!-- Nexus 5 (A5 2017) // 1080 x 1920 px  // API 26 -->
     <integer name="searchResultCount">6</integer>
     <!-- MenuActivity -->
-    <dimen name="menuLogoHeight">130dp</dimen>
-    <dimen name="menuImageHeight">245dp</dimen>
+    <dimen name="menuLogoHeight">110dp</dimen>
+    <dimen name="menuImageHeight">220dp</dimen>
     <dimen name="menuBtnWidth">190dp</dimen>
     <dimen name="menuBtnHeight">150dp</dimen>
     <dimen name="statusBarHeight">50dp</dimen>
@@ -72,13 +72,13 @@
     <dimen name="regInfoBtnHeight">30dp</dimen>
 
     <!-- MainActivity -->
-    <dimen name="mainLogoWidth">160dp</dimen>
-    <dimen name="mainLogoHeight">160dp</dimen>
+    <dimen name="mainLogoWidth">140dp</dimen>
+    <dimen name="mainLogoHeight">140dp</dimen>
     <dimen name="mainLogoMarginTop">80dp</dimen>
-    <dimen name="mainStartImgWidth">65dp</dimen>
-    <dimen name="mainStartImgHeight">65dp</dimen>
-    <dimen name="mainBtnBetweenMargin">35dp</dimen>
-    <dimen name="mainImgHeight">310dp</dimen>
+    <dimen name="mainStartImgWidth">60dp</dimen>
+    <dimen name="mainStartImgHeight">60dp</dimen>
+    <dimen name="mainBtnBetweenMargin">30dp</dimen>
+    <dimen name="mainImgHeight">280dp</dimen>
 
     <!-- HospitalProfileActivity -->
     <dimen name="hosProfImageWidth">200dp</dimen>

@@ -28,7 +28,6 @@
 
     <!-- 닫기 버튼 -->
     <LinearLayout
-        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:layout_width="match_parent"

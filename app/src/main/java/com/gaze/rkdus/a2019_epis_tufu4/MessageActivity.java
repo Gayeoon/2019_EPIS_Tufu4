@@ -2,6 +2,7 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -37,6 +38,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -45,6 +47,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
 import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
@@ -63,6 +66,7 @@ public class MessageActivity extends BaseActivity {
     private static final int CHECK_INDIVIDUALINFO = 111;
     private static final int SEARCH_POSTCODE = 100;
     private static final int SEARCH_REALPOSTCODE = 101;
+    private final int SPINNER_HEIGHT = 350;
 
     int key;
     String hospitalName;
@@ -90,7 +94,7 @@ public class MessageActivity extends BaseActivity {
     ArrayList<String> yearArray = new ArrayList<>();
     ArrayList<String> monthArray = new ArrayList<>();
     ArrayList<String> dayArray = new ArrayList<>();
-    ArrayAdapter aaYear, aaMonth, aaDay, aaGetYear, aaGetMonth, aaGetDay;
+    MessageSpinnerAdapter aaYear, aaMonth, aaDay, aaGetYear, aaGetMonth, aaGetDay;
     MessageAsyncTask messageAsyncTask;
     MyReservationData myReservationData;
 
@@ -142,26 +146,40 @@ public class MessageActivity extends BaseActivity {
         setDateArrayForSpinner();
 
         // ArrayAdapter 정의
-        aaYear = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, yearArray);
-        aaGetYear = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, yearArray);
-        aaMonth = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, monthArray);
-        aaGetMonth = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, monthArray);
-        aaDay = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, dayArray);
-        aaGetDay = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, dayArray);
+        aaYear = new MessageSpinnerAdapter(this, R.layout.message_spinner, yearArray);
+        aaGetYear = new MessageSpinnerAdapter(this, R.layout.message_spinner, yearArray);
+        aaMonth = new MessageSpinnerAdapter(this, R.layout.message_spinner, monthArray);
+        aaGetMonth = new MessageSpinnerAdapter(this, R.layout.message_spinner, monthArray);
+        aaDay = new MessageSpinnerAdapter(this, R.layout.message_spinner, dayArray);
+        aaGetDay = new MessageSpinnerAdapter(this, R.layout.message_spinner, dayArray);
 
         // ArrayAdapter 설정.
+        aaYear.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+        aaGetYear.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+        aaMonth.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+        aaGetMonth.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+        aaDay.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+        aaGetDay.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
+
         sPetBirthYear.setAdapter(aaYear);
-        sPetBirthYear.setSelection(0, false);
+        sPetBirthYear.setSelection(aaYear.getCount());
         sPetGetYear.setAdapter(aaGetYear);
-        sPetGetYear.setSelection(0, false);
+        sPetGetYear.setSelection(aaGetYear.getCount());
         sPetBirthMonth.setAdapter(aaMonth);
-        sPetBirthMonth.setSelection(0, false);
+        sPetBirthMonth.setSelection(aaMonth.getCount());
         sPetGetMonth.setAdapter(aaGetMonth);
-        sPetGetMonth.setSelection(0, false);
+        sPetGetMonth.setSelection(aaGetMonth.getCount());
         sPetBirthDay.setAdapter(aaDay);
-        sPetBirthDay.setSelection(0, false);
+        sPetBirthDay.setSelection(aaDay.getCount());
         sPetGetDay.setAdapter(aaGetDay);
-        sPetGetDay.setSelection(0, false);
+        sPetGetDay.setSelection(aaGetDay.getCount());
+
+        setSpinnerMaxHeight(sPetBirthYear, SPINNER_HEIGHT);
+        setSpinnerMaxHeight(sPetGetYear, SPINNER_HEIGHT);
+        setSpinnerMaxHeight(sPetBirthMonth, SPINNER_HEIGHT);
+        setSpinnerMaxHeight(sPetGetMonth, SPINNER_HEIGHT);
+        setSpinnerMaxHeight(sPetBirthDay, SPINNER_HEIGHT);
+        setSpinnerMaxHeight(sPetGetDay, SPINNER_HEIGHT);
 
         // Spinner Select Listener 정의
         SpinnerItemSelectedListener spinnerItemSelectedListener = new SpinnerItemSelectedListener();
@@ -388,9 +406,6 @@ public class MessageActivity extends BaseActivity {
     private void setDateArrayForSpinner() {
         // year
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        yearArray.add(" ");
-        monthArray.add(" ");
-        dayArray.add(" ");
         for(int i = year - 20; i <= year; i++) {
             yearArray.add(String.valueOf(i));
         }
@@ -404,6 +419,10 @@ public class MessageActivity extends BaseActivity {
         for(int i = 1; i <= 31; i++) {
             dayArray.add(String.valueOf(i));
         }
+
+        yearArray.add("년");
+        monthArray.add("월");
+        dayArray.add("일");
     }
 
     @Override
@@ -441,8 +460,8 @@ public class MessageActivity extends BaseActivity {
             ownerDetailPostCode = eOwnerDetailPostCode.getText().toString();
             ownerPostCode = tvOwnerPostCode.getText().toString();
             ownerPost = tvOwnerPost.getText().toString();
-            ownerAddress = ownerPostCode + "_" + ownerDetailPostCode;
-            ownerRealAddress = ownerRealPostCode + "_" + ownerRealDetailPostCode;
+            ownerAddress = ownerPostCode + "_" + ownerPost + "_" + ownerDetailPostCode;
+            ownerRealAddress = ownerRealPostCode + "_" + ownerRealPost + "_" + ownerRealDetailPostCode;
             ownerHP = eOwnerHP1.getText().toString() + "-" + eOwnerHP2.getText().toString() + "-" + eOwnerHP3.getText().toString();
             ownerRRN = eOwnerRRNBefore.getText().toString() + "-" + eOwnerRRNAfter.getText().toString();
             ownerName = eOwnerName.getText().toString();
@@ -503,6 +522,9 @@ public class MessageActivity extends BaseActivity {
     @return : boolean(true : 앞 뒤 공백 또는 전체 공백이 아님. false : 둘 중 하나라도 해당하는 경우)
      */
     public static boolean checkStringWS(String string) {
+        if(TextUtils.isEmpty(string)) {
+            return false;
+        }
         if(TextUtils.isEmpty(string.trim())) { // 공백처리
             return false;
         }
@@ -711,7 +733,7 @@ public class MessageActivity extends BaseActivity {
         JSONObject tempObject = new JSONObject();
             try {
                 // 현재 날짜와 시간 구하기
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = new Date();
                 String nowDate = simpleDateFormat.format(date);
                 Log.d(TAG, "date : " + nowDate);
@@ -946,6 +968,31 @@ public class MessageActivity extends BaseActivity {
                }
            }
            return true;
+        }
+    }
+
+    /*
+    존재하는 년,월,일 맞는지 따지기
+    @return boolean(true : 존재함.  false : 존재하지 않음.)
+     */
+    private boolean checkProperDate(int year, int month, int day) {
+
+        return false;
+    }
+
+    /*
+    스피너의 보여줄 수 있는 최대 크기 설정하기.
+     */
+    private void setSpinnerMaxHeight(Spinner spinner, int height) {
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(spinner);
+            popupWindow.setHeight(height);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }
