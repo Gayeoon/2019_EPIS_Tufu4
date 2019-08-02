@@ -19,7 +19,7 @@ public class GlobalApplication extends Application {
             throw new IllegalStateException("this application does not inherit com.kakao.GlobalApplication");
         return instance;
     }
-    protected static class KakaoSDKAdapter extends KakaoAdapter {
+    public static class KakaoSDKAdapter extends KakaoAdapter {
         /**
          * Session Config에 대해서는 default값들이 존재한다.
          * 필요한 상황에서만 override해서 사용하면 됨.

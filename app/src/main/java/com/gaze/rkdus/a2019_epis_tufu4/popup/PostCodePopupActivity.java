@@ -1,8 +1,7 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,30 +10,22 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.adapter.PostCodeResultAdapter;
+import com.gaze.rkdus.a2019_epis_tufu4.item.PostCodeItem;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -43,9 +34,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
 
 public class PostCodePopupActivity extends BaseActivity {
     public final String POSTCODE_URL = "http://biz.epost.go.kr/KpostPortal/openapi2?regkey=2616b9bdd82727fe11562253882955";

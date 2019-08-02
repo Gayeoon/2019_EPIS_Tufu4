@@ -1,10 +1,9 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,6 +14,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.MapPopupActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,12 +35,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
-import static java.lang.Thread.sleep;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
 /*
 SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
@@ -44,7 +45,6 @@ SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
 - 이해원
  */
 public class HospitalProfileActivity extends BaseActivity {
-    public static final String TAG = "LogGoGo";
     private static final int START_RESERVATION = 10;
     SearchResultData hospitalData;
     int key;

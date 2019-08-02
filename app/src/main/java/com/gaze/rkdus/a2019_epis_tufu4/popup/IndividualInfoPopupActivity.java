@@ -1,59 +1,42 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
-
-/*
-예약하기 버튼 클릭 시 나타나는 팝업창
- */
-public class MessagePopupActivity extends AppCompatActivity {
+public class IndividualInfoPopupActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";
+    WebView infoDocumentWebView;
+
     Button okBtn, cancelBtn;
     Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_message_popup);
+        setContentView(R.layout.activity_individual_info_popup);
 
         okBtn = (Button) findViewById(R.id.okBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        infoDocumentWebView = (WebView) findViewById(R.id.infoDocumentWebView);
 
+        infoDocumentWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        infoDocumentWebView.setVerticalScrollBarEnabled(true);
+        infoDocumentWebView.loadUrl("file:///android_asset/reservation_infodocument.html");
         intent = new Intent();
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //데이터 전달하기
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK);
                 //액티비티(팝업) 닫기
                 finish();
             }
@@ -63,7 +46,7 @@ public class MessagePopupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //데이터 전달하기
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_CANCELED);
                 //액티비티(팝업) 닫기
                 finish();
             }

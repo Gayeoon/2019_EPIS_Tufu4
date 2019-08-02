@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.GlobalApplication;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.KakaoSDK;
 import com.kakao.auth.Session;
@@ -21,10 +23,11 @@ import com.kakao.util.helper.log.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.TAG;
 
 public class UserLoginActivity extends AppCompatActivity {
     private SessionCallback callback;
+    public final static String TAG = "LogGoGo";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +94,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(MeV2Response result) {
-                Log.e(TAG, "requestMe onSuccess message : " + result.getKakaoAccount().getEmail() + " " + result.getId() + " " + result.getNickname() + " " + result.getKakaoAccount());
+                Log.e(TAG, "requestMe onSuccess message : " + result.getKakaoAccount().getEmail() + " " + result.getId() + " " + result.getNickname() + " " + result.getKakaoAccount().getPhoneNumber());
                 redirectSignupActivity();
             }
 

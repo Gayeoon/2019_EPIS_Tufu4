@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -36,6 +36,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.adapter.SearchListAdapter;
+import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.FilterPopupActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -74,8 +79,6 @@ import java.util.List;
  * - 이해원
  */
 public class SearchActivity extends BaseActivity {
-    public static final String SERVER_URL = "http://vowow.cafe24app.com";
-    public static final String TAG = "LogGoGo";
 
     /*
     디비 테이블 저장 정보

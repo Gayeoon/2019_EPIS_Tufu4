@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,6 +8,10 @@ import android.content.pm.ResolveInfo;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
 import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -26,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import net.daum.mf.map.api.CalloutBalloonAdapter;
 import net.daum.mf.map.api.MapPOIItem;
 import net.daum.mf.map.api.MapPoint;
 import net.daum.mf.map.api.MapView;
@@ -34,11 +37,10 @@ import net.daum.mf.map.api.MapView;
 import java.io.IOException;
 import java.util.List;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.TAG;
 /*
 해당 병원의 위치를 카카오 지도로 보여주기 위함
  */
-public class MapPopupActivity extends AppCompatActivity {
+public class MapPopupActivity extends BaseActivity {
     private SearchResultData hospitalData;
     LocationManager locationManager;
     Location myLocation;

@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.user.HowToRegActivity;
 
 /*
  * 사용자

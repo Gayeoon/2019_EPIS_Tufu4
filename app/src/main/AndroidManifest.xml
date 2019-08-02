@@ -37,7 +37,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MenuActivity"
+            android:name=".user.MenuActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalActivity"
@@ -55,25 +55,25 @@
             android:name=".StatusActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".WhatIsRegActivity"
+            android:name=".user.WhatIsRegActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".TypeActivity"
+            android:name=".user.TypeActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".ReviseActivity"
+            android:name=".user.ReviseActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MessageActivity"
+            android:name=".user.MessageActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".HowToRegActivity"
+            android:name=".user.HowToRegActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".user.SearchActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
@@ -113,7 +113,7 @@
             android:name=".WaitReservationActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".FilterPopupActivity"
+            android:name=".popup.FilterPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".Reservation_v2_Activity"
@@ -128,16 +128,16 @@
             android:name=".ShowCommunityActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MessagePopupActivity"
+            android:name=".popup.MessagePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".MyPageActivity"
+            android:name=".user.MyPageActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".NicnamePopupActivity"
+            android:name=".popup.NicnamePopupActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".HospitalProfileActivity"
+            android:name=".user.HospitalProfileActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".SplashActivity"
@@ -149,15 +149,18 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IndividualInfoPopupActivity"
+            android:name=".popup.IndividualInfoPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".PostCodePopupActivity"
+            android:name=".popup.PostCodePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".UserLoginActivity"
+            android:name=".user.UserLoginActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".MapPopupActivity" android:theme="@style/PopupTheme"></activity>
+        <activity
+            android:name=".popup.MapPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity android:name=".popup.ProxySignPopupActivity" android:theme="@style/PopupTheme"></activity>
     </application>
 
 </manifest>

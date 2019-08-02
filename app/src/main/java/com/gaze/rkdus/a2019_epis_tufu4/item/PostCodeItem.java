@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.item;
 
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.adapter.MyReservationListAdapter;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -27,14 +31,13 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
 
 /*
 마이페이지 액티비티
 - 이해원
  */
 public class MyPageActivity extends BaseActivity {
-    private static final String TAG = "LogGoGo";
     public static final int CHECK_RESERVATION = 1000;
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;

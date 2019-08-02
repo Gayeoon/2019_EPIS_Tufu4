@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 public class BaseActivity extends AppCompatActivity {
     public Typeface mTypeface = null;
+    public final static String TAG = "LogGoGo";
+    public static final String SERVER_URL = "http://vowow.cafe24app.com";
 
     @Override
     public void setContentView(int layoutResID) {

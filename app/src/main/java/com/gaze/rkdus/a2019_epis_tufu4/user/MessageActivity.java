@@ -1,18 +1,13 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -20,8 +15,6 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,12 +39,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.item.PostCodeItem;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.IndividualInfoPopupActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.PostCodePopupActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.ProxySignPopupActivity;
 
 /*
  * 사용자
@@ -60,12 +59,12 @@ import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionErro
  * - 이해원
  */
 public class MessageActivity extends BaseActivity {
-    public static final String TAG = "LogGoGo";
 
     private static final int SELECT_RESERVATION = 10;
     private static final int CHECK_INDIVIDUALINFO = 111;
     private static final int SEARCH_POSTCODE = 100;
     private static final int SEARCH_REALPOSTCODE = 101;
+    private static final int CHECK_PROXYSIGN = 120;
     private final int SPINNER_HEIGHT = 350;
 
     int key;
@@ -80,12 +79,12 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
 
-    TextView individualInfoText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
+    TextView individualInfoText, proxySignText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
-    CheckBox cbMatchedPostCode, cbCheckIndividualInfo; // 주민등록주소와 동일 체크박스
+    CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign; // 주민등록주소와 동일 체크박스
 
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
     ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
@@ -118,6 +117,7 @@ public class MessageActivity extends BaseActivity {
         eOwnerRealDetailPostCode = (EditText) findViewById(R.id.ownerRealDetailPostCode);
         cbMatchedPostCode = (CheckBox) findViewById(R.id.matchedPostCodeBox);
         cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
+        cbProxySign = (CheckBox) findViewById(R.id.checkProxySign);
 
         // 뷰 정의 - 반려동물
         ePetName = (EditText) findViewById(R.id.petNameText);
@@ -142,6 +142,7 @@ public class MessageActivity extends BaseActivity {
         sPetGetMonth = (Spinner) findViewById(R.id.petGetMonthSpinner);
         sPetGetDay = (Spinner) findViewById(R.id.petGetDaySpinner);
         individualInfoText = (TextView) findViewById(R.id.individualInfoText);
+        proxySignText = (TextView) findViewById(R.id.proxySignText);
 
         setDateArrayForSpinner();
 
@@ -161,6 +162,7 @@ public class MessageActivity extends BaseActivity {
         aaDay.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
         aaGetDay.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item);
 
+        // 스피너 기본 설정 값
         sPetBirthYear.setAdapter(aaYear);
         sPetBirthYear.setSelection(aaYear.getCount());
         sPetGetYear.setAdapter(aaGetYear);
@@ -229,7 +231,7 @@ public class MessageActivity extends BaseActivity {
             }
         });
 
-        // 체크박스 클릭 이벤트
+        // 개인정보 수집 동의 텍스트 및 체크박스 클릭 이벤트
         individualInfoText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,6 +250,27 @@ public class MessageActivity extends BaseActivity {
                     startActivityForResult(intent, CHECK_INDIVIDUALINFO);
                     }
                 }
+        });
+
+        // 대리서명 동의 텍스트 및 체크박스 클릭 이벤트
+        proxySignText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!cbProxySign.isChecked()) {
+                    cbProxySign.setChecked(true);
+                    Intent intent = new Intent(getApplicationContext(), ProxySignPopupActivity.class);
+                    startActivityForResult(intent, CHECK_PROXYSIGN);
+                }
+            }
+        });
+        cbProxySign.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(cbProxySign.isChecked()) {
+                    Intent intent = new Intent(getApplicationContext(), ProxySignPopupActivity.class);
+                    startActivityForResult(intent, CHECK_PROXYSIGN);
+                }
+            }
         });
 
         Intent typeIntent = getIntent();
@@ -813,6 +836,17 @@ public class MessageActivity extends BaseActivity {
                     ownerRealPost = postCodeItem.getAddress();
                 }
                 break;
+            case CHECK_PROXYSIGN:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "대리서명동의 팝업창에서 확인 누름!");
+                    Toast.makeText(getApplicationContext(), "대리서명에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.d(TAG, "대리서명동의 팝업창에서 취소 누름!");
+                    Toast.makeText(getApplicationContext(), "대리서명에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
+                    cbProxySign.setChecked(false);
+                }
+                break;
             default:
                 break;
         }
@@ -959,7 +993,7 @@ public class MessageActivity extends BaseActivity {
                            finish();
                        }
                        else {
-                           if(setOwnerInfo() && setPetInfo() && cbCheckIndividualInfo.isChecked()) {    // 정보제공 동의 체크 여부까지 판단
+                           if(setOwnerInfo() && setPetInfo() && cbCheckIndividualInfo.isChecked() && cbProxySign.isChecked()) {    // 정보제공 동의 체크 여부까지 판단
                                Intent intent = new Intent(getApplicationContext(), MessagePopupActivity.class);
                                startActivityForResult(intent, SELECT_RESERVATION);
                            }

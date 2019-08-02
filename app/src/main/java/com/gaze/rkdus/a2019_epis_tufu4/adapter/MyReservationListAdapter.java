@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,10 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.MyPageActivity.CHECK_RESERVATION;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_RESERVATION;
 
 /*
 MyPageActivity RecyclerView의 Adapter
