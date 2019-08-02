@@ -26,6 +26,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -49,7 +50,7 @@ public class HospitalProfileActivity extends BaseActivity {
     int key;
 
     TextView tvHospitalName, tvOwnerName, tvReservationCount, tvHospitalHP, tvHospitalAddress;
-    ImageView ivHospitalImage, ivHospitalHPImage, ivReservation;
+    ImageView ivHospitalImage, ivHospitalHPImage, ivReservation, ivHospitalAddressImage;
     ProfileAsyncTask profileAsyncTask;
 
     @Override
@@ -82,6 +83,7 @@ public class HospitalProfileActivity extends BaseActivity {
         tvHospitalAddress = (TextView) findViewById(R.id.hosProfHospitalAddress);
         ivHospitalImage = (ImageView) findViewById(R.id.hosProfImage);
         ivHospitalHPImage = (ImageView) findViewById(R.id.hosProfHospitalHPImage);
+        ivHospitalAddressImage = (ImageView) findViewById(R.id.hosProfHospitalAddressImage);
         ivReservation = (ImageView) findViewById(R.id.hosProfReservationBtn);
 
         // 병원 정보 객체가 잘 들어왔는지 체크
@@ -100,6 +102,23 @@ public class HospitalProfileActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tvHospitalHP.getText().toString()));
+                        startActivity(intent);
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
+                }
+                return true;
+            }
+        });
+
+        // 지도 이미지 클릭 이벤트
+        ivHospitalAddressImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Intent intent = new Intent(getApplicationContext(), MapPopupActivity.class);
+                        intent.putExtra("data", (Serializable) hospitalData);
                         startActivity(intent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

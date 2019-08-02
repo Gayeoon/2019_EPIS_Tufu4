@@ -17,12 +17,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -319,14 +314,15 @@ public class SearchActivity extends BaseActivity {
 
     /*
     해당 arraylist의 크기를 보고 전체 페이지 크기를 반환.
+    해상도마다 view하는 크기가 다르기 때문에 searchResultCount로 정함.
      */
     private int getMaxTabSize(ArrayList<?> arrayList) {
         int tabSize = arrayList.size();
         int maxTabSize = 0;
-        if(tabSize % 8 == 0)    // ex. 40개면 5페이지.
-            maxTabSize = tabSize / 8;
+        if(tabSize % searchResultCount == 0)    // ex. 40개면 5페이지.
+            maxTabSize = tabSize / searchResultCount;
         else    // 39개여도 5페이지.
-            maxTabSize = (tabSize / 8) + 1;
+            maxTabSize = (tabSize / searchResultCount) + 1;
         return maxTabSize;
     }
 
@@ -602,9 +598,8 @@ public class SearchActivity extends BaseActivity {
         while(itemDataIterator.hasNext()) {
            SearchResultData searchResultData = itemDataIterator.next();
 
-            // 등록 여부 off인 값 삭제
+            // 등록 여부 off인 값 추가
             if(searchResultData.getBoolSIGNUP_APP()) {
-                Log.d(TAG, "showListView ArrayList signUpApp : " + searchResultData.getSIGNUP_APP());
                 signUpAppList.add(searchResultData);
             }
             i++;
@@ -882,7 +877,6 @@ public class SearchActivity extends BaseActivity {
 //        String dimen = "@dimen/searchResultCount";
 //        String packageName = this.getPackageName();
 //        int temp = getResources().getIdentifier(dimen, "values", packageName);
-        int searchResultCount = getResources().getInteger(R.integer.searchResultCount);
         Log.d(TAG, "이건 dimens searchResultCount 입니다 : " + searchResultCount);
 
         int start = (index - 1) * searchResultCount;
@@ -897,7 +891,6 @@ public class SearchActivity extends BaseActivity {
         }
 
         CustomLinearLayoutManager customLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         searchRecyclerView.setLayoutManager(customLayoutManager);
         adapter = new SearchListAdapter(result);
         adapter.resetAll(result);

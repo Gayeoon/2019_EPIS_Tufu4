@@ -176,6 +176,7 @@
                         >
 
                         <ImageView
+                            android:id="@+id/hosProfHospitalAddressImage"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/hosProfIconHeight"
                             android:adjustViewBounds="true"
