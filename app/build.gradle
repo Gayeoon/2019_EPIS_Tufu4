@@ -7,8 +7,8 @@ android {
         applicationId "com.gaze.rkdus.a2019_epis_tufu4"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.3"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -29,7 +29,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
@@ -38,6 +37,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.tom_roush:pdfbox-android:1.8.10.1'
+    implementation 'com.itextpdf:itextpdf:5.0.6'
     implementation 'com.airbnb.android:lottie:2.5.5'
     implementation 'gun0912.ted:tedpermission:2.1.0'
     implementation 'com.rmtheis:tess-two:9.0.0'
@@ -50,4 +51,5 @@ dependencies {
     implementation files('libs/json-simple-1.1.1.jar')
     implementation files('libs/Catalano.Android.Image.jar')
     implementation 'org.jetbrains:annotations-java5:15.0'
+    implementation files('libs/android-zoom-view.jar')
 }

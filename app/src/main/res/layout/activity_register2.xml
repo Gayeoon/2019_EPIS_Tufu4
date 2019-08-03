@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".RegisterActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="580dp"
+        android:layout_gravity="center"
+        android:background="@drawable/regist2" />
+
+
+    <TableLayout
+        android:layout_width="156dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginLeft="85dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="248dp"
+        android:gravity="center_horizontal">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/owner_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_weight="5"
+                android:gravity="right"
+                android:paddingRight="40dp"
+                android:text="김가연"
+                android:textSize="8dp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="20dp"
+                android:layout_weight="1"
+                android:layout_margin="7dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/stamp" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="9dp">
+
+            <TextView
+                android:id="@+id/owner_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingRight="23dp"
+                android:text="김가연"
+                android:textSize="7dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/stamp" />
+        </TableRow>
+
+        <TableRow android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/owner_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:paddingRight="23dp"
+                android:text="김가연"
+                android:textSize="7dp" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/stamp" />
+        </TableRow>
+
+    </TableLayout>
+
+</FrameLayout>

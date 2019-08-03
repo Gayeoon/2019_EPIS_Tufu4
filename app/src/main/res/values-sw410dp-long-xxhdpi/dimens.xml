@@ -107,4 +107,37 @@
     <dimen name="myPageTextViewWeight">0.32</dimen>
     <dimen name="myPageDateTextSize">10dp</dimen>
     <dimen name="myPageTextSize">13dp</dimen>
+
+    <!-- RegisterActivity -->
+    <!-- 2xl -->
+    <dimen name="textSizeBig">9dp</dimen>
+    <dimen name="textSizeMid">8dp</dimen>
+    <dimen name="textSizeSmall">7dp</dimen>
+    <dimen name="regiPdf">25dp</dimen>
+    <dimen name="regiPdfMargin">20dp</dimen>
+    <dimen name="regiImageHeight">600dp</dimen>
+    <dimen name="regiTableMarginLeft">85dp</dimen>
+    <dimen name="regiTableMarginRight">40dp</dimen>
+    <dimen name="regiTableMarginTop">220dp</dimen>
+    <dimen name="regiOwnerTableTop">3dp</dimen>
+    <dimen name="regiResidentTop">6dp</dimen>
+    <dimen name="regiPhoneTableLeft">20dp</dimen>
+    <dimen name="regiTableAddrHeight">23dp</dimen>
+    <dimen name="regiTableAddrTop">7dp</dimen>
+    <dimen name="regiTableAddrLeft">10dp</dimen>
+    <dimen name="regiAnimalTableHeight">15dp</dimen>
+    <dimen name="regiAnimalTableLeft">81dp</dimen>
+    <dimen name="regiAnimalTableRight">40dp</dimen>
+    <dimen name="regiAnimalTableTop">312dp</dimen>
+    <dimen name="regiSignTableWidth">156dp</dimen>
+    <dimen name="regiSignTableBottom">211dp</dimen>
+    <dimen name="regiSignTableLeft">85dp</dimen>
+    <dimen name="regiSignTableRight">40dp</dimen>
+    <dimen name="regiSignTablePaddingRight">40dp</dimen>
+    <dimen name="regiSignTablePaddingTop">9dp</dimen>
+    <dimen name="regiSignWidth">20dp</dimen>
+    <dimen name="regiSignHeight">20dp</dimen>
+    <dimen name="regiSignTop">7dp</dimen>
+    <dimen name="regiSignRight">10dp</dimen>
+
 </resources>
