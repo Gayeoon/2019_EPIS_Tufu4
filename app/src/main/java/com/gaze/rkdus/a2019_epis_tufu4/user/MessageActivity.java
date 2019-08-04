@@ -79,12 +79,12 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
 
-    TextView individualInfoText, proxySignText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
+    TextView individualInfoText, proxySignText, immediatelyButText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
-    CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign; // 주민등록주소와 동일 체크박스
+    CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign, cbImmediatelyBuy;
 
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
     ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
@@ -118,6 +118,7 @@ public class MessageActivity extends BaseActivity {
         cbMatchedPostCode = (CheckBox) findViewById(R.id.matchedPostCodeBox);
         cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
         cbProxySign = (CheckBox) findViewById(R.id.checkProxySign);
+        cbImmediatelyBuy = (CheckBox) findViewById(R.id.checkImmediatelyBuy);
 
         // 뷰 정의 - 반려동물
         ePetName = (EditText) findViewById(R.id.petNameText);
@@ -143,6 +144,7 @@ public class MessageActivity extends BaseActivity {
         sPetGetDay = (Spinner) findViewById(R.id.petGetDaySpinner);
         individualInfoText = (TextView) findViewById(R.id.individualInfoText);
         proxySignText = (TextView) findViewById(R.id.proxySignText);
+        immediatelyButText = (TextView) findViewById(R.id.immediatelyBuyText);
 
         setDateArrayForSpinner();
 
@@ -231,15 +233,36 @@ public class MessageActivity extends BaseActivity {
             }
         });
 
+        // 직접구매 텍스트 및 체크박스 클릭 이벤트
+        immediatelyButText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!cbImmediatelyBuy.isChecked())
+                    cbImmediatelyBuy.setChecked(true);
+            }
+        });
+        cbImmediatelyBuy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(cbImmediatelyBuy.isChecked()) {
+                    Intent intent = new Intent(getApplicationContext(), ProxySignPopupActivity.class);
+                    startActivityForResult(intent, CHECK_PROXYSIGN);
+                }
+                else {
+                    cbImmediatelyBuy.setChecked(false);
+                }
+            }
+        });
+
         // 개인정보 수집 동의 텍스트 및 체크박스 클릭 이벤트
         individualInfoText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!cbCheckIndividualInfo.isChecked()) {
+                if(!cbCheckIndividualInfo.isChecked())
                     cbCheckIndividualInfo.setChecked(true);
-                    Intent intent = new Intent(getApplicationContext(), IndividualInfoPopupActivity.class);
-                    startActivityForResult(intent, CHECK_INDIVIDUALINFO);
-                }
+                else
+                    cbCheckIndividualInfo.setChecked(false);
             }
         });
         cbCheckIndividualInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -256,14 +279,14 @@ public class MessageActivity extends BaseActivity {
         proxySignText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!cbProxySign.isChecked()) {
+                if(!cbProxySign.isChecked())
                     cbProxySign.setChecked(true);
-                    Intent intent = new Intent(getApplicationContext(), ProxySignPopupActivity.class);
-                    startActivityForResult(intent, CHECK_PROXYSIGN);
-                }
+                else
+                    cbProxySign.setChecked(false);
             }
         });
         cbProxySign.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cbProxySign.isChecked()) {
@@ -301,7 +324,6 @@ public class MessageActivity extends BaseActivity {
                         return true;
                     }
                 });
-
                 myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
                 printReservationData(myReservationData);
             }
@@ -575,6 +597,7 @@ public class MessageActivity extends BaseActivity {
             }
 
             reservationObject.accumulate("HOSPITAL_NAME", hospitalName);
+            reservationObject.accumulate("RESERVATION_STATE", "WAIT");    // 현재 예약 진행 상태를 나타내는 값 넣기
 
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
@@ -589,7 +612,7 @@ public class MessageActivity extends BaseActivity {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                         // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
                         // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
-                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {
+                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {   // 예약 날짜 동일 체크
                             if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                             // jsonArray.remove(i);
                             jsonArray.put(i,reservationObject); // 덮어씌우기
@@ -995,6 +1018,7 @@ public class MessageActivity extends BaseActivity {
                        else {
                            if(setOwnerInfo() && setPetInfo() && cbCheckIndividualInfo.isChecked() && cbProxySign.isChecked()) {    // 정보제공 동의 체크 여부까지 판단
                                Intent intent = new Intent(getApplicationContext(), MessagePopupActivity.class);
+                               intent.putExtra("messageType", "reservation");
                                startActivityForResult(intent, SELECT_RESERVATION);
                            }
                        }

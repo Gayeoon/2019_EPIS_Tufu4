@@ -160,7 +160,10 @@
         <activity
             android:name=".popup.MapPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".popup.ProxySignPopupActivity" android:theme="@style/PopupTheme"></activity>
+        <activity
+            android:name=".popup.ProxySignPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity android:name=".popup.ProductPopupActivity"></activity>
     </application>
 
 </manifest>

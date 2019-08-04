@@ -14,11 +14,14 @@ import android.widget.TextView;
 
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_REGISTCONFIRM;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_RESERVATION;
 
 /*
@@ -59,7 +62,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
         private TextView hospitalNameText;
         private TextView typeText;
         private TextView dateText;
-        private ImageView checkRegistrationImage;
+        private ImageView checkRegistrationImage, ivRegistConfirm, ivWriteReview, ivDeleteRegist;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -68,30 +71,92 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
             typeText = itemView.findViewById(R.id.myRegiDataType);
             dateText = itemView.findViewById(R.id.myRegiDataDate);
             checkRegistrationImage = itemView.findViewById(R.id.myRegiCheckImage);
+            ivRegistConfirm = itemView.findViewById(R.id.registConfirmImg);
+            ivWriteReview = itemView.findViewById(R.id.writeReviewImg);
+            ivDeleteRegist = itemView.findViewById(R.id.deleteRegistImg);
         }
 
         void onBind(MyReservationData data) {
             final MyReservationData resultData = data;
-            hospitalNameText.setText(data.getHOSPITAL_NAME());
-            typeText.setText(data.getTypeToStr(data.getTYPE()));
+            // RESERVATION_STATE에 따른 버튼 visible 설정
+            if (resultData.getRESERVATION_STATE().equals("WAIT")) {
+                ivRegistConfirm.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:   // 클릭 시
+                                Intent intent = new Intent(context, MessagePopupActivity.class);
+                                intent.putExtra("messageType", "registConfirm");
 
-            String[] date = data.getASK_DATE().split("\\s");
-            dateText.setText(date[0]);
-            checkRegistrationImage.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:   // 클릭 시
-                            Intent intent = new Intent(context, MessageActivity.class);
-                            intent.putExtra("data", (Serializable) resultData);
-                            ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
-                            break;
-                        case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
-                            break;
+                                intent.putExtra("data", (Serializable) resultData);
+                                ((Activity) context).startActivityForResult(intent, CHECK_REGISTCONFIRM);
+                                break;
+                            case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                                break;
+                        }
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+
+                checkRegistrationImage.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:   // 클릭 시
+                                Intent intent = new Intent(context, MessageActivity.class);
+                                intent.putExtra("data", (Serializable) resultData);
+                                ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
+                                break;
+                            case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                                break;
+                        }
+                        return true;
+                    }
+                });
+            }
+            if (resultData.getRESERVATION_STATE().equals("CONFIRM")) {
+                ivRegistConfirm.setVisibility(View.GONE);
+                checkRegistrationImage.setVisibility(View.GONE);
+                ivWriteReview.setVisibility(View.VISIBLE);
+                ivDeleteRegist.setVisibility(View.VISIBLE);
+
+                ivWriteReview.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:   // 클릭 시
+                                Intent intent = new Intent(context, MessageActivity.class);
+                                intent.putExtra("data", (Serializable) resultData);
+                                ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
+                                break;
+                            case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                                break;
+                        }
+                        return true;
+                    }
+                });
+
+                ivDeleteRegist.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:   // 클릭 시
+                                ((MyPageActivity) context).rewriteMyReservationFile(resultData, true);
+                                ((MyPageActivity) context).refreshMyReservation();
+                                break;
+                            case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                                break;
+                        }
+                        return true;
+                    }
+                });
+            }
+
+            hospitalNameText.setText(resultData.getHOSPITAL_NAME());
+            typeText.setText(resultData.getTypeToStr(resultData.getTYPE()));
+
+            String[] date = resultData.getASK_DATE().split("\\s");
+            dateText.setText(date[0]);
         }
     }
 

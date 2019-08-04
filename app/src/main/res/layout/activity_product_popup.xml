@@ -3,35 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="#eeeeee"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     tools:context=".popup.MessagePopupActivity">
 
     <!-- Notice -->
-    <LinearLayout
-        android:padding="24dp"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/messagePopupText"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="500dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/productItemView"
             android:layout_width="match_parent"
-            android:text="예약 하시겠습니까?"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            android:clickable="true"
-            />
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+    </ScrollView>
 
     <View
-    android:background="#66bdbdbd"
-    android:layout_width="match_parent"
-    android:layout_height="1dp" />
+        android:background="#66bdbdbd"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
 
     <!-- 닫기 버튼 -->
     <LinearLayout
