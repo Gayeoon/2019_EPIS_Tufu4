@@ -53,7 +53,15 @@ dependencies {
     implementation files('libs/json-simple-1.1.1.jar')
     implementation files('libs/Catalano.Android.Image.jar')
     implementation 'org.jetbrains:annotations-java5:15.0'
+<<<<<<< HEAD
     implementation files('libs/android-zoom-view.jar')
     implementation files('libs/libDaumMapAndroid.jar')
 
+=======
+<<<<<<< HEAD
+    implementation files('libs/libDaumMapAndroid.jar')
+=======
+    implementation files('libs/android-zoom-view.jar')
+>>>>>>> d66a8e179fdc41b42fbfb6b781a2268b0b35ff17
+>>>>>>> be61d8ffa64778ef9f6e0f3ed85261e909bba9ec
 }

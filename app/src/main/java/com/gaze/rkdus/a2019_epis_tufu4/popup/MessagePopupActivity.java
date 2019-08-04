@@ -6,8 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+
+import java.io.Serializable;
 
 /*
 예약하기 버튼 클릭 시 나타나는 팝업창
@@ -15,7 +20,10 @@ import com.gaze.rkdus.a2019_epis_tufu4.R;
 public class MessagePopupActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";
     Button okBtn, cancelBtn;
-    Intent intent;
+    TextView tvMessagePopup;
+    String messageText;
+    Intent intent, resultIntent;
+    MyReservationData data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +32,42 @@ public class MessagePopupActivity extends AppCompatActivity {
 
         okBtn = (Button) findViewById(R.id.okBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        tvMessagePopup = (TextView) findViewById(R.id.messagePopupText);
 
-        intent = new Intent();
+        resultIntent = new Intent();    // 결과로 전송할 인텐트
+        intent = getIntent();
+        if(intent != null) {
+            if(intent.hasExtra("messageType")) {
+                messageText = intent.getStringExtra("messageType");
+            }
+            else
+                finishPopup();
+        }
+        else
+            finishPopup();
+
+        switch (messageText) {
+            case "reservation":
+                tvMessagePopup.setText(R.string.reservationPopupMsg);
+                break;
+            case "registConfirm":
+                tvMessagePopup.setText(R.string.registConfirmPopupMsg);
+                if(intent.hasExtra("data"))
+                    data = (MyReservationData) intent.getSerializableExtra("data");
+                else
+                    finishPopup();
+                break;
+        }
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(messageText.equals("registConfirm")) {
+                    data.setRESERVATION_STATE("CONFIRM");
+                    resultIntent.putExtra("data", (Serializable) data);
+                }
                 //데이터 전달하기
-                setResult(RESULT_OK, intent);
+                setResult(RESULT_OK, resultIntent);
                 //액티비티(팝업) 닫기
                 finish();
             }
@@ -41,7 +77,7 @@ public class MessagePopupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //데이터 전달하기
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_CANCELED, resultIntent);
                 //액티비티(팝업) 닫기
                 finish();
             }
@@ -60,5 +96,10 @@ public class MessagePopupActivity extends AppCompatActivity {
     public void onBackPressed() {
         //안드로이드 백버튼 막기
         return;
+    }
+
+    private void finishPopup() {
+        Toast.makeText(getApplicationContext(), "필수 값이 들어가지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

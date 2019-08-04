@@ -18,6 +18,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MyReservationListAdapter;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -39,6 +40,7 @@ import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
  */
 public class MyPageActivity extends BaseActivity {
     public static final int CHECK_RESERVATION = 1000;
+    public static final int CHECK_REGISTCONFIRM = 1001;
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
     TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
@@ -94,6 +96,7 @@ public class MyPageActivity extends BaseActivity {
 
         rewriteBtn = (ImageView) findViewById(R.id.rewriteBtn);
         ivCard = (ImageView) findViewById(R.id.registrationCardImage);
+
         myReservationRecycler = (RecyclerView) findViewById(R.id.myReservationRecyclerView);
 
         editTexts = new EditText[]{eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName,
@@ -144,7 +147,7 @@ public class MyPageActivity extends BaseActivity {
     /*
     MyReservation RecyclerView 출력 또는 갱신.
      */
-    private void refreshMyReservation() {
+    public void refreshMyReservation() {
         String myReservation = loadJSONFile("reservation");
         if(!TextUtils.isEmpty(myReservation)) { // 지금까지 예약한 정보가 담겨진 파일 불러오기
             Log.d(TAG, "string :  " + myReservation);
@@ -174,8 +177,6 @@ public class MyPageActivity extends BaseActivity {
     private void showRecyclerView(ArrayList<MyReservationData> arrayList) {
 
         final ArrayList<MyReservationData> result = arrayList;
-        Log.d(TAG, "reservation ArrayList size : " + result.size());
-        Log.d(TAG, "이거예약123함 : " + result.get(0).getASK_DATE());
         if(!result.isEmpty()) {
             Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
         }
@@ -313,6 +314,7 @@ public class MyPageActivity extends BaseActivity {
             fileinputStream.read(buffer);
             fileinputStream.close();
             result = new String(buffer, "UTF-8");
+            Log.d(TAG, "loadJSONFile 결과 " + result);
         } catch (FileNotFoundException e) {
             Log.d(TAG ,"사전에 등록증을 저장한 내역이 없습니다.");
             return null;
@@ -403,6 +405,63 @@ public class MyPageActivity extends BaseActivity {
 
     }
 
+    /*
+    파일 수정하는 함수
+    여기서는 RESERVATION_STATE 수정
+    isDelete : true(삭제), false(수정)
+     */
+    public boolean rewriteMyReservationFile(MyReservationData rewriteData, boolean isDelete) {
+        String filename = "reservation";
+        final String fileText = loadJSONFile(filename);
+        if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
+            Log.d(TAG, "수정하려 하는데 파일이 없는 경우");
+            return false;
+        }
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = openFileOutput(filename + ".json", MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+            // 기존에 저장된 파일 존재
+            JSONArray jsonArray = new JSONArray(fileText);
+            Log.d(TAG, "기존에 저장된 파일 존재");
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if(jsonObject.getString("ASK_DATE").equals(rewriteData.getASK_DATE())) {   // 예약 날짜 동일 체크
+                    if(jsonObject.getInt("HOSPITAL_KEY") == rewriteData.getHOSPITAL_KEY()) { // 키 동일 체크
+                        Log.d(TAG, "같은 객체 찾음!");
+                        if (isDelete)
+                            jsonArray.remove(i); // 덮어씌우기
+                        else {
+                            Gson gson = new Gson();
+                            String rewriteJSONStr = gson.toJson(rewriteData);
+                            JSONObject rewriteJSONObj = StringToJSON(rewriteJSONStr);
+                            Log.d(TAG, "result ::: " + rewriteJSONObj);
+                            jsonArray.put(i, rewriteJSONObj); // 덮어씌우기
+                        }
+                        fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                        fileOutputStream.flush();
+                        return true;
+                    }
+                }
+            }
+            fileOutputStream.flush();
+            return false;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {
@@ -413,6 +472,23 @@ public class MyPageActivity extends BaseActivity {
                 }
                 else {
                     Log.d(TAG, "예약 수정하고 파일 저장 실패!");
+                }
+                break;
+            case CHECK_REGISTCONFIRM:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "등록 확정 OK");
+                    if(intent.hasExtra("data")) {
+                        if(rewriteMyReservationFile((MyReservationData) intent.getSerializableExtra("data"), false))
+                            refreshMyReservation();
+                        else
+                            Toast.makeText(getApplicationContext(), "등록 상태 변경 중 오류 발생! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "등록 확정 실패! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(getApplicationContext(), "등록 확정 실패! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "등록 확정 CANCEL");
                 }
                 break;
             default:

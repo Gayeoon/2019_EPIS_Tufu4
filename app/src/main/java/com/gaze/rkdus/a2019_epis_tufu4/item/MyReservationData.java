@@ -28,6 +28,16 @@ public class MyReservationData implements Serializable {
 
     String HOSPITAL_NAME;
 
+    public String getRESERVATION_STATE() {
+        return RESERVATION_STATE;
+    }
+
+    public void setRESERVATION_STATE(String RESERVATION_STATE) {
+        this.RESERVATION_STATE = RESERVATION_STATE;
+    }
+
+    String RESERVATION_STATE;
+
     public String getREGIST_DATE() {
         return REGIST_DATE;
     }
