@@ -2,25 +2,21 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
-import java.util.ArrayList;
-
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.TAG;
-
 public class SplashActivity extends Activity {
     private Handler mHandler;
     private Runnable mRunnable;
+
+    public String TAG = "LogGoGo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

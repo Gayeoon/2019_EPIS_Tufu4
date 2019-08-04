@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="550dp"
+    android:orientation="vertical"
+    tools:context=".MapPopupActivity">
+
+    <RelativeLayout
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:visibility="visible"
+        />
+
+    <ImageView
+        android:id="@+id/routeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/message_petmale"
+        android:clickable="false"
+        />
+
+    <LinearLayout
+        android:id="@+id/routeLayout"
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/car"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:text="자동차"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:clickable="true"
+            />
+
+        <View
+            android:background="#bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/distanceCount"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:text="거리 순"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:clickable="true"
+            android:visibility="gone"
+            />
+
+        <View
+            android:background="#bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/publicTraffic"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:text="대중교통"
+            android:textColor="@color/colorBlack"
+            android:clickable="true"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="#bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <TextView
+            android:id="@+id/walk"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:textColor="@color/colorBlack"
+            android:text="도보"
+            android:clickable="true"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:background="#bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+        <Button
+            android:id="@+id/cancelBtn"
+            android:text="취 소"
+            android:textSize="18dp"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:background="@color/pinkTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+    </LinearLayout>
+</RelativeLayout>

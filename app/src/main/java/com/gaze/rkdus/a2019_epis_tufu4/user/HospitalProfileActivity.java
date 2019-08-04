@@ -1,10 +1,9 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -16,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.MapPopupActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,16 +30,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
-import static java.lang.Thread.sleep;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
 /*
 SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
@@ -43,13 +45,12 @@ SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
 - 이해원
  */
 public class HospitalProfileActivity extends BaseActivity {
-    public static final String TAG = "LogGoGo";
     private static final int START_RESERVATION = 10;
     SearchResultData hospitalData;
     int key;
 
     TextView tvHospitalName, tvOwnerName, tvReservationCount, tvHospitalHP, tvHospitalAddress;
-    ImageView ivHospitalImage, ivHospitalHPImage, ivReservation;
+    ImageView ivHospitalImage, ivHospitalHPImage, ivReservation, ivHospitalAddressImage;
     ProfileAsyncTask profileAsyncTask;
 
     @Override
@@ -82,6 +83,7 @@ public class HospitalProfileActivity extends BaseActivity {
         tvHospitalAddress = (TextView) findViewById(R.id.hosProfHospitalAddress);
         ivHospitalImage = (ImageView) findViewById(R.id.hosProfImage);
         ivHospitalHPImage = (ImageView) findViewById(R.id.hosProfHospitalHPImage);
+        ivHospitalAddressImage = (ImageView) findViewById(R.id.hosProfHospitalAddressImage);
         ivReservation = (ImageView) findViewById(R.id.hosProfReservationBtn);
 
         // 병원 정보 객체가 잘 들어왔는지 체크
@@ -100,6 +102,23 @@ public class HospitalProfileActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + tvHospitalHP.getText().toString()));
+                        startActivity(intent);
+                        break;
+                    case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
+                        break;
+                }
+                return true;
+            }
+        });
+
+        // 지도 이미지 클릭 이벤트
+        ivHospitalAddressImage.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:   // 클릭 시
+                        Intent intent = new Intent(getApplicationContext(), MapPopupActivity.class);
+                        intent.putExtra("data", (Serializable) hospitalData);
                         startActivity(intent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

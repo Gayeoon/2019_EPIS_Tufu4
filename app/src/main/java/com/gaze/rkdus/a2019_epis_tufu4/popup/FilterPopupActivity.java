@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.MessageActivity.checkEditText;
-import static com.gaze.rkdus.a2019_epis_tufu4.MessageActivity.checkStringWS;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+
+import static com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity.checkEditText;
 
 public class FilterPopupActivity extends AppCompatActivity {
     public static final String TAG = "LogGoGo";

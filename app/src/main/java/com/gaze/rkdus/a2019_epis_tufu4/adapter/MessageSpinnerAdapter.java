@@ -1,10 +1,12 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.gaze.rkdus.a2019_epis_tufu4.R;
 
 import java.util.ArrayList;
 import java.util.List;

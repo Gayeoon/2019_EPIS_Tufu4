@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -20,6 +20,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.CommunityActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.NicnamePopupActivity;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,8 +38,7 @@ import java.io.IOException;
  * 메인 메뉴 액티비티
  * - 이해원
  */
-public class MenuActivity extends AppCompatActivity {
-    public static final String TAG = "LogGoGo";
+public class MenuActivity extends BaseActivity {
     private final int SELECT_NICNAME = 10;
 
     Intent switchActvityIntent;

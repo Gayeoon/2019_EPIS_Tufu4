@@ -6,7 +6,7 @@
     android:layout_width="300dp"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    tools:context=".MessagePopupActivity">
+    tools:context=".popup.MessagePopupActivity">
 
     <!-- Notice -->
     <LinearLayout

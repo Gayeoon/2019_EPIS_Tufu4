@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -25,6 +26,7 @@
         android:required="false" />
 
     <application
+        android:name=".GlobalApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="false"
         android:icon="@drawable/appicon"
@@ -35,7 +37,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MenuActivity"
+            android:name=".user.MenuActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".HospitalActivity"
@@ -53,25 +55,25 @@
             android:name=".StatusActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".WhatIsRegActivity"
+            android:name=".user.WhatIsRegActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".TypeActivity"
+            android:name=".user.TypeActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".ReviseActivity"
+            android:name=".user.ReviseActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".CommunityActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MessageActivity"
+            android:name=".user.MessageActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".HowToRegActivity"
+            android:name=".user.HowToRegActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".user.SearchActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".MainActivity"
@@ -90,6 +92,22 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key" />
+
+        <!-- 에러나서 주석처리함
+        <activity
+            android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+-->
         <activity
             android:name=".NewReservationActivity"
             android:theme="@style/NoTheme" />
@@ -97,7 +115,7 @@
             android:name=".WaitReservationActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".FilterPopupActivity"
+            android:name=".popup.FilterPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".Reservation_v2_Activity"
@@ -112,16 +130,16 @@
             android:name=".ShowCommunityActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".MessagePopupActivity"
+            android:name=".popup.MessagePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".MyPageActivity"
+            android:name=".user.MyPageActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".NicnamePopupActivity"
+            android:name=".popup.NicnamePopupActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".HospitalProfileActivity"
+            android:name=".user.HospitalProfileActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".SplashActivity"
@@ -133,16 +151,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".IndividualInfoPopupActivity"
+            android:name=".popup.IndividualInfoPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".PostCodePopupActivity"
+            android:name=".popup.PostCodePopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".RegisterActivity"
-            android:theme="@style/NoTheme"
-            >
+        <activity
+            android:name=".user.UserLoginActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".popup.MapPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/NoTheme">
 
         </activity>
+        <activity
+            android:name=".popup.ProxySignPopupActivity"
+            android:theme="@style/PopupTheme"></activity>
+
     </application>
 
 </manifest>

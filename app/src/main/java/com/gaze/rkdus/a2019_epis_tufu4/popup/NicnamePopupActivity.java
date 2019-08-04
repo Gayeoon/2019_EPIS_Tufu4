@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,15 +29,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.MessageActivity.checkStringWS;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.SERVER_URL;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.SearchActivity.printConnectionError;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity.checkStringWS;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
 /*
  사용자가 커뮤니티 들어갈 때 닉네임 설정하는 팝업창
  */
-public class NicnamePopupActivity extends AppCompatActivity {
+public class NicnamePopupActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
     ImageView checkNicnameBtn, okBtn;
     EditText eNicname;

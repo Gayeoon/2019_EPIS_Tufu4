@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,13 +11,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import android.widget.Toast;
+
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
+
 /*
 SearchActivity RecyclerView의 Adapter
  */
-public class PostCodeResultAdapter extends RecyclerView.Adapter<PostCodeResultAdapter.ItemViewHolder> {
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ItemViewHolder> {
 
     // adapter에 들어갈 list 입니다.
-    private ArrayList<PostCodeItem> listData;
+    private ArrayList<SearchResultData> listData;
     private Context context;
 
     //아이템 클릭시 실행 함수
@@ -31,12 +36,11 @@ public class PostCodeResultAdapter extends RecyclerView.Adapter<PostCodeResultAd
         this.itemClick = itemClick;
     }
 
-
-    public PostCodeResultAdapter(ArrayList<PostCodeItem> arrayList) {
+    public SearchListAdapter(ArrayList<SearchResultData> arrayList) {
         listData = arrayList;
     }
 
-    public void resetAll(ArrayList<PostCodeItem> newArrayList) {
+    public void resetAll(ArrayList<SearchResultData> newArrayList) { ;
 
         this.listData = null;
         this.listData = newArrayList;
@@ -47,24 +51,24 @@ public class PostCodeResultAdapter extends RecyclerView.Adapter<PostCodeResultAd
     // 여기서 subView를 setting 해줍니다.
     class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
-        private TextView postcdText;
-        private TextView addressText;
-        private TextView jibunText;
+        private TextView hospitalNameText;
+        private TextView ceoNameText;
+        private ImageView signUpAppImage;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-
-            postcdText = itemView.findViewById(R.id.postcdText);
-            addressText = itemView.findViewById(R.id.addressText);
-            jibunText = itemView.findViewById(R.id.addressjibunText);
-
+            hospitalNameText = itemView.findViewById(R.id.hospitalNameTextView);
+            ceoNameText = itemView.findViewById(R.id.ceoNameTextView);
+            signUpAppImage = itemView.findViewById(R.id.signUpAppImage);
         }
 
-        void onBind(PostCodeItem data) {
-            postcdText.setText(data.getPostcd());
-            addressText.setText(data.getAddress());
-            jibunText.setText(data.getAddrjibun());
+        void onBind(SearchResultData data) {
+            hospitalNameText.setText(data.getHOSPITAL_NAME());
+            ceoNameText.setText(data.getCEO_NAME());
+            //ceoNameText.setText(String.valueOf(data.getRESERVATION_COUNT()));
+            if(data.getBoolSIGNUP_APP())    // 등록 시
+                signUpAppImage.setImageResource(R.drawable.search_signupappoicon);
         }
     }
 
@@ -74,7 +78,7 @@ public class PostCodeResultAdapter extends RecyclerView.Adapter<PostCodeResultAd
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate.
         // return 인자는 ViewHolder.
         context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.postcode_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_list_item, parent, false);
         return new ItemViewHolder(view);
     }
 
@@ -100,8 +104,8 @@ public class PostCodeResultAdapter extends RecyclerView.Adapter<PostCodeResultAd
         return listData.size();
     }
 
-    void addItem(PostCodeItem postCodeItem) {
+    void addItem(SearchResultData searchResultData) {
         // 외부에서 item을 추가시킬 함수입니다.
-        listData.add(postCodeItem);
+        listData.add(searchResultData);
     }
 }

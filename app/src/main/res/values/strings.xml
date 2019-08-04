@@ -8,6 +8,7 @@
     <!-- MyPage Law -->
     <string name="mypageLaw">[동물보호법] 제12조 제1항과 같은 법 시행규칙 제8조 제2항,\n 제9조 제3항에 따라 위와같이 등록되었음을 증명합니다.</string>
 
+    <string name="proxySignStr">반려동물 등록 신청 양식 중 \n 맨 하단에 존재하는 \n 신청서 서명 란에 \n VOWOW 가 대리 서명을 \n 진행함에 있어 \n 현재 진행중인 신청자는 \n 이에 동의합니다.</string>
     <string name="url">http://vowow.cafe24app.com</string>
-
+    <string name="kakao_app_key">f353665907442208faee7785ce1d6cd3</string>
 </resources>

@@ -7,6 +7,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.gaze.rkdus.a2019_epis_tufu4.user.UserLoginActivity;
+
+
 /*
 시작 액티비티
 병원과 개인 선택할 수 있는 메인 페이지
@@ -48,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) { // 사용자용
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
-                        switchActvityIntent = new Intent(getApplicationContext(), MenuActivity.class);
+                        switchActvityIntent = new Intent(getApplicationContext(), UserLoginActivity.class);
                         startActivity(switchActvityIntent);
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

@@ -1,4 +1,4 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+
 /*
  * 사용자
  * 반려동물 등록방법 태그 방식 별 정보 제공 액티비티
  * - 이해원
  */
-public class HowToRegActivity extends AppCompatActivity {
+public class HowToRegActivity extends BaseActivity {
     ImageView ivHowToReg;
 
     @Override

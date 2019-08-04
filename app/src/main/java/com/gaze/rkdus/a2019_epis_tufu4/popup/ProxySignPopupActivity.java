@@ -1,40 +1,33 @@
-package com.gaze.rkdus.a2019_epis_tufu4;
+package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.Button;
 
-public class IndividualInfoPopupActivity extends AppCompatActivity {
-    public static final String TAG = "LogGoGo";
-    WebView infoDocumentWebView;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
 
+public class ProxySignPopupActivity extends AppCompatActivity {
     Button okBtn, cancelBtn;
     Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_individual_info_popup);
+        setContentView(R.layout.activity_proxy_sign_popup);
 
         okBtn = (Button) findViewById(R.id.okBtn);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
-        infoDocumentWebView = (WebView) findViewById(R.id.infoDocumentWebView);
 
-        infoDocumentWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        infoDocumentWebView.setVerticalScrollBarEnabled(true);
-        infoDocumentWebView.loadUrl("file:///android_asset/reservation_infodocument.html");
         intent = new Intent();
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //데이터 전달하기
-                setResult(RESULT_OK);
+                setResult(RESULT_OK, intent);
                 //액티비티(팝업) 닫기
                 finish();
             }
@@ -44,7 +37,7 @@ public class IndividualInfoPopupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //데이터 전달하기
-                setResult(RESULT_CANCELED);
+                setResult(RESULT_CANCELED, intent);
                 //액티비티(팝업) 닫기
                 finish();
             }

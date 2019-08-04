@@ -17,6 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.CommunityActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.FinishReservationActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.NewReservationActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.StatusActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.WaitReservationActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -864,6 +864,38 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="20dp"
+            >
+
+            <TextView
+                android:id="@+id/proxySignText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:gravity="right"
+                android:layout_gravity="right"
+                android:text="VOWOW의 신청자 대리 서명에 동의합니다."
+                android:textColor="#FF5D8D"
+                android:textSize="14dp"
+                android:clickable="true"
+                />
+
+            <CheckBox
+                android:id="@+id/checkProxySign"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginRight="10dp"
+                android:button="@null"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/message_checkbox"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
             android:layout_gravity="right"
             android:gravity="right"
