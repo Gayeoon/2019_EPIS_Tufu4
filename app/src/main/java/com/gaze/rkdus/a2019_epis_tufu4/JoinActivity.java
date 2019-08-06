@@ -16,12 +16,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -50,7 +54,7 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck;
+    EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck, eaccount;
     ImageButton next_one, next_two;
     LinearLayout idpw;
     LinearLayout no, vowow;
@@ -59,7 +63,7 @@ public class JoinActivity extends BaseActivity {
 
     ImageView check, overlap;
 
-    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "";
+    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "", account="";
     boolean success;
     InputMethodManager imm;
 
@@ -67,6 +71,9 @@ public class JoinActivity extends BaseActivity {
 
     CompoundButton cbSignUpApp;
     boolean isSignUpApp = false;
+
+    String select = "은행";
+    TextView bank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,12 +84,12 @@ public class JoinActivity extends BaseActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (height > 2000){
+        if (height > 2000) {
             setContentView(R.layout.activity_join);
-            Log.e("Tag", height +"   "+ width);
+            Log.e("Tag", height + "   " + width);
         } else {
             setContentView(R.layout.activity_join_small);
-            Log.e("Tag", height +"   "+ width);
+            Log.e("Tag", height + "   " + width);
         }
 
         StrictMode.enableDefaults();
@@ -99,6 +106,7 @@ public class JoinActivity extends BaseActivity {
         eid = (EditText) findViewById(R.id.id);
         epw = (EditText) findViewById(R.id.pw);
         epwCheck = (EditText) findViewById(R.id.pwCheck);
+        eaccount = (EditText) findViewById(R.id.account);
 
         next_one = (ImageButton) findViewById(R.id.next_one);
         next_two = (ImageButton) findViewById(R.id.next_two);
@@ -112,9 +120,37 @@ public class JoinActivity extends BaseActivity {
         idpw = (LinearLayout) findViewById(R.id.idpw);
 
         no = (LinearLayout) findViewById(R.id.no);
-        vowow = (LinearLayout)findViewById(R.id.vowow);
-        cbSignUpApp = (CheckBox)findViewById(R.id.isSignUpApp);
-        webView = (WebView)findViewById(R.id.webview);
+        vowow = (LinearLayout) findViewById(R.id.vowow);
+        cbSignUpApp = (CheckBox) findViewById(R.id.isSignUpApp);
+        webView = (WebView) findViewById(R.id.webview);
+
+        bank = (TextView) findViewById(R.id.bank);
+
+        bank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(JoinActivity.this, PopupActivity.class);
+                intent.putExtra("hospital", ehospital.getText().toString());
+                intent.putExtra("num1", num1.getText().toString());
+                intent.putExtra("name", ename.getText().toString());
+                intent.putExtra("num2", num2.getText().toString());
+                intent.putExtra("num3", num3.getText().toString());
+
+                if(eaccount.getText() != null){
+                    intent.putExtra("account", eaccount.getText().toString());
+                }
+                if(eid.getText() != null){
+                    intent.putExtra("id", eid.getText().toString());
+                }
+                if(epw.getText() != null){
+                    intent.putExtra("pw", epw.getText().toString());
+                }
+                if(epwCheck.getText() != null){
+                    intent.putExtra("pwcheck", epwCheck.getText().toString());
+                }
+                startActivityForResult(intent, 1);
+            }
+        });
 
         webView.loadUrl("file:///android_asset/vowow_hos.html");
         webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
@@ -125,6 +161,17 @@ public class JoinActivity extends BaseActivity {
         } else {
             webView.setInitialScale(210);
         }
+
+//        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+//
+//        if (height > 2000) {
+//            ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item);
+//            spinner.setAdapter(adapter);
+//        } else {
+//            ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.select, R.layout.spinner_item_small);
+//            spinner.setAdapter(adapter);
+//        }
+//
 
         epwCheck.addTextChangedListener(new TextWatcher() {
             @Override
@@ -264,7 +311,29 @@ public class JoinActivity extends BaseActivity {
             }
         });
 
-       epw.addTextChangedListener(new TextWatcher() {
+        eaccount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (eaccount.getText().toString().equals("")) {
+                    eid.setEnabled(false);
+                } else {
+                    eid.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        epw.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -300,10 +369,15 @@ public class JoinActivity extends BaseActivity {
         next_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                id = eid.getText().toString();
-                pw = epw.getText().toString();
+                if (select == ""){
+                    Toast.makeText(JoinActivity.this, "은행을 선택해주세요.", Toast.LENGTH_LONG).show();
+                }else {
+                    account = eaccount.getText().toString();
+                    id = eid.getText().toString();
+                    pw = epw.getText().toString();
 
-                new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
+                }
             }
         });
 
@@ -312,9 +386,9 @@ public class JoinActivity extends BaseActivity {
             public void onClick(View v) {
                 id = eid.getText().toString();
 
-                if (id.equals("")){
+                if (id.equals("")) {
                     Toast.makeText(getApplicationContext(), "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
                 }
             }
@@ -325,12 +399,11 @@ public class JoinActivity extends BaseActivity {
         cbSignUpApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(cbSignUpApp.isChecked()) {
+                if (cbSignUpApp.isChecked()) {
                     isSignUpApp = true;
                     next_two.setEnabled(true);
                     next_two.setBackgroundResource(R.drawable.join_nexton);
-                }
-                else {  // 초기화
+                } else {  // 초기화
                     isSignUpApp = false;
                     next_two.setEnabled(false);
                     next_two.setBackgroundResource(R.drawable.join_nextoff);
@@ -338,7 +411,6 @@ public class JoinActivity extends BaseActivity {
             }
         });
     }
-
 
     /* IDCheck : 중복된 ID 값이 있는지 체크
      * ID 중복이 있으면 -> int 1
@@ -466,7 +538,7 @@ public class JoinActivity extends BaseActivity {
      * 회원가입 실패하면 -> int 0
      *
      * Uri  --->   /getJoin
-     * Parm  --->   {"user":{"hospital":"병원이름", "name":"김가연", "number":"010-4491-0778", "id":"test", "pw":"1234"}} 전송
+     * Parm  --->   {"user":{"hospital":"병원이름", "name":"김가연", "number":"010-4491-0778", "bank":"국민", "account":"70940200283092", "id":"test", "pw":"1234"}} 전송
      * Result  --->   {"result":1} 결과 값*/
 
     public class JoinDB extends AsyncTask<String, String, String> {
@@ -483,6 +555,8 @@ public class JoinActivity extends BaseActivity {
                 tmp.accumulate("hospital", hospital);
                 tmp.accumulate("name", name);
                 tmp.accumulate("number", number);
+                tmp.accumulate("bank", select);
+                tmp.accumulate("account", account);
                 tmp.accumulate("id", id);
                 tmp.accumulate("pw", pw);
 
@@ -757,7 +831,45 @@ public class JoinActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        finish();
-    }
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1) {
+                //데이터 받기
+                ehospital.setText(data.getStringExtra("hospital"));
+                ehospital.setEnabled(false);
+                num1.setText(data.getStringExtra("num1"));
+                num1.setEnabled(false);
+                num2.setText(data.getStringExtra("num2"));
+                num2.setEnabled(false);
+                num3.setText(data.getStringExtra("num3"));
+                num3.setEnabled(false);
+                ename.setText(data.getStringExtra("name"));
+                ename.setEnabled(false);
+                next_one.setEnabled(false);
+                next_two.setVisibility(View.VISIBLE);
+                idpw.setVisibility(View.VISIBLE);
+                vowow.setVisibility(View.VISIBLE);
+                bank.setText(data.getStringExtra("bank"));
+                select = data.getStringExtra("bank");
+                hospital = ehospital.getText().toString();
+                name = ename.getText().toString();
+                number = num1.getText().toString() + "-" + num2.getText().toString() + "-" + num3.getText().toString();
 
+                if (data.hasExtra("account")){
+                    eaccount.setText(data.getStringExtra("account"));
+                }
+                if (data.hasExtra("id")){
+                    eid.setText(data.getStringExtra("id"));
+                }
+                if (data.hasExtra("pw")){
+                    epw.setText(data.getStringExtra("pw"));
+                }
+                if (data.hasExtra("pwcheck")){
+                    epwCheck.setText(data.getStringExtra("pwcheck"));
+                }
+
+            } else {
+                finish();
+            }
+        }
+    }
 }

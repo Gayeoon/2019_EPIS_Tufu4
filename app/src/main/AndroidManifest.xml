@@ -44,7 +44,9 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme" >
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -96,7 +98,8 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <!-- 에러나서 주석처리함
+        <!--
+        에러나서 주석처리함
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
@@ -107,7 +110,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
--->
+        -->
         <activity
             android:name=".NewReservationActivity"
             android:theme="@style/NoTheme" />
@@ -164,13 +167,11 @@
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".popup.ProxySignPopupActivity"
-            android:theme="@style/PopupTheme"></activity>
-
+            android:theme="@style/PopupTheme" />
+        <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"></activity>
     </application>
 
 </manifest>
