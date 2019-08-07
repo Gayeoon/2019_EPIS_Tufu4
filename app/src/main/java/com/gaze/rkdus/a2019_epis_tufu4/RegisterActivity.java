@@ -47,14 +47,21 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
 
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;
+    TextView year, month, date;
 
     String id, name;
+
+    String pdf_name;
 
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
@@ -71,6 +78,18 @@ public class RegisterActivity extends AppCompatActivity {
         View v = ((LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.zoom_item, null, false);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
+        long now = System.currentTimeMillis();
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
+        SimpleDateFormat monthFormat = new SimpleDateFormat("MM", Locale.getDefault());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        SimpleDateFormat nameFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+
+        String str_year = yearFormat.format(currentTime);
+        String str_month = monthFormat.format(currentTime);
+        String str_date = dayFormat.format(currentTime);
+        pdf_name = nameFormat.format(currentTime);
+
         ZoomView zoomView = new ZoomView(this);
         zoomView.addView(v);
         zoomView.setLayoutParams(layoutParams);
@@ -86,7 +105,9 @@ public class RegisterActivity extends AppCompatActivity {
 //        id = intent.getStringExtra("id");
 //        name = intent.getStringExtra("name");
 
-        owner = (TextView) findViewById(R.id.owner);
+        pdf_name = pdf_name +"_"+ name;
+
+                owner = (TextView) findViewById(R.id.owner);
         resident = (TextView) findViewById(R.id.resident);
         phone = (TextView) findViewById(R.id.phone);
         resAddr = (TextView) findViewById(R.id.resAddr);
@@ -99,7 +120,13 @@ public class RegisterActivity extends AppCompatActivity {
         birthday = (TextView) findViewById(R.id.birthday);
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
+        year = (TextView) findViewById(R.id.year);
+        month = (TextView) findViewById(R.id.month);
+        date = (TextView) findViewById(R.id.day);
 
+        year.setText(str_year);
+        month.setText(str_month);
+        date.setText(str_date);
 
         frameLayout = (FrameLayout) findViewById(R.id.framelayout);
         pdf = (ImageButton) findViewById(R.id.pdf);
@@ -407,7 +434,7 @@ public class RegisterActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator + "image.jpg");
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator +pdf_name+".jpg");
         try {
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
@@ -416,7 +443,7 @@ public class RegisterActivity extends AppCompatActivity {
             Document document = new Document();
             dirpath = Environment.getExternalStorageDirectory().toString();
 
-            PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/newPDF.pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/"+pdf_name+".pdf"));
             document.open();
 
             Image image = Image.getInstance(f.toString());
@@ -426,7 +453,7 @@ public class RegisterActivity extends AppCompatActivity {
             image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
             document.add(image);
             document.close();
-            Toast.makeText(this, dirpath + "/newPDF.pdf", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, dirpath + "/"+pdf_name+".pdf", Toast.LENGTH_SHORT).show();
 
             f.delete();
 
