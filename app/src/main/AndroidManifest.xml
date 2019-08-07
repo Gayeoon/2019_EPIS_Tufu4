@@ -147,6 +147,11 @@
         <activity
             android:name=".SplashActivity"
             android:theme="@style/NoTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".popup.IndividualInfoPopupActivity"
@@ -163,12 +168,6 @@
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/NoTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <activity
             android:name=".popup.ProxySignPopupActivity"
