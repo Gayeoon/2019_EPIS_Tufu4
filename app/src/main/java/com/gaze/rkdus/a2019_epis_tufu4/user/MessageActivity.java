@@ -50,6 +50,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.item.PostCodeItem;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.IndividualInfoPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.PostCodePopupActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.ProductPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ProxySignPopupActivity;
 
 /*
@@ -65,6 +66,7 @@ public class MessageActivity extends BaseActivity {
     private static final int SEARCH_POSTCODE = 100;
     private static final int SEARCH_REALPOSTCODE = 101;
     private static final int CHECK_PROXYSIGN = 120;
+    private static final int CHECK_IMMEDIATELYBUY = 130;
     private final int SPINNER_HEIGHT = 350;
 
     int key;
@@ -79,7 +81,7 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
 
-    TextView individualInfoText, proxySignText, immediatelyButText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
+    TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
@@ -144,7 +146,7 @@ public class MessageActivity extends BaseActivity {
         sPetGetDay = (Spinner) findViewById(R.id.petGetDaySpinner);
         individualInfoText = (TextView) findViewById(R.id.individualInfoText);
         proxySignText = (TextView) findViewById(R.id.proxySignText);
-        immediatelyButText = (TextView) findViewById(R.id.immediatelyBuyText);
+        immediatelyBuyText = (TextView) findViewById(R.id.immediatelyBuyText);
 
         setDateArrayForSpinner();
 
@@ -166,17 +168,17 @@ public class MessageActivity extends BaseActivity {
 
         // 스피너 기본 설정 값
         sPetBirthYear.setAdapter(aaYear);
-        sPetBirthYear.setSelection(aaYear.getCount());
+        sPetBirthYear.setSelection(0);
         sPetGetYear.setAdapter(aaGetYear);
-        sPetGetYear.setSelection(aaGetYear.getCount());
+        sPetGetYear.setSelection(0);
         sPetBirthMonth.setAdapter(aaMonth);
-        sPetBirthMonth.setSelection(aaMonth.getCount());
+        sPetBirthMonth.setSelection(0);
         sPetGetMonth.setAdapter(aaGetMonth);
-        sPetGetMonth.setSelection(aaGetMonth.getCount());
+        sPetGetMonth.setSelection(0);
         sPetBirthDay.setAdapter(aaDay);
-        sPetBirthDay.setSelection(aaDay.getCount());
+        sPetBirthDay.setSelection(0);
         sPetGetDay.setAdapter(aaGetDay);
-        sPetGetDay.setSelection(aaGetDay.getCount());
+        sPetGetDay.setSelection(0);
 
         setSpinnerMaxHeight(sPetBirthYear, SPINNER_HEIGHT);
         setSpinnerMaxHeight(sPetGetYear, SPINNER_HEIGHT);
@@ -234,7 +236,7 @@ public class MessageActivity extends BaseActivity {
         });
 
         // 직접구매 텍스트 및 체크박스 클릭 이벤트
-        immediatelyButText.setOnClickListener(new View.OnClickListener() {
+        immediatelyBuyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(!cbImmediatelyBuy.isChecked())
@@ -246,8 +248,15 @@ public class MessageActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(cbImmediatelyBuy.isChecked()) {
-                    Intent intent = new Intent(getApplicationContext(), ProxySignPopupActivity.class);
-                    startActivityForResult(intent, CHECK_PROXYSIGN);
+                    if (type == 2 || type == 3) {
+                        Intent intent = new Intent(getApplicationContext(), ProductPopupActivity.class);
+                        intent.putExtra("type", type);
+                        startActivityForResult(intent, CHECK_IMMEDIATELYBUY);
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "외장형 또는 인식표를 선택해야 직접 구매가 가능합니다.", Toast.LENGTH_SHORT).show();
+                        cbImmediatelyBuy.setChecked(false);
+                    }
                 }
                 else {
                     cbImmediatelyBuy.setChecked(false);
@@ -451,6 +460,11 @@ public class MessageActivity extends BaseActivity {
     private void setDateArrayForSpinner() {
         // year
         int year = Calendar.getInstance().get(Calendar.YEAR);
+
+        yearArray.add("년");
+        monthArray.add("월");
+        dayArray.add("일");
+
         for(int i = year - 20; i <= year; i++) {
             yearArray.add(String.valueOf(i));
         }
@@ -464,10 +478,6 @@ public class MessageActivity extends BaseActivity {
         for(int i = 1; i <= 31; i++) {
             dayArray.add(String.valueOf(i));
         }
-
-        yearArray.add("년");
-        monthArray.add("월");
-        dayArray.add("일");
     }
 
     @Override
@@ -839,6 +849,17 @@ public class MessageActivity extends BaseActivity {
                     Log.d(TAG, "정보제공동의 팝업창에서 취소 누름!");
                     Toast.makeText(getApplicationContext(), "정보제공에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
                     cbCheckIndividualInfo.setChecked(false);
+                }
+                break;
+            case CHECK_IMMEDIATELYBUY:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "직접 구매 완료!");
+                    Toast.makeText(getApplicationContext(), "직접 구매 확인되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Log.d(TAG, "직접 구매 취소!");
+                    Toast.makeText(getApplicationContext(), "직접 구매를 취소합니다.", Toast.LENGTH_SHORT).show();
+                    cbImmediatelyBuy.setChecked(false);
                 }
                 break;
             case SEARCH_POSTCODE:

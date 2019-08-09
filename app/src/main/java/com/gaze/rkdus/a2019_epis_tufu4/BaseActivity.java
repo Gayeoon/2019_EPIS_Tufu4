@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class BaseActivity extends AppCompatActivity {
     public Typeface mTypeface = null;
     public final static String TAG = "LogGoGo";
     public static final String SERVER_URL = "http://vowow.cafe24app.com";
+    public static long KAKAO_ID = 0;    // 0 : null
+    public static String NICKNAME = null;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -37,5 +40,10 @@ public class BaseActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void finishPopup() {
+        Toast.makeText(getApplicationContext(), "필수 값이 들어가지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

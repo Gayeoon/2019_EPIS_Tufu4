@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gaze.rkdus.a2019_epis_tufu4">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -173,6 +174,21 @@
             android:name=".popup.ProxySignPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".popup.ProductPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".popup.ProductViewPopupActivity"
+            android:theme="@style/PopupTheme" />
+
+        <service
+            android:name=".user.ReservationCheckService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".popup.ManagementPopupActivity"
+            android:theme="@style/PopupTheme"></activity>
+>>>>>>> Stashed changes
     </application>
 
 </manifest>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorWhite"
+    tools:context=".popup.ProductViewPopupActivity">
+
+    <!-- Data Binding -->
+    <data>
+        <import type="com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData"></import>
+        <import type="com.gaze.rkdus.a2019_epis_tufu4.popup.ProductViewPopupActivity"></import>
+        <import type="android.view.View"/>
+        <variable
+            name="productItem"
+            type="com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData">
+        </variable>
+        <variable
+            name="activity"
+            type="com.gaze.rkdus.a2019_epis_tufu4.popup.ProductViewPopupActivity">
+        </variable>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/ProductImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="30dp"
+                    android:adjustViewBounds="true"
+                    app:imageUrl="@{productItem.PRODUCT_IMG_URL}"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorBlack"
+                    android:text="@{productItem.PRODUCT_NAME}"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:text="@{productItem.PRODUCT_CONTEXT}"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/colorBlack"
+                    />
+
+                <TextView
+                    android:id="@+id/tvShippingFee"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/colorDimGray"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="12dp"
+                    android:text="@{productItem.PRODUCT_TEXT}"
+                    android:layout_marginTop="40dp"
+                    />
+
+            </LinearLayout>
+        </ScrollView>
+
+        <View
+            android:background="#66bdbdbd"
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <!-- 닫기 버튼 -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <Button
+                android:id="@+id/payBtn"
+                android:text="결제하기"
+                android:textSize="15dp"
+                android:padding="16dp"
+                android:gravity="center"
+                android:background="#00000000"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_weight="0.5"
+                android:onClick="@{activity::payProductClick}"
+                />
+
+            <View
+                android:background="#66bdbdbd"
+                android:layout_width="1dp"
+                android:layout_height="match_parent" />
+            <Button
+                android:id="@+id/cancelBtn"
+                android:text="취소"
+                android:textSize="15dp"
+                android:padding="16dp"
+                android:gravity="center"
+                android:background="#00000000"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"
+                android:layout_weight="0.5"
+                android:onClick="@{activity::cancelClick}"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

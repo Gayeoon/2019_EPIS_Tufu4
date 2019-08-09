@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
 
 import java.util.ArrayList;
@@ -19,14 +20,15 @@ ProductPopupActivity RecyclerView의 Adapter
  */
 public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupListAdapter.ItemViewHolder> {
 
-    // adapter에 들어갈 list 입니다.
-    private ArrayList<SearchResultData> listData;
+    // adapter에 들어갈 list
+    private ArrayList<ProductItemData> listData;
     private Context context;
 
     //아이템 클릭시 실행 함수
     private ItemClick itemClick;
     public interface ItemClick {
         public void onClick(View view, int position);
+
     }
 
     //아이템 클릭시 실행 함수 등록 함수
@@ -34,39 +36,50 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
         this.itemClick = itemClick;
     }
 
-    public ProductPopupListAdapter(ArrayList<SearchResultData> arrayList) {
+    public ProductPopupListAdapter(ArrayList<ProductItemData> arrayList) {
         listData = arrayList;
     }
 
-    public void resetAll(ArrayList<SearchResultData> newArrayList) { ;
+    public void resetAll(ArrayList<ProductItemData> newArrayList) { ;
 
         this.listData = null;
         this.listData = newArrayList;
     }
 
-
-    // RecyclerView의 핵심인 ViewHolder 입니다.
-    // 여기서 subView를 setting 해줍니다.
+    // TODO: 클릭이벤트, 이미지 , ArrayList에 특정값들 넣기
+    // 여기서 view setting.
     class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
-        private TextView hospitalNameText;
-        private TextView ceoNameText;
-        private ImageView signUpAppImage;
-
+        private ImageView ivProduct;
+        private TextView tvProductName, tvProductContext, tvShippingFee, tvProductPrice;
         ItemViewHolder(View itemView) {
             super(itemView);
             view = itemView;
-            hospitalNameText = itemView.findViewById(R.id.hospitalNameTextView);
-            ceoNameText = itemView.findViewById(R.id.ceoNameTextView);
-            signUpAppImage = itemView.findViewById(R.id.signUpAppImage);
+            ivProduct = itemView.findViewById(R.id.productImage);
+            tvProductName = itemView.findViewById(R.id.productName);
+            tvProductContext = itemView.findViewById(R.id.productContext);
+            tvShippingFee = itemView.findViewById(R.id.productShippingFee);
+            tvProductPrice = itemView.findViewById(R.id.productPrice);
         }
 
-        void onBind(SearchResultData data) {
-            hospitalNameText.setText(data.getHOSPITAL_NAME());
-            ceoNameText.setText(data.getCEO_NAME());
-            //ceoNameText.setText(String.valueOf(data.getRESERVATION_COUNT()));
-            if(data.getBoolSIGNUP_APP())    // 등록 시
-                signUpAppImage.setImageResource(R.drawable.search_signupappoicon);
+        void onBind(ProductItemData data) {
+            tvProductName.setText(data.getPRODUCT_NAME());
+            tvProductContext.setText(data.getPRODUCT_CONTEXT());
+            ivProduct.setImageResource(R.drawable.main_logo);
+            if (data.isPRODUCT_SOLDOUT()) {
+                tvProductPrice.setText("Sold Out!");
+            }
+            else {
+                tvProductPrice.setText("가격 : " + String.valueOf(data.getPRODUCT_PRICE()) + "원");
+                if (data.isSHIPPING_FEE()) {    // 배송비 있음
+                    tvShippingFee.setText("배송비 2500원");
+                }
+                else
+                    tvShippingFee.setText("배송비 무료");
+            }
+//
+//            if(data.getBoolSIGNUP_APP())    // 등록 시
+//                signUpAppImage.setImageResource(R.drawable.search_signupappoicon);
         }
     }
 
@@ -76,13 +89,13 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate.
         // return 인자는 ViewHolder.
         context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_popup_item, parent, false);
         return new ItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, final int position) {
-        // Item을 하나, 하나 보여주는(bind 되는) 함수입니다.
+        // Item을 하나, 하나 보여주는(bind 되는) 함수.
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +111,7 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
 
     @Override
     public int getItemCount() {
-        // RecyclerView의 총 개수 입니다.
+        // RecyclerView의 총 개수.
         return listData.size();
-    }
-
-    void addItem(SearchResultData searchResultData) {
-        // 외부에서 item을 추가시킬 함수입니다.
-        listData.add(searchResultData);
     }
 }
