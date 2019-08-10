@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:orientation="vertical"
     android:layout_height="wrap_content"
-    tools:context=".FilterPopupActivity">
+    tools:context=".popup.FilterPopupActivity">
 
         <!-- Select Filter Notice -->
         <LinearLayout
@@ -56,6 +56,30 @@
                     android:layout_marginBottom="3dp"
                     android:layout_width="match_parent"
                     android:text="예약횟수 순"
+                    android:textColor="@color/colorBlack"
+                    android:clickable="true"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/reviewScore"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:text="평점 순"
+                    android:textColor="@color/colorBlack"
+                    android:clickable="true"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/reviewCount"
+                    android:textSize="15dp"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_width="match_parent"
+                    android:text="리뷰 개수 순"
                     android:textColor="@color/colorBlack"
                     android:clickable="true"
                     android:layout_height="wrap_content" />

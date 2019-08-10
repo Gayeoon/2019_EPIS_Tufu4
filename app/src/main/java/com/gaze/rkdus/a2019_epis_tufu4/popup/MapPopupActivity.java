@@ -270,13 +270,6 @@ public class MapPopupActivity extends BaseActivity {
         }
     }
 
-//    void activityRefresh() {
-//        Intent intent = new Intent(MapPopupActivity.this, MapPopupActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        finish();
-//        startActivity(intent);
-//    }
-
     private void addMarker(MapView mapView, String itemName, MapPoint mapPoint, int tag) {
         MapPOIItem customMarker = new MapPOIItem();
         customMarker.setItemName(itemName);

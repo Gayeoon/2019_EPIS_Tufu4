@@ -119,9 +119,6 @@
             android:name=".WaitReservationActivity"
             android:theme="@style/NoTheme" />
         <activity
-            android:name=".popup.FilterPopupActivity"
-            android:theme="@style/PopupTheme" />
-        <activity
             android:name=".Reservation_v2_Activity"
             android:theme="@style/NoTheme" />
         <activity
@@ -165,6 +162,9 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".popup.MapPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".popup.FilterPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"

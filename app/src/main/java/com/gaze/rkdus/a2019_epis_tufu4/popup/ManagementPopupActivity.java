@@ -29,7 +29,7 @@ public class ManagementPopupActivity extends AppCompatActivity {
 
         // 진동
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {50, 1000, 200, 1000};  // 대기, 진동, 대기, 진동 순서
+        long[] pattern = {50, 500, 100, 500};  // 대기, 진동, 대기, 진동 순서
         vibrator.vibrate(pattern, -1);
 
         tvManagementMsg = (TextView) findViewById(R.id.managementPopupText);
