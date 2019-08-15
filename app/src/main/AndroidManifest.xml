@@ -188,7 +188,6 @@
 
         <activity android:name=".popup.ManagementPopupActivity"
             android:theme="@style/PopupTheme"></activity>
->>>>>>> Stashed changes
     </application>
 
 </manifest>

@@ -38,6 +38,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import retrofit2.http.HEAD;
+
 /*
  * 사용자
  * 메인 메뉴 액티비티
@@ -177,17 +179,11 @@ public class MenuActivity extends BaseActivity {
             startActivityForResult(switchActvityIntent, SELECT_NICNAME);
         }
         else {
-<<<<<<< HEAD
-            Intent intent = new Intent(this, ReservationCheckService.class);
-            intent.putExtra("NICKNAME", getNicname());
-            startService(intent);
-=======
             if(!isServiceRunning()) {
                 Intent intent = new Intent(this, ReservationCheckService.class);
                 intent.putExtra("NICKNAME", getNicname());
                 startService(intent);
             }
->>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
         }
     }
 
@@ -284,18 +280,11 @@ public class MenuActivity extends BaseActivity {
 //                        startActivity(switchActvityIntent);
 
                         // 임시ㅅ
-<<<<<<< HEAD
-                       Intent intent2 = new Intent(this, ReservationCheckService.class);
-                        intent2.putExtra("NICKNAME", NICKNAME);
-                        startService(intent2);
-=======
                         if(!isServiceRunning()) {
                             Intent intent2 = new Intent(this, ReservationCheckService.class);
                             intent2.putExtra("NICKNAME", getNicname());
                             startService(intent2);
                         }
->>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
-
                     }
                     else
                         Log.d(TAG, "내장 파일 저장 실패");
