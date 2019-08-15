@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorWhite"
-    tools:context=".MessageActivity">
+    tools:context=".user.MessageActivity">
 
     <LinearLayout
     android:layout_width="match_parent"
@@ -667,7 +667,7 @@
                             android:layout_gravity="right"
                             android:layout_marginRight="10dp"
                             android:text="중성화 수술을 같이 하시겠습니까?"
-                            android:textColor="@color/colorMessageCheckText"
+                            android:textColor="@color/colorNeutralizationCheckText"
                             android:textSize="13dp"
                             android:clickable="true"
                             />

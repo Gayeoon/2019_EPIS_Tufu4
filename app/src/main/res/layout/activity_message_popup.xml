@@ -21,7 +21,7 @@
             android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
-            android:text="예약 하시겠습니까?"
+            android:text="@string/reservationPopupMsg"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:clickable="true"

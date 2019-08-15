@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:layout_gravity="center"
+    tools:context=".user.SelectMessageTypeActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/applyTypeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/typeImgHeight"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/type_shadow"
+            app:srcCompat="@drawable/selectmsgtype_apply"
+            />
+
+        <ImageView
+            android:id="@+id/vaccinTypeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/typeImgHeight"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/type_shadow"
+            app:srcCompat="@drawable/selectmsgtype_vaccin"
+            />
+
+        <ImageView
+            android:id="@+id/healthcheckupTypeImg"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/typeImgHeight"
+            android:layout_marginTop="10dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="@drawable/type_shadow"
+            app:srcCompat="@drawable/selectmsgtype_healthcheckup"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

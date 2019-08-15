@@ -45,9 +45,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme" >
-
-        </activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -168,17 +166,21 @@
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/NoTheme">
-        </activity>
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".popup.ProxySignPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".popup.ProductPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".popup.ProductViewPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".popup.ImageTextPopupActivity"
             android:theme="@style/PopupTheme" />
 
         <service
@@ -186,8 +188,14 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".popup.ManagementPopupActivity"
-            android:theme="@style/PopupTheme"></activity>
+        <activity
+            android:name=".popup.ManagementPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".user.SelectMessageTypeActivity"
+            android:theme="@style/NoTheme" />
+        <activity android:name=".user.VaccinMessageActivity" />
+        <activity android:name=".user.HealthCheckupMessageAcitivty"></activity>
     </application>
 
 </manifest>

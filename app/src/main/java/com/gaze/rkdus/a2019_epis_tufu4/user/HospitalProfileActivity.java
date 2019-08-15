@@ -143,7 +143,7 @@ public class HospitalProfileActivity extends BaseActivity {
                                 @Override
                                 public void run() {
                                     //지연시키길 원하는 밀리초 뒤에 동작
-                                    Intent reservationIntent = new Intent(getApplicationContext(), MessageActivity.class);
+                                    Intent reservationIntent = new Intent(getApplicationContext(), SelectMessageTypeActivity.class);
                                     reservationIntent.putExtra("key", hospitalData.getHOSPITAL_KEY());
                                     reservationIntent.putExtra("hospitalName", hospitalData.getHOSPITAL_NAME());
                                     startActivityForResult(reservationIntent, START_RESERVATION);

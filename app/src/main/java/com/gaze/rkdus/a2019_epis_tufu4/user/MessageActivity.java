@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,11 +43,13 @@ import java.util.Date;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
+import com.airbnb.lottie.L;
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.PostCodeItem;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.ImageTextPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.IndividualInfoPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.PostCodePopupActivity;
@@ -67,6 +70,7 @@ public class MessageActivity extends BaseActivity {
     private static final int SEARCH_REALPOSTCODE = 101;
     private static final int CHECK_PROXYSIGN = 120;
     private static final int CHECK_IMMEDIATELYBUY = 130;
+    private static final int CHECK_NEUTRALIZATIONSURGERY = 140;
     private final int SPINNER_HEIGHT = 350;
 
     int key;
@@ -80,7 +84,7 @@ public class MessageActivity extends BaseActivity {
     int petNeutralization;  // 0: default,  1: neutralization,  2: not neutralization
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
-    boolean neutralizationSurgery = false;
+    int neutralizationSurgery = 0;
 
     TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
@@ -89,6 +93,7 @@ public class MessageActivity extends BaseActivity {
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
     CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign, cbImmediatelyBuy, cbNeutralizationSurgery;
 
+    LinearLayout neutralizationLayout;
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
     ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
     Spinner sPetBirthYear, sPetBirthMonth, sPetBirthDay, sPetGetYear, sPetGetMonth, sPetGetDay;
@@ -150,6 +155,7 @@ public class MessageActivity extends BaseActivity {
         proxySignText = (TextView) findViewById(R.id.proxySignText);
         immediatelyBuyText = (TextView) findViewById(R.id.immediatelyBuyText);
 
+        neutralizationLayout = (LinearLayout) findViewById(R.id.neutralizationLayout);
         setDateArrayForSpinner();
 
         // ArrayAdapter 정의
@@ -242,7 +248,9 @@ public class MessageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (cbNeutralizationSurgery.isChecked()) {
-
+                    Intent intent = new Intent(getApplicationContext(), ImageTextPopupActivity.class);
+                    intent.putExtra("type", 1);
+                    startActivityForResult(intent, CHECK_NEUTRALIZATIONSURGERY);
                 }
             }
         });
@@ -874,6 +882,19 @@ public class MessageActivity extends BaseActivity {
                     cbImmediatelyBuy.setChecked(false);
                 }
                 break;
+            case CHECK_NEUTRALIZATIONSURGERY:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "중성화 수술 할래요!");
+                    Toast.makeText(getApplicationContext(), "중성화 수술도 함께 예약합니다.", Toast.LENGTH_SHORT).show();
+                    neutralizationSurgery = 1;
+                }
+                else {
+                    Log.d(TAG, "중성화 수술 안할래요!");
+                    Toast.makeText(getApplicationContext(), "중성화 수술을 하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    cbNeutralizationSurgery.setChecked(false);
+                    neutralizationSurgery = 0;
+                }
+                break;
             case SEARCH_POSTCODE:
                 if(resultCode == RESULT_OK) {
                     PostCodeItem postCodeItem = (PostCodeItem) intent.getSerializableExtra("data");
@@ -994,17 +1015,22 @@ public class MessageActivity extends BaseActivity {
                            ivPetNeutalization.setImageResource(R.drawable.message_petneutralizationclick);
                            ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralization);
                            petNeutralization = 1;
+                           neutralizationLayout.setVisibility(View.GONE);
+                           neutralizationSurgery = 0;
                        }
                        break;
                    case R.id.petNotNeutralization:
                        if(petNeutralization == 2) { // neutralization 선택 중인 경우
                            ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralization);
                            petNeutralization = 0;
+                           neutralizationLayout.setVisibility(View.GONE);
+                           neutralizationSurgery = 0;
                        }
                        else {
                            ivPetNeutalization.setImageResource(R.drawable.message_petneutralization);
                            ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralizationclick);
                            petNeutralization = 2;
+                           neutralizationLayout.setVisibility(View.VISIBLE);
                        }
                        break;
                    case R.id.innerBtn:

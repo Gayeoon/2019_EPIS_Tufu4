@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#eeeeee"
+    android:background="@color/colorWhite"
     android:layout_width="300dp"
     android:orientation="vertical"
     android:layout_height="wrap_content"
@@ -16,28 +16,27 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/popupImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
-            app:srcCompat="@drawable/message_ownerinfotitle"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             />
 
         <TextView
-            android:id="@+id/messagePopupText"
+            android:id="@+id/popupText"
             android:textSize="15dp"
             android:gravity="center"
-            android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
-            android:text="예약 하시겠습니까?"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:clickable="true"
+            android:lineSpacingExtra="10dp"
             />
     </LinearLayout>
 
     <View
-        android:background="#66bdbdbd"
+        android:background="@color/colorNeutralizationPopupText"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
@@ -50,9 +49,9 @@
         android:weightSum="1">
 
         <Button
-            android:id="@+id/okBtn"
-            android:text="확인"
+            android:id="@+id/cancelBtn"
             android:textSize="15dp"
+            android:textColor="@color/colorNeutralizationPopupText"
             android:padding="16dp"
             android:gravity="center"
             android:background="#00000000"
@@ -62,13 +61,13 @@
             />
 
         <View
-            android:background="#66bdbdbd"
+            android:background="@color/colorNeutralizationPopupText"
             android:layout_width="1dp"
             android:layout_height="match_parent" />
         <Button
-            android:id="@+id/cancelBtn"
-            android:text="취소"
+            android:id="@+id/okBtn"
             android:textSize="15dp"
+            android:textColor="@color/colorNeutralizationPopupText"
             android:padding="16dp"
             android:gravity="center"
             android:background="#00000000"
