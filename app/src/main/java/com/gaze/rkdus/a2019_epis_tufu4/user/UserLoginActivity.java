@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.GlobalApplication;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.kakao.auth.ISessionCallback;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class UserLoginActivity extends AppCompatActivity {
+public class UserLoginActivity extends BaseActivity {
     private SessionCallback callback;
     public final static String TAG = "LogGoGo";
 
@@ -94,6 +95,7 @@ public class UserLoginActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(MeV2Response result) {
+                KAKAO_ID = result.getId();
                 Log.e(TAG, "requestMe onSuccess message : " + result.getKakaoAccount().getEmail() + " " + result.getId() + " " + result.getNickname() + " " + result.getKakaoAccount().getPhoneNumber());
                 redirectSignupActivity();
             }

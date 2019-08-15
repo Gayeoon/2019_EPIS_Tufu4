@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.gaze.rkdus.a2019_epis_tufu4.user.ReservationCheckService;
 
 import org.json.JSONArray;
 import org.json.JSONException;

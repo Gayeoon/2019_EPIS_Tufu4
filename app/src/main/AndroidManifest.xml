@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gaze.rkdus.a2019_epis_tufu4">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -162,11 +164,23 @@
         <activity
             android:name=".popup.ProxySignPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".popup.ProductPopupActivity"></activity>
-        <activity android:name=".RegisterActivity"
-            android:theme="@style/NoTheme"
-            >
-        </activity>
+        <activity
+            android:name=".popup.ProductPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".RegisterActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".popup.ProductViewPopupActivity"
+            android:theme="@style/PopupTheme" />
+
+        <service
+            android:name=".user.ReservationCheckService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity android:name=".popup.ManagementPopupActivity"
+            android:theme="@style/PopupTheme"></activity>
     </application>
 
 </manifest>

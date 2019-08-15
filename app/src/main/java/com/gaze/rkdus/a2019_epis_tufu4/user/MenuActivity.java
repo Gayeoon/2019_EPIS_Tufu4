@@ -3,22 +3,26 @@ package com.gaze.rkdus.a2019_epis_tufu4.user;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.CommunityActivity;
@@ -48,6 +52,9 @@ public class MenuActivity extends BaseActivity {
     ImageView myPageImg;
     ImageView regReviseGuideImg;
     ImageView communityImg;
+
+    // 서비스 전용
+    boolean isService = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,15 +152,15 @@ public class MenuActivity extends BaseActivity {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         // TODO : 저장된 파일에서 불러오기
-                        if(TextUtils.isEmpty(getNicname())) { // 닉네임이 스마트폰 안에 내장되어있지 않은 경우
-                            switchActvityIntent = new Intent(getApplicationContext(), NicnamePopupActivity.class);
-                            startActivityForResult(switchActvityIntent, SELECT_NICNAME);
-                        }
-                        else {  // 닉네임이 스마트폰 안에 내장되어있는 경우
+                        if (NICKNAME != null){  // 닉네임이 스마트폰 안에 내장되어있는 경우
                             switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
                             switchActvityIntent.putExtra("user", 1);
                             switchActvityIntent.putExtra("userName", getNicname());
                             startActivity(switchActvityIntent);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "닉네임 설정이 되어있지 않네요! 로그인 다시해주세요.", Toast.LENGTH_LONG).show();
+                            finish();
                         }
                         break;
                     case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -163,6 +170,16 @@ public class MenuActivity extends BaseActivity {
             }
         });
 
+        // 임시
+        if(TextUtils.isEmpty(getNicname())) { // 닉네임이 스마트폰 안에 내장되어있지 않은 경우
+            switchActvityIntent = new Intent(getApplicationContext(), NicnamePopupActivity.class);
+            startActivityForResult(switchActvityIntent, SELECT_NICNAME);
+        }
+        else {
+            Intent intent = new Intent(this, ReservationCheckService.class);
+            intent.putExtra("NICKNAME", getNicname());
+            startService(intent);
+        }
     }
 
     /*
@@ -234,10 +251,18 @@ public class MenuActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     String nicname = intent.getStringExtra("nicname");
                     if(setNicname(nicname)) {
-                        switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
-                        switchActvityIntent.putExtra("user", 1);
-                        switchActvityIntent.putExtra("userName", getNicname());
-                        startActivity(switchActvityIntent);
+                        NICKNAME = nicname; // BaseActivity 내 변수에 저장
+                        Log.e(TAG, "닉네임 : " + NICKNAME);
+//                        switchActvityIntent = new Intent(getApplicationContext(), CommunityActivity.class);
+//                        switchActvityIntent.putExtra("user", 1);
+//                        switchActvityIntent.putExtra("userName", getNicname());
+//                        startActivity(switchActvityIntent);
+
+                        // 임시ㅅ
+                       Intent intent2 = new Intent(this, ReservationCheckService.class);
+                        intent2.putExtra("NICKNAME", NICKNAME);
+                        startService(intent2);
+
                     }
                     else
                         Log.d(TAG, "내장 파일 저장 실패");
