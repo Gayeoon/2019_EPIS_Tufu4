@@ -93,7 +93,13 @@ public class ProductPopupActivity extends BaseActivity {
     private void setProductItems(int type) {
         if (type == 2)  {   // outer
             Log.e("LogGoGo", "type : " + String.valueOf(type));
+<<<<<<< HEAD
             itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작", false, true));
+=======
+            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+                    "https://blogfiles.pstatic.net/MjAxOTA4MTBfMTc4/MDAxNTY1MzY1NDk4OTUx.X7pCqJ-UH4dWCWoz7DohBEN0TUVi1tbhvTXHv4xAebQg.wQsd2Hk6EoZmlO3B-Xf3SiayCIO29hAyXbykWgcpcRIg.JPEG.banner4/outer1.jpg",
+                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
             itemList.add(getProductItem(2, 2, 20000, "VOWOW 블루투스 부착 외장형 목걸이", "고무로 만듬", true, true));
             itemList.add(getProductItem(3, 2, 5000, "싸구려 외장형 목걸이", "싸구려로 만듬", false, false));
         }
@@ -101,12 +107,22 @@ public class ProductPopupActivity extends BaseActivity {
             itemList.add(getProductItem(1, type, 99900, "VOWOW 특제 등록 인식표", "어여쁨",
                     "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https://k.kakaocdn.net/dn/EShJF/btquPLT192D/SRxSvXqcWjHRTju3kHcOQK/img.png",
                     "특제 등록 인식표입니다. 구매하세요.", true, true));
+<<<<<<< HEAD
             itemList.add(getProductItem(2, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬", false, true));
+=======
+            itemList.add(getProductItem(2, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+                    "https://blogfiles.pstatic.net/MjAxOTA4MTBfNDcg/MDAxNTY1MzY1MjczMTE4.8DEJ8XVdgmUHNJ_Gnb5yddBb9VkUbRIkHBVJanvkC7cg.pDacrS50BsaGlf2X0BkgTh96kRt9pqYCM-1puGnecwwg.JPEG.banner4/badge.jpg",
+                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
             itemList.add(getProductItem(3, type, 1111, "싸구려 등록 인식표", "싸구려로 만듬", false, false));
             itemList.add(getProductItem(4, type, 555, "고구려 등록 인식표", "고구려로 만듬", true, false));
         }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
     private ProductItemData getProductItem(int key, int type, int price, String name, String context, boolean soldout, boolean shippingFee) {
         return new ProductItemData(key, type, price, name, context, soldout, shippingFee);
     }

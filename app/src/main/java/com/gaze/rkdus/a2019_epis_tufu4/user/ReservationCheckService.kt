@@ -69,7 +69,11 @@ class ReservationCheckService : Service() {
 
     private fun waitScanning(backgroundService: ReservationBackgroundService, str: String) {
         Log.e(TAG, "waitScanning start!")
+<<<<<<< HEAD
         delayHandler.postDelayed({ startScanning(backgroundService, str) }, 10000)    // handler로 delay 시키기
+=======
+        delayHandler.postDelayed({ startScanning(backgroundService, str) }, 100000)    // handler로 delay 시키기
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
     }
 
     private fun startScanning(backgroundService: ReservationBackgroundService, str: String) {

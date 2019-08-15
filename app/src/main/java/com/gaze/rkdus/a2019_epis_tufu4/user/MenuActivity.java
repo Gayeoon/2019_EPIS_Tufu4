@@ -2,6 +2,7 @@ package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -176,9 +177,17 @@ public class MenuActivity extends BaseActivity {
             startActivityForResult(switchActvityIntent, SELECT_NICNAME);
         }
         else {
+<<<<<<< HEAD
             Intent intent = new Intent(this, ReservationCheckService.class);
             intent.putExtra("NICKNAME", getNicname());
             startService(intent);
+=======
+            if(!isServiceRunning()) {
+                Intent intent = new Intent(this, ReservationCheckService.class);
+                intent.putExtra("NICKNAME", getNicname());
+                startService(intent);
+            }
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
         }
     }
 
@@ -243,6 +252,22 @@ public class MenuActivity extends BaseActivity {
             return true;
     }
 
+    /*
+    서비스가 현재 작동중인지 확인하는 함수
+    @return : true(작동중), false(작동중이 아님.)
+     */
+    public boolean isServiceRunning()
+    {
+        ActivityManager manager = (ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE))
+        {
+            if (ReservationCheckService.class.getName().equals(service.service.getClassName()))
+                return true;
+        }
+        return false;
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -259,9 +284,17 @@ public class MenuActivity extends BaseActivity {
 //                        startActivity(switchActvityIntent);
 
                         // 임시ㅅ
+<<<<<<< HEAD
                        Intent intent2 = new Intent(this, ReservationCheckService.class);
                         intent2.putExtra("NICKNAME", NICKNAME);
                         startService(intent2);
+=======
+                        if(!isServiceRunning()) {
+                            Intent intent2 = new Intent(this, ReservationCheckService.class);
+                            intent2.putExtra("NICKNAME", getNicname());
+                            startService(intent2);
+                        }
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
 
                     }
                     else

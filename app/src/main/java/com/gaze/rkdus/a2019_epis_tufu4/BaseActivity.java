@@ -4,10 +4,19 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+<<<<<<< HEAD
+=======
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
 
 public class BaseActivity extends AppCompatActivity {
     public Typeface mTypeface = null;
@@ -46,4 +55,25 @@ public class BaseActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "필수 값이 들어가지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
         finish();
     }
+<<<<<<< HEAD
+=======
+
+    /*
+    HttpURLConnection 연결 잘 안되는 경우 원인 내용 Log 출력
+     */
+    public static void printConnectionError(HttpURLConnection con) throws IOException {
+        Log.d(TAG, "printConnectionError");
+        InputStream is = con.getErrorStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] byteBuffer = new byte[1024];
+        byte[] byteData = null;
+        int nLength = 0;
+        while((nLength = is.read(byteBuffer, 0, byteBuffer.length)) != -1) {
+            baos.write(byteBuffer, 0, nLength);
+        }
+        byteData = baos.toByteArray();
+        String response = new String(byteData);
+        Log.d(TAG, "응답 코드 발생! 오류 내용 = " + response);
+    }
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
 }

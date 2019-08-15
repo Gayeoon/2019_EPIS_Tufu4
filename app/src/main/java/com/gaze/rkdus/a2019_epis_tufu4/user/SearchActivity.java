@@ -1,19 +1,9 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,11 +18,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +39,6 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 
 /*
  * 사용자
@@ -94,7 +80,7 @@ public class SearchActivity extends BaseActivity {
      */
 
     static final int GET_FILTER = 100;
-    boolean isSearchCurrentLocation, isSignUpApp;
+    boolean isSearchCurrentLocation, isSignUpApp, locationFIlter;
     boolean isPageRefresh = false;
 
     int indexStartNum;
@@ -127,6 +113,8 @@ public class SearchActivity extends BaseActivity {
         // 변수 값 초기화
         isSearchCurrentLocation = false;
         isSignUpApp = false;
+        locationFIlter = false;
+
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
         indexStartNum = 1; // 현재 1페이지부터 5페이지까지.
         searchResultCount = getResources().getInteger(R.integer.searchResultCount);
@@ -188,7 +176,8 @@ public class SearchActivity extends BaseActivity {
                     case MotionEvent.ACTION_DOWN:   // 클릭 시
                         Intent intent = new Intent(getApplicationContext(), FilterPopupActivity.class);
                         intent.putExtra("filter", filter);
-                        if(filter == 3 || filter == 4) {
+                        if(locationFIlter) {
+                            intent.putExtra("locationFilter", locationFIlter);
                             intent.putExtra("location", location);
                         }
                         startActivityForResult(intent, GET_FILTER);
@@ -400,16 +389,16 @@ public class SearchActivity extends BaseActivity {
     /*
     현재 필터와 조건에 맞는 arraylist 반환
      */
-    private ArrayList<?> getArrayListFromFilter() {
-        this.filter = filter;
-        if(isSignUpApp)
-            return signUpAppList;
-        else {
-            if(filter == 4 || filter == 3)
-                return locationSearchList;
-            else
-                return searchResultList;
-        }
+    private ArrayList<SearchResultData> getArrayListFromFilter() {
+        return isSignUpApp ? signUpAppList : (locationFIlter ? locationSearchList : searchResultList);
+    }
+
+    /*
+    현재 필터와 조건에 맞는 arraylist 반환
+    LocationFilter로 지역 별 필터에 따른 반환값만 제공.
+     */
+    private ArrayList<SearchResultData> getArrayListFromLocationFilter() {
+           return locationFIlter ? locationSearchList : searchResultList;
     }
 
     @Override
@@ -430,47 +419,6 @@ public class SearchActivity extends BaseActivity {
     }
 
     /*
-    현재 위치의 위도 경도 값 가져오는 함수
-    @return : Location(위도와 경도를 담음)
-     */
-    @SuppressLint("MissingPermission")
-    private Location getLatLon() {
-        Log.d(TAG, "getLatLon start");
-        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        return location;
-    }
-
-    /*
-    주소로 위도 경도 값 구하기(ReverseGeoCoding)
-    @param address(String) - 주소
-    @return latlon(double[2]) - 위도, 경도
-     */
-    private Location addressToLatLon(Context context, String address) {
-        List<Address> addressList = null;
-        Log.d(TAG, "addressToLatLon start");
-        Geocoder coder = new Geocoder(context);
-        Log.d(TAG, "addressToLatLon start2");
-        try {
-            addressList = coder.getFromLocationName(address, 1);  // 1개의 주소만 가져옴
-            Log.d(TAG, "addressList22 : " + addressList.size());
-            if(addressList.isEmpty())
-                return null;
-            else {
-                Location myLocation = new Location("");
-                double lat = addressList.get(0).getLatitude();
-                double lon = addressList.get(0).getLongitude();
-                myLocation.setLatitude(lat);
-                myLocation.setLongitude(lon);
-                return myLocation;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.d(TAG, "주소 변환 실패");
-        }
-        return null;
-    }
-
-    /*
     거리 계산하는 함수
     @param : 내위치 lon, lat과 목적지의 lon, lat
     @return : float(두 지점 사이의 거리)
@@ -485,49 +433,8 @@ public class SearchActivity extends BaseActivity {
         Location targetLocation = new Location("my target place");
         targetLocation.setLongitude(targetLon);
         targetLocation.setLatitude(targetLat);
-
-//        float distance[] = new float[1];
-//        myLocation.distanceBetween(myLat, myLon, targetLat, targetLon, distance);
-//        float dis = distance[0];
-//        Log.d(TAG, "distanceBetween : " + String.valueOf(dis));
         return myLocation.distanceTo(targetLocation);
     }
-
-    /*
-    현재위치에서부터 SearchList에 있는 data들까지의 거리를 구하기.
-    @param : searchList or signUpAppList 중 하나를 받음. 해당 ArrayList 위치에 따른 필터 적용
-     */
-//    private void setLocationList(ArrayList<SearchItemData> arrayList) {
-//        Log.d(TAG, "setLocationList start");
-//
-//        // 현재 사용자의 위도 경도 획득
-//        Location myLocation = getLatLon();
-//        Log.d(TAG, "my lat : " + myLocation.getLatitude() + " , my lon : " + myLocation.getLongitude());
-////        Log.d(TAG, String.valueOf(calculateDistance(
-////                36.363386, 127.351442,
-////                36.360738, 127.351450
-////        )));
-//
-//        // 인자로 받은 ArrayList에 거리 계산해서 넣기
-//        Iterator<SearchItemData> itemDataIterator = arrayList.iterator();
-//        while(itemDataIterator.hasNext()) {
-//            SearchItemData searchItemData = itemDataIterator.next();
-//
-//            searchItemData.setDistance( // 거리(float) 집어넣기
-//                    calculateDistance(
-//                            myLocation.getLatitude(), myLocation.getLongitude(),   // 현재 내 위치의 위도, 경도
-//                            searchItemData.getLatitude(), searchItemData.getLongitude() // 리스트의 데이터에 저장된 위도와 경도
-//                    )
-//            );
-//        }
-//        // 각 data들의 거리 값을 비교하여 정렬하기
-//        Collections.sort(arrayList, new Comparator<SearchItemData>() {
-//            @Override
-//            public int compare(SearchItemData s1, SearchItemData s2) {
-//                return Double.compare(s1.getDistance(), s2.getDistance());
-//            }
-//        });
-//    }.
 
     /*
     현재 위치로 찾기 클릭에 따른 찾기 온오프 기능 구현 함수
@@ -614,87 +521,44 @@ public class SearchActivity extends BaseActivity {
      */
     private ArrayList<SearchResultData> getNeedToShowListView() {
         Log.d(TAG, "getNeedToShowListView start");
-        if(isSignUpApp) {
-            // switch는 여러 기능을 거의 비슷하게 사용하는 경우에 이용함.
-            // if는 순차적으로 비중이 높은 순서대로 사용하는 경우에 이용함.
-            switch (filter) {
-                case 4:
-                    Log.d(TAG, "어플등록 ㅇ, 지역 별 필터 ㅇ, 최다 예약 순 ㅇ");
-                    setSignUpAppList(locationSearchList); // SignUpAppList 설정
-                    Collections.sort(signUpAppList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
-                        @Override
-                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                            return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
-                        }
-                    });
-                case 3:
-                    Log.d(TAG, "어플등록 ㅇ, 지역 별 ㅇ");
-                    setSignUpAppList(locationSearchList); // SignUpAppList 설정
-                case 2:
-                    Log.d(TAG, "어플등록 ㅇ, 현재위치 ㅇ");
-                    setSignUpAppList(searchResultList); // SignUpAppList 설정
-                    break;
-                case 1:
-                    Log.d(TAG, "어플등록 ㅇ, 최다 예약 순 ㅇ");
-                    setSignUpAppList(searchResultList); // SignUpAppList 설정
-                    Collections.sort(signUpAppList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
-                        @Override
-                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                            return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
-                        }
-                    });
-                    break;
-                    default:
-                        Log.d(TAG, "어플등록 ㅇ, 필터 X");
-                        setSignUpAppList(searchResultList); // SignUpAppList 설정
-//                        Collections.sort(signUpAppList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-//                            @Override
-//                            public int compare(SearchResultData searchResultData, SearchResultData t1) {
-//                                return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
-//                            }
-//                        });
-                        break;
-            }
-            return signUpAppList;
+        if (isSignUpApp) {
+            Log.d(TAG, "어플등록 ㅇ");
+            setSignUpAppList(getArrayListFromLocationFilter());
         }
-        else {
-            switch (filter) {
-                case 4:
-                    Log.d(TAG, "어플등록 X, 지역 별 필터 ㅇ, 최다 예약 순 ㅇ");
-                    Collections.sort(locationSearchList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
-                        @Override
-                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                            return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
-                        }
-                    });
-                    return locationSearchList;
-                case 3:
-                    Log.d(TAG, "어플등록 X, 지역 별 필터 ㅇ");
-                    return locationSearchList;
-                case 2:
-                    Log.d(TAG, "어플등록 X, 현재위치 ㅇ");
-                    break;
-                case 1:
-                    Log.d(TAG, "어플등록 X, 최다 예약 순 ㅇ");
-                    Collections.sort(searchResultList, new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
-                        @Override
-                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                            return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
-                        }
-                    });
-                    break;
-                default:
-                    Log.d(TAG, "어플등록 X, 필터 X");
-//                    Collections.sort(searchResultList, new Comparator<SearchResultData>() {     // 각 data들의 병원 명 값을 비교하여 가나다순 정렬하기
-//                        @Override
-//                        public int compare(SearchResultData searchResultData, SearchResultData t1) {
-//                            return searchResultData.getHOSPITAL_NAME().compareTo(t1.getHOSPITAL_NAME());
-//                        }
-//                    });
-                    break;
-            }
-            return searchResultList;
+
+        switch (filter) {
+            case 3:
+                Log.d(TAG, "리뷰 개수 순");
+                Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                    }
+                });
+                break;
+            case 2:
+                Log.d(TAG, "평점 순");
+                Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                    }
+                });
+                break;
+            case 1:
+                Log.d(TAG, "최다 예약 순");
+                Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                    }
+                });
+                break;
+            default:    // 지역 별 필터만 있거나, 모든 필터를 해제한 경우.
+                Log.d(TAG, "필터 X.");
+                break;
         }
+        return getArrayListFromFilter();
     }
 
     /*
@@ -986,81 +850,9 @@ public class SearchActivity extends BaseActivity {
                     }
                 }
             }
-
-//            for(int i = 0; i < searchResultList.size(); i++) {
-//                SearchResultData searchResultData = searchResultList.get(i);
-//                Location location = addressToLatLon( // 주소 -> 위도, 경도
-//                        getApplicationContext(),
-//                        searchResultData.getADDRESS1()
-//                );
-//
-//                if(location != null) {  // null이 아닌 경우
-//                    searchResultData.setLat(location.getLatitude());
-//                    searchResultData.setLat(location.getLongitude());
-//                }
-//                searchResultList.add(i, searchResultData);
-//                Log.d(TAG, "index : " + i);
-//            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-//    private void putJSONInArrayList(JSONObject jsonObject) {
-//        try {
-//            Log.d(TAG, "putJSONInArrayList start");
-//            JSONArray jsonArray = jsonObject.getJSONArray("result");
-//            Log.d(TAG, "JsonArray size : " + jsonArray.length());
-//            for(int i = jsonArray.length() - 1; i >= 0; i--) { // jsonArray에 담긴 jsonObject를 하나씩 꺼낸다.
-//                jsonObject = jsonArray.getJSONObject(i);
-//                SearchItemData searchItemData = new SearchItemData(
-//                        jsonObject.getInt("HOSPITAL_KEY"),
-//                        jsonObject.getString("CEO_NAME"),
-//                        jsonObject.getString("HOSPITAL_NAME"),
-//                        jsonObject.getString("PHONE_NUMBER"),
-//                        jsonObject.getString("ADDRESS1"),
-//                        jsonObject.getString("ADDRESS2"),
-//                        getBoolSignUpApp(jsonObject.getInt("SIGNUP_APP"))
-//                );
-//                Log.d(TAG, "putJSONInArrayList searchItemData : " + searchItemData.getHospitalName());
-//                Log.d(TAG, "searchItemData.getAddress1() : " + searchItemData.getAddress1());
-//                Log.d(TAG, "searchItemData.getAddress2() : " + searchItemData.getAddress2());
-//                if(searchItemData.getAddress2().equals(null))
-//                    Log.d(TAG, "searchItemData.getAddress2() is null !");
-//
-//                Location location = addressToLatLon( // 주소 -> 위도, 경도
-//                        getApplicationContext(),
-//                        searchItemData.getAddress1()
-//                );
-//                // 위도, 경도 저장
-//                if(location != null) {  // null이 아닌 경우
-//                    searchItemData.setLatitude(location.getLatitude());
-//                    searchItemData.setLongitude(location.getLongitude());
-//                }
-//                searchList.add(searchItemData); // 한 셋트 ArrayList에 넣기
-//                Log.d(TAG, "searchList 개수 : " + searchList.size());
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
-    /*
-    HttpURLConnection 연결 잘 안되는 경우 원인 내용 Log 출력
-     */
-    public static void printConnectionError(HttpURLConnection con) throws IOException {
-        Log.d(TAG, "printConnectionError");
-        InputStream is = con.getErrorStream();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] byteBuffer = new byte[1024];
-        byte[] byteData = null;
-        int nLength = 0;
-        while((nLength = is.read(byteBuffer, 0, byteBuffer.length)) != -1) {
-            baos.write(byteBuffer, 0, nLength);
-        }
-        byteData = baos.toByteArray();
-        String response = new String(byteData);
-        Log.d(TAG, "응답 코드 발생! 오류 내용 = " + response);
     }
 
     /*
@@ -1114,7 +906,7 @@ public class SearchActivity extends BaseActivity {
             switch (requestCode) {
                 case GET_FILTER:
                     if(resultCode == RESULT_OK) {
-                        Log.d(TAG, "팝업창에서 확인 누름!");
+                        Log.d(TAG, "필터 팝업창에서 확인 누름!");
                         if(intent.hasExtra("result"))   // 값 있는지 체크
                             filter = intent.getIntExtra("result", 0);
 
@@ -1123,24 +915,29 @@ public class SearchActivity extends BaseActivity {
 
                         // 만약 지역 별 필터를 입힌 경우
                         // locationSearchList에 새로 기입해야 함
-                        if(filter == 3 || filter == 4) {
-                            if(intent.hasExtra("location")) {
-                                // 초기화
-                                locationSearchResultList.clear();
-                                locationSearchList.clear();
+                        locationFIlter = intent.getBooleanExtra("locationFilter", false);
+                            if (locationFIlter) {
+                                Log.d(TAG, "locationFIlter true");
+                                if(intent.hasExtra("location")) {
+                                    // 초기화
+                                    locationSearchResultList.clear();
+                                    locationSearchList.clear();
 
-                                location = intent.getStringExtra("location");
-                                searchAsyncTask = new SearchAsyncTask();
-                                searchAsyncTask.execute("/getHospitalLocationData", "location");
+                                    location = intent.getStringExtra("location");
+                                    searchAsyncTask = new SearchAsyncTask();
+                                    searchAsyncTask.execute("/getHospitalLocationData", "location");
+                                    return;
+                                }
                             }
-                        }
-                        else {
-                            ArrayList<SearchResultData> arrayList = getNeedToShowListView();
-                            indexStartNum = 1;
 
-                            setTabIndex(arrayList);
-                            setSearchListView(arrayList, indexStartNum);
-                        }
+                        Log.d(TAG, "locationFIlter false");
+                        ArrayList<SearchResultData> arrayList = getNeedToShowListView();
+                        indexStartNum = 1;
+
+                        Log.d(TAG, "getNeedToShowListView size : " + arrayList.size());
+                        setTabIndex(arrayList);
+                        setSearchListView(arrayList, indexStartNum);
+
                     }
                     else {
                         Log.d(TAG, "팝업창에서 취소 누름!");

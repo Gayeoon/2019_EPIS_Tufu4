@@ -45,7 +45,9 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme" >
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -97,6 +99,8 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
+        <!--
+        에러나서 주석처리함
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
@@ -107,15 +111,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        -->
         <activity
             android:name=".NewReservationActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".WaitReservationActivity"
             android:theme="@style/NoTheme" />
-        <activity
-            android:name=".popup.FilterPopupActivity"
-            android:theme="@style/PopupTheme" />
         <activity
             android:name=".Reservation_v2_Activity"
             android:theme="@style/NoTheme" />
@@ -162,14 +164,27 @@
             android:name=".popup.MapPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".popup.ProxySignPopupActivity"
+            android:name=".popup.FilterPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
+<<<<<<< HEAD
             android:name=".popup.ProductPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/NoTheme" />
+=======
+            android:name=".RegisterActivity"
+            android:theme="@style/NoTheme">
+        </activity>
+        <activity
+            android:name=".popup.ProxySignPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".popup.ProductPopupActivity"
+            android:theme="@style/PopupTheme" />
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
         <activity
             android:name=".popup.ProductViewPopupActivity"
             android:theme="@style/PopupTheme" />
@@ -181,6 +196,10 @@
 
         <activity android:name=".popup.ManagementPopupActivity"
             android:theme="@style/PopupTheme"></activity>
+<<<<<<< HEAD
+=======
+>>>>>>> Stashed changes
+>>>>>>> bde3b14b6926727b0c4b01dfe01436a388d0e548
     </application>
 
 </manifest>
