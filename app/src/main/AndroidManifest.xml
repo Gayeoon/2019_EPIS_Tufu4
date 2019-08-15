@@ -194,8 +194,10 @@
         <activity
             android:name=".user.SelectMessageTypeActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".user.VaccinMessageActivity" />
-        <activity android:name=".user.HealthCheckupMessageAcitivty"></activity>
+        <activity android:name=".user.VaccineMessageActivity"
+            android:theme="@style/NoTheme"/>
+        <activity android:name=".user.HealthCheckupMessageActivity"
+            android:theme="@style/NoTheme"></activity>
     </application>
 
 </manifest>

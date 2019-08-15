@@ -14,7 +14,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter
 import kotlinx.android.synthetic.main.activity_vaccine_message.*
 import java.util.*
 
-class vaccineMessageActivity : BaseActivity() {
+class VaccineMessageActivity : BaseActivity() {
     var hospitalKey: Int? = null
     var hospitalName: String? = null
     var ownerName: String? = null
@@ -22,7 +22,7 @@ class vaccineMessageActivity : BaseActivity() {
     var petName: String? = null
     var petAge: String? = null
     var petWeight: String? = null
-    var petGender: Int = 0
+    var petGender: Int = 0  // 0: default,  1: female,  2: male
     var vaccineName: String? = null
     var vaccineYear: String? = null
     var vaccineMonth: String? = null
@@ -30,7 +30,7 @@ class vaccineMessageActivity : BaseActivity() {
     var vaccineHour: String? = null
     var vaccineMinute: String? = null
     var vaccineDate: String? = null
-    var vaccineTime: String? null
+    var vaccineTime: String? = null
 
     var yearArray = ArrayList<String>()
     var monthArray = ArrayList<String>()
@@ -100,6 +100,30 @@ class vaccineMessageActivity : BaseActivity() {
         vaccineDaySpinner.onItemSelectedListener = spinnerItemSelectedListener
         vaccineHourSpinner.onItemSelectedListener = spinnerItemSelectedListener
         vaccineMinuteSpinner.onItemSelectedListener = spinnerItemSelectedListener
+
+        // 성별(남성) 클릭 시
+        petMale.setOnTouchListener { _, event ->
+            if(event?.action == MotionEvent.ACTION_DOWN) {
+                if (petGender == 1) {   // female 인 경우
+                    petMale.setImageResource(R.drawable.message_petmaleclick)
+                    petFemale.setImageResource(R.drawable.message_petfemale)
+                    petGender = 2
+                }
+            }
+            false
+        }
+
+        // 성별(여성) 클릭 시
+        petFemale.setOnTouchListener { _, event ->
+            if(event?.action == MotionEvent.ACTION_DOWN) {
+                if (petGender == 2) {   // male인 경우
+                    petMale.setImageResource(R.drawable.message_petmale)
+                    petFemale.setImageResource(R.drawable.message_petfemaleclick)
+                    petGender = 1
+                }
+            }
+            false
+        }
 
         // 예약 등록 클릭 시
         reservationBtn.setOnTouchListener { _, event ->
@@ -172,8 +196,8 @@ class vaccineMessageActivity : BaseActivity() {
                 R.id.vaccineYearSpinner -> vaccineYear = parent.getItemAtPosition(position).toString()
                 R.id.vaccineMonthSpinner -> vaccineMonth = aaMonth!!.getItem(position)!!.toString()
                 R.id.vaccineDaySpinner -> vaccineDay = aaDay!!.getItem(position)!!.toString()
-                R.id.hourSpinner -> vaccineHour = aaHour!!.getItem(position)!!.toString()
-                R.id.minuteSpinner -> vaccineMinute = aaMinute!!.getItem(position)!!.toString()
+                R.id.vaccineHourSpinner -> vaccineHour = aaHour!!.getItem(position)!!.toString()
+                R.id.vaccineMinuteSpinner -> vaccineMinute = aaMinute!!.getItem(position)!!.toString()
             }
         }
 
