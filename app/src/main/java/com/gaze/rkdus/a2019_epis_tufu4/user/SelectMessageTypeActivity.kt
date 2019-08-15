@@ -39,7 +39,7 @@ class SelectMessageTypeActivity : BaseActivity() {
         // 예방접종 예약 클릭 시
         vaccinTypeImg.setOnTouchListener { _, event ->
             if(event?.action == MotionEvent.ACTION_DOWN) {
-                msgIntent = Intent(applicationContext, MessageActivity::class.java)
+                msgIntent = Intent(applicationContext, VaccinMessageActivity::class.java)
                 msgIntent!!.putExtra("key", intent.getIntExtra("key", 0))
                 msgIntent!!.putExtra("hospitalName", intent.getStringExtra("hospitalName"))
                 startActivity(msgIntent)
@@ -51,7 +51,7 @@ class SelectMessageTypeActivity : BaseActivity() {
         // 반려동물 등록 예약 이벤트 클릭 시
         healthcheckupTypeImg.setOnTouchListener { _, event ->
             if(event?.action == MotionEvent.ACTION_DOWN) {
-                msgIntent = Intent(applicationContext, MessageActivity::class.java)
+                msgIntent = Intent(applicationContext, HealthCheckupMessageAcitivty::class.java)
                 msgIntent!!.putExtra("key", intent.getIntExtra("key", 0))
                 msgIntent!!.putExtra("hospitalName", intent.getStringExtra("hospitalName"))
                 startActivity(msgIntent)
