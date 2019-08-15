@@ -647,6 +647,43 @@
                             />
                     </LinearLayout>
 
+                    <!-- 중성화 체크 X 시 중성화 수술 같이 유도할 수 있게 하는 체크박스 -->
+                    <LinearLayout
+                        android:id="@+id/neutralizationLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:visibility="visible"
+                        >
+
+                        <TextView
+                            android:id="@+id/checkNeutralizationText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:layout_gravity="right"
+                            android:layout_marginRight="10dp"
+                            android:text="중성화 수술을 같이 하시겠습니까?"
+                            android:textColor="@color/colorMessageCheckText"
+                            android:textSize="13dp"
+                            android:clickable="true"
+                            />
+
+                        <CheckBox
+                            android:id="@+id/checkNeutralizationCheckBox"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:layout_marginRight="10dp"
+                            android:button="@null"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:background="@drawable/message_checkbox"
+                            />
+                    </LinearLayout>
+
                     <!-- 우측 메뉴 반려동물 생년월일 -->
                     <LinearLayout
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"

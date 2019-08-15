@@ -45,9 +45,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme" >
-
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -168,12 +166,13 @@
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"
-            android:theme="@style/NoTheme">
-        </activity>
+            android:theme="@style/NoTheme"></activity>
         <activity
             android:name=".popup.ProxySignPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog"></activity>
+        <activity
+            android:name=".PopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
         <activity
             android:name=".popup.ProductPopupActivity"
             android:theme="@style/PopupTheme" />
@@ -186,9 +185,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".popup.ManagementPopupActivity"
-            android:theme="@style/PopupTheme"></activity>
->>>>>>> Stashed changes
+        <activity
+            android:name=".popup.ManagementPopupActivity"
+            android:theme="@style/PopupTheme" />
+        >>>>>>> Stashed changes
+        <activity android:name=".popup.NeutralizationPopupActivity"></activity>
     </application>
 
 </manifest>

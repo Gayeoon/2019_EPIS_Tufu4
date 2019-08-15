@@ -17,4 +17,5 @@
     <color name="pinkTextColor">#FF5D8D</color>
     <color name="trans">#0f000000</color>
     <color name="colorPopup">#eeeeee</color>
+    <color name="colorMessageCheckText">#5A5A5A</color>
 </resources>

@@ -80,13 +80,14 @@ public class MessageActivity extends BaseActivity {
     int petNeutralization;  // 0: default,  1: neutralization,  2: not neutralization
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
+    boolean neutralizationSurgery = false;
 
     TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
     EditText ePetName, ePetRace, ePetColor, ePetSpecialProblem; // 애완동물 이름, 인종, 색깔, 특이사항
-    CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign, cbImmediatelyBuy;
+    CheckBox cbMatchedPostCode, cbCheckIndividualInfo, cbProxySign, cbImmediatelyBuy, cbNeutralizationSurgery;
 
     ImageView searchPostCodeBtn, searchRealPostCodeBtn, ivPetFemale, ivPetMale, ivPetNeutalization, ivPetNotNeutralization;
     ImageView innerBtn, outerBtn, badgeBtn, reservationBtn, rewriteBtn; // 등록방법, 예약버튼
@@ -121,6 +122,7 @@ public class MessageActivity extends BaseActivity {
         cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
         cbProxySign = (CheckBox) findViewById(R.id.checkProxySign);
         cbImmediatelyBuy = (CheckBox) findViewById(R.id.checkImmediatelyBuy);
+        cbNeutralizationSurgery = (CheckBox) findViewById(R.id.checkNeutralizationCheckBox);
 
         // 뷰 정의 - 반려동물
         ePetName = (EditText) findViewById(R.id.petNameText);
@@ -210,7 +212,7 @@ public class MessageActivity extends BaseActivity {
         reservationBtn.setOnTouchListener(imageViewClickListener);
         rewriteBtn.setOnTouchListener(imageViewClickListener);
 
-        // 체크박스 클릭 이벤트
+        // 주소 동일 체크박스 클릭 이벤트
         cbMatchedPostCode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -231,6 +233,16 @@ public class MessageActivity extends BaseActivity {
                     tvOwnerRealPost.setText("");
                     tvOwnerRealPostCode.setText("");
                     eOwnerRealDetailPostCode.setText("");
+                }
+            }
+        });
+
+        // 중성화 수술 체크박스 클릭 이벤트
+        cbNeutralizationSurgery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cbNeutralizationSurgery.isChecked()) {
+
                 }
             }
         });
