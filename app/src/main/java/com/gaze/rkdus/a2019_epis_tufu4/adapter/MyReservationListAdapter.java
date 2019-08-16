@@ -14,13 +14,16 @@ import android.widget.TextView;
 
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.ImageTextPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
+import com.gaze.rkdus.a2019_epis_tufu4.popup.ReviewPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_ADDREVIEW;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_REGISTCONFIRM;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_RESERVATION;
 
@@ -85,9 +88,8 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
-                                Intent intent = new Intent(context, MessagePopupActivity.class);
-                                intent.putExtra("messageType", "registConfirm");
-
+                                Intent intent = new Intent(context, ImageTextPopupActivity.class);
+                                intent.putExtra("popupType", 2);
                                 intent.putExtra("data", (Serializable) resultData);
                                 ((Activity) context).startActivityForResult(intent, CHECK_REGISTCONFIRM);
                                 break;
@@ -125,9 +127,9 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
-                                Intent intent = new Intent(context, MessageActivity.class);
+                                Intent intent = new Intent(context, ReviewPopupActivity.class);
                                 intent.putExtra("data", (Serializable) resultData);
-                                ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
+                                ((Activity) context).startActivityForResult(intent, CHECK_ADDREVIEW);
                                 break;
                             case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
                                 break;

@@ -45,7 +45,7 @@ SearchActivity에서 검색한 결과 중 특정 병원을 클릭한 경우
 - 이해원
  */
 public class HospitalProfileActivity extends BaseActivity {
-    private static final int START_RESERVATION = 10;
+    public static final int START_RESERVATION = 10;
     SearchResultData hospitalData;
     int key;
 

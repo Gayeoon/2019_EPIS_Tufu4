@@ -2,13 +2,11 @@ package com.gaze.rkdus.a2019_epis_tufu4.user
 
 import android.app.*
 import android.content.Intent
-import android.os.Binder
 import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity.SERVER_URL
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity.TAG
-import com.gaze.rkdus.a2019_epis_tufu4.R.drawable.temp
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationBackgroundService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,11 +15,8 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.support.v4.app.NotificationCompat
-import android.support.v4.content.ContextCompat.getSystemService
 import com.gaze.rkdus.a2019_epis_tufu4.R
-import com.gaze.rkdus.a2019_epis_tufu4.SplashActivity
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ManagementPopupActivity
 
 
@@ -79,9 +74,9 @@ class ReservationCheckService : Service() {
         )
 
         backgroundService.resultRepos(map)
-                .subscribeOn(Schedulers.io())   // 데이터를 보내는 쓰레드.
-                .observeOn(AndroidSchedulers.mainThread())  // 데이터를 받아서 사용하는 쓰레드.
-                .subscribe({    // 받은 데이터를 사용하는 함수. 받은 데이터 : it
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
                     // 서버 통신 성공
                     if (it.result == 1) {   // 로그인 성공
                         Log.e(TAG, "result success : ${it.result}")

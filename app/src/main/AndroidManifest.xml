@@ -204,11 +204,14 @@
         <activity
             android:name=".user.SelectMessageTypeActivity"
             android:theme="@style/NoTheme" />
-        <activity android:name=".user.VaccineMessageActivity"
-            android:theme="@style/NoTheme"/>
-        <activity android:name=".user.HealthCheckupMessageActivity"
-            android:theme="@style/NoTheme"></activity>
-
+        <activity
+            android:name=".user.VaccineMessageActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".user.HealthCheckupMessageActivity"
+            android:theme="@style/NoTheme" />
+        <activity android:name=".popup.ReviewPopupActivity"
+            android:theme="@style/PopupTheme"></activity>
     </application>
 
 </manifest>

@@ -1,7 +1,10 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
@@ -11,16 +14,29 @@ import android.widget.Toast
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter
+import com.gaze.rkdus.a2019_epis_tufu4.item.AddReviewData
+import com.gaze.rkdus.a2019_epis_tufu4.item.VaccineReservationData
+import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationService
+import com.gaze.rkdus.a2019_epis_tufu4.utils.ReviewService
+import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.checkEditText
+import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.setSpinnerMaxHeight
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_vaccine_message.*
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
 
 class VaccineMessageActivity : BaseActivity() {
+    private val SPINNER_HEIGHT: Int = 350
     var hospitalKey: Int? = null
     var hospitalName: String? = null
     var ownerName: String? = null
     var ownerHP: String? = null
     var petName: String? = null
-    var petAge: String? = null
+    var petAge: Int? = 0
     var petWeight: String? = null
     var petGender: Int = 0  // 0: default,  1: female,  2: male
     var vaccineName: String? = null
@@ -74,7 +90,6 @@ class VaccineMessageActivity : BaseActivity() {
         aaHour = MessageSpinnerAdapter(this, R.layout.message_spinner, hourArray)
         aaMinute = MessageSpinnerAdapter(this, R.layout.message_spinner, minuteArray)
 
-
         aaYear!!.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item)
         aaMonth!!.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item)
         aaDay!!.setDropDownViewResource(R.layout.message_custom_simple_dropdown_item)
@@ -89,9 +104,14 @@ class VaccineMessageActivity : BaseActivity() {
         vaccineDaySpinner.adapter = aaDay
         vaccineDaySpinner.setSelection(0)
         vaccineHourSpinner.adapter = aaHour
-        vaccineHourSpinner.setSelection(0)
         vaccineMinuteSpinner.adapter = aaMinute
-        vaccineMinuteSpinner.setSelection(0)
+
+        // spinner 최대크기 정하기
+        setSpinnerMaxHeight(vaccineYearSpinner, SPINNER_HEIGHT)
+        setSpinnerMaxHeight(vaccineMonthSpinner, SPINNER_HEIGHT)
+        setSpinnerMaxHeight(vaccineDaySpinner, SPINNER_HEIGHT)
+        setSpinnerMaxHeight(vaccineHourSpinner, SPINNER_HEIGHT)
+        setSpinnerMaxHeight(vaccineMinuteSpinner, SPINNER_HEIGHT)
 
         // Spinner 선택 리스너 정의
         val spinnerItemSelectedListener = SpinnerItemSelectedListener()
@@ -104,10 +124,17 @@ class VaccineMessageActivity : BaseActivity() {
         // 성별(남성) 클릭 시
         petMale.setOnTouchListener { _, event ->
             if(event?.action == MotionEvent.ACTION_DOWN) {
-                if (petGender == 1) {   // female 인 경우
-                    petMale.setImageResource(R.drawable.message_petmaleclick)
-                    petFemale.setImageResource(R.drawable.message_petfemale)
-                    petGender = 2
+                petGender = when (petGender) {
+                    2 -> { // male인 경우
+                        petMale.setImageResource(R.drawable.message_petmale)
+                        petFemale.setImageResource(R.drawable.message_petfemaleclick)
+                        1
+                    }
+                    else -> {
+                        petMale.setImageResource(R.drawable.message_petmaleclick)
+                        petFemale.setImageResource(R.drawable.message_petfemale)
+                        2
+                    }
                 }
             }
             false
@@ -116,10 +143,17 @@ class VaccineMessageActivity : BaseActivity() {
         // 성별(여성) 클릭 시
         petFemale.setOnTouchListener { _, event ->
             if(event?.action == MotionEvent.ACTION_DOWN) {
-                if (petGender == 2) {   // male인 경우
-                    petMale.setImageResource(R.drawable.message_petmale)
-                    petFemale.setImageResource(R.drawable.message_petfemaleclick)
-                    petGender = 1
+                petGender = when (petGender) {
+                    1 -> { // female인 경우
+                        petMale.setImageResource(R.drawable.message_petmaleclick)
+                        petFemale.setImageResource(R.drawable.message_petfemale)
+                        2
+                    }
+                    else -> {
+                        petMale.setImageResource(R.drawable.message_petmale)
+                        petFemale.setImageResource(R.drawable.message_petfemaleclick)
+                        1
+                    }
                 }
             }
             false
@@ -128,9 +162,41 @@ class VaccineMessageActivity : BaseActivity() {
         // 예약 등록 클릭 시
         reservationBtn.setOnTouchListener { _, event ->
             if(event?.action == MotionEvent.ACTION_DOWN) {
-                if (checkOwnerInfo() && checkPetInfo() && checkReservationInfo())
+                if (checkOwnerInfo() && checkPetInfo() && checkReservationInfo()) {
                     // 전송
-                    false
+                    val reservationService: ReservationService = Retrofit.Builder()
+                            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .baseUrl(SERVER_URL)
+                            .client(OkHttpClient())
+                            .build()
+                            .create(ReservationService::class.java)
+
+                    val vaccineData = VaccineReservationData(KAKAO_ID, ownerName!!, ownerHP!!, petName!!,
+                            petAge!!, petWeight!!, petGender, vaccineName!!, vaccineDate!!, vaccineTime!!)
+
+                    reservationService.resultVaccineRepos(vaccineData)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe({
+                                // 서버 통신 성공
+                                if (it.result == 1) {
+                                    Log.d(TAG, "예약 성공!")
+                                    Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
+                                    setResult(Activity.RESULT_OK)
+                                    finish()
+                                }
+                                else {
+                                    Log.d(TAG, "예약 실패!")
+                                    setResult(Activity.RESULT_OK)
+                                    finish()
+                                    }
+                            }, {
+                                // 서버 통신 실패
+                                Log.d(TAG, "Error : ${it.message}")
+                            })
+                }
+                false
             }
             false
         }
@@ -158,7 +224,7 @@ class VaccineMessageActivity : BaseActivity() {
         if (checkEditText(etPetName) && checkEditText(etPetAge) && checkEditText(etPetWeight)) {
             if (petGender != 0) {
                 petName = etPetName.text.toString()
-                petAge = etPetAge.text.toString()
+                petAge = Integer.valueOf(etPetAge.text.toString())
                 petWeight = etPetWeight.text.toString()
                 return true
             }
@@ -177,7 +243,7 @@ class VaccineMessageActivity : BaseActivity() {
                 vaccineHour.let { vaccineMinute.let {
                     vaccineName = etVaccineName.text.toString()
                     vaccineDate = "$vaccineYear.$vaccineMonth.$vaccineDay"
-                    vaccineTime = "$vaccineHour.$vaccineMinute"
+                    vaccineTime = "${vaccineHour}시 ${vaccineMinute}분"
                 } }
             } } }
         }
@@ -233,36 +299,19 @@ class VaccineMessageActivity : BaseActivity() {
     }
 
     /*
-    Spinner 년, 월, 일 ArrayList 초기화
+    Spinner 시간, 분 ArrayList 초기화
      */
     private fun seTimeForSpinner() {
-        // year
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-
-        hourArray.add("시")
-        monthArray.add("분")
 
         // month
-        for (i in 1..24) {
+        for (i in 0..23) {
             hourArray.add(i.toString())
         }
 
         // day
-        for (i in 1..60) {
+        for (i in 0..59) {
             minuteArray.add(i.toString())
         }
-    }
-
-    /*
-    EditText의 값 중 공백 확인
-    @return : boolean(true : 앞 뒤 공백 또는 전체 공백이 아님. false : 둘 중 하나라도 해당하는 경우)
-     */
-    private fun checkEditText(editText: EditText): Boolean {
-        val editStr = editText.text.toString()    // 검색어 임시 변수에 저장.
-        if (TextUtils.isEmpty(editStr.trim())) { // 공백처리
-            return false
-        }
-        return editStr == editStr.trim()
     }
 
     private fun toastCheckResult(msg: String?) {

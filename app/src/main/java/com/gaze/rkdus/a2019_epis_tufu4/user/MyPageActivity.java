@@ -41,6 +41,7 @@ import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
 public class MyPageActivity extends BaseActivity {
     public static final int CHECK_RESERVATION = 1000;
     public static final int CHECK_REGISTCONFIRM = 1001;
+    public static final int CHECK_ADDREVIEW = 2000;
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
     TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
@@ -429,7 +430,7 @@ public class MyPageActivity extends BaseActivity {
                     if(jsonObject.getInt("HOSPITAL_KEY") == rewriteData.getHOSPITAL_KEY()) { // 키 동일 체크
                         Log.d(TAG, "같은 객체 찾음!");
                         if (isDelete)
-                            jsonArray.remove(i); // 덮어씌우기
+                            jsonArray.remove(i); // 삭제
                         else {
                             Gson gson = new Gson();
                             String rewriteJSONStr = gson.toJson(rewriteData);
@@ -489,6 +490,16 @@ public class MyPageActivity extends BaseActivity {
                 else {
                     Toast.makeText(getApplicationContext(), "등록 확정 실패! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "등록 확정 CANCEL");
+                }
+                break;
+            case CHECK_ADDREVIEW:
+                if (resultCode == RESULT_OK) {
+                    if(intent.hasExtra("data")) {
+                        if(rewriteMyReservationFile((MyReservationData) intent.getSerializableExtra("data"), true))
+                            refreshMyReservation();
+                        else
+                            Toast.makeText(getApplicationContext(), "삭제 중 오류 발생! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             default:

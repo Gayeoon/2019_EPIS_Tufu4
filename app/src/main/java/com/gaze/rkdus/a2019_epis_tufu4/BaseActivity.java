@@ -18,7 +18,7 @@ public class BaseActivity extends AppCompatActivity {
     public Typeface mTypeface = null;
     public final static String TAG = "LogGoGo";
     public static final String SERVER_URL = "http://vowow.cafe24app.com";
-    public static long KAKAO_ID = 0;    // 0 : null
+    public static String KAKAO_ID = null;    // 0 : null
     public static String NICKNAME = null;
 
     @Override

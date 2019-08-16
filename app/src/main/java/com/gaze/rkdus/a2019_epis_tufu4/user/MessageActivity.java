@@ -249,7 +249,7 @@ public class MessageActivity extends BaseActivity {
             public void onClick(View v) {
                 if (cbNeutralizationSurgery.isChecked()) {
                     Intent intent = new Intent(getApplicationContext(), ImageTextPopupActivity.class);
-                    intent.putExtra("type", 1);
+                    intent.putExtra("popupType", 1);
                     startActivityForResult(intent, CHECK_NEUTRALIZATIONSURGERY);
                 }
             }
@@ -1031,6 +1031,7 @@ public class MessageActivity extends BaseActivity {
                            ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralizationclick);
                            petNeutralization = 2;
                            neutralizationLayout.setVisibility(View.VISIBLE);
+                           cbNeutralizationSurgery.setChecked(false);
                        }
                        break;
                    case R.id.innerBtn:

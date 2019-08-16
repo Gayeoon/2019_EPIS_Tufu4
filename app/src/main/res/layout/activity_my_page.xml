@@ -599,7 +599,7 @@
         android:layout_marginRight="@dimen/myPageLayoutBetweenMargin"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:srcCompat="@drawable/mypage_reservationlisttitle" />
+        app:srcCompat="@drawable/mypage_currentreservation" />
 
     <ScrollView
         android:layout_width="match_parent"

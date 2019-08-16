@@ -297,7 +297,7 @@
                         android:background="@drawable/message_border_radius"
                         android:layout_marginBottom="@dimen/msgEditTextMarginBottom"
                         android:paddingLeft="10dp"
-                        android:inputType="textNoSuggestions"
+                        android:inputType="number"
                         android:imeOptions="actionNext"
                         android:maxLength="15"
                         android:textSize="15dp"

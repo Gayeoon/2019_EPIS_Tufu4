@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 
@@ -17,7 +18,7 @@ import java.io.Serializable;
 /*
 예약하기 버튼 클릭 시 나타나는 팝업창
  */
-public class MessagePopupActivity extends AppCompatActivity {
+public class MessagePopupActivity extends BaseActivity {
     public static final String TAG = "LogGoGo";
     Button okBtn, cancelBtn;
     TextView tvMessagePopup;
@@ -50,22 +51,11 @@ public class MessagePopupActivity extends AppCompatActivity {
             case "reservation":
                 tvMessagePopup.setText(R.string.reservationPopupMsg);
                 break;
-            case "registConfirm":
-                tvMessagePopup.setText(R.string.registConfirmPopupMsg);
-                if(intent.hasExtra("data"))
-                    data = (MyReservationData) intent.getSerializableExtra("data");
-                else
-                    finishPopup();
-                break;
         }
 
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(messageText.equals("registConfirm")) {
-                    data.setRESERVATION_STATE("CONFIRM");
-                    resultIntent.putExtra("data", (Serializable) data);
-                }
                 //데이터 전달하기
                 setResult(RESULT_OK, resultIntent);
                 //액티비티(팝업) 닫기
@@ -96,10 +86,5 @@ public class MessagePopupActivity extends AppCompatActivity {
     public void onBackPressed() {
         //안드로이드 백버튼 막기
         return;
-    }
-
-    private void finishPopup() {
-        Toast.makeText(getApplicationContext(), "필수 값이 들어가지 않았습니다. 이전 화면으로 돌아갑니다.", Toast.LENGTH_LONG).show();
-        finish();
     }
 }

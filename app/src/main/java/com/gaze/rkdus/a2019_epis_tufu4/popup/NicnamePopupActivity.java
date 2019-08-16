@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.user.MenuActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,7 +69,7 @@ public class NicnamePopupActivity extends BaseActivity {
                             if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
                                 if(nickname.equals(eNicname.getText().toString())) { // 중복 체크 값과 입력 값이 동일한 경우
                                     nicnameAsyncTask = new NicnameAsyncTask();
-                                    nicnameAsyncTask.execute("/addNickname", "add");
+                                    nicnameAsyncTask.execute("/user/join", "add");
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), "중복검사한 값과 입력한 값이 다릅니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
@@ -98,7 +99,7 @@ public class NicnamePopupActivity extends BaseActivity {
                         if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
                             nickname = eNicname.getText().toString();
                             nicnameAsyncTask = new NicnameAsyncTask();
-                            nicnameAsyncTask.execute("/checkNickname", "check");
+                            nicnameAsyncTask.execute("/user/nameCheck", "check");
                         }
                         else
                             Toast.makeText(getApplicationContext(), "입력 칸에 공백이 존재합니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
@@ -201,8 +202,9 @@ public class NicnamePopupActivity extends BaseActivity {
                 else if(type.equals("add")) {
                     if(getResult == 1) {    // DB에 생성 완료
                         Toast.makeText(getApplicationContext(), "닉네임 설정 완료", Toast.LENGTH_LONG).show();
-                        intent.putExtra("nicname", nickname);
-                        setResult(RESULT_OK, intent);
+                        NICKNAME = nickname;
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                     else {
