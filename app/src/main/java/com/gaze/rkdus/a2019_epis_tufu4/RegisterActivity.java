@@ -1,8 +1,11 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -10,7 +13,11 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.util.Log;
 import android.os.Environment;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,6 +25,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -32,6 +40,7 @@ import com.tom_roush.pdfbox.pdmodel.font.PDFont;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import pl.polidea.view.ZoomView;
 
 import java.io.BufferedReader;
@@ -44,6 +53,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -56,16 +66,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterActivity";
 
-    TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;
+    TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special, owner_2;
     TextView year, month, date;
 
-    String id, name;
+    String id, str_owner, str_animal;
 
     String pdf_name;
 
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
 
+    final int MY_PERMISSION_REQUEST_STORAGE = 1234;
     private ImageButton pdf;
     FrameLayout frameLayout;
     String dirpath;
@@ -99,15 +110,17 @@ public class RegisterActivity extends AppCompatActivity {
         FrameLayout container = (FrameLayout) findViewById(R.id.container);
         container.addView(zoomView);
 
-//        Intent intent = getIntent();
-//        type = intent.getIntExtra("type", 0);
-//
-//        id = intent.getStringExtra("id");
-//        name = intent.getStringExtra("name");
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
 
-        pdf_name = pdf_name +"_"+ name;
+        id = intent.getStringExtra("id");
+        str_owner = intent.getStringExtra("owner");
+        str_animal = intent.getStringExtra("animal");
 
-                owner = (TextView) findViewById(R.id.owner);
+        pdf_name = pdf_name + "_" + str_animal;
+
+        owner = (TextView) findViewById(R.id.owner);
+        owner_2 = (TextView) findViewById(R.id.owner_2);
         resident = (TextView) findViewById(R.id.resident);
         phone = (TextView) findViewById(R.id.phone);
         resAddr = (TextView) findViewById(R.id.resAddr);
@@ -116,13 +129,17 @@ public class RegisterActivity extends AppCompatActivity {
         variety = (TextView) findViewById(R.id.variety);
         furColor = (TextView) findViewById(R.id.furColor);
         gender = (TextView) findViewById(R.id.gender);
-        neutralization = (TextView) findViewById(R.id.neutralization);
+        neutralization = (TextView) findViewById(R.id.neutralization_o);
         birthday = (TextView) findViewById(R.id.birthday);
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
         year = (TextView) findViewById(R.id.year);
         month = (TextView) findViewById(R.id.month);
         date = (TextView) findViewById(R.id.day);
+
+        owner.setText(str_owner);
+        owner_2.setText(str_owner);
+        animal.setText(str_animal);
 
         year.setText(str_year);
         month.setText(str_month);
@@ -132,14 +149,20 @@ public class RegisterActivity extends AppCompatActivity {
         pdf = (ImageButton) findViewById(R.id.pdf);
 
         pdf.setOnClickListener(new View.OnClickListener() {
+            @TargetApi(Build.VERSION_CODES.M)
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                pdf.setVisibility(View.INVISIBLE);
-                layoutToImage();
+                //pdf.setVisibility(View.INVISIBLE);
+                try {
+                    checkPermission();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
-//        new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
+        new ReservationInfoData().execute(getResources().getString(R.string.url) + "/getReservationInfoData");
 
 //        check = (ImageButton) findViewById(R.id.check);
 //
@@ -153,20 +176,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-/*    ReservationData : ID, 주인 이름, type 값을 통해 예약 데이터 요청
+    /* ReservationInfoData : ID, 주인 이름, 강아지 이름 값을 통해 예약 데이터 요청
+     *
+     *
+     * Uri  --->   /getReservationInfoData
+     * Parm  --->   {"user":{"id":"test","owner":"김가연","animal":"뿡이"}} 전송
+     * Result  --->   {"result":{"owner":"김가연","resident":"960708-2","phone":"010-4491-0778","resAddr":"대전","nowAddr":"궁동",
+     * "animal":"뿡이","variety":"시츄","furColor":"흰색+갈색","gender":"남","neutralization":"했움","birthday":"2008-04-04","acqDate":"2008-04-04","special":"겁이 많아요ㅠㅠ"}} 결과 값 */
 
-    필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수
-
-    type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
-
-    Uri  --->   /getReservationData
-    Parm  --->   {"user":{"id":"test","owner_name":"김가연","type":1}} 전송
-    Result  --->  {"result":{"OWNER_NAME":"김가연“,"OWNER_RESIDENT":
-        "960708-0000000","OWNER_PHONE_NUMBER":"010-4491-0778“,"OWNER_ADDRESS1":"대전","OWNER_ADDRESS2":"궁동","PET_NAME":"뿡이“
-                ,"PET_VARIETY":"시츄","PET_COLOR":"흰색+갈색","PET_GENDER":"남“,"PET_NEUTRALIZATION":"했움","PET_BIRTH":"2008-04-04",
-                "REGIST_DATE":"2008-04-04","ETC":"겁이 많아요ㅠㅠ"}} 결과 값 */
-
-    public class ReservationData extends AsyncTask<String, String, String> {
+    public class ReservationInfoData extends AsyncTask<String, String, String> {
 
         @Override
 
@@ -178,8 +196,8 @@ public class RegisterActivity extends AppCompatActivity {
                 JSONObject tmp = new JSONObject();
 
                 tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", name);
-                tmp.accumulate("type", type);
+                tmp.accumulate("owner_name", str_owner);
+                tmp.accumulate("pet_name", str_animal);
 
                 jsonObject.accumulate("user", tmp);
 
@@ -253,7 +271,7 @@ public class RegisterActivity extends AppCompatActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
+                    new ReservationInfoData().execute(getResources().getString(R.string.url) + "/getReservationInfoData");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -268,13 +286,13 @@ public class RegisterActivity extends AppCompatActivity {
                     furColor.setText(jsonObject.getString("PET_COLOR"));
 
                     if (jsonObject.getString("PET_GENDER") == "1") {
-                        gender.setText("남");
+                        gender.setText("남성");
                     } else {
-                        gender.setText("여");
+                        gender.setText("여성");
                     }
 
                     if (jsonObject.getString("PET_NEUTRALIZATION") == "1") {
-                        neutralization.setText("0");
+                        neutralization.setText("O");
                     } else {
                         neutralization.setText("X");
                     }
@@ -320,7 +338,7 @@ public class RegisterActivity extends AppCompatActivity {
                 JSONObject tmp = new JSONObject();
 
                 tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", name);
+                tmp.accumulate("owner_name", str_owner);
                 tmp.accumulate("type", type);
 
                 jsonObject.accumulate("user", tmp);
@@ -420,7 +438,52 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public void layoutToImage() {
+    public void shareFIle(File shareFile) {
+
+        final Intent intent = new Intent();
+
+        intent.setAction(Intent.ACTION_SEND);           // 단일파일 보내기
+
+//        intent.setPackage("com.google.android.gm");   // 지메일로 보내기
+
+        // 파일형태에 맞는 type설정
+
+        MimeTypeMap type = MimeTypeMap.getSingleton();
+
+        intent.setType(type.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(shareFile.getPath())));
+
+//        intent.setType("plain/text"); // text 형태로 전달
+
+//        intent.setType("*/*");        // 모든 공유 형태 전달
+
+        intent.putExtra(Intent.EXTRA_SUBJECT, "공유 제목");  // 제목
+
+        intent.putExtra(Intent.EXTRA_TEXT, "공유 내용");     // 내용
+
+        Log.i(TAG, Environment.getExternalStorageDirectory() + File.separator + pdf_name + ".jpg");
+
+        if (shareFile != null) {
+
+            Uri contentUri = FileProvider.getUriForFile(this,
+
+                    getApplicationContext().getPackageName() + ".fileprovider", shareFile); // manifest의  ${applicationId}.fileprovider
+
+
+
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri); // 단일 파일 전송
+
+        }
+
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);     // 공유 앱에 권한 주기
+
+        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);    // 공유 앱에 권한 주기
+
+        startActivity(Intent.createChooser(intent, "공유 타이틀"));
+
+    }
+
+    public void layoutToImage() throws IOException {
+
 
         Bitmap bm = Bitmap.createBitmap(frameLayout.getWidth(), frameLayout.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
@@ -434,8 +497,9 @@ public class RegisterActivity extends AppCompatActivity {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
-        File f = new File(Environment.getExternalStorageDirectory() + File.separator +pdf_name+".jpg");
+        File f = new File(Environment.getExternalStorageDirectory() + File.separator + pdf_name + ".jpg");
         try {
+
             f.createNewFile();
             FileOutputStream fo = new FileOutputStream(f);
             fo.write(bytes.toByteArray());
@@ -443,7 +507,7 @@ public class RegisterActivity extends AppCompatActivity {
             Document document = new Document();
             dirpath = Environment.getExternalStorageDirectory().toString();
 
-            PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/"+pdf_name+".pdf"));
+            PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/" + pdf_name + ".pdf"));
             document.open();
 
             Image image = Image.getInstance(f.toString());
@@ -453,14 +517,141 @@ public class RegisterActivity extends AppCompatActivity {
             image.setAlignment(Image.ALIGN_CENTER | Image.ALIGN_TOP);
             document.add(image);
             document.close();
-            Toast.makeText(this, dirpath + "/"+pdf_name+".pdf", Toast.LENGTH_SHORT).show();
 
             f.delete();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Intent intent = new Intent();
+
+        dirpath = Environment.getExternalStorageDirectory().toString();
+        String text = "file://"+dirpath + "/" + pdf_name + ".pdf";
+
+//
+//        File file = new File(text);
+//
+//        intent.setAction(Intent.ACTION_SEND);
+//        intent.setType("application/*");
+//        //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(new File(text).toString()));
+//        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(new File(text).toString()));
+//        Intent chooser = Intent.createChooser(intent, "공유하기");
+//        startActivity(chooser);
+//        //shareFIle(f);
+
+//        Toast.makeText(RegisterActivity.this, Uri.parse(new File(text).toString()).toString(), Toast.LENGTH_LONG).show();
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("application/pdf");
+//        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "abc@gmail.com" });
+//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "test " +    "test!!!");
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, "test");
+//        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse(new File(text).toString()).toString());
+//        startActivity(shareIntent);
+
+        createCachedFile(RegisterActivity.this, pdf_name+".pdf", "This is a test");
+
+        startActivity(getSendEmailIntent( RegisterActivity.this, "gayeon@naver.com", "Test", "See attached", pdf_name+".pdf"));
+
+//        createCachedFile(RegisterActivity.this, pdf_name+".pdf", "Test!!!");
+//        Toast.makeText(RegisterActivity.this, Uri.parse(new File(text).toString()).toString(), Toast.LENGTH_LONG).show();
+//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+//        shareIntent.setType("application/pdf");
+//        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "abc@gmail.com" });
+//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "test " +    "test!!!");
+//        shareIntent.putExtra(Intent.EXTRA_TEXT, "test");
+////        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse(new File(text).toString()).toString());
+//        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/"+ pdf_name+ ".pdf"));
+//        startActivity(shareIntent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermission() throws IOException {
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED
+                || checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Explain to the user why we need to write the permission.
+                Toast.makeText(this, "Read/Write external storage", Toast.LENGTH_SHORT).show();
+            }
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSION_REQUEST_STORAGE);
+
+            // MY_PERMISSION_REQUEST_STORAGE is an
+            // app-defined int constant
+
+        } else {
+            // 다음 부분은 항상 허용일 경우에 해당이 됩니다.
+            layoutToImage();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSION_REQUEST_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+
+                    try {
+                        layoutToImage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    // permission was granted, yay! do the
+                    // calendar task you need to do.
+
+                } else {
+
+                    Log.d(TAG, "Permission always deny");
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                break;
+        }
+    }
+
+    public static void createCachedFile(Context context, String fileName, String content) throws IOException {
+
+        File cacheFile = new File(context.getCacheDir() + File.separator + fileName);
+        cacheFile.createNewFile();
+
+        FileOutputStream fos = new FileOutputStream(cacheFile);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
+        PrintWriter pw = new PrintWriter(osw);
+
+        pw.println(content);
+
+        pw.flush();
+        pw.close();
+    }
+
+    public static Intent getSendEmailIntent(Context context, String email, String subject, String body, String fileName) {
+
+        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+
+        //Explicitly only use Gmail to send
+        emailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
+
+        emailIntent.setType("plain/text");
+
+        //Add the recipients
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { email });
+
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
+
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
+
+        //Add the attachment by specifying a reference to our custom ContentProvider
+        //and the specific file of interest
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + fileName));
+
+        return emailIntent;
+    }
 }

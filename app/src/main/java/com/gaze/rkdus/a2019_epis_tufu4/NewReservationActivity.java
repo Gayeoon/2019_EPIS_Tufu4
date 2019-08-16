@@ -437,7 +437,7 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
                             final NewReservationItem item = (NewReservationItem) internalAdapter.getItem(i);
                             final String name = item.getName();
 
-                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 1);
@@ -459,7 +459,7 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
                             final NewReservationItem item = (NewReservationItem) externalAdapter.getItem(i);
                             final String name = item.getName();
 
-                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 2);
@@ -482,7 +482,7 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
                             final NewReservationItem item = (NewReservationItem) dogtagAdapter.getItem(i);
                             final String name = item.getName();
 
-                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), ReservationActivity.class);
                             intent.putExtra("id", id);
                             intent.putExtra("name", name);
                             intent.putExtra("type", 3);

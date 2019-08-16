@@ -109,6 +109,7 @@
     <dimen name="myPageTextSize">11dp</dimen>
 
     <!-- RegisterActivity nexus5 -->
+    <dimen name="textSizeMain">13sp</dimen>
     <dimen name="textSizeBig">8dp</dimen>
     <dimen name="textSizeMid">7dp</dimen>
     <dimen name="textSizeSmall">6dp</dimen>
@@ -138,5 +139,20 @@
     <dimen name="regiSignHeight">20dp</dimen>
     <dimen name="regiSignTop">6dp</dimen>
     <dimen name="regiSignRight">10dp</dimen>
+
+    <!-- JoinActivity -->
+    <dimen name="joinPaddingTop">15dp</dimen>
+    <dimen name="joinLayoutMargin">25dp</dimen>
+    <dimen name="joinTableMargin">10dp</dimen>
+    <dimen name="joinTableRow">15dp</dimen>
+    <dimen name="joinTextBig">12sp</dimen>
+    <dimen name="joinTextMid">10sp</dimen>
+    <dimen name="joinTextPadding">8dp</dimen>
+    <dimen name="joinButtonMargin">25dp</dimen>
+    <dimen name="joinNoHosMargin">20dp</dimen>
+    <dimen name="joinOverlap">10dp</dimen>
+    <dimen name="joinCheckMargin">10dp</dimen>
+    <dimen name="joinBankWidth">10dp</dimen>
+    <dimen name="joinBankHeight">6dp</dimen>
 
 </resources>

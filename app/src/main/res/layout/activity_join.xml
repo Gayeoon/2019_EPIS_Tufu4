@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     android:orientation="vertical"
-    android:paddingTop="15dp">
+    android:paddingTop="@dimen/joinPaddingTop">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:id="@+id/info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
+                android:layout_margin="@dimen/joinLayoutMargin"
                 android:background="@drawable/join_back"
                 android:gravity="center_vertical"
                 android:orientation="vertical">
@@ -28,18 +28,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/joinTableMargin"
                     android:gravity="center">
 
-                    <TableRow android:layout_margin="15dp">
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:layout_weight="1"
                             android:text="병원 명"
                             android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/joinTextBig" />
 
                         <EditText
                             android:id="@+id/hospital"
@@ -47,21 +48,22 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
                             android:background="@drawable/join_input1"
-                            android:paddingLeft="8dp"
+                            android:paddingLeft="@dimen/joinTextPadding"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/joinTextMid" />
 
                     </TableRow>
 
-                    <TableRow android:layout_margin="15dp">
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
 
                         <TextView
                             android:layout_width="0dp"
+                            android:layout_gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="대표자 명"
                             android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/joinTextBig" />
 
                         <EditText
                             android:id="@+id/name"
@@ -70,13 +72,13 @@
                             android:layout_weight="2"
                             android:background="@drawable/join_input1"
                             android:enabled="false"
-                            android:paddingLeft="8dp"
+                            android:paddingLeft="@dimen/joinTextPadding"
                             android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/joinTextMid" />
 
                     </TableRow>
 
-                    <TableRow android:layout_margin="15dp">
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
 
                         <TextView
                             android:layout_width="0dp"
@@ -85,7 +87,7 @@
                             android:layout_weight="1"
                             android:text="병원 연락처"
                             android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/joinTextBig" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -103,7 +105,7 @@
                                 android:inputType="numberSigned"
                                 android:maxLength="3"
                                 android:textColor="#5a5a5a"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/joinTextMid" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -124,7 +126,7 @@
                                 android:inputType="numberSigned"
                                 android:maxLength="4"
                                 android:textColor="#5a5a5a"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/joinTextMid" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -145,7 +147,7 @@
                                 android:inputType="numberSigned"
                                 android:maxLength="4"
                                 android:textColor="#5a5a5a"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/joinTextMid" />
 
                         </LinearLayout>
 
@@ -159,7 +161,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="25dp"
+                android:layout_marginRight="@dimen/joinButtonMargin"
                 android:background="@drawable/join_nextoff"
                 android:enabled="false" />
 
@@ -180,10 +182,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="@dimen/joinNoHosMargin"
                     android:text="존재하지 않는 병원입니다."
                     android:textColor="#818181"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/joinTextBig" />
 
             </LinearLayout>
 
@@ -191,95 +193,29 @@
                 android:id="@+id/idpw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="25dp"
+                android:layout_margin="@dimen/joinLayoutMargin"
                 android:background="@drawable/join_back"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/joinTableMargin"
                     android:gravity="center">
 
-
-                    <TableRow android:layout_margin="15dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="1"
-                            android:text="계좌번호"
-                            android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginRight="10dp"
-                                android:layout_weight="1"
-                                android:background="@drawable/join_input4"
-                                android:orientation="horizontal">
-
-                                <ImageView
-                                    android:layout_width="10dp"
-                                    android:layout_height="6dp"
-                                    android:layout_gravity="center_vertical"
-                                    android:layout_marginLeft="8dp"
-                                    android:backgroundTint="@color/mainColor"
-                                    android:background="@drawable/community_down" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="은행"
-                                    android:ellipsize="end"
-                                    android:paddingLeft="6dp"
-                                    android:textColor="#5a5a5a"
-                                    android:textSize="11sp"
-                                    android:layout_gravity="center"
-                                    android:id="@+id/bank"
-                                    android:singleLine="true" />
-
-                            </LinearLayout>
-
-                            <EditText
-                                android:id="@+id/account"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="2.4"
-                                android:background="@drawable/join_input1"
-                                android:paddingLeft="8dp"
-                                android:hint="계좌번호(숫자만 입력)"
-                                android:inputType="numberSigned"
-                                android:maxLength="15"
-                                android:textColor="#5a5a5a"
-                                android:textSize="11sp" />
-
-
-                        </LinearLayout>
-
-
-
-                    </TableRow>
-
-                    <TableRow android:layout_margin="15dp">
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="아이디"
+                            android:layout_gravity="center_vertical"
                             android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/joinTextBig" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -290,19 +226,18 @@
                             <EditText
                                 android:id="@+id/id"
                                 android:layout_width="0dp"
-                                android:enabled="false"
-                                android:layout_height="wrap_content"
+                               android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:background="@drawable/join_input1"
-                                android:paddingLeft="8dp"
+                                android:paddingLeft="@dimen/joinTextPadding"
                                 android:textColor="#5a5a5a"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/joinTextMid" />
 
                             <ImageView
                                 android:id="@+id/overlap"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="@dimen/joinOverlap"
                                 android:background="@drawable/join_overlapoff"
                                 android:enabled="false" />
 
@@ -310,32 +245,7 @@
 
                     </TableRow>
 
-                    <TableRow android:layout_margin="15dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="비밀번호"
-                            android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
-
-                        <EditText
-                            android:id="@+id/pw"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:background="@drawable/join_input1"
-                            android:enabled="false"
-                            android:inputType="textPassword"
-                            android:maxLength="10"
-                            android:paddingLeft="8dp"
-                            android:textColor="#5a5a5a"
-                            android:textSize="12sp" />
-
-                    </TableRow>
-
-                    <TableRow android:layout_margin="15dp">
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
 
                         <TextView
                             android:layout_width="0dp"
@@ -344,7 +254,32 @@
                             android:layout_weight="1"
                             android:text="비밀번호"
                             android:textColor="#5a5a5a"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/joinTextBig" />
+
+                        <EditText
+                            android:id="@+id/pw"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:background="@drawable/join_input1"
+                            android:inputType="textPassword"
+                            android:maxLength="10"
+                            android:paddingLeft="@dimen/joinTextPadding"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextMid" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="비밀번호 확인"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextBig" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -360,12 +295,11 @@
                                 android:layout_gravity="center_vertical"
                                 android:layout_weight="2"
                                 android:background="@android:color/transparent"
-                                android:enabled="false"
                                 android:inputType="textPassword"
                                 android:maxLength="10"
-                                android:paddingLeft="8dp"
+                                android:paddingLeft="@dimen/joinTextPadding"
                                 android:textColor="#5a5a5a"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/joinTextMid" />
 
                             <ImageView
                                 android:id="@+id/check"
@@ -378,6 +312,103 @@
                         </LinearLayout>
 
                     </TableRow>
+
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="은행"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextBig" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:background="@drawable/join_input3"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/bank"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="2"
+                                android:background="@android:color/transparent"
+                                android:paddingLeft="@dimen/joinTextPadding"
+                                android:textColor="#5a5a5a"
+                                android:textSize="@dimen/joinTextMid"
+                                android:text="은행을 선택해 주세요."
+                                android:ellipsize="end"
+                                android:singleLine="true"/>
+
+                            <ImageView
+                                android:layout_width="@dimen/joinBankWidth"
+                                android:layout_height="@dimen/joinBankHeight"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/joinCheckMargin"
+                                android:layout_marginRight="@dimen/joinCheckMargin"
+                                android:backgroundTint="#5a5a5a"
+                                android:background="@drawable/community_down" />
+
+
+                        </LinearLayout>
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"
+                            android:text="예금주"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextBig" />
+
+                        <EditText
+                            android:id="@+id/account_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:background="@drawable/join_input1"
+                            android:maxLength="10"
+                            android:paddingLeft="@dimen/joinTextPadding"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextMid" />
+
+                    </TableRow>
+
+                    <TableRow android:layout_margin="@dimen/joinTableRow">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:text="계좌번호"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextBig" />
+
+                        <EditText
+                            android:id="@+id/account"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:background="@drawable/join_input1"
+                            android:inputType="numberSigned"
+                            android:maxLength="10"
+                            android:paddingLeft="@dimen/joinTextPadding"
+                            android:hint="계좌번호(숫자만 입력)"
+                            android:textColor="#5a5a5a"
+                            android:textSize="@dimen/joinTextMid" />
+
+                    </TableRow>
+
                 </TableLayout>
 
             </LinearLayout>
@@ -442,12 +473,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="25dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/join_nextoff"
+                android:layout_marginRight="@dimen/joinButtonMargin"
+                android:layout_marginBottom="@dimen/joinNoHosMargin"
+                android:background="@drawable/join_finishoff"
                 android:enabled="false"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -54,17 +54,19 @@ import static java.lang.Thread.sleep;
 
 public class JoinActivity extends BaseActivity {
 
-    EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck, eaccount;
+    EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck, eaccount, eaccountName;
     ImageButton next_one, next_two;
     LinearLayout idpw;
-    LinearLayout no, vowow;
+    LinearLayout no;
 
     WebView webView;
 
     ImageView check, overlap;
 
-    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "", account="";
+    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "", account="", accountName="";
     boolean success;
+
+    boolean id_check=false, pw_check=false, pwcheck_check=false, accountName_check=false, bank_check=false, account_check=false;
     InputMethodManager imm;
 
     Animation slowly_appear, slowlyDisappear;
@@ -107,6 +109,7 @@ public class JoinActivity extends BaseActivity {
         epw = (EditText) findViewById(R.id.pw);
         epwCheck = (EditText) findViewById(R.id.pwCheck);
         eaccount = (EditText) findViewById(R.id.account);
+        eaccountName = (EditText) findViewById(R.id.account_name);
 
         next_one = (ImageButton) findViewById(R.id.next_one);
         next_two = (ImageButton) findViewById(R.id.next_two);
@@ -120,7 +123,6 @@ public class JoinActivity extends BaseActivity {
         idpw = (LinearLayout) findViewById(R.id.idpw);
 
         no = (LinearLayout) findViewById(R.id.no);
-        vowow = (LinearLayout) findViewById(R.id.vowow);
         cbSignUpApp = (CheckBox) findViewById(R.id.isSignUpApp);
         webView = (WebView) findViewById(R.id.webview);
 
@@ -147,6 +149,9 @@ public class JoinActivity extends BaseActivity {
                 }
                 if(epwCheck.getText() != null){
                     intent.putExtra("pwcheck", epwCheck.getText().toString());
+                }
+                if(eaccountName.getText() != null){
+                    intent.putExtra("accountName", eaccountName.getText().toString());
                 }
                 startActivityForResult(intent, 1);
             }
@@ -185,9 +190,15 @@ public class JoinActivity extends BaseActivity {
                 comfirm = epwCheck.getText().toString();
 
                 if (pw.equals(comfirm)) {
+                    pwcheck_check = true;
                     check.setBackgroundResource(R.drawable.join_check);
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                        next_two.setEnabled(true);
+                        next_two.setBackgroundResource(R.drawable.join_finishon);
+                    }
 
                 } else {
+                    pwcheck_check = false;
                     check.setBackgroundResource(R.drawable.join_fail);
                 }
             }
@@ -321,9 +332,39 @@ public class JoinActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (eaccount.getText().toString().equals("")) {
-                    eid.setEnabled(false);
+                    account_check = false;
                 } else {
-                    eid.setEnabled(true);
+                    account_check = true;
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                        next_two.setEnabled(true);
+                        next_two.setBackgroundResource(R.drawable.join_finishon);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        eaccountName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (eaccountName.getText().toString().equals("")) {
+                    accountName_check = false;
+                } else {
+                    accountName_check = true;
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                        next_two.setEnabled(true);
+                        next_two.setBackgroundResource(R.drawable.join_finishon);
+                    }
                 }
             }
 
@@ -343,9 +384,13 @@ public class JoinActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (epw.getText().toString().equals("")) {
-                    epwCheck.setEnabled(false);
+                    pw_check = false;
                 } else {
-                    epwCheck.setEnabled(true);
+                    pw_check = true;
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                        next_two.setEnabled(true);
+                        next_two.setBackgroundResource(R.drawable.join_finishon);
+                    }
                 }
             }
 
@@ -369,14 +414,17 @@ public class JoinActivity extends BaseActivity {
         next_two.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (select == ""){
+
+                if (select.equals("은행")){
                     Toast.makeText(JoinActivity.this, "은행을 선택해주세요.", Toast.LENGTH_LONG).show();
-                }else {
+                }
+                else
+                 {
                     account = eaccount.getText().toString();
                     id = eid.getText().toString();
                     pw = epw.getText().toString();
 
-                    new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/hospital/putHospital");
                 }
             }
         });
@@ -402,11 +450,11 @@ public class JoinActivity extends BaseActivity {
                 if (cbSignUpApp.isChecked()) {
                     isSignUpApp = true;
                     next_two.setEnabled(true);
-                    next_two.setBackgroundResource(R.drawable.join_nexton);
+                    next_two.setBackgroundResource(R.drawable.join_finishon);
                 } else {  // 초기화
                     isSignUpApp = false;
                     next_two.setEnabled(false);
-                    next_two.setBackgroundResource(R.drawable.join_nextoff);
+                    next_two.setBackgroundResource(R.drawable.join_finishoff);
                 }
             }
         });
@@ -517,6 +565,7 @@ public class JoinActivity extends BaseActivity {
                         epw.setEnabled(true);
                         eid.setEnabled(false);
                         overlap.setEnabled(false);
+                        id_check = true;
                     } else if (success == 1) {
                         Toast.makeText(getApplicationContext(), "이미 존재하는 아이디 입니다.", Toast.LENGTH_LONG).show();
                         eid.setText("");
@@ -537,8 +586,8 @@ public class JoinActivity extends BaseActivity {
      * 회원가입 성공하면 -> int 1
      * 회원가입 실패하면 -> int 0
      *
-     * Uri  --->   /getJoin
-     * Parm  --->   {"user":{"hospital":"병원이름", "name":"김가연", "number":"010-4491-0778", "bank":"국민", "account":"70940200283092", "id":"test", "pw":"1234"}} 전송
+     * Uri  --->   /hospital/putHospital
+     * Parm  --->   {"user":{"hospital":"병원이름", "name":"김가연", "number":"010-4491-0778", "bank":"국민", "accountHolder":"김가연", account":"70940200283092", "id":"test", "pw":"1234"}} 전송
      * Result  --->   {"result":1} 결과 값*/
 
     public class JoinDB extends AsyncTask<String, String, String> {
@@ -556,6 +605,7 @@ public class JoinActivity extends BaseActivity {
                 tmp.accumulate("name", name);
                 tmp.accumulate("number", number);
                 tmp.accumulate("bank", select);
+                tmp.accumulate("accountHolder", accountName);
                 tmp.accumulate("account", account);
                 tmp.accumulate("id", id);
                 tmp.accumulate("pw", pw);
@@ -633,7 +683,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new JoinDB().execute(getResources().getString(R.string.url) + "/getJoin");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/hospital/putHospital");
                 } else {
                     success = (int) json.get("result");
 
@@ -758,7 +808,6 @@ public class JoinActivity extends BaseActivity {
                     success = (int) json.get("result");
 
                     if (success == 1) {
-                        vowow.setVisibility(View.VISIBLE);
                         idpw.setVisibility(View.VISIBLE);
                         next_two.setVisibility(View.VISIBLE);
                         ehospital.setEnabled(false);
@@ -847,7 +896,6 @@ public class JoinActivity extends BaseActivity {
                 next_one.setEnabled(false);
                 next_two.setVisibility(View.VISIBLE);
                 idpw.setVisibility(View.VISIBLE);
-                vowow.setVisibility(View.VISIBLE);
                 bank.setText(data.getStringExtra("bank"));
                 select = data.getStringExtra("bank");
                 hospital = ehospital.getText().toString();
@@ -866,6 +914,10 @@ public class JoinActivity extends BaseActivity {
                 if (data.hasExtra("pwcheck")){
                     epwCheck.setText(data.getStringExtra("pwcheck"));
                 }
+                if (data.hasExtra("accountName")){
+                    eaccountName.setText(data.getStringExtra("accountName"));
+                }
+                Toast.makeText(JoinActivity.this, id_check+" "+pw_check+" "+pwcheck_check+" "+accountName_check+" "+account_check, Toast.LENGTH_LONG).show();
 
             } else {
                 finish();

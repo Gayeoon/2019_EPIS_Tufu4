@@ -112,6 +112,7 @@
     <dimen name="myPageTextSize">13dp</dimen>
 
     <!-- RegisterActivity XL-->
+    <dimen name="textSizeMain">14sp</dimen>
     <dimen name="textSizeBig">9dp</dimen>
     <dimen name="textSizeMid">8dp</dimen>
     <dimen name="textSizeSmall">7dp</dimen>
@@ -141,5 +142,21 @@
     <dimen name="regiSignHeight">20dp</dimen>
     <dimen name="regiSignTop">5dp</dimen>
     <dimen name="regiSignRight">10dp</dimen>
+
+    <!-- JoinActivity -->
+    <!-- Galaxy Nexus -->
+    <dimen name="joinPaddingTop">15dp</dimen>
+    <dimen name="joinLayoutMargin">25dp</dimen>
+    <dimen name="joinTableMargin">10dp</dimen>
+    <dimen name="joinTableRow">15dp</dimen>
+    <dimen name="joinTextBig">13sp</dimen>
+    <dimen name="joinTextMid">12sp</dimen>
+    <dimen name="joinTextPadding">8dp</dimen>
+    <dimen name="joinButtonMargin">25dp</dimen>
+    <dimen name="joinNoHosMargin">20dp</dimen>
+    <dimen name="joinOverlap">10dp</dimen>
+    <dimen name="joinCheckMargin">10dp</dimen>
+    <dimen name="joinBankWidth">10dp</dimen>
+    <dimen name="joinBankHeight">6dp</dimen>
 
 </resources>

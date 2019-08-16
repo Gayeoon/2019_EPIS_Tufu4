@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class ReservationActivity extends BaseActivity {
     ImageButton check;
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;
 
+    TableRow sametime;
     String id, name;
     String TAG = "ResrvationActivity";
 
@@ -53,11 +56,11 @@ public class ReservationActivity extends BaseActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        if (height > 2000){
+        if (height > 2000) {
             setContentView(R.layout.activity_reservation);
 
         } else {
-            setContentView(R.layout.activity_reservation_small                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            );
+            setContentView(R.layout.activity_reservation_small);
 
         }
 
@@ -81,6 +84,8 @@ public class ReservationActivity extends BaseActivity {
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
 
+        sametime = (TableRow) findViewById(R.id.sametime);
+
         new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
 
         check = (ImageButton) findViewById(R.id.check);
@@ -101,11 +106,11 @@ public class ReservationActivity extends BaseActivity {
 
     type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
 
-    Uri  --->   /getReservationData
+    Url  --->   /getReservationData
     Parm  --->   {"user":{"id":"test","owner_name":"김가연","type":1}} 전송
     Result  --->  {"result":{"OWNER_NAME":"김가연“,"OWNER_RESIDENT":
         "960708-0000000","OWNER_PHONE_NUMBER":"010-4491-0778“,"OWNER_ADDRESS1":"대전","OWNER_ADDRESS2":"궁동","PET_NAME":"뿡이“
-                ,"PET_VARIETY":"시츄","PET_COLOR":"흰색+갈색","PET_GENDER":"남“,"PET_NEUTRALIZATION":"했움","PET_BIRTH":"2008-04-04",
+                ,"PET_VARIETY":"시츄","PET_COLOR":"흰색+갈색","PET_GENDER":"남“,"PET_NEUTRALIZATION":"했움", "SAME_TIME":"1", "PET_BIRTH":"2008-04-04",
                 "REGIST_DATE":"2008-04-04","ETC":"겁이 많아요ㅠㅠ"}} 결과 값 */
 
     public class ReservationData extends AsyncTask<String, String, String> {
@@ -221,6 +226,12 @@ public class ReservationActivity extends BaseActivity {
                         neutralization.setText("안했음");
                     }
 
+                    if (jsonObject.getString("SAME_TIME") == "1") {
+                        sametime.setVisibility(View.VISIBLE);
+                    } else {
+                        sametime.setVisibility(View.GONE);
+                    }
+
 
                     birthday.setText(jsonObject.getString("PET_BIRTH"));
                     acqDate.setText(jsonObject.getString("REGIST_DATE"));
@@ -246,7 +257,7 @@ public class ReservationActivity extends BaseActivity {
      *
      *  id/name/type이 일치하는 데이터의 state를 1에서 2로 변경!
      *
-     * Uri  --->   /putChangeState
+     * Url  --->   /putChangeState
      * Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
@@ -344,9 +355,6 @@ public class ReservationActivity extends BaseActivity {
 
                     if (success == 1) {
                         Toast.makeText(getApplicationContext(), "예약확인!!", Toast.LENGTH_LONG).show();
-
-                        String tel = "tel:" + phone.getText().toString();
-                        startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
 
                         finish();
                     } else {
