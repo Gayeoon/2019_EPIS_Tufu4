@@ -1,204 +1,269 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
     android:background="@color/colorWhite"
-    tools:context=".HospitalProfileActivity">
+    tools:context=".user.HospitalProfileActivity">
 
-    <ImageView
-        android:id="@+id/hosProfImage"
-        android:layout_width="@dimen/hosProfImageWidth"
-        android:layout_height="@dimen/hosProfImageHeight"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/hosProfImageMarginTop"
-        app:srcCompat="@drawable/hosinfo_profile"
-        />
-
-    <TextView
-        android:id="@+id/hosProfHospitalName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="두부는 네모 병원"
-        android:layout_gravity="center"
-        android:textSize="18dp"
-        />
-    
-    <TextView
-        android:id="@+id/hosProfOwnerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:text="대표자 이해원"
-        />
-
-    <LinearLayout
-        android:layout_width="360dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        >
+        android:gravity="center"
+        android:background="@color/colorWhite"
+        tools:context=".user.HospitalProfileActivity">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="300dp">
+        <ImageView
+            android:id="@+id/hosProfImage"
+            android:layout_width="@dimen/hosProfImageWidth"
+            android:layout_height="@dimen/hosProfImageHeight"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/hosProfImageMarginTop"
+            app:srcCompat="@drawable/hosinfo_profile"
+            />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:weightSum="1"
-                >
+        <TextView
+            android:id="@+id/hosProfHospitalName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="두부는 네모 병원"
+            android:layout_gravity="center"
+            android:textSize="18dp"
+            />
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+        <TextView
+            android:id="@+id/hosProfOwnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:text="대표자 이해원"
+            />
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitEnd"
-                        app:layout_constraintDimensionRatio="1:1"
-                        app:srcCompat="@drawable/hosinfo_reservationcount"
-                        />
-
-                    <LinearLayout
-                        android:id="@+id/reservationCountLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="22dp"
-                        android:orientation="horizontal"
-                        android:layout_gravity="top|center"
-                        >
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:layout_marginLeft="10dp"
-                            android:text="예약건수"
-                            android:textColor="@color/colorWhite"
-                            android:textSize="18dp"
-                            />
-
-                        <TextView
-                            android:id="@+id/hosProfReservationCount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="20건"
-                            android:textSize="18dp"
-                            android:textColor="@color/colorWhite"
-                            />
-                    </LinearLayout>
-                </FrameLayout>
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.05"></View>
-
-                <ImageView
-                    android:id="@+id/hosProfReservationBtn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitEnd"
-                    app:layout_constraintDimensionRatio="1:1"
-                    app:srcCompat="@drawable/hosinfo_reservation"
-                    />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="360dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            >
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:adjustViewBounds="true"
-                    android:layout_marginTop="50dp"
-                    android:scaleType="fitXY"
-                    app:srcCompat="@drawable/hosinfo_infomationbox"
-                    />
+                android:layout_height="250dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:gravity="center|top"
-                    android:layout_marginTop="60dp"
-                    android:orientation="vertical"
-
+                    android:layout_height="90dp"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:weightSum="1"
                     >
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
-                        android:orientation="horizontal"
-                        >
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5">
 
                         <ImageView
-                            android:id="@+id/hosProfHospitalHPImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/hosProfIconHeight"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
                             android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
+                            android:scaleType="fitEnd"
                             app:layout_constraintDimensionRatio="1:1"
-                            app:srcCompat="@drawable/hosinfo_call"
-                            android:layout_marginLeft="20dp"
+                            app:srcCompat="@drawable/hosinfo_reservationcount"
                             />
 
-                        <TextView
-                            android:id="@+id/hosProfHospitalHP"
+                        <LinearLayout
+                            android:id="@+id/reservationCountLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:paddingLeft="10dp"
-                            android:text="01065720153"
-                            android:textSize="16dp" />
-                    </LinearLayout>
+                            android:layout_marginTop="22dp"
+                            android:orientation="horizontal"
+                            android:layout_gravity="top|center"
+                            >
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="10dp"
+                                android:layout_marginLeft="10dp"
+                                android:text="예약건수"
+                                android:textColor="@color/colorWhite"
+                                android:textSize="18dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/hosProfReservationCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="20건"
+                                android:textSize="18dp"
+                                android:textColor="@color/colorWhite"
+                                />
+                        </LinearLayout>
+                    </FrameLayout>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.05"></View>
+
+                    <ImageView
+                        android:id="@+id/hosProfReservationBtn"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.35"
+                        android:adjustViewBounds="true"
+                        android:scaleType="fitEnd"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:srcCompat="@drawable/hosinfo_reservation"
+                        />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:layout_marginTop="50dp"
+                        android:scaleType="fitXY"
+                        app:srcCompat="@drawable/hosinfo_infomationbox"
+                        />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_gravity="center"
+                        android:gravity="center|top"
+                        android:layout_marginTop="60dp"
+                        android:orientation="vertical"
+
                         >
-
-                        <ImageView
-                            android:id="@+id/hosProfHospitalAddressImage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/hosProfIconHeight"
-                            android:adjustViewBounds="true"
-                            android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/hosinfo_marker"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            />
-
-                        <TextView
-                            android:id="@+id/hosProfHospitalAddress"
-                            android:layout_width="240dp"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="10dp"
-                            android:text="대전광역시 유성구 궁동 6-7"
-                            android:textSize="13dp"
-                            android:layout_gravity="center"
-                            />
-                    </LinearLayout>
+                            android:layout_marginTop="15dp"
+                            android:orientation="horizontal"
+                            >
 
+                            <ImageView
+                                android:id="@+id/hosProfHospitalHPImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/hosProfIconHeight"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                app:layout_constraintDimensionRatio="1:1"
+                                app:srcCompat="@drawable/hosinfo_call"
+                                android:layout_marginLeft="20dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/hosProfHospitalHP"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:paddingLeft="10dp"
+                                android:text="01065720153"
+                                android:textSize="16dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            >
+
+                            <ImageView
+                                android:id="@+id/hosProfHospitalAddressImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/hosProfIconHeight"
+                                android:adjustViewBounds="true"
+                                android:scaleType="fitCenter"
+                                app:srcCompat="@drawable/hosinfo_marker"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="20dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/hosProfHospitalAddress"
+                                android:layout_width="240dp"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="10dp"
+                                android:text="대전광역시 유성구 궁동 6-7"
+                                android:textSize="13dp"
+                                android:layout_gravity="center"
+                                />
+                        </LinearLayout>
+                      </LinearLayout>
+                  </FrameLayout>
+                </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="360dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/hosinfo_reviewtitle"
+                    android:layout_marginBottom="20dp"
+                    />
+
+                <LinearLayout
+                    android:layout_width="360dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:adjustViewBounds="true"
+                        app:srcCompat="@drawable/hosinfo_star"
+                        android:layout_marginLeft="5dp"
+                        />
+                    
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:layout_marginLeft="5dp"
+                        android:textColor="@color/colorBlack"
+                        android:text="평균 평점 : "/>
+
+                    <TextView
+                        android:id="@+id/tvScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14dp"
+                        android:textColor="@color/colorBlack"
+                        />
                 </LinearLayout>
-            </FrameLayout>
-        </FrameLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/hosinfoReviewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="15dp"
+                    >
+                </android.support.v7.widget.RecyclerView>
+                </LinearLayout>
+            </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

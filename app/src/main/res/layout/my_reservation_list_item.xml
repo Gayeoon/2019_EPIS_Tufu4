@@ -48,21 +48,14 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="20dp"
                     >
+                    <!-- comfirm -> confirm 오타 수정 요망 -->
                     <ImageView
                         android:id="@+id/registConfirmImg"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
+                        android:layout_marginRight="5dp"
                         android:adjustViewBounds="true"
-                        app:srcCompat="@drawable/login"
-                        />
-
-                    <ImageView
-                        android:id="@+id/writeReviewImg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="20dp"
-                        android:adjustViewBounds="true"
-                        app:srcCompat="@drawable/message_petmale"
-                        android:visibility="gone"
+                        app:srcCompat="@drawable/mypage_registconfirm"
                         />
 
                     <ImageView
@@ -71,7 +64,7 @@
                         android:layout_height="10dp"
                         android:adjustViewBounds="true"
                         android:layout_marginLeft="5dp"
-                        app:srcCompat="@drawable/search_icon"
+                        app:srcCompat="@drawable/mypage_deletereservation"
                         android:visibility="gone"
                         />
                 </LinearLayout>
@@ -124,7 +117,20 @@
                     android:layout_marginRight="20dp"
                     android:adjustViewBounds="true"
                     android:gravity="right"
-                    app:srcCompat="@drawable/mypage_checkreservationbtn" />
+                    app:srcCompat="@drawable/mypage_checkreservationbtn"
+                    />
+
+                <ImageView
+                    android:id="@+id/writeReviewImg"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="20dp"
+                    android:adjustViewBounds="true"
+                    android:gravity="right"
+                    app:srcCompat="@drawable/mypage_addreviewbtn"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>

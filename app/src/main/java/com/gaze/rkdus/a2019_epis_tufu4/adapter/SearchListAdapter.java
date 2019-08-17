@@ -64,8 +64,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.It
         }
 
         void onBind(SearchResultData data) {
-            hospitalNameText.setText(data.getHOSPITAL_NAME());
-            ceoNameText.setText(data.getCEO_NAME());
+            hospitalNameText.setText(data.getHospital_name());
+            ceoNameText.setText(data.getCeo_name());
             //ceoNameText.setText(String.valueOf(data.getRESERVATION_COUNT()));
             if(data.getBoolSIGNUP_APP())    // 등록 시
                 signUpAppImage.setImageResource(R.drawable.search_signupappoicon);

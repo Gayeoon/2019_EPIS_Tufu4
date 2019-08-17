@@ -2,7 +2,6 @@ package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -13,6 +12,7 @@ import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.user.MenuActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,7 +31,6 @@ import java.net.URL;
 
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity.checkStringWS;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
 /*
  사용자가 커뮤니티 들어갈 때 닉네임 설정하는 팝업창
@@ -68,7 +67,7 @@ public class NicnamePopupActivity extends BaseActivity {
                             if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
                                 if(nickname.equals(eNicname.getText().toString())) { // 중복 체크 값과 입력 값이 동일한 경우
                                     nicnameAsyncTask = new NicnameAsyncTask();
-                                    nicnameAsyncTask.execute("/addNickname", "add");
+                                    nicnameAsyncTask.execute("/user/join", "add");
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), "중복검사한 값과 입력한 값이 다릅니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
@@ -98,7 +97,7 @@ public class NicnamePopupActivity extends BaseActivity {
                         if (checkStringWS(eNicname.getText().toString())) { // 공백 체크
                             nickname = eNicname.getText().toString();
                             nicnameAsyncTask = new NicnameAsyncTask();
-                            nicnameAsyncTask.execute("/checkNickname", "check");
+                            nicnameAsyncTask.execute("/user/nameCheck", "check");
                         }
                         else
                             Toast.makeText(getApplicationContext(), "입력 칸에 공백이 존재합니다. 다시 작성하여 중복체크하세요.", Toast.LENGTH_SHORT).show();
@@ -127,7 +126,12 @@ public class NicnamePopupActivity extends BaseActivity {
                 // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
                 // Message에 담은 모든 정보 JSONObject에 담기
-                jsonObject.accumulate("NICKNAME", nickname); // key JSONObject에 담기
+                if (type.equals("check"))
+                    jsonObject.accumulate("name", nickname); // key JSONObject에 담기
+                if (type.equals("add")) {
+                    jsonObject.accumulate("user_id", KAKAO_ID); // key JSONObject에 담기
+                    jsonObject.accumulate("name", nickname); // key JSONObject에 담기
+                }
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
@@ -201,8 +205,9 @@ public class NicnamePopupActivity extends BaseActivity {
                 else if(type.equals("add")) {
                     if(getResult == 1) {    // DB에 생성 완료
                         Toast.makeText(getApplicationContext(), "닉네임 설정 완료", Toast.LENGTH_LONG).show();
-                        intent.putExtra("nicname", nickname);
-                        setResult(RESULT_OK, intent);
+                        NICKNAME = nickname;
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                     else {

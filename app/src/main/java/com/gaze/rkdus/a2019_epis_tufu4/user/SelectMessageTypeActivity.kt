@@ -1,10 +1,13 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
+import com.gaze.rkdus.a2019_epis_tufu4.user.HospitalProfileActivity.START_RESERVATION
 import kotlinx.android.synthetic.main.activity_select_message_type.*
 
 class SelectMessageTypeActivity : BaseActivity() {
@@ -30,8 +33,7 @@ class SelectMessageTypeActivity : BaseActivity() {
                 msgIntent = Intent(applicationContext, MessageActivity::class.java)
                 msgIntent!!.putExtra("key", intent.getIntExtra("key", 0))
                 msgIntent!!.putExtra("hospitalName", intent.getStringExtra("hospitalName"))
-                startActivity(msgIntent)
-                finish()
+                startActivityForResult(msgIntent, START_RESERVATION)
             }
             false
         }
@@ -42,8 +44,7 @@ class SelectMessageTypeActivity : BaseActivity() {
                 msgIntent = Intent(applicationContext, VaccineMessageActivity::class.java)
                 msgIntent!!.putExtra("key", intent.getIntExtra("key", 0))
                 msgIntent!!.putExtra("hospitalName", intent.getStringExtra("hospitalName"))
-                startActivity(msgIntent)
-                finish()
+                startActivityForResult(msgIntent, START_RESERVATION)
             }
             false
         }
@@ -54,10 +55,23 @@ class SelectMessageTypeActivity : BaseActivity() {
                 msgIntent = Intent(applicationContext, HealthCheckupMessageActivity::class.java)
                 msgIntent!!.putExtra("key", intent.getIntExtra("key", 0))
                 msgIntent!!.putExtra("hospitalName", intent.getStringExtra("hospitalName"))
-                startActivity(msgIntent)
-                finish()
+                startActivityForResult(msgIntent, START_RESERVATION)
             }
             false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        when (requestCode) {
+            START_RESERVATION -> if (resultCode == RESULT_OK) {
+                setResult(RESULT_OK)
+                finish()
+            } else {
+                setResult(RESULT_CANCELED)
+                finish()
+            }
+            else -> {
+            }
         }
     }
 }

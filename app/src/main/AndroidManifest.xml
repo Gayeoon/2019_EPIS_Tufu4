@@ -46,7 +46,8 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme" />
+            android:theme="@style/NoTheme"></activity>
+
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -95,7 +96,8 @@
         </provider>
         <provider
             android:name=".CachedFileProvider"
-            android:authorities="com.stephendnicholas.gmailattach.provider" />
+            android:authorities="com.stephendnicholas.gmailattach.provider"></provider>
+
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -190,18 +192,19 @@
             android:name=".popup.ManagementPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".VaccinationActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
-        <activity android:name=".HealthScreeningActivity"
-            android:theme="@style/NoTheme">
-
-        </activity>
-
+            android:name=".user.SelectMessageTypeActivity"
+            android:theme="@style/NoTheme" />
         <activity
-            android:name=".popup.HospitalInfoPopupActivity"
+            android:name=".user.VaccineMessageActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".user.HealthCheckupMessageActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".popup.ReviewPopupActivity"
             android:theme="@style/PopupTheme" />
+        <activity android:name=".popup.SerialPopupActivity"
+            android:theme="@style/PopupTheme"></activity>
     </application>
 
 </manifest>

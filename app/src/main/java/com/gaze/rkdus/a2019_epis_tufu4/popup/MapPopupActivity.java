@@ -81,12 +81,12 @@ public class MapPopupActivity extends BaseActivity {
         else {
             if(intent.hasExtra("data")) {
                 hospitalData = (SearchResultData) intent.getSerializableExtra("data");
-                if(hospitalData.getADDRESS1().isEmpty()) {
+                if(hospitalData.getAddress1().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "지도에 표시할 수 없는 위치에 있습니다. \n 직접 검색해주세요.", Toast.LENGTH_LONG).show();
                     finish();
                 }
 
-                Location location = addressToLatLon(getApplicationContext(), hospitalData.getADDRESS1());   // 위도, 경도 저장
+                Location location = addressToLatLon(getApplicationContext(), hospitalData.getAddress1());   // 위도, 경도 저장
 
                 if(location == null) {
                     Toast.makeText(getApplicationContext(), "지도에 표시할 수 없는 위치에 있습니다. \n 직접 검색해주세요.", Toast.LENGTH_LONG).show();
@@ -107,9 +107,10 @@ public class MapPopupActivity extends BaseActivity {
         MapPoint mapPoint = MapPoint.mapPointWithGeoCoord(hospitalData.getLat(), hospitalData.getLon());    // 위도, 경도에 해당하는 위치
         mapView.setMapCenterPointAndZoomLevel(mapPoint, 6, true);   // 중심점과 줌레벨 설정
         mapViewContainer.addView(mapView);
-        addMarker(mapView, hospitalData.getHOSPITAL_NAME(), mapPoint, 1);    // 병원 위치 마커 추가
+        addMarker(mapView, hospitalData.getHospital_name(), mapPoint, 1);    // 병원 위치 마커 추가
 
         // 내 위치를 받아올 수 있는 경우
+        // TODO: 내 위치 값 가져오게 하기
         final Location tempLocation = new Location("");
         tempLocation.setLatitude(36.369232);
         tempLocation.setLongitude(127.347739);

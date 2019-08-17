@@ -3,7 +3,7 @@
     <!-- Note 9  //  1440 x 2960 px  // API 27 -->
     <integer name="searchResultCount">8</integer>
     <!-- MenuActivity -->
-    <dimen name="menuLogoHeight">160dp</dimen>
+    <dimen name="menuLogoHeight">140dp</dimen>
     <dimen name="menuImageHeight">300dp</dimen>
     <dimen name="menuBtnWidth">190dp</dimen>
     <dimen name="menuBtnHeight">185dp</dimen>
@@ -13,6 +13,14 @@
     <dimen name="menuLogoMarginLeft">38dp</dimen>
     <dimen name="menuLogoMarginBottom">20dp</dimen>
 
+    <dimen name="menuUserInfoLayoutWidth">180dp</dimen>
+    <dimen name="menuUserInfoLayoutHeight">130dp</dimen>
+    <dimen name="menuMarginTop">30dp</dimen>
+    <dimen name="serialSerachEditTextPaddingLeft">120dp</dimen>
+    <dimen name="menuMargin">20dp</dimen>
+    <dimen name="packageMargin">35dp</dimen>
+    <dimen name="menuSearchBarHeight">30dp</dimen>
+    <dimen name="menuUserinfoMargin">13dp</dimen>
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
     <dimen name="typeImgHeight">150dp</dimen>

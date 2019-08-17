@@ -17,6 +17,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MyReservationListAdapter;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -41,6 +42,7 @@ import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
 public class MyPageActivity extends BaseActivity {
     public static final int CHECK_RESERVATION = 1000;
     public static final int CHECK_REGISTCONFIRM = 1001;
+    public static final int CHECK_ADDREVIEW = 2000;
 
     EditText eRegistNum, eOwnerName, eOwnerHP, eOwnerAddress, ePetName, ePetRace, ePetColor, ePetBirth, ePetGender, ePetNeut;
     TextView tvRegistNum, tvOwnerName, tvOwnerHP, tvOwnerAddress, tvPetName, tvPetRace, tvPetColor, tvPetBirth, tvPetGender, tvPetNeut;
@@ -53,7 +55,7 @@ public class MyPageActivity extends BaseActivity {
     // 두 배열의 크기와 순서쌍은 같다고 정의.
     EditText[] editTexts;
     TextView[] textViews;
-    ArrayList<MyReservationData> reservationList = new ArrayList<>();
+    ArrayList<MyReservationListData> reservationList = new ArrayList<>();
     MyReservationListAdapter adapter;
     boolean isRewrite = false;
     @Override
@@ -144,11 +146,38 @@ public class MyPageActivity extends BaseActivity {
         });
     }
 
+//    /*
+//    MyReservation RecyclerView 출력 또는 갱신.
+//     */
+//    public void refreshMyReservation() {
+//        String myReservation = loadJSONFile("reservation");
+//        if(!TextUtils.isEmpty(myReservation)) { // 지금까지 예약한 정보가 담겨진 파일 불러오기
+//            Log.d(TAG, "string :  " + myReservation);
+//            setReservationListFromStr(myReservation);
+//            showRecyclerView(reservationList);
+//        }
+//    }
+//    /*
+//    JSONArray 방식의 String을 ArrayList로 변환.
+//     */
+//    private void setReservationListFromStr(String myReservation) {
+//        try {
+//            JSONArray reservationArray = new JSONArray(myReservation);
+//            // Gson사용. JSONArray to ArrayList
+//            Log.d(TAG, "GSON사용전 :  " + myReservation);
+//            Gson gson = new Gson();
+//            Type listType = new TypeToken<ArrayList<MyReservationData>>(){}.getType();
+//            reservationList = gson.fromJson(reservationArray.toString(), listType);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
     /*
     MyReservation RecyclerView 출력 또는 갱신.
      */
     public void refreshMyReservation() {
-        String myReservation = loadJSONFile("reservation");
+        String myReservation = loadJSONFile("myReservation");
         if(!TextUtils.isEmpty(myReservation)) { // 지금까지 예약한 정보가 담겨진 파일 불러오기
             Log.d(TAG, "string :  " + myReservation);
             setReservationListFromStr(myReservation);
@@ -156,15 +185,16 @@ public class MyPageActivity extends BaseActivity {
         }
     }
     /*
-    JSONArray 방식의 String을 ArrayList로 변환.
-     */
+   JSONArray 방식의 String을 ArrayList로 변환.
+    */
+
     private void setReservationListFromStr(String myReservation) {
         try {
             JSONArray reservationArray = new JSONArray(myReservation);
             // Gson사용. JSONArray to ArrayList
             Log.d(TAG, "GSON사용전 :  " + myReservation);
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<MyReservationData>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<MyReservationListData>>(){}.getType();
             reservationList = gson.fromJson(reservationArray.toString(), listType);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -174,11 +204,11 @@ public class MyPageActivity extends BaseActivity {
     /*
     RecyclerView setting and print 함수
      */
-    private void showRecyclerView(ArrayList<MyReservationData> arrayList) {
+    private void showRecyclerView(ArrayList<MyReservationListData> arrayList) {
 
-        final ArrayList<MyReservationData> result = arrayList;
+        final ArrayList<MyReservationListData> result = arrayList;
         if(!result.isEmpty()) {
-            Log.d(TAG, "이거예약함 : " + result.get(0).getHOSPITAL_NAME());
+            Log.d(TAG, "이거예약함 : " + result.get(0).getHospital_name());
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         myReservationRecycler.setLayoutManager(linearLayoutManager);
@@ -218,15 +248,14 @@ public class MyPageActivity extends BaseActivity {
     /*
     RecyclerView Item 개별 클릭 리스너 설정하는 함수
      */
-    private void setRecyclerViewItemClick(final ArrayList<MyReservationData> result, MyReservationListAdapter myListAdapter) {
+    private void setRecyclerViewItemClick(final ArrayList<MyReservationListData> result, MyReservationListAdapter myListAdapter) {
         myListAdapter.setItemClick(new MyReservationListAdapter.ItemClick() {
             @Override
             public void onClick(View view, int position) {
                 //해당 위치의 Data get
-                MyReservationData resultData = result.get(position);
+                MyReservationListData resultData = result.get(position);
                 Toast.makeText(getApplicationContext(),
-                        "병원 이름, 타입 : (" + resultData.getHOSPITAL_NAME() + ", " + resultData.getTypeToStr(resultData.getTYPE()) + ")",
-                        Toast.LENGTH_LONG).show();
+                        "병원 이름, 타입 : (" + resultData.getHospital_name() + ", " + resultData.getTypeToStr(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -429,7 +458,64 @@ public class MyPageActivity extends BaseActivity {
                     if(jsonObject.getInt("HOSPITAL_KEY") == rewriteData.getHOSPITAL_KEY()) { // 키 동일 체크
                         Log.d(TAG, "같은 객체 찾음!");
                         if (isDelete)
-                            jsonArray.remove(i); // 덮어씌우기
+                            jsonArray.remove(i); // 삭제
+                        else {
+                            Gson gson = new Gson();
+                            String rewriteJSONStr = gson.toJson(rewriteData);
+                            JSONObject rewriteJSONObj = StringToJSON(rewriteJSONStr);
+                            Log.d(TAG, "result ::: " + rewriteJSONObj);
+                            jsonArray.put(i, rewriteJSONObj); // 덮어씌우기
+                        }
+                        fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                        fileOutputStream.flush();
+                        return true;
+                    }
+                }
+            }
+            fileOutputStream.flush();
+            return false;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    /*
+    파일 수정하는 함수
+    여기서는 RESERVATION_STATE 수정
+    isDelete : true(삭제), false(수정)
+     */
+    public boolean rewriteMyReservationFile(MyReservationListData rewriteData, boolean isDelete) {
+        String filename = "myReservation";
+        final String fileText = loadJSONFile(filename);
+        if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
+            Log.d(TAG, "수정하려 하는데 파일이 없는 경우");
+            return false;
+        }
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = openFileOutput(filename + ".json", MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+            // 기존에 저장된 파일 존재
+            JSONArray jsonArray = new JSONArray(fileText);
+            Log.d(TAG, "기존에 저장된 파일 존재");
+            for(int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                if(jsonObject.getString("reservation_date").equals(rewriteData.getReservation_date())) {   // 예약 날짜 동일 체크
+                    if(jsonObject.getInt("hospital_key") == rewriteData.getHospital_key()) { // 키 동일 체크
+                        Log.d(TAG, "같은 객체 찾음!");
+                        if (isDelete)
+                            jsonArray.remove(i); // 삭제
                         else {
                             Gson gson = new Gson();
                             String rewriteJSONStr = gson.toJson(rewriteData);
@@ -489,6 +575,16 @@ public class MyPageActivity extends BaseActivity {
                 else {
                     Toast.makeText(getApplicationContext(), "등록 확정 실패! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "등록 확정 CANCEL");
+                }
+                break;
+            case CHECK_ADDREVIEW:
+                if (resultCode == RESULT_OK) {
+                    if(intent.hasExtra("data")) {
+                        if(rewriteMyReservationFile((MyReservationData) intent.getSerializableExtra("data"), true))
+                            refreshMyReservation();
+                        else
+                            Toast.makeText(getApplicationContext(), "삭제 중 오류 발생! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             default:

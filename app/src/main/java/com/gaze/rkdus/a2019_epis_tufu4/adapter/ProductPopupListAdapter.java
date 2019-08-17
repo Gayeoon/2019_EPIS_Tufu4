@@ -51,35 +51,20 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
     class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
         private ImageView ivProduct;
-        private TextView tvProductName, tvProductContext, tvShippingFee, tvProductPrice;
+        private TextView tvProductName, tvProductPrice;
         ItemViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             ivProduct = itemView.findViewById(R.id.productImage);
             tvProductName = itemView.findViewById(R.id.productName);
-            tvProductContext = itemView.findViewById(R.id.productContext);
-            tvShippingFee = itemView.findViewById(R.id.productShippingFee);
             tvProductPrice = itemView.findViewById(R.id.productPrice);
         }
 
         void onBind(ProductItemData data) {
-            tvProductName.setText(data.getPRODUCT_NAME());
-            tvProductContext.setText(data.getPRODUCT_CONTEXT());
             ivProduct.setImageResource(R.drawable.main_logo);
-            if (data.isPRODUCT_SOLDOUT()) {
-                tvProductPrice.setText("Sold Out!");
-            }
-            else {
-                tvProductPrice.setText("가격 : " + String.valueOf(data.getPRODUCT_PRICE()) + "원");
-                if (data.isSHIPPING_FEE()) {    // 배송비 있음
-                    tvShippingFee.setText("배송비 2500원");
-                }
-                else
-                    tvShippingFee.setText("배송비 무료");
-            }
-//
-//            if(data.getBoolSIGNUP_APP())    // 등록 시
-//                signUpAppImage.setImageResource(R.drawable.search_signupappoicon);
+
+            tvProductName.setText(data.getName());
+            tvProductPrice.setText(data.getPrice());
         }
     }
 

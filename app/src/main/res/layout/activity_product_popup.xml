@@ -11,7 +11,15 @@
     tools:context=".popup.MessagePopupActivity">
 
     <!-- Notice -->
-
+    <TextView
+        android:id="@+id/tvProductType"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:textSize="21dp"
+        android:textColor="#FF5D8D"
+        android:textAlignment="center"
+        android:gravity="center"
+        />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="500dp">

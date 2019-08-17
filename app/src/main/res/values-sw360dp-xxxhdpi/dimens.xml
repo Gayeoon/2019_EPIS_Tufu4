@@ -50,7 +50,7 @@
 
     <!-- SearchActivity -->
     <dimen name="searchBarWidth">300dp</dimen>
-    <dimen name="searchBarHeight">30dp</dimen>
+    <dimen name="searchBarHeight">20dp</dimen>
     <dimen name="searchBarMarginTop">80dp</dimen>
 
     <dimen name="searchBtnWidth">15dp</dimen>

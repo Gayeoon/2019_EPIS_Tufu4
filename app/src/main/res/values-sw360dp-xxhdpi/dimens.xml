@@ -13,6 +13,9 @@
     <dimen name="menuLogoMarginLeft">38dp</dimen>
     <dimen name="menuLogoMarginBottom">20dp</dimen>
 
+    <dimen name="menuSearchBarHeight">25dp</dimen>
+    <dimen name="menuUserInfoLayoutHeight">110dp</dimen>
+    <dimen name="menuUserinfoMargin">8dp</dimen>
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
     <dimen name="typeImgHeight">140dp</dimen>
