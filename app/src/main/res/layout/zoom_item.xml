@@ -17,11 +17,32 @@
         android:background="@drawable/petapplicationdocument" >
 
         <android.support.constraint.Guideline
+            android:id="@+id/checkLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.408" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/checkBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.126" />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="30dp"
+            app:layout_constraintLeft_toLeftOf="@+id/checkLeft"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBottom"
+            android:background="@drawable/check_icon" />
+
+        <android.support.constraint.Guideline
             android:id="@+id/ownerTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.215" />
+            app:layout_constraintGuide_percent="0.213" />
 
         <android.support.constraint.Guideline
             android:id="@+id/ownerMid"
@@ -60,6 +81,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="center"
+          android:fontFamily="@font/notosansregular"
             app:layout_constraintRight_toLeftOf="@id/resident"
             android:paddingTop="@dimen/regiOwnerTableTop"
             android:text="김가연"
@@ -71,6 +93,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
              android:layout_weight="1"
+            android:fontFamily="@font/notosansregular"
             android:gravity="center"
             android:paddingTop="@dimen/regiResidentTop"
             app:layout_constraintLeft_toRightOf="@+id/owner"
@@ -84,6 +107,7 @@
             app:layout_constraintRight_toRightOf="@id/ownerRight"
             android:id="@+id/phone"
             app:layout_constraintLeft_toRightOf="@+id/resident"
+            android:fontFamily="@font/notosansregular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -99,6 +123,7 @@
             app:layout_constraintLeft_toLeftOf="@id/ownerLeft"
             app:layout_constraintRight_toRightOf="@id/ownerMid"
             android:id="@+id/resAddr"
+            android:fontFamily="@font/notosansregular"
             android:layout_width="0dp"
             android:layout_height="@dimen/regiTableAddrHeight"
             android:layout_gravity="center_horizontal"
@@ -113,6 +138,7 @@
             app:layout_constraintRight_toRightOf="@id/ownerRight"
             android:id="@+id/nowAddr"
             android:layout_width="0dp"
+            android:fontFamily="@font/notosansregular"
             android:layout_height="@dimen/regiTableAddrHeight"
             android:layout_marginLeft="@dimen/regiTableAddrLeft"
             android:layout_weight="1.3"
@@ -125,7 +151,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.375" />
+            app:layout_constraintGuide_percent="0.372" />
 
         <android.support.constraint.Guideline
             android:id="@+id/animalMid"
@@ -149,6 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:fontFamily="@font/notosansregular"
             android:ellipsize="none"
             app:layout_constraintRight_toLeftOf="@id/variety"
             android:gravity="center"
@@ -162,18 +189,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ellipsize="none"
+            android:fontFamily="@font/notosansregular"
             android:gravity="center"
             app:layout_constraintLeft_toRightOf="@+id/animal"
             app:layout_constraintRight_toLeftOf="@id/furColor"
             app:layout_constraintHorizontal_chainStyle="spread"
             android:text="시츄"
-            android:textSize="@dimen/textSizeSmall" />
+            android:textSize="@dimen/textSizeMid" />
 
         <TextView
             app:layout_constraintTop_toTopOf="@+id/animalTop"
             android:id="@+id/furColor"
             app:layout_constraintLeft_toRightOf="@+id/variety"
             app:layout_constraintRight_toRightOf="@id/animalMid"
+            android:fontFamily="@font/notosansregular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -187,6 +216,7 @@
             android:id="@+id/gender"
             android:layout_width="0dp"
             app:layout_constraintLeft_toLeftOf="@id/animalMid"
+            android:fontFamily="@font/notosansregular"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1.3"
@@ -199,6 +229,7 @@
             app:layout_constraintLeft_toRightOf="@+id/gender"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:fontFamily="@font/notosansregular"
             android:id="@+id/neutralization_o"
             app:layout_constraintRight_toRightOf="@id/animalMid2"
             android:layout_width="0dp"
@@ -217,6 +248,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="2.1"
+            android:fontFamily="@font/notosansregular"
             app:layout_constraintRight_toLeftOf="@id/acqDate"
             android:gravity="center"
             android:text="2008-04-04"
@@ -228,6 +260,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/notosansregular"
             android:layout_weight="2"
             android:gravity="center"
             app:layout_constraintLeft_toRightOf="@+id/birthday"
@@ -243,6 +276,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             app:layout_constraintLeft_toRightOf="@+id/acqDate"
+            android:fontFamily="@font/notosansregular"
             android:gravity="center"
             app:layout_constraintRight_toRightOf="@id/ownerRight"
             android:text="겁이 많아요"
@@ -254,7 +288,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.735" />
+            app:layout_constraintGuide_percent="0.7345" />
 
         <TextView
             app:layout_constraintTop_toTopOf="@+id/dateTop"
@@ -263,42 +297,47 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
+            android:fontFamily="@font/notosansregular"
             android:gravity="center"
             app:layout_constraintLeft_toLeftOf="@id/ownerMid"
-            app:layout_constraintRight_toLeftOf="@id/acqDate"
+            app:layout_constraintRight_toLeftOf="@id/month"
             android:text="2019"
-            android:textSize="@dimen/textSizeMid" />
+            android:textSize="@dimen/textSizeSmall" />
 
         <TextView
             app:layout_constraintTop_toTopOf="@+id/dateTop"
             android:id="@+id/month"
+            android:layout_gravity="center_horizontal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
+            android:fontFamily="@font/notosansregular"
             app:layout_constraintLeft_toRightOf="@+id/year"
             app:layout_constraintRight_toLeftOf="@id/day"
             app:layout_constraintHorizontal_chainStyle="spread"
             android:text="08"
-            android:textSize="@dimen/textSizeMid" />
+            android:textSize="@dimen/textSizeSmall" />
 
         <TextView
             app:layout_constraintTop_toTopOf="@+id/dateTop"
+            android:fontFamily="@font/notosansregular"
             android:id="@+id/day"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
             android:text="03"
             app:layout_constraintLeft_toRightOf="@+id/month"
             app:layout_constraintRight_toRightOf="@id/ownerRight"
-            android:textSize="@dimen/textSizeMid" />
+            android:textSize="@dimen/textSizeSmall" />
 
         <TextView
             android:id="@+id/owner_2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/notosansregular"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="right"
@@ -314,7 +353,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.79" />
+            app:layout_constraintGuide_percent="0.789" />
 
         <android.support.constraint.Guideline
             android:id="@+id/signLeft"
@@ -337,7 +376,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.8" />
+            app:layout_constraintGuide_percent="0.81" />
 
     </android.support.constraint.ConstraintLayout>
 

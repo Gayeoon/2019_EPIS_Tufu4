@@ -38,6 +38,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.bignerdranch.android.test.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".user.MenuActivity"
             android:theme="@style/NoTheme" />
@@ -46,8 +57,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme"></activity>
-
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -86,18 +96,8 @@
             android:theme="@style/NoTheme" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.gaze.rkdus.a2019_epis_tufu4"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-        <provider
             android:name=".CachedFileProvider"
-            android:authorities="com.stephendnicholas.gmailattach.provider"></provider>
-
+            android:authorities="com.stephendnicholas.gmailattach.provider" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -154,6 +154,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".popup.IndividualInfoPopupActivity"
@@ -169,6 +170,12 @@
             android:theme="@style/PopupTheme" />
         <activity
             android:name=".RegisterActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".HealthScreeningActivity"
+            android:theme="@style/NoTheme" />
+        <activity
+            android:name=".VaccinationActivity"
             android:theme="@style/NoTheme" />
         <activity
             android:name=".popup.ProxySignPopupActivity"
@@ -203,8 +210,9 @@
         <activity
             android:name=".popup.ReviewPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity android:name=".popup.SerialPopupActivity"
-            android:theme="@style/PopupTheme"></activity>
+        <activity
+            android:name=".popup.SerialPopupActivity"
+            android:theme="@style/PopupTheme" />
     </application>
 
 </manifest>

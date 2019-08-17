@@ -67,7 +67,7 @@
     <dimen name="regiTableMarginRight">30dp</dimen>
     <dimen name="regiTableMarginTop">124dp</dimen>
     <dimen name="regiOwnerTableTop">5dp</dimen>
-    <dimen name="regiResidentTop">5dp</dimen>
+    <dimen name="regiResidentTop">4dp</dimen>
     <dimen name="regiPhoneTableLeft">20dp</dimen>
     <dimen name="regiTableAddrHeight">20dp</dimen>
     <dimen name="regiTableAddrTop">5dp</dimen>
@@ -82,10 +82,11 @@
     <dimen name="regiSignTableRight">27dp</dimen>
     <dimen name="regiSignTablePaddingRight">40dp</dimen>
     <dimen name="regiSignTablePaddingTop">5dp</dimen>
-    <dimen name="regiSignWidth">20dp</dimen>
-    <dimen name="regiSignHeight">20dp</dimen>
+    <dimen name="regiSignWidth">25dp</dimen>
+    <dimen name="regiSignHeight">25dp</dimen>
     <dimen name="regiSignTop">6dp</dimen>
-    <dimen name="regiSignRight">10dp</dimen>
+    <dimen name="regiSignRight">9dp</dimen>
+    <dimen name="regiBar">71dp</dimen>
 
     <!-- JoinActivity -->
     <dimen name="joinPaddingTop">15dp</dimen>
@@ -105,4 +106,11 @@
     <dimen name="health_iconHeight">30dp</dimen>
     <dimen name="health_iconwidth">30dp</dimen>
     <dimen name="health_text">13sp</dimen>
+
+    <dimen name="registerTop">30dp</dimen>
+    <dimen name="registerButton">20dp</dimen>
+
+    <dimen name="vaccine_textMid">12sp</dimen>
+    <dimen name="reservationbar">0.28</dimen>
+
 </resources>

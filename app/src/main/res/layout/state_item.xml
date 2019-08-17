@@ -55,9 +55,7 @@
         android:layout_marginRight="10dp"
         android:layout_width="89dp"
         android:layout_height="31dp"
-        android:layout_gravity="right"
-
-        android:background="@drawable/state_new" />
+        android:layout_gravity="right" />
 </FrameLayout>
 
 

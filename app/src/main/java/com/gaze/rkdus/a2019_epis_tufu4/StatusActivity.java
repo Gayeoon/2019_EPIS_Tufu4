@@ -164,12 +164,6 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
         search_input = (TextView) findViewById(R.id.search_input);
         final LinearLayout searchBar = (LinearLayout) findViewById(R.id.searchbar);
 
-        if (height < 2000) {
-            title.setTextSize(16);
-            search_input.setTextSize(12);
-            searchBar.setMinimumWidth(300);
-        }
-
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
@@ -179,7 +173,7 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
                 search_txt = search_input.getText().toString();
 
                // new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
-                new SearchListData().execute("http://172.30.1.5:8001" + "/user/getReservation");
+                new SearchListData().execute("http://192.168.1.12:8001" + "/user/getReservation");
 
             }
         });
@@ -834,7 +828,7 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
 
                 if (json.get("result") == null) {
 //                    new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
-                    new SearchListData().execute("http://172.30.1.5:8001" + "/user/getReservation");
+                    new SearchListData().execute("http://192.168.1.12:8001" + "/user/getReservation");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

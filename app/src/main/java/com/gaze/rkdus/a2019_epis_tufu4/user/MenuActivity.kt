@@ -74,8 +74,10 @@ class MenuActivity : BaseActivity() {
         // 패키지 상품 리스트 설정
         setPackageItems()
 
+
         val gridLayoutManager = customLayoutManager(this, 2)
         packageRecyclerView.layoutManager = gridLayoutManager
+
         adapter = PackageListAdapter(itemList)
         adapter!!.resetAll(itemList)
         packageRecyclerView.adapter = adapter
@@ -178,6 +180,7 @@ class MenuActivity : BaseActivity() {
         }
         return result
     }
+
 
     /*
     일련번호 조회를 위한 함수

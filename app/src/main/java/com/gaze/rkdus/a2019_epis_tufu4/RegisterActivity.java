@@ -63,12 +63,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
 
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special, owner_2;
-    TextView year, month, date;
+    TextView year, month, date, name;
 
     String id, str_owner, str_animal;
 
@@ -138,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
         year = (TextView) findViewById(R.id.year);
         month = (TextView) findViewById(R.id.month);
         date = (TextView) findViewById(R.id.day);
+        name = (TextView) findViewById(R.id.name);
 
         share = (ImageButton)findViewById(R.id.share);
         finish = (ImageButton)findViewById(R.id.finish);
@@ -146,6 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
         owner_2.setText(str_owner);
         animal.setText(str_animal);
 
+        name.setText(str_owner);
         year.setText(str_year);
         month.setText(str_month);
         date.setText(str_date);
@@ -153,6 +155,7 @@ public class RegisterActivity extends AppCompatActivity {
         constraintLayout = (ConstraintLayout) findViewById(R.id.framelayout);
 
         share.setOnClickListener(new View.OnClickListener() {
+
             @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -297,15 +300,15 @@ public class RegisterActivity extends AppCompatActivity {
                     furColor.setText(jsonObject.getString("pet_color"));
 
                     if (jsonObject.getInt("pet_gender") == 2) {
-                        gender.setText("남성");
+                        gender.setText("수");
                     } else {
-                        gender.setText("여성");
+                        gender.setText("암");
                     }
 
                     if (jsonObject.getInt("pet_neutralization") == 1) {
-                        neutralization.setText("했음");
+                        neutralization.setText("O");
                     } else {
-                        neutralization.setText("안했음");
+                        neutralization.setText("X");
                     }
 
                     birthday.setText(jsonObject.getString("pet_birth"));
@@ -320,51 +323,6 @@ public class RegisterActivity extends AppCompatActivity {
             Log.e(TAG, result);
 
         }
-    }
-
-
-    public void shareFIle(File shareFile) {
-
-        final Intent intent = new Intent();
-
-        intent.setAction(Intent.ACTION_SEND);           // 단일파일 보내기
-
-//        intent.setPackage("com.google.android.gm");   // 지메일로 보내기
-
-        // 파일형태에 맞는 type설정
-
-        MimeTypeMap type = MimeTypeMap.getSingleton();
-
-        intent.setType(type.getMimeTypeFromExtension(MimeTypeMap.getFileExtensionFromUrl(shareFile.getPath())));
-
-//        intent.setType("plain/text"); // text 형태로 전달
-
-//        intent.setType("*/*");        // 모든 공유 형태 전달
-
-        intent.putExtra(Intent.EXTRA_SUBJECT, "공유 제목");  // 제목
-
-        intent.putExtra(Intent.EXTRA_TEXT, "공유 내용");     // 내용
-
-        Log.i(TAG, Environment.getExternalStorageDirectory() + File.separator + pdf_name + ".jpg");
-
-        if (shareFile != null) {
-
-            Uri contentUri = FileProvider.getUriForFile(this,
-
-                    getApplicationContext().getPackageName() + ".fileprovider", shareFile); // manifest의  ${applicationId}.fileprovider
-
-
-
-            intent.putExtra(Intent.EXTRA_STREAM, contentUri); // 단일 파일 전송
-
-        }
-
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);     // 공유 앱에 권한 주기
-
-        intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);    // 공유 앱에 권한 주기
-
-        startActivity(Intent.createChooser(intent, "공유 타이틀"));
-
     }
 
     public void layoutToImage() throws IOException {
@@ -393,6 +351,7 @@ public class RegisterActivity extends AppCompatActivity {
             dirpath = Environment.getExternalStorageDirectory().toString();
 
             PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/" + pdf_name + ".pdf"));
+//            PdfWriter.getInstance(document, new FileOutputStream(dirpath + "/abc.pdf"));
             document.open();
 
             Image image = Image.getInstance(f.toString());
@@ -405,6 +364,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             f.delete();
 
+            FileOutputStream os = openFileOutput(dirpath + "/" + pdf_name + ".pdf", MODE_WORLD_READABLE);
+            os.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -412,42 +374,26 @@ public class RegisterActivity extends AppCompatActivity {
         Intent intent = new Intent();
 
         dirpath = Environment.getExternalStorageDirectory().toString();
-        String text = "file://"+dirpath + "/" + pdf_name + ".pdf";
+        String text = dirpath + "/" + pdf_name + ".pdf";
 
-//
-//        File file = new File(text);
-//
-//        intent.setAction(Intent.ACTION_SEND);
-//        intent.setType("application/*");
-//        //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(new File(text).toString()));
-//        intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(new File(text).toString()));
-//        Intent chooser = Intent.createChooser(intent, "공유하기");
-//        startActivity(chooser);
-//        //shareFIle(f);
 
-//        Toast.makeText(RegisterActivity.this, Uri.parse(new File(text).toString()).toString(), Toast.LENGTH_LONG).show();
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.setType("application/pdf");
-//        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "abc@gmail.com" });
-//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "test " +    "test!!!");
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, "test");
-//        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse(new File(text).toString()).toString());
-//        startActivity(shareIntent);
+        File file = new File(text);
 
-        createCachedFile(RegisterActivity.this, pdf_name+".pdf", "This is a test");
+        intent.setAction(Intent.ACTION_SEND);
+        intent.setType("application/*");
+        //intent.putExtra(Intent.EXTRA_STREAM, Uri.parse(new File(text).toString()));
+        Uri uri = FileProvider.getUriForFile(RegisterActivity.this, "com.bignerdranch.android.test.fileprovider", new File(text));
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
 
-        startActivity(getSendEmailIntent( RegisterActivity.this, "gayeon@naver.com", "Test", "See attached", pdf_name+".pdf"));
+        intent.putExtra(Intent.EXTRA_SUBJECT, "동물등록증 신청합니다");
+        String[] mailto = { "chy0209@korea.kr" };
+        intent.putExtra(Intent.EXTRA_EMAIL, mailto);
+        intent.putExtra(Intent.EXTRA_TEXT, "동물등록증 신청합니다");
 
-//        createCachedFile(RegisterActivity.this, pdf_name+".pdf", "Test!!!");
-//        Toast.makeText(RegisterActivity.this, Uri.parse(new File(text).toString()).toString(), Toast.LENGTH_LONG).show();
-//        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//        shareIntent.setType("application/pdf");
-//        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "abc@gmail.com" });
-//        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "test " +    "test!!!");
-//        shareIntent.putExtra(Intent.EXTRA_TEXT, "test");
-////        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse(new File(text).toString()).toString());
-//        shareIntent.putExtra(Intent.EXTRA_STREAM,Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/"+ pdf_name+ ".pdf"));
-//        startActivity(shareIntent);
+        Intent chooser = Intent.createChooser(intent, "공유하기");
+        startActivity(chooser);
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -502,43 +448,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    public static void createCachedFile(Context context, String fileName, String content) throws IOException {
-
-        File cacheFile = new File(context.getCacheDir() + File.separator + fileName);
-        cacheFile.createNewFile();
-
-        FileOutputStream fos = new FileOutputStream(cacheFile);
-        OutputStreamWriter osw = new OutputStreamWriter(fos, "UTF8");
-        PrintWriter pw = new PrintWriter(osw);
-
-        pw.println(content);
-
-        pw.flush();
-        pw.close();
-    }
-
-    public static Intent getSendEmailIntent(Context context, String email, String subject, String body, String fileName) {
-
-        final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
-        //Explicitly only use Gmail to send
-        emailIntent.setClassName("com.google.android.gm","com.google.android.gm.ComposeActivityGmail");
-
-        emailIntent.setType("plain/text");
-
-        //Add the recipients
-        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[] { email });
-
-        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, subject);
-
-        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, body);
-
-        //Add the attachment by specifying a reference to our custom ContentProvider
-        //and the specific file of interest
-        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + fileName));
-
-        return emailIntent;
-    }
 
     /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 예약 상태 변경
 

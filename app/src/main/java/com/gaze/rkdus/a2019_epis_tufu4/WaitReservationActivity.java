@@ -139,9 +139,6 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
                 Log.e(TAG, "owner : " + owner + " animal : " + animal);
 
-                // state 2 --> 4로 변경
-                new ChangeReservation().execute(getResources().getString(R.string.url) + "/changeState4");
-
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("owner", owner);
@@ -335,7 +332,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                             intent.putExtra("id", id);
                             intent.putExtra("owner", owner);
                             intent.putExtra("animal", animal);
-                            startActivity(intent);
+                            startActivityForResult(intent, 3333);
                         }
                     });
 
@@ -347,237 +344,6 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 e.printStackTrace();
             }
 
-
-            Log.e(TAG, result);
-
-        }
-    }
-
-    /* ChangeReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 상태 변경
-
-    예약상태 4으로 변경 (현재 : 2)
-
-    Uri  --->   /putChangeWait
-    Parm  --->   {"user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
-    Result  --->   {"result":1} 결과 값 */
-
-    public class ChangeReservation extends AsyncTask<String, String, String> {
-
-        @Override
-
-        protected String doInBackground(String... urls) {
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                JSONObject tmp = new JSONObject();
-
-                tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", owner);
-                tmp.accumulate("pet_name", animal);
-
-                jsonObject.accumulate("user", tmp);
-
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
-
-                try {
-
-                    URL url = new URL(urls[0]);
-                    con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Cache-Control", "no-cache");
-                    con.setRequestProperty("Content-Type", "application/json");
-                    con.setRequestProperty("Accept", "text/html");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.connect();
-
-                    //서버로 보내기위해서 스트림 만듬
-                    OutputStream outStream = con.getOutputStream();
-
-                    //버퍼를 생성하고 넣음
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-
-                    Log.e(TAG, jsonObject.toString());
-                    writer.write(jsonObject.toString());
-                    writer.flush();
-                    writer.close();//버퍼를 받아줌
-
-                    //서버로 부터 데이터를 받음
-                    InputStream stream = con.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-
-                    return buffer.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();//버퍼를 닫아줌
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-                JSONObject json = null;
-                int succes = 0;
-
-                try {
-                    json = new JSONObject(result);
-
-                    if (json.get("result") == null) {
-                        new ChangeReservation().execute(getResources().getString(R.string.url) + "/changeState4");
-                    } else {
-                        succes = (int) json.get("result");
-
-                        if (succes == 1) {
-                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                            intent.putExtra("id", id);
-                            intent.putExtra("owner", owner);
-                            intent.putExtra("animal", animal);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(getApplicationContext(), "다시 눌러 주세요", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            Log.e(TAG, result);
-
-        }
-    }
-
-    /* CallReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 주인 전화번호 요청
-
-    Uri  --->   /getPhone
-    Parm  --->   {"user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
-    Result  --->   {"result":{OWNER_PHONE_NUMBER:"010-4491-0778"}} 결과 값 */
-
-    public class CallReservation extends AsyncTask<String, String, String> {
-
-        @Override
-
-        protected String doInBackground(String... urls) {
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                JSONObject tmp = new JSONObject();
-
-                tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", owner);
-                tmp.accumulate("pet_name", animal);
-
-                jsonObject.accumulate("user", tmp);
-
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
-
-                try {
-
-                    URL url = new URL(urls[0]);
-                    con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Cache-Control", "no-cache");
-                    con.setRequestProperty("Content-Type", "application/json");
-                    con.setRequestProperty("Accept", "text/html");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.connect();
-
-                    //서버로 보내기위해서 스트림 만듬
-                    OutputStream outStream = con.getOutputStream();
-
-                    //버퍼를 생성하고 넣음
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-
-                    Log.e(TAG, jsonObject.toString());
-                    writer.write(jsonObject.toString());
-                    writer.flush();
-                    writer.close();//버퍼를 받아줌
-
-                    //서버로 부터 데이터를 받음
-                    InputStream stream = con.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-
-                    return buffer.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();//버퍼를 닫아줌
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            JSONObject json = null;
-
-            try {
-                json = new JSONObject(result);
-
-                if (json.get("result") == null) {
-                    new CallReservation().execute(getResources().getString(R.string.url) + "/getPhone");
-
-                } else {
-                    JSONObject temp = json.getJSONObject("result");
-                    String tel = "tel:" + temp.get("OWNER_PHONE_NUMBER").toString();
-                    startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
-
-                    new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
 
             Log.e(TAG, result);
 
@@ -708,4 +474,13 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
         finish();
         Log.d("onPostCreate", "onDestroy");
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
 }

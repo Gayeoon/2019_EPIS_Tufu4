@@ -264,7 +264,7 @@
                     android:layout_marginLeft="25dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/shadow"
-                    app:srcCompat="@drawable/hospital_reservation" />
+                    app:srcCompat="@drawable/hospital_managecostomer" />
 
                 <ImageButton
                     android:id="@+id/community"

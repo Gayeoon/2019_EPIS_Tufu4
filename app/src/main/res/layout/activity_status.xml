@@ -44,7 +44,7 @@
                     android:gravity="center"
                     android:text="반려동물등록"
                     android:textColor="#2eb8ff"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:gravity="center"
                     android:text="예방접종"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:gravity="center"
                     android:text="건강검진"
                     android:textColor="#000000"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
 
             </LinearLayout>
 
@@ -100,6 +100,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:paddingLeft="13dp"
+                    android:textSize="@dimen/vaccine_textMid"
                     android:background="@android:color/transparent" />
 
                 <ImageButton

@@ -265,7 +265,7 @@
                     android:layout_width="148dp"
                     android:layout_height="137dp"
                     android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/hospital_reservation" />
+                    app:srcCompat="@drawable/hospital_managecostomer" />
             </LinearLayout>
 
 

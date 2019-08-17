@@ -29,25 +29,28 @@
                 <TextView
                     android:id="@+id/owner"
                     android:layout_width="wrap_content"
+android:fontFamily="@font/notosansregular"
                      android:layout_height="wrap_content"
                     android:text="김가연"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/notosansregular"
                     android:text="님의 "
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
 
                 <TextView
                     android:id="@+id/animal"
                     android:layout_width="wrap_content"
+                    android:fontFamily="@font/notosansregular"
                     android:layout_height="wrap_content"
                     android:text="뿡이"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/vaccine_textMid" />
 
             </LinearLayout>
 
