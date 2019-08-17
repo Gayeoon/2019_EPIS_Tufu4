@@ -15,6 +15,8 @@ import com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData;
 
 import java.util.ArrayList;
 
+import static com.gaze.rkdus.a2019_epis_tufu4.popup.ProductViewPopupActivity.loadImage;
+
 /*
 ProductPopupActivity RecyclerView의 Adapter
  */
@@ -69,7 +71,7 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
             tvPrice.setText(String.valueOf(data.getPrice()) + "원");
             tvRealPrice.setText(String.valueOf(data.getReal_price()) + "원");
 
-            ivPackageImage.setImageResource(data.getImg_id());
+            loadImage(ivPackageImage, data.getImg_url());
         }
     }
 
@@ -104,4 +106,6 @@ public class PackageListAdapter extends RecyclerView.Adapter<PackageListAdapter.
         // RecyclerView의 총 개수.
         return listData.size();
     }
+
+
 }

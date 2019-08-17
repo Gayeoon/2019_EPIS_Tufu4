@@ -25,14 +25,17 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import android.widget.Toast
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.CommunityActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
+import com.gaze.rkdus.a2019_epis_tufu4.adapter.MenuPagerAdapter
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.PackageListAdapter
 import com.gaze.rkdus.a2019_epis_tufu4.item.PackageListItem
 import com.gaze.rkdus.a2019_epis_tufu4.popup.SerialPopupActivity
 import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.checkEditText
 import kotlinx.android.synthetic.main.activity_menu.*
+import kotlinx.android.synthetic.main.activity_menu.view.*
 import org.json.JSONArray
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -107,6 +110,18 @@ class MenuActivity : BaseActivity() {
                 tvReservationCount.text = "예약 : ${reservationArray.length()}건"
             }
         }
+
+        // 배너광고
+        val data = ArrayList<String>() //이미지 url를 저장하는 arraylist
+        data.add("https://i.ibb.co/DKknDjV/xxx-1.png")
+        data.add("https://i.ibb.co/7XmZMrn/xxx-2.png")
+        data.add("https://i.ibb.co/Xz7Vhc4/xxx-3.png")
+
+        val scrollAdapter = MenuPagerAdapter(this, data)
+        autoViewPager.adapter = scrollAdapter //Auto Viewpager에 Adapter 장착
+        autoViewPager.interval = 3000 // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.slideBorderMode = AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE
+        autoViewPager.startAutoScroll() //Auto Scroll 시작
     }
 
     private val touchListener = View.OnTouchListener { v, event ->
@@ -208,10 +223,10 @@ class MenuActivity : BaseActivity() {
     임시 뷰로 보여줄 아이템 값 설정
      */
     private fun setPackageItems() {
-        itemList.add(PackageListItem("강아지 올패키지", 20, 96000, 120000, R.drawable.package_1))
-        itemList.add(PackageListItem("강아지 간식 패키지", 20, 64000, 80000, R.drawable.package_2))
-        itemList.add(PackageListItem("강아지 장난감 패키지", 15, 110500, 130000, R.drawable.package_3))
-        itemList.add(PackageListItem("강아지 산책 패키지", 30, 84000, 120000, R.drawable.package_4))
+        itemList.add(PackageListItem("강아지 올패키지", 20, 96000, 120000, "https://i.ibb.co/8cnhCNN/1.png"))  // https://i.ibb.co/8cnhCNN/1.png
+        itemList.add(PackageListItem("강아지 간식 패키지", 20, 64000, 80000, "https://i.ibb.co/pKY0XDm/2.png")) //
+        itemList.add(PackageListItem("강아지 장난감 패키지", 15, 110500, 130000, "https://i.ibb.co/VJJWnZP/3.png")) //
+        itemList.add(PackageListItem("강아지 산책 패키지", 30, 84000, 120000, "https://i.ibb.co/cgqtQ1b/4.png")) //
     }
 
     /*

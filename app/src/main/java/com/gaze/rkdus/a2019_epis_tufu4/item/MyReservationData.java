@@ -9,159 +9,160 @@ import java.io.Serializable;
 MyPageActivity의 Registration RecyclerView에 담을 객체
  */
 public class MyReservationData implements Serializable {
-    int HOSPITAL_KEY;
-    int TYPE;
-    String OWNER_NAME;
-    String OWNER_RESIDENT;
-    String OWNER_PHONE_NUMBER;
-    String OWNER_ADDRESS1;
-    String OWNER_ADDRESS2;
-    String PET_NAME;
-    String PET_VARIETY;
-    String PET_COLOR;
-    int PET_GENDER;
-    int PET_NEUTRALIZATION;
-    String PET_BIRTH;
-    String REGIST_DATE;
-    String ETC;
-    String ASK_DATE;
+    int hospital_key;
+    int type;
+    String owner_name;
+    String owner_resident;
+    String owner_phone_number;
+    String address1;
+    String address2;
+    String pet_name;
+    String pet_variety;
+    String pet_color;
+    int pet_gender;
+    int pet_neutralization;
+    String pet_birth;
+    String regist_date;
+    String etc;
+    String ask_date;
 
-    String HOSPITAL_NAME;
+    String hospital_name;
 
-    public String getREGIST_DATE() {
-        return REGIST_DATE;
+
+    public int getHospital_key() {
+        return hospital_key;
     }
 
-    public void setREGIST_DATE(String REGIST_DATE) {
-        this.REGIST_DATE = REGIST_DATE;
+    public void setHospital_key(int hospital_key) {
+        this.hospital_key = hospital_key;
     }
 
-    public int getHOSPITAL_KEY() {
-        return HOSPITAL_KEY;
+    public int getType() {
+        return type;
     }
 
-    public void setHOSPITAL_KEY(int HOSPITAL_KEY) {
-        this.HOSPITAL_KEY = HOSPITAL_KEY;
+    public void setType(int type) {
+        this.type = type;
     }
 
-    public String getOWNER_NAME() {
-        return OWNER_NAME;
+    public String getOwner_name() {
+        return owner_name;
     }
 
-    public void setOWNER_NAME(String OWNER_NAME) {
-        this.OWNER_NAME = OWNER_NAME;
+    public void setOwner_name(String owner_name) {
+        this.owner_name = owner_name;
     }
 
-    public String getOWNER_RESIDENT() {
-        return OWNER_RESIDENT;
+    public String getOwner_resident() {
+        return owner_resident;
     }
 
-    public void setOWNER_RESIDENT(String OWNER_RESIDENT) {
-        this.OWNER_RESIDENT = OWNER_RESIDENT;
+    public void setOwner_resident(String owner_resident) {
+        this.owner_resident = owner_resident;
     }
 
-    public String getOWNER_PHONE_NUMBER() {
-        return OWNER_PHONE_NUMBER;
+    public String getOwner_phone_number() {
+        return owner_phone_number;
     }
 
-    public void setOWNER_PHONE_NUMBER(String OWNER_PHONE_NUMBER) {
-        this.OWNER_PHONE_NUMBER = OWNER_PHONE_NUMBER;
+    public void setOwner_phone_number(String owner_phone_number) {
+        this.owner_phone_number = owner_phone_number;
     }
 
-    public String getOWNER_ADDRESS1() {
-        return OWNER_ADDRESS1;
+    public String getAddress1() {
+        return address1;
     }
 
-    public void setOWNER_ADDRESS1(String OWNER_ADDRESS1) {
-        this.OWNER_ADDRESS1 = OWNER_ADDRESS1;
+    public void setAddress1(String address1) {
+        this.address1 = address1;
     }
 
-    public String getOWNER_ADDRESS2() {
-        return OWNER_ADDRESS2;
+    public String getAddress2() {
+        return address2;
     }
 
-    public void setOWNER_ADDRESS2(String OWNER_ADDRESS2) {
-        this.OWNER_ADDRESS2 = OWNER_ADDRESS2;
+    public void setAddress2(String address2) {
+        this.address2 = address2;
     }
 
-    public String getPET_NAME() {
-        return PET_NAME;
+    public String getPet_name() {
+        return pet_name;
     }
 
-    public void setPET_NAME(String PET_NAME) {
-        this.PET_NAME = PET_NAME;
+    public void setPet_name(String pet_name) {
+        this.pet_name = pet_name;
     }
 
-    public String getPET_VARIETY() {
-        return PET_VARIETY;
+    public String getPet_variety() {
+        return pet_variety;
     }
 
-    public void setPET_VARIETY(String PET_VARIETY) {
-        this.PET_VARIETY = PET_VARIETY;
+    public void setPet_variety(String pet_variety) {
+        this.pet_variety = pet_variety;
     }
 
-    public String getPET_COLOR() {
-        return PET_COLOR;
+    public String getPet_color() {
+        return pet_color;
     }
 
-    public void setPET_COLOR(String PET_COLOR) {
-        this.PET_COLOR = PET_COLOR;
+    public void setPet_color(String pet_color) {
+        this.pet_color = pet_color;
     }
 
-    public int getPET_GENDER() {
-        return PET_GENDER;
+    public int getPet_gender() {
+        return pet_gender;
     }
 
-    public void setPET_GENDER(int PET_GENDER) {
-        this.PET_GENDER = PET_GENDER;
+    public void setPet_gender(int pet_gender) {
+        this.pet_gender = pet_gender;
     }
 
-    public int getPET_NEUTRALIZATION() {
-        return PET_NEUTRALIZATION;
+    public int getPet_neutralization() {
+        return pet_neutralization;
     }
 
-    public void setPET_NEUTRALIZATION(int PET_NEUTRALIZATION) {
-        this.PET_NEUTRALIZATION = PET_NEUTRALIZATION;
+    public void setPet_neutralization(int pet_neutralization) {
+        this.pet_neutralization = pet_neutralization;
     }
 
-    public String getPET_BIRTH() {
-        return PET_BIRTH;
+    public String getPet_birth() {
+        return pet_birth;
     }
 
-    public void setPET_BIRTH(String PET_BIRTH) {
-        this.PET_BIRTH = PET_BIRTH;
+    public void setPet_birth(String pet_birth) {
+        this.pet_birth = pet_birth;
     }
 
-    public String getASK_DATE() {
-        return ASK_DATE;
+    public String getRegist_date() {
+        return regist_date;
     }
 
-    public void setASK_DATE(String ASK_DATE) {
-        this.ASK_DATE = ASK_DATE;
+    public void setRegist_date(String regist_date) {
+        this.regist_date = regist_date;
     }
 
-    public String getETC() {
-        return ETC;
+    public String getEtc() {
+        return etc;
     }
 
-    public void setETC(String ETC) {
-        this.ETC = ETC;
+    public void setEtc(String etc) {
+        this.etc = etc;
     }
 
-    public int getTYPE() {
-        return TYPE;
+    public String getAsk_date() {
+        return ask_date;
     }
 
-    public void setTYPE(int TYPE) {
-        this.TYPE = TYPE;
+    public void setAsk_date(String ask_date) {
+        this.ask_date = ask_date;
     }
 
-    public String getHOSPITAL_NAME() {
-        return HOSPITAL_NAME;
+    public String getHospital_name() {
+        return hospital_name;
     }
 
-    public void setHOSPITAL_NAME(String HOSPITAL_NAME) {
-        this.HOSPITAL_NAME = HOSPITAL_NAME;
+    public void setHospital_name(String hospital_name) {
+        this.hospital_name = hospital_name;
     }
 
     public String getTypeToStr(int type) {   // 1: inner,  2: outer,  3: badge

@@ -314,13 +314,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
+                    android:layout_marginBottom="20dp"
                     android:text="VOWOW 전용 외장형 목걸이"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textSize="14dp"
                     android:textColor="@color/colorBlack"
                     />
+                <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+                    android:id="@+id/autoViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp">
+
+                </cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
             </LinearLayout>
+
         </FrameLayout>
 
         <LinearLayout
@@ -338,6 +346,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="fitEnd"
                 app:layout_constraintDimensionRatio="1:1"
+                android:layout_marginTop="20dp"
                 app:srcCompat="@drawable/menu_packagebanner" />
 
             <LinearLayout

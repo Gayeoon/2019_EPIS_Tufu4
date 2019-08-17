@@ -1,11 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+<<<<<<< HEAD
     <component name="WizardSettings">
         <option name="children">
             <map>
                 <entry key="imageWizard">
                     <value>
                         <PersistentState />
+=======
+  <component name="WizardSettings">
+    <option name="children">
+      <map>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="vectorAssetStep">
+                    <value>
+                      <PersistentState>
+                        <option name="values">
+                          <map>
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="height" value="25" />
+                            <entry key="outputName" value="hospital_printbtn" />
+                            <entry key="overrideSize" value="true" />
+                            <entry key="sourceFile" value="C:\Users\user\Documents\카카오톡 받은 파일\신청서 출력버튼\그룹 1275.svg" />
+                            <entry key="width" value="72" />
+                          </map>
+                        </option>
+                      </PersistentState>
+>>>>>>> 39aca714e45706d59acb66731dd7af07361a8b07
                     </value>
                 </entry>
                 <entry key="vectorWizard">

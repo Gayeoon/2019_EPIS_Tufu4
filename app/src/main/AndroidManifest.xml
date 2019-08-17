@@ -160,6 +160,9 @@
             android:name=".popup.IndividualInfoPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
+            android:name=".popup.ImageTextPopupActivity"
+            android:theme="@style/PopupTheme" />
+        <activity
             android:name=".popup.PostCodePopupActivity"
             android:theme="@style/PopupTheme" />
         <activity

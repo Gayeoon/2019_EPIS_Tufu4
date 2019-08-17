@@ -302,7 +302,7 @@ public class HospitalProfileActivity extends BaseActivity {
                 // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
                 // Message에 담은 모든 정보 JSONObject에 담기
-                jsonObject.accumulate("HOSPITAL_KEY", key); // key JSONObject에 담기
+                jsonObject.accumulate("hospital_key", key); // key JSONObject에 담기
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;
@@ -402,7 +402,7 @@ public class HospitalProfileActivity extends BaseActivity {
                     Log.d(TAG, "예약 완료.");
                     // 해당 병원의 예약 횟수 불러오기?
                     profileAsyncTask = new ProfileAsyncTask();
-                    profileAsyncTask.execute("/hospital/getReservationInfoData");
+                    profileAsyncTask.execute("/hospital/getReservationCount");
                 }
                 else {
                     Log.d(TAG, "예약 실패.");
