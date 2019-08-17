@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MyReservationListAdapter;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationAllData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData;
 import com.google.gson.Gson;
@@ -55,7 +56,7 @@ public class MyPageActivity extends BaseActivity {
     // 두 배열의 크기와 순서쌍은 같다고 정의.
     EditText[] editTexts;
     TextView[] textViews;
-    ArrayList<MyReservationListData> reservationList = new ArrayList<>();
+    ArrayList<MyReservationAllData> reservationList = new ArrayList<>();
     MyReservationListAdapter adapter;
     boolean isRewrite = false;
     @Override
@@ -184,18 +185,19 @@ public class MyPageActivity extends BaseActivity {
             showRecyclerView(reservationList);
         }
     }
+
     /*
    JSONArray 방식의 String을 ArrayList로 변환.
     */
-
     private void setReservationListFromStr(String myReservation) {
         try {
             JSONArray reservationArray = new JSONArray(myReservation);
             // Gson사용. JSONArray to ArrayList
             Log.d(TAG, "GSON사용전 :  " + myReservation);
             Gson gson = new Gson();
-            Type listType = new TypeToken<ArrayList<MyReservationListData>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<MyReservationAllData>>(){}.getType();
             reservationList = gson.fromJson(reservationArray.toString(), listType);
+            Log.d(TAG, "GSON사용후 :  " + reservationArray.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -204,11 +206,11 @@ public class MyPageActivity extends BaseActivity {
     /*
     RecyclerView setting and print 함수
      */
-    private void showRecyclerView(ArrayList<MyReservationListData> arrayList) {
+    private void showRecyclerView(ArrayList<MyReservationAllData> arrayList) {
 
-        final ArrayList<MyReservationListData> result = arrayList;
+        final ArrayList<MyReservationAllData> result = arrayList;
         if(!result.isEmpty()) {
-            Log.d(TAG, "이거예약함 : " + result.get(0).getHospital_name());
+            Log.d(TAG, "비지 않음");
         }
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         myReservationRecycler.setLayoutManager(linearLayoutManager);
@@ -248,14 +250,11 @@ public class MyPageActivity extends BaseActivity {
     /*
     RecyclerView Item 개별 클릭 리스너 설정하는 함수
      */
-    private void setRecyclerViewItemClick(final ArrayList<MyReservationListData> result, MyReservationListAdapter myListAdapter) {
+    private void setRecyclerViewItemClick(final ArrayList<MyReservationAllData> result, MyReservationListAdapter myListAdapter) {
         myListAdapter.setItemClick(new MyReservationListAdapter.ItemClick() {
             @Override
             public void onClick(View view, int position) {
                 //해당 위치의 Data get
-                MyReservationListData resultData = result.get(position);
-                Toast.makeText(getApplicationContext(),
-                        "병원 이름, 타입 : (" + resultData.getHospital_name() + ", " + resultData.getTypeToStr(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -454,8 +453,8 @@ public class MyPageActivity extends BaseActivity {
             Log.d(TAG, "기존에 저장된 파일 존재");
             for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if(jsonObject.getString("ASK_DATE").equals(rewriteData.getASK_DATE())) {   // 예약 날짜 동일 체크
-                    if(jsonObject.getInt("HOSPITAL_KEY") == rewriteData.getHOSPITAL_KEY()) { // 키 동일 체크
+                if(jsonObject.getString("ASK_DATE").equals(rewriteData.getAsk_date())) {   // 예약 날짜 동일 체크
+                    if(jsonObject.getInt("HOSPITAL_KEY") == rewriteData.getHospital_key()) { // 키 동일 체크
                         Log.d(TAG, "같은 객체 찾음!");
                         if (isDelete)
                             jsonArray.remove(i); // 삭제
@@ -510,18 +509,23 @@ public class MyPageActivity extends BaseActivity {
             JSONArray jsonArray = new JSONArray(fileText);
             Log.d(TAG, "기존에 저장된 파일 존재");
             for(int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                if(jsonObject.getString("reservation_date").equals(rewriteData.getReservation_date())) {   // 예약 날짜 동일 체크
-                    if(jsonObject.getInt("hospital_key") == rewriteData.getHospital_key()) { // 키 동일 체크
+                JSONObject jsonObject = jsonArray.getJSONObject(i); // {listData : ~, reservationData : ~}
+                JSONObject listData = (JSONObject) jsonObject.get("listData");
+                if(listData.getString("reservation_date").equals(rewriteData.getReservation_date())) {   // 예약 날짜 동일 체크
+                    if(listData.getInt("hospital_key") == rewriteData.getHospital_key()) { // 키 동일 체크
                         Log.d(TAG, "같은 객체 찾음!");
                         if (isDelete)
                             jsonArray.remove(i); // 삭제
                         else {
-                            Gson gson = new Gson();
-                            String rewriteJSONStr = gson.toJson(rewriteData);
-                            JSONObject rewriteJSONObj = StringToJSON(rewriteJSONStr);
-                            Log.d(TAG, "result ::: " + rewriteJSONObj);
-                            jsonArray.put(i, rewriteJSONObj); // 덮어씌우기
+//                            Gson gson = new Gson();
+//                            String rewriteJSONStr = gson.toJson(rewriteData);
+//                            JSONObject rewriteJSONObj = StringToJSON(rewriteJSONStr);
+//                            Log.d(TAG, "result ::: " + rewriteJSONObj);
+//                            jsonArray.put(i, rewriteJSONObj); // 덮어씌우기
+                                JSONObject newListData = rewriteData.getJSONObj();
+                                jsonObject.remove("listData");
+                                jsonObject.accumulate("listData", newListData);
+                                jsonArray.put(i, jsonObject);
                         }
                         fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
                         fileOutputStream.flush();

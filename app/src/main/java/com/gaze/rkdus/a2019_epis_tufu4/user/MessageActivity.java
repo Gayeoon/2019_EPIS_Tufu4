@@ -356,9 +356,9 @@ public class MessageActivity extends BaseActivity {
                         return true;
                     }
                 });
-                reservationListData = (MyReservationListData) typeIntent.getSerializableExtra("data");
-//                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
-                printReservationData(reservationListData.getData());
+//                reservationListData = (MyReservationListData) typeIntent.getSerializableExtra("data");
+                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
+                printReservationData(myReservationData);
             }
         }
         else {
@@ -371,26 +371,27 @@ public class MessageActivity extends BaseActivity {
     예약 수정 시 EditText에 정보 미리 입력시키기.
      */
     private void printReservationData(MyReservationData data) {
-        ownerName = data.getOWNER_NAME();
+        ownerName = data.getOwner_name();
         eOwnerName.setText(ownerName);
 
-        hospitalName = data.getHOSPITAL_NAME();
+        hospitalName = data.getHospital_name();
 
         // ex) 123456-1234567
-        ownerRRN = data.getOWNER_RESIDENT();
+        ownerRRN = data.getOwner_resident();
         String[] splitRRN = ownerRRN.split("-");
         eOwnerRRNBefore.setText(splitRRN[0]);
         eOwnerRRNAfter.setText(splitRRN[1]);
 
         // ex) 010-1234-5678
-        ownerHP = data.getOWNER_PHONE_NUMBER();
+        ownerHP = data.getOwner_phone_number();
+        Log.d(TAG, "폰번 : " + data.getOwner_phone_number());
         String[] splitHP = ownerHP.split("-");
         eOwnerHP1.setText(splitHP[0]);
         eOwnerHP2.setText(splitHP[1]);
         eOwnerHP3.setText(splitHP[2]);
 
         // ex) 30265_대전시 유성구 궁동_충남대학교 4층
-        String[] addr1 = data.getOWNER_ADDRESS1().split("_");
+        String[] addr1 = data.getAddress1().split("_");
         ownerPostCode = addr1[0];
         ownerPost = addr1[1];
         ownerDetailPostCode = addr1[2];
@@ -401,7 +402,7 @@ public class MessageActivity extends BaseActivity {
         eOwnerDetailPostCode.setText(ownerDetailPostCode);
 
         // ex) 30265_대전시 유성구 궁동_충남대학교 4층
-        String[] addr2 = data.getOWNER_ADDRESS2().split("_");
+        String[] addr2 = data.getAddress2().split("_");
         ownerRealPostCode = addr2[0];
         ownerRealPost = addr2[1];
         ownerRealDetailPostCode = addr2[2];
@@ -410,15 +411,15 @@ public class MessageActivity extends BaseActivity {
         tvOwnerRealPost.setText(ownerRealPost);
         eOwnerRealDetailPostCode.setText(ownerRealDetailPostCode);
 
-        petName = data.getPET_NAME();
+        petName = data.getPet_name();
         ePetName.setText(petName);
-        petRace = data.getPET_VARIETY();
+        petRace = data.getPet_variety();
         ePetRace.setText(petRace);
-        petColor = data.getPET_COLOR();
+        petColor = data.getPet_color();
         ePetColor.setText(petColor);
 
         // ex) 1996.01.30
-        String[] birth = data.getPET_BIRTH().split("\\.");
+        String[] birth = data.getPet_birth().split("\\.");
         petYear = birth[0];
         petMonth = birth[1];
         petDay = birth[2];
@@ -427,7 +428,7 @@ public class MessageActivity extends BaseActivity {
         sPetBirthDay.setSelection(getIndexOfSpinner(petDay, dayArray));
 
         // ex) 1996.01.30
-        String[] getDate = data.getREGIST_DATE().split("\\.");
+        String[] getDate = data.getRegist_date().split("\\.");
         petGetYear = getDate[0];
         petGetMonth = getDate[1];
         petGetDay = getDate[2];
@@ -435,10 +436,10 @@ public class MessageActivity extends BaseActivity {
         sPetGetMonth.setSelection(getIndexOfSpinner(petGetMonth, monthArray));
         sPetGetDay.setSelection(getIndexOfSpinner(petGetDay, dayArray));
 
-        key = data.getHOSPITAL_KEY();
+        key = data.getHospital_key();
 
         // 0: default, 1: inner, 2: outer, 3: badge
-        type = data.getTYPE();
+        type = data.getType();
         if(type == 1)
             innerBtn.setImageResource(R.drawable.message_innerclick);
         else if(type == 2)
@@ -447,23 +448,23 @@ public class MessageActivity extends BaseActivity {
             badgeBtn.setImageResource(R.drawable.message_badgeclick);
 
         // 0: default, 1: female, 2: male
-        petGender = data.getPET_GENDER();
+        petGender = data.getPet_gender();
         if(petGender == 1)
             ivPetFemale.setImageResource(R.drawable.message_petfemaleclick);
         else if(petGender == 2)
             ivPetMale.setImageResource(R.drawable.message_petmaleclick);
 
         // 0: default, 1: neutralization, 2: not neutralization
-        petNeutralization = data.getPET_NEUTRALIZATION();
+        petNeutralization = data.getPet_neutralization();
         if(petNeutralization == 1)
             ivPetNeutalization.setImageResource(R.drawable.message_petneutralizationclick);
         else if(petNeutralization == 2)
             ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralizationclick);
 
-        petSpecialProblem = data.getETC();
+        petSpecialProblem = data.getEtc();
         ePetSpecialProblem.setText(petSpecialProblem);
 
-        askDateOld = data.getASK_DATE();
+        askDateOld = data.getAsk_date();
     }
 
     /*
@@ -630,35 +631,54 @@ public class MessageActivity extends BaseActivity {
                 reservationObject.accumulate("ask_date", reservationObject.get("ask_date_new"));
                 reservationObject.remove("ask_date_new");
             }
+
             Gson gson = new Gson();
             myReservationListData = new MyReservationListData("WAIT", 1, key,
-                    hospitalName, reservationObject.get("ask_date").toString(), gson.fromJson(reservationObject.toString(), MyReservationData.class));
+                    hospitalName, reservationObject.get("ask_date").toString());
+            JSONObject temp = new JSONObject();
 
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
+                myReservationListData = new MyReservationListData("WAIT", 1, key,
+                        hospitalName, reservationObject.get("ask_date").toString());
+                temp.accumulate("listData", myReservationListData.getJSONObj());
+                temp.accumulate("reservationData", reservationObject);
+
                 JSONArray jsonArray = new JSONArray();
-                jsonArray.put(gson.toJson(myReservationListData));
+                jsonArray.put(temp);
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
-                Log.d(TAG, "myReservationListData : " + jsonArray.toString());
             }
             else {  // 기존에 저장된 파일 존재
                 JSONArray jsonArray = new JSONArray(fileText);
                 Log.d(TAG, "기존에 저장된 파일 존재");
                 for(int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
-                    // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
-                    if(jsonObject.getString("reservation_date").equals(askDateOld)) {   // 예약 날짜 동일 체크
-                        if(jsonObject.getInt("hospital_key") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
-                            // jsonArray.remove(i);
-                            jsonArray.put(i, gson.toJson(myReservationListData)); // 덮어씌우기
-                            fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
-                            Log.d(TAG, "myReservationListData : " + jsonArray.toString());
-                            fileOutputStream.flush();
-                            fileOutputStream.close();
-                            return true;
+                    JSONObject jsonObject = jsonArray.getJSONObject(i); // {listData : ~, reservationData : ~}
+                    Log.d(TAG, "기존에 저장된 파일 존재2");
+                    if (jsonObject.has("reservationData")) {
+                        JSONObject listData = (JSONObject) jsonObject.get("listData");
+                        JSONObject reservationData = (JSONObject) jsonObject.get("reservationData");
+                        Log.d(TAG, "기존에 저장된 파일 존재3");
+                        if(reservationData.getString("reservation_date").equals(askDateOld)) {   // 예약 날짜 동일 체크
+                            if(listData.getInt("hospital_key") == myReservationData.getHospital_key() && reservationData.getInt("hospital_key") == myReservationData.getHospital_key()) { // 키 동일 체크
+                                // jsonArray.remove(i);
+                                Log.d(TAG, "기존에 저장된 파일 존재4");
+                                // ListData 날짜 수정
+                                listData.remove("reservation_date");
+                                listData.accumulate("reservation_date", reservationObject.get("ask_date"));
+                                // 다시 집어넣기
+                                temp.accumulate("listData", listData);
+                                temp.accumulate("reservationData", reservationObject);
+                                Log.d(TAG, "기존에 저장된 파일 존재5");
+                                jsonArray.put(i, temp); // 덮어씌우기
+                                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                                Log.d(TAG, "myReservationListData : " + jsonArray.toString());
+                                fileOutputStream.flush();
+                                fileOutputStream.close();
+                                return true;
+                            }
                         }
                     }
+
                 }
                 jsonArray.put(reservationObject);
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
@@ -862,6 +882,7 @@ public class MessageActivity extends BaseActivity {
                         finish();
                     }
                     else {
+                        Log.d(TAG, "예약 성공! 저장 실패!");
                         Toast.makeText(getApplicationContext(), "예약 성공! 저장 실패!", Toast.LENGTH_LONG).show();
                         setResult(RESULT_CANCELED);
                         finish();

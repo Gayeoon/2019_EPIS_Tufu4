@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.R;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationAllData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ImageTextPopupActivity;
@@ -22,9 +24,12 @@ import com.gaze.rkdus.a2019_epis_tufu4.popup.ReviewPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity;
 
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static com.gaze.rkdus.a2019_epis_tufu4.popup.HospitalInfoPopupActivity.TAG;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_ADDREVIEW;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_REGISTCONFIRM;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_RESERVATION;
@@ -34,7 +39,7 @@ MyPageActivity RecyclerView의 Adapter
  */
 public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservationListAdapter.ItemViewHolder> {
     // adapter에 들어갈 list 입니다.
-    private ArrayList<MyReservationListData> listData;
+    private ArrayList<MyReservationAllData> listData;
     private Context context;
 
     //아이템 클릭시 실행 함수
@@ -48,12 +53,12 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
         this.itemClick = itemClick;
     }
 
-    public MyReservationListAdapter(ArrayList<MyReservationListData> arrayList, Context context) {
+    public MyReservationListAdapter(ArrayList<MyReservationAllData> arrayList, Context context) {
         this.context = context;
         listData = arrayList;
     }
 
-    public void resetAll(ArrayList<MyReservationListData> newArrayList) { ;
+    public void resetAll(ArrayList<MyReservationAllData> newArrayList) { ;
 
         this.listData = null;
         this.listData = newArrayList;
@@ -81,10 +86,12 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
             ivDeleteRegist = itemView.findViewById(R.id.deleteRegistImg);
         }
 
-        void onBind(MyReservationListData data) {
-            final MyReservationListData resultData = data;
+        void onBind(MyReservationAllData data) {
+            final MyReservationAllData resultData = data;
+            final MyReservationListData listData = resultData.getListData();
+
             // RESERVATION_STATE에 따른 버튼 visible 설정
-            if (resultData.getReservation_state().equals("WAIT")) {
+            if (listData.getReservation_state().equals("WAIT")) {
                     ivRegistConfirm.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
@@ -92,7 +99,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                                 case MotionEvent.ACTION_DOWN:   // 클릭 시
                                     Intent intent = new Intent(context, ImageTextPopupActivity.class);
                                     intent.putExtra("popupType", 2);
-                                    intent.putExtra("data", resultData);
+                                    intent.putExtra("data", listData);
                                     ((Activity) context).startActivityForResult(intent, CHECK_REGISTCONFIRM);
                                     break;
                                 case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -107,9 +114,11 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
-                                if (resultData.getReservation_type() == 1) {
+                                if (listData.getReservation_type() == 1) {
+                                    MyReservationData reservationData = resultData.getReservationData();
+                                    Log.d(TAG, reservationData.toString());
                                     Intent intent = new Intent(context, MessageActivity.class);
-                                    intent.putExtra("data", (Serializable) resultData.getData());
+                                    intent.putExtra("data", (Serializable) reservationData);
                                     ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
                                 }
                                 else
@@ -122,7 +131,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     }
                 });
             }
-            if (resultData.getReservation_state().equals("CONFIRM")) {
+            if (listData.getReservation_state().equals("CONFIRM")) {
                 ivRegistConfirm.setVisibility(View.GONE);
                 checkRegistrationImage.setVisibility(View.GONE);
                 ivWriteReview.setVisibility(View.VISIBLE);
@@ -134,7 +143,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
                                 Intent intent = new Intent(context, ReviewPopupActivity.class);
-                                intent.putExtra("key", resultData.getHospital_key());
+                                intent.putExtra("key", listData.getHospital_key());
                                 ((Activity) context).startActivityForResult(intent, CHECK_ADDREVIEW);
                                 break;
                             case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -149,7 +158,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     public boolean onTouch(View v, MotionEvent event) {
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
-                                ((MyPageActivity) context).rewriteMyReservationFile(resultData, true);
+                                ((MyPageActivity) context).rewriteMyReservationFile(listData, true);
                                 ((MyPageActivity) context).refreshMyReservation();
                                 break;
                             case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시
@@ -159,9 +168,9 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                     }
                 });
             }
-            hospitalNameText.setText(resultData.getHospital_name());
-            typeText.setText(resultData.getTypeToStr());
-            String[] date = resultData.getReservation_date().split("\\s");
+            hospitalNameText.setText(listData.getHospital_name());
+            typeText.setText(listData.getTypeToStr());
+            String[] date = listData.getReservation_date().split("\\s");
             dateText.setText(date[0]);
         }
     }

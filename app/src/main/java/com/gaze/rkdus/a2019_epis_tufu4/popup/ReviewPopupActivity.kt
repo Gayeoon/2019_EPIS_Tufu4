@@ -85,7 +85,7 @@ class ReviewPopupActivity : BaseActivity() {
                 var now = LocalDate.now()
                 var nowDate = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
-                val addReviewData = AddReviewData(data!!.hospitaL_KEY, KAKAO_ID, nowDate, content!!, score)
+                val addReviewData = AddReviewData(data!!.hospital_key, KAKAO_ID, nowDate, content!!, score)
 
                 reviewService.resultAddReviewRepos(addReviewData)
                         .subscribeOn(Schedulers.io())
