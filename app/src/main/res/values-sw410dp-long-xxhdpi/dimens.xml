@@ -110,13 +110,13 @@
 
     <!-- RegisterActivity -->
     <!-- 2xl -->
-    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeMain">15sp</dimen>
     <dimen name="textSizeBig">9dp</dimen>
     <dimen name="textSizeMid">8dp</dimen>
     <dimen name="textSizeSmall">7dp</dimen>
     <dimen name="regiPdf">25dp</dimen>
     <dimen name="regiPdfMargin">20dp</dimen>
-    <dimen name="regiImageHeight">600dp</dimen>
+    <dimen name="regiImageHeight">530dp</dimen>
     <dimen name="regiTableMarginLeft">85dp</dimen>
     <dimen name="regiTableMarginRight">40dp</dimen>
     <dimen name="regiTableMarginTop">220dp</dimen>
@@ -156,4 +156,24 @@
     <dimen name="joinBankWidth">10dp</dimen>
     <dimen name="joinBankHeight">6dp</dimen>
 
+    <!-- VaccinationActivity -->
+    <dimen name="vaccine_textBig">18sp</dimen>
+    <dimen name="vaccine_textMid">14sp</dimen>
+    <dimen name="vaccine_textSSmall">11sp</dimen>
+    <dimen name="vaccine_textSmall">12sp</dimen>
+    <dimen name="vaccine_Image">124dp</dimen>
+    <dimen name="vaccine_backHeight">82dp</dimen>
+    <dimen name="vaccine_icon">35dp</dimen>
+    <dimen name="vaccine_marginTop">10dp</dimen>
+    <dimen name="vaccine_dog">20dp</dimen>
+    <dimen name="vaccine_gencer">26dp</dimen>
+    <dimen name="vaccine_age">20dp</dimen>
+    <dimen name="vaccine_weight">26dp</dimen>
+    <dimen name="vaccine_call">35dp</dimen>
+    <dimen name="vaccine_barMarginTop">20dp</dimen>
+    <dimen name="vaccine_marginBottom">15dp</dimen>
+
+    <dimen name="health_iconHeight">30dp</dimen>
+    <dimen name="health_iconwidth">28dp</dimen>
+<dimen name="health_text">13sp</dimen>
 </resources>

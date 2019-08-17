@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#ffffff"
     android:layout_height="match_parent"
     tools:context=".StatusActivity">
 
@@ -18,54 +19,96 @@
         android:paddingRight="20dp"
         android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="@android:color/transparent"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffffff"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/notosansbold"
-            android:gravity="center"
-            android:text="예약현황"
-            android:textColor="#2eb8ff"
-            android:textSize="20sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/finish_lineback"
+                android:orientation="horizontal">
 
-    </FrameLayout>
 
-    <LinearLayout
-        android:id="@+id/searchbar"
-        android:gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_margin="7dp"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:background="@drawable/search">
+                <TextView
+                    android:id="@+id/regist"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/notosansregular"
+                    android:gravity="center"
+                    android:text="반려동물등록"
+                    android:textColor="#2eb8ff"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/finish_line"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:id="@+id/vaccine"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/notosansregular"
+                    android:gravity="center"
+                    android:text="예방접종"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/finish_line"
+                    android:layout_gravity="center_vertical"/>
+                <TextView
+                    android:id="@+id/health"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/notosansregular"
+                    android:gravity="center"
+                    android:text="건강검진"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/search_input"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingLeft="13dp"
-            android:background="@android:color/transparent" />
+            </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:background="@drawable/search_icon"/>
-    </LinearLayout>
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/searchbar"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_marginTop="5dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                android:layout_gravity="center"
+                android:background="@drawable/search">
+
+                <EditText
+                    android:id="@+id/search_input"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="13dp"
+                    android:background="@android:color/transparent" />
+
+                <ImageButton
+                    android:id="@+id/search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/search_icon"/>
+            </LinearLayout>
 
     <ListView
         android:id="@+id/stateList"
@@ -82,5 +125,6 @@
         android:paddingRight="20dp"
         android:scrollbarStyle="outsideOverlay"></ListView>
 
+</LinearLayout>
 </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

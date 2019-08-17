@@ -1,6 +1,7 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static final String TAG = "StatusActivity";
 
     ListView listView;
@@ -46,7 +47,7 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
     MySmallAdapter mySmallAdapter;
 
     ImageButton search;
-    TextView search_input;
+    TextView search_input, regist, vaccine, health;
 
     String id, owner, animal, search_txt;
 
@@ -155,9 +156,13 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
         id = getintet.getStringExtra("id");
 
         TextView title = (TextView) findViewById(R.id.title);
+        regist = (TextView) findViewById(R.id.regist);
+        vaccine = (TextView) findViewById(R.id.vaccine);
+        health = (TextView) findViewById(R.id.health);
+
         search = (ImageButton) findViewById(R.id.search);
         search_input = (TextView) findViewById(R.id.search_input);
-        LinearLayout searchBar = (LinearLayout)findViewById(R.id.searchbar);
+        final LinearLayout searchBar = (LinearLayout) findViewById(R.id.searchbar);
 
         if (height < 2000) {
             title.setTextSize(16);
@@ -173,11 +178,52 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
             public void onClick(View v) {
                 search_txt = search_input.getText().toString();
 
-                new SearchListData().execute(getResources().getString(R.string.url) + "/getSearchListData");
+               // new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
+                new SearchListData().execute("http://172.30.1.5:8001" + "/user/getReservation");
+
             }
         });
 
         listView = (ListView) findViewById(R.id.stateList);
+
+        regist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                regist.setTextColor(Color.parseColor("#2eb8ff"));
+                vaccine.setTextColor(Color.parseColor("#000000"));
+                health.setTextColor(Color.parseColor("#000000"));
+                searchBar.setVisibility(View.VISIBLE);
+
+                new StateListData().execute(getResources().getString(R.string.url) + "/getStateListData");
+
+            }
+        });
+
+        health.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                regist.setTextColor(Color.parseColor("#000000"));
+                vaccine.setTextColor(Color.parseColor("#000000"));
+                health.setTextColor(Color.parseColor("#2eb8ff"));
+                searchBar.setVisibility(View.GONE);
+
+                new HealthScreeningListData().execute(getResources().getString(R.string.url) + "/healthScreen/getHealthScreeningListData");
+
+            }
+        });
+
+        vaccine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                regist.setTextColor(Color.parseColor("#000000"));
+                vaccine.setTextColor(Color.parseColor("#2eb8ff"));
+                health.setTextColor(Color.parseColor("#000000"));
+                searchBar.setVisibility(View.GONE);
+
+                new VaccineListData().execute(getResources().getString(R.string.url) + "/vaccine/getVaccinationListData");
+
+            }
+        });
 
 //        myAdapter = new MyAdapter();
 //
@@ -206,6 +252,323 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
 //        });
 
         new StateListData().execute(getResources().getString(R.string.url) + "/getStateListData");
+
+    }
+
+    /* HealthScreeningListData : ID값을 통해 건강검진 데이터 리스트를 출력
+     *
+     * 건강검진 데이터 출력
+     *
+     * Uri  --->   /healthScreen/getHealthScreeningListData
+     * Parm  --->   {"user":{"id":"test"}} 전송
+     * Result  --->   {"result":{"health":[{"OWNER_NAME":"김가연","PET_NAME":"뿡이"},{"OWNER_NAME":"정지원","PET_NAME":"맥북"}]}} 결과 값
+     *
+     * ps. 결과값 : result Object 안에 JSONArray : health 넣어서!!  */
+
+    public class HealthScreeningListData extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e(TAG, jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONObject json = null;
+            JSONArray state = null;
+
+            if (small) {
+                mySmallAdapter = new MySmallAdapter();
+            } else {
+                myAdapter = new MyAdapter();
+            }
+
+            JSONArray internal = null, external = null, dogtag = null;
+
+            try {
+                json = new JSONObject(result);
+
+                if (json.get("result") == null) {
+                    new HealthScreeningListData().execute(getResources().getString(R.string.url) + "/healthScreen/getHealthScreeningListData");
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject = json.getJSONObject("result");
+
+                    state = jsonObject.getJSONArray("health");
+
+                    Log.e(TAG, state.length() + "");
+
+                    for (int i = 0; i < state.length(); i++) {
+                        JSONObject jsonTemp = state.getJSONObject(i);
+
+                        if (small) {
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), 0));
+
+                        } else {
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), 0));
+                        }
+                    }
+
+                    if (small) {
+                        listView.setAdapter(mySmallAdapter);
+                    } else {
+                        listView.setAdapter(myAdapter);
+                    }
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
+                            TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
+
+                            owner = oTextOwner.getText().toString();
+                            animal = oTextAnimal.getText().toString();
+
+                            Intent intent = new Intent(getApplicationContext(), HealthScreeningActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("owner", owner);
+                            intent.putExtra("animal", animal);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            Log.e(TAG, result);
+
+        }
+    }
+
+    /* VaccineListData : ID값을 통해 건강검진 데이터 리스트를 출력
+     *
+     * 건강검진 데이터 출력
+     *
+     * Uri  --->   /vaccine/getVaccinationListData
+     * Parm  --->   {"user":{"id":"test"}} 전송
+     * Result  --->   {"result":{"health":[{"OWNER_NAME":"김가연","PET_NAME":"뿡이"},{"OWNER_NAME":"정지원","PET_NAME":"맥북"}]}} 결과 값
+     *
+     * ps. 결과값 : result Object 안에 JSONArray : health 넣어서!!  */
+
+    public class VaccineListData extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e(TAG, jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONObject json = null;
+            JSONArray state = null;
+
+            if (small) {
+                mySmallAdapter = new MySmallAdapter();
+            } else {
+                myAdapter = new MyAdapter();
+            }
+
+            JSONArray internal = null, external = null, dogtag = null;
+
+            try {
+                json = new JSONObject(result);
+
+                if (json.get("result") == null) {
+                    new VaccineListData().execute(getResources().getString(R.string.url) + "/vaccine/getVaccinationListData");
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject = json.getJSONObject("result");
+
+                    state = jsonObject.getJSONArray("vaccination");
+
+                    Log.e(TAG, state.length() + "");
+
+                    for (int i = 0; i < state.length(); i++) {
+                        JSONObject jsonTemp = state.getJSONObject(i);
+
+                        if (small) {
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), 0));
+
+                        } else {
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), 0));
+                        }
+                    }
+
+                    if (small) {
+                        listView.setAdapter(mySmallAdapter);
+                    } else {
+                        listView.setAdapter(myAdapter);
+                    }
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            TextView oTextOwner = (TextView) view.findViewById(R.id.owner);
+                            TextView oTextAnimal = (TextView) view.findViewById(R.id.animal);
+
+                            owner = oTextOwner.getText().toString();
+                            animal = oTextAnimal.getText().toString();
+
+                            Intent intent = new Intent(getApplicationContext(), VaccinationActivity.class);
+                            intent.putExtra("id", id);
+                            intent.putExtra("owner", owner);
+                            intent.putExtra("animal", animal);
+                            startActivity(intent);
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+            Log.e(TAG, result);
+
+        }
     }
 
     /* StateListData : ID값을 통해 전체 리스트를 출력
@@ -300,9 +663,9 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
             JSONObject json = null;
             JSONArray state = null;
 
-            if (small){
+            if (small) {
                 mySmallAdapter = new MySmallAdapter();
-            }else{
+            } else {
                 myAdapter = new MyAdapter();
             }
 
@@ -324,17 +687,17 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
 
-                        if (small){
-                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        if (small) {
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), jsonTemp.getInt("regist_state")));
 
-                        }else{
-                            myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        } else {
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), jsonTemp.getInt("regist_state")));
                         }
                     }
 
-                    if (small){
+                    if (small) {
                         listView.setAdapter(mySmallAdapter);
-                    }else{
+                    } else {
                         listView.setAdapter(myAdapter);
                     }
 
@@ -371,7 +734,7 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
      *
      * Uri  --->   /getSearchListData
      * Parm  --->   {"user":{"id":"test","key":"뿡이"}} 전송
-     * Result  --->   {"result":{"state":[{"OWNER_NAME":"김가연","PET_NAME":"뿡이","REGIST_STATE":1},{"OWNER_NAME":"정지원","PET_NAME":"뿡이","REGIST_STATE":2}]}} 결과 값
+     * Result  --->   {"result":{"state":[{"owner_name":"김가연","pet_name":"뿡이","REGIST_STATE":1},{"owner_name":"정지원","PET_NAME":"뿡이","REGIST_STATE":2}]}} 결과 값
      *
      * ps. 결과값 : result Object 안에 JSONArray : state 넣어서!!  */
 
@@ -458,9 +821,9 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
             JSONObject json = null;
             JSONArray state = null;
 
-            if (small){
+            if (small) {
                 mySmallAdapter = new MySmallAdapter();
-            }else{
+            } else {
                 myAdapter = new MyAdapter();
             }
 
@@ -470,7 +833,8 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new SearchListData().execute(getResources().getString(R.string.url) + "/getSearchListData");
+//                    new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
+                    new SearchListData().execute("http://172.30.1.5:8001" + "/user/getReservation");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -481,17 +845,17 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
 
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        if (small){
-                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        if (small) {
+                            mySmallAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), jsonTemp.getInt("regist_state")));
 
-                        }else{
-                            myAdapter.addItem(new StatusItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME"), jsonTemp.getInt("REGIST_STATE")));
+                        } else {
+                            myAdapter.addItem(new StatusItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name"), jsonTemp.getInt("regist_state")));
                         }
                     }
 
-                    if (small){
+                    if (small) {
                         listView.setAdapter(mySmallAdapter);
-                    }else{
+                    } else {
                         listView.setAdapter(myAdapter);
                     }
 
@@ -513,10 +877,10 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
                         }
                     });
 
-                    if (small){
+                    if (small) {
                         mySmallAdapter.notifyDataSetChanged();
                         mySmallAdapter.notifyDataSetInvalidated();
-                    }else{
+                    } else {
                         myAdapter.notifyDataSetChanged();
                         myAdapter.notifyDataSetInvalidated();
                     }

@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.os.Environment;
 import android.support.annotation.RequiresApi;
@@ -73,12 +74,13 @@ public class RegisterActivity extends AppCompatActivity {
 
     String pdf_name;
 
+    ImageButton share, finish;
+
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
 
     final int MY_PERMISSION_REQUEST_STORAGE = 1234;
-    private ImageButton pdf;
-    FrameLayout frameLayout;
+    ConstraintLayout constraintLayout;
     String dirpath;
 
     @Override
@@ -137,6 +139,9 @@ public class RegisterActivity extends AppCompatActivity {
         month = (TextView) findViewById(R.id.month);
         date = (TextView) findViewById(R.id.day);
 
+        share = (ImageButton)findViewById(R.id.share);
+        finish = (ImageButton)findViewById(R.id.finish);
+
         owner.setText(str_owner);
         owner_2.setText(str_owner);
         animal.setText(str_animal);
@@ -145,10 +150,9 @@ public class RegisterActivity extends AppCompatActivity {
         month.setText(str_month);
         date.setText(str_date);
 
-        frameLayout = (FrameLayout) findViewById(R.id.framelayout);
-        pdf = (ImageButton) findViewById(R.id.pdf);
+        constraintLayout = (ConstraintLayout) findViewById(R.id.framelayout);
 
-        pdf.setOnClickListener(new View.OnClickListener() {
+        share.setOnClickListener(new View.OnClickListener() {
             @TargetApi(Build.VERSION_CODES.M)
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
@@ -159,6 +163,13 @@ public class RegisterActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        finish.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                new CancelReservation().execute(getResources().getString(R.string.url) + "/changeState4");
             }
         });
 
@@ -276,33 +287,31 @@ public class RegisterActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
-                    owner.setText(jsonObject.getString("OWNER_NAME"));
-                    resident.setText(jsonObject.getString("OWNER_RESIDENT"));
-                    phone.setText(jsonObject.getString("OWNER_PHONE_NUMBER"));
-                    resAddr.setText(jsonObject.getString("OWNER_ADDRESS1"));
-                    nowAddr.setText(jsonObject.getString("OWNER_ADDRESS2"));
-                    animal.setText(jsonObject.getString("PET_NAME"));
-                    variety.setText(jsonObject.getString("PET_VARIETY"));
-                    furColor.setText(jsonObject.getString("PET_COLOR"));
+                    owner.setText(jsonObject.getString("owner_name"));
+                    resident.setText(jsonObject.getString("owner_resident"));
+                    phone.setText(jsonObject.getString("owner_phone"));
+                    resAddr.setText(jsonObject.getString("address1"));
+                    nowAddr.setText(jsonObject.getString("address2"));
+                    animal.setText(jsonObject.getString("pet_name"));
+                    variety.setText(jsonObject.getString("pet_variety"));
+                    furColor.setText(jsonObject.getString("pet_color"));
 
-                    if (jsonObject.getString("PET_GENDER") == "1") {
+                    if (jsonObject.getInt("pet_gender") == 2) {
                         gender.setText("남성");
                     } else {
                         gender.setText("여성");
                     }
 
-                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1") {
-                        neutralization.setText("O");
+                    if (jsonObject.getInt("pet_neutralization") == 1) {
+                        neutralization.setText("했음");
                     } else {
-                        neutralization.setText("X");
+                        neutralization.setText("안했음");
                     }
 
+                    birthday.setText(jsonObject.getString("pet_birth"));
+                    acqDate.setText(jsonObject.getString("regist_date"));
+                    special.setText(jsonObject.getString("etc"));
 
-                    birthday.setText(jsonObject.getString("PET_BIRTH"));
-                    acqDate.setText(jsonObject.getString("REGIST_DATE"));
-                    special.setText(jsonObject.getString("ETC"));
-
-                    Log.e(TAG, jsonObject.getString("OWNER_NAME"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -313,130 +322,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    /* ReservationCheck : ID, 주인 이름, type 값을 통해 해당 데이터 상태를 등록 대기 상태로 변경
-     *
-     * type -> 1 : 내장형 / 2 : 외장형 / 3 : 등록인식표
-     *
-     * 변경 성공하면 -> int 1
-     * 변경 실패하면 -> int 0
-     *
-     *  id/name/type이 일치하는 데이터의 state를 1에서 2로 변경!
-     *
-     * Uri  --->   /putChangeState
-     * Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
-     * Result  --->   {"result":1} 결과 값 */
-
-    public class ReservationCheck extends AsyncTask<String, String, String> {
-
-        @Override
-
-        protected String doInBackground(String... urls) {
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                JSONObject tmp = new JSONObject();
-
-                tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", str_owner);
-                tmp.accumulate("type", type);
-
-                jsonObject.accumulate("user", tmp);
-
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
-
-                try {
-
-                    URL url = new URL(urls[0]);
-                    con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Cache-Control", "no-cache");
-                    con.setRequestProperty("Content-Type", "application/json");
-                    con.setRequestProperty("Accept", "text/html");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.connect();
-
-                    //서버로 보내기위해서 스트림 만듬
-                    OutputStream outStream = con.getOutputStream();
-
-                    //버퍼를 생성하고 넣음
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-
-                    Log.e(TAG, jsonObject.toString());
-                    writer.write(jsonObject.toString());
-                    writer.flush();
-                    writer.close();//버퍼를 받아줌
-
-                    //서버로 부터 데이터를 받음
-                    InputStream stream = con.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-
-                    return buffer.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();//버퍼를 닫아줌
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            JSONObject json = null;
-            int success = 0;
-
-            try {
-                json = new JSONObject(result);
-
-                if (json.get("result") == null) {
-                    new ReservationCheck().execute(getResources().getString(R.string.url) + "/putChangeState");
-                } else {
-                    success = (int) json.get("result");
-
-                    if (success == 1) {
-                        Toast.makeText(getApplicationContext(), "예약확인!!", Toast.LENGTH_LONG).show();
-
-                        String tel = "tel:" + phone.getText().toString();
-                        startActivity(new Intent("android.intent.action.DIAL", Uri.parse(tel)));
-
-                        finish();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_LONG).show();
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.e(TAG, result);
-
-        }
-    }
 
     public void shareFIle(File shareFile) {
 
@@ -485,15 +370,15 @@ public class RegisterActivity extends AppCompatActivity {
     public void layoutToImage() throws IOException {
 
 
-        Bitmap bm = Bitmap.createBitmap(frameLayout.getWidth(), frameLayout.getHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bm = Bitmap.createBitmap(constraintLayout.getWidth(), constraintLayout.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bm);
-        Drawable bgDrawable = frameLayout.getBackground();
+        Drawable bgDrawable = constraintLayout.getBackground();
         if (bgDrawable != null) {
             bgDrawable.draw(canvas);
         } else {
             canvas.drawColor(Color.WHITE);
         }
-        frameLayout.draw(canvas);
+        constraintLayout.draw(canvas);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
@@ -653,5 +538,122 @@ public class RegisterActivity extends AppCompatActivity {
         emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://" + CachedFileProvider.AUTHORITY + "/" + fileName));
 
         return emailIntent;
+    }
+
+    /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 예약 상태 변경
+
+    예약상태 4로 변경 (현재 : 2)
+
+    성공 1 실패 0
+
+    Uri  --->   /hospital/changeState4
+    Parm  --->   "user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
+        Result  --->   {"result":1} 결과 값 */
+
+    public class CancelReservation extends AsyncTask<String, String, String> {
+
+        @Override
+
+        protected String doInBackground(String... urls) {
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                JSONObject tmp = new JSONObject();
+
+                tmp.accumulate("id", id);
+                tmp.accumulate("owner_name", str_owner);
+                tmp.accumulate("pet_name", str_animal);
+
+                jsonObject.accumulate("user", tmp);
+
+                HttpURLConnection con = null;
+                BufferedReader reader = null;
+
+                try {
+
+                    URL url = new URL(urls[0]);
+                    con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setRequestProperty("Cache-Control", "no-cache");
+                    con.setRequestProperty("Content-Type", "application/json");
+                    con.setRequestProperty("Accept", "text/html");
+                    con.setDoOutput(true);
+                    con.setDoInput(true);
+                    con.connect();
+
+                    //서버로 보내기위해서 스트림 만듬
+                    OutputStream outStream = con.getOutputStream();
+
+                    //버퍼를 생성하고 넣음
+                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+
+                    Log.e(TAG, jsonObject.toString());
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                    writer.close();//버퍼를 받아줌
+
+                    //서버로 부터 데이터를 받음
+                    InputStream stream = con.getInputStream();
+                    reader = new BufferedReader(new InputStreamReader(stream));
+                    StringBuffer buffer = new StringBuffer();
+                    String line = "";
+
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line);
+                    }
+
+                    return buffer.toString();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (con != null) {
+                        con.disconnect();
+                    }
+                    try {
+                        if (reader != null) {
+                            reader.close();//버퍼를 닫아줌
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            JSONObject json = null;
+            int succes = 0;
+
+            try {
+                json = new JSONObject(result);
+
+                if (json.get("result") == null) {
+                    new CancelReservation().execute(getResources().getString(R.string.url) + "/changeState4");
+                } else {
+                    succes = (int) json.get("result");
+
+                    if (succes == 1) {
+                        onBackPressed();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "버튼을 다시 눌러주세요.", Toast.LENGTH_LONG).show();
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Log.e("CancelReservation", result);
+
+        }
     }
 }

@@ -28,6 +28,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gaze.rkdus.a2019_epis_tufu4.popup.HospitalInfoPopupActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
@@ -53,25 +55,24 @@ import static java.lang.Thread.sleep;
  */
 
 public class JoinActivity extends BaseActivity {
+    private static final int CHECK_INDIVIDUALINFO = 4491;
 
     EditText ehospital, ename, num1, num2, num3, eid, epw, epwCheck, eaccount, eaccountName;
     ImageButton next_one, next_two;
     LinearLayout idpw;
-    LinearLayout no;
-
-    WebView webView;
+    LinearLayout no, vowow;
 
     ImageView check, overlap;
 
-    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "", account="", accountName="";
+    String hospital = null, name = null, number = null, id = "", pw = "", comfirm = "", account = "", accountName = "";
     boolean success;
 
-    boolean id_check=false, pw_check=false, pwcheck_check=false, accountName_check=false, bank_check=false, account_check=false;
+    boolean id_check = false, pw_check = false, pwcheck_check = false, accountName_check = false, bank_check = false, account_check = false, ischeck = false;
     InputMethodManager imm;
 
     Animation slowly_appear, slowlyDisappear;
 
-    CompoundButton cbSignUpApp;
+    CompoundButton cbCheckIndividualInfo;
     boolean isSignUpApp = false;
 
     String select = "은행";
@@ -80,19 +81,8 @@ public class JoinActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_join);
 
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        if (height > 2000) {
-            setContentView(R.layout.activity_join);
-            Log.e("Tag", height + "   " + width);
-        } else {
-            setContentView(R.layout.activity_join_small);
-            Log.e("Tag", height + "   " + width);
-        }
 
         StrictMode.enableDefaults();
 
@@ -121,10 +111,11 @@ public class JoinActivity extends BaseActivity {
         overlap = (ImageView) findViewById(R.id.overlap);
 
         idpw = (LinearLayout) findViewById(R.id.idpw);
+        vowow = (LinearLayout) findViewById(R.id.vowow);
 
         no = (LinearLayout) findViewById(R.id.no);
-        cbSignUpApp = (CheckBox) findViewById(R.id.isSignUpApp);
-        webView = (WebView) findViewById(R.id.webview);
+
+        cbCheckIndividualInfo = (CheckBox) findViewById(R.id.checkIndividualInfo);
 
         bank = (TextView) findViewById(R.id.bank);
 
@@ -138,34 +129,24 @@ public class JoinActivity extends BaseActivity {
                 intent.putExtra("num2", num2.getText().toString());
                 intent.putExtra("num3", num3.getText().toString());
 
-                if(eaccount.getText() != null){
+                if (eaccount.getText() != null) {
                     intent.putExtra("account", eaccount.getText().toString());
                 }
-                if(eid.getText() != null){
+                if (eid.getText() != null) {
                     intent.putExtra("id", eid.getText().toString());
                 }
-                if(epw.getText() != null){
+                if (epw.getText() != null) {
                     intent.putExtra("pw", epw.getText().toString());
                 }
-                if(epwCheck.getText() != null){
+                if (epwCheck.getText() != null) {
                     intent.putExtra("pwcheck", epwCheck.getText().toString());
                 }
-                if(eaccountName.getText() != null){
+                if (eaccountName.getText() != null) {
                     intent.putExtra("accountName", eaccountName.getText().toString());
                 }
                 startActivityForResult(intent, 1);
             }
         });
-
-        webView.loadUrl("file:///android_asset/vowow_hos.html");
-        webView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
-        webView.setScrollbarFadingEnabled(false);
-
-        if (height < 2000) {
-            webView.setInitialScale(120);
-        } else {
-            webView.setInitialScale(210);
-        }
 
 //        Spinner spinner = (Spinner) findViewById(R.id.spinner);
 //
@@ -192,14 +173,18 @@ public class JoinActivity extends BaseActivity {
                 if (pw.equals(comfirm)) {
                     pwcheck_check = true;
                     check.setBackgroundResource(R.drawable.join_check);
-                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
                         next_two.setEnabled(true);
                         next_two.setBackgroundResource(R.drawable.join_finishon);
+
                     }
 
                 } else {
                     pwcheck_check = false;
                     check.setBackgroundResource(R.drawable.join_fail);
+
+                    next_two.setEnabled(false);
+                    next_two.setBackgroundResource(R.drawable.join_finishoff);
                 }
             }
 
@@ -333,9 +318,12 @@ public class JoinActivity extends BaseActivity {
 
                 if (eaccount.getText().toString().equals("")) {
                     account_check = false;
+
+                    next_two.setEnabled(false);
+                    next_two.setBackgroundResource(R.drawable.join_finishoff);
                 } else {
                     account_check = true;
-                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
                         next_two.setEnabled(true);
                         next_two.setBackgroundResource(R.drawable.join_finishon);
                     }
@@ -359,12 +347,16 @@ public class JoinActivity extends BaseActivity {
 
                 if (eaccountName.getText().toString().equals("")) {
                     accountName_check = false;
+
+                    next_two.setEnabled(false);
+                    next_two.setBackgroundResource(R.drawable.join_finishoff);
                 } else {
                     accountName_check = true;
-                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
                         next_two.setEnabled(true);
                         next_two.setBackgroundResource(R.drawable.join_finishon);
                     }
+                  //  Log.d("Join", ""+id_check+""+pw_check+""+pwcheck_check+""+accountName_check+""+account_check+""+ischeck);
                 }
             }
 
@@ -385,9 +377,12 @@ public class JoinActivity extends BaseActivity {
 
                 if (epw.getText().toString().equals("")) {
                     pw_check = false;
+
+                    next_two.setEnabled(false);
+                    next_two.setBackgroundResource(R.drawable.join_finishoff);
                 } else {
                     pw_check = true;
-                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false){
+                    if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
                         next_two.setEnabled(true);
                         next_two.setBackgroundResource(R.drawable.join_finishon);
                     }
@@ -407,7 +402,7 @@ public class JoinActivity extends BaseActivity {
                 name = ename.getText().toString();
                 number = num1.getText().toString() + "-" + num2.getText().toString() + "-" + num3.getText().toString();
 
-                new ThreeCheck().execute(getResources().getString(R.string.url) + "/getThreeCheck");
+                new ThreeCheck().execute(getResources().getString(R.string.url) + "/isHospital");
             }
         });
 
@@ -415,16 +410,14 @@ public class JoinActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
-                if (select.equals("은행")){
+                if (select.equals("은행")) {
                     Toast.makeText(JoinActivity.this, "은행을 선택해주세요.", Toast.LENGTH_LONG).show();
-                }
-                else
-                 {
+                } else {
                     account = eaccount.getText().toString();
                     id = eid.getText().toString();
                     pw = epw.getText().toString();
 
-                    new JoinDB().execute(getResources().getString(R.string.url) + "/hospital/putHospital");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/putHospital");
                 }
             }
         });
@@ -437,24 +430,19 @@ public class JoinActivity extends BaseActivity {
                 if (id.equals("")) {
                     Toast.makeText(getApplicationContext(), "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                    new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
+                    new IDCheck().execute(getResources().getString(R.string.url) + "/idCheck");
                 }
             }
         });
 
-        // 체크박스 클릭 이벤트
+        // 개인정보 수집 동의 텍스트 및 체크박스 클릭 이벤트
 
-        cbSignUpApp.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        cbCheckIndividualInfo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (cbSignUpApp.isChecked()) {
-                    isSignUpApp = true;
-                    next_two.setEnabled(true);
-                    next_two.setBackgroundResource(R.drawable.join_finishon);
-                } else {  // 초기화
-                    isSignUpApp = false;
-                    next_two.setEnabled(false);
-                    next_two.setBackgroundResource(R.drawable.join_finishoff);
+                if (cbCheckIndividualInfo.isChecked()) {
+                    Intent intent = new Intent(getApplicationContext(), HospitalInfoPopupActivity.class);
+                    startActivityForResult(intent, CHECK_INDIVIDUALINFO);
                 }
             }
         });
@@ -465,7 +453,7 @@ public class JoinActivity extends BaseActivity {
      * ID 중복이 없으면 -> int 2
      * Default(에러 체크 하려고 만들었음) -> int 0
      *
-     * Uri  --->   /getIdCheck
+     * Uri  --->   /idCheck
      * Parm  --->   {"user":{"id":"test"}} 전송
      * Result  --->   {"result":1} 결과 값*/
 
@@ -556,7 +544,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new IDCheck().execute(getResources().getString(R.string.url) + "/getIdCheck");
+                    new IDCheck().execute(getResources().getString(R.string.url) + "/idCheck");
                 } else {
                     success = (int) json.get("result");
 
@@ -683,7 +671,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new JoinDB().execute(getResources().getString(R.string.url) + "/hospital/putHospital");
+                    new JoinDB().execute(getResources().getString(R.string.url) + "/putHospital");
                 } else {
                     success = (int) json.get("result");
 
@@ -710,7 +698,7 @@ public class JoinActivity extends BaseActivity {
      * 파라미터와 DB 내용이 다르면 -> int 2
      * Default(에러 체크 하려고 만들었음) -> int 0
      *
-     * Uri  --->   /getThreeCheck
+     * Uri  --->   /isHospital
      * Parm  --->   {"user":{"name":"김가연","number":"031-574-7580"}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
@@ -802,7 +790,7 @@ public class JoinActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ThreeCheck().execute(getResources().getString(R.string.url) + "/getThreeCheck");
+                    new ThreeCheck().execute(getResources().getString(R.string.url) + "/isHospital");
                 } else {
 
                     success = (int) json.get("result");
@@ -810,6 +798,7 @@ public class JoinActivity extends BaseActivity {
                     if (success == 1) {
                         idpw.setVisibility(View.VISIBLE);
                         next_two.setVisibility(View.VISIBLE);
+                        vowow.setVisibility(View.VISIBLE);
                         ehospital.setEnabled(false);
                         ename.setEnabled(false);
                         num1.setEnabled(false);
@@ -880,8 +869,9 @@ public class JoinActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+
                 //데이터 받기
                 ehospital.setText(data.getStringExtra("hospital"));
                 ehospital.setEnabled(false);
@@ -895,6 +885,7 @@ public class JoinActivity extends BaseActivity {
                 ename.setEnabled(false);
                 next_one.setEnabled(false);
                 next_two.setVisibility(View.VISIBLE);
+                vowow.setVisibility(View.VISIBLE);
                 idpw.setVisibility(View.VISIBLE);
                 bank.setText(data.getStringExtra("bank"));
                 select = data.getStringExtra("bank");
@@ -902,24 +893,35 @@ public class JoinActivity extends BaseActivity {
                 name = ename.getText().toString();
                 number = num1.getText().toString() + "-" + num2.getText().toString() + "-" + num3.getText().toString();
 
-                if (data.hasExtra("account")){
+                if (data.hasExtra("account")) {
                     eaccount.setText(data.getStringExtra("account"));
                 }
-                if (data.hasExtra("id")){
+                if (data.hasExtra("id")) {
                     eid.setText(data.getStringExtra("id"));
                 }
-                if (data.hasExtra("pw")){
+                if (data.hasExtra("pw")) {
                     epw.setText(data.getStringExtra("pw"));
                 }
-                if (data.hasExtra("pwcheck")){
+                if (data.hasExtra("pwcheck")) {
                     epwCheck.setText(data.getStringExtra("pwcheck"));
                 }
-                if (data.hasExtra("accountName")){
+                if (data.hasExtra("accountName")) {
                     eaccountName.setText(data.getStringExtra("accountName"));
                 }
-                Toast.makeText(JoinActivity.this, id_check+" "+pw_check+" "+pwcheck_check+" "+accountName_check+" "+account_check, Toast.LENGTH_LONG).show();
+            }
 
+        } else if (requestCode == CHECK_INDIVIDUALINFO) {
+            if (resultCode == RESULT_OK) {
+                Log.d("Join", "정보제공동의 팝업창에서 확인 누름!");
+                ischeck = true;
+                Toast.makeText(getApplicationContext(), "정보제공에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
             } else {
+                Log.d("Join", "정보제공동의 팝업창에서 취소 누름!");
+                Toast.makeText(getApplicationContext(), "정보제공에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
+                cbCheckIndividualInfo.setChecked(false);
+            }
+        } else {
+            if (resultCode != RESULT_OK) {
                 finish();
             }
         }

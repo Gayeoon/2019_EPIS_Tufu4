@@ -73,8 +73,8 @@ public class LoginActivity extends BaseActivity {
                 id = eid.getText().toString();
                 pw = epw.getText().toString();
 
-                Log.e(TAG, getResources().getString(R.string.url) +"/getLogin");
-                new loginDB().execute(getResources().getString(R.string.url) + "/getLogin");
+                Log.e(TAG, getResources().getString(R.string.url) +"/login");
+                new loginDB().execute(getResources().getString(R.string.url) + "/login");
             }
         });
 
@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity {
      * 로그인 성공 -> int 1
      * 로그인 실패 -> int 0
      *
-     * Uri  --->   /getLogin
+     * Uri  --->   /login
      * Parm  --->   {"user":{"id":"test", "pw":"0000"}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new loginDB().execute(getResources().getString(R.string.url) + "/getLogin");
+                    new loginDB().execute(getResources().getString(R.string.url) + "/login");
                 } else {
                     succes = (int) json.get("result");
 

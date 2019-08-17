@@ -3,6 +3,7 @@ package com.gaze.rkdus.a2019_epis_tufu4;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -49,7 +50,10 @@ public class StatusView extends LinearLayout {
     }
 
     public void setState(int s){
-        if (s == 1){
+        if (s == 0){
+            state.setVisibility(View.GONE);
+        }
+        else if (s == 1){
             state.setBackgroundResource(R.drawable.state_new);
         }else if (s == 2){
             state.setBackgroundResource(R.drawable.state_wait);

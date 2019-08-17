@@ -56,7 +56,7 @@
     <dimen name="mainImgHeight">350dp</dimen>
 
     <!-- RegisterActivity -->
-    <dimen name="textSizeMain">12sp</dimen>
+    <dimen name="textSizeMain">13sp</dimen>
     <dimen name="textSizeBig">7dp</dimen>
     <dimen name="textSizeMid">6dp</dimen>
     <dimen name="textSizeSmall">5dp</dimen>
@@ -101,4 +101,8 @@
     <dimen name="joinCheckMargin">10dp</dimen>
     <dimen name="joinBankWidth">10dp</dimen>
     <dimen name="joinBankHeight">6dp</dimen>
+
+    <dimen name="health_iconHeight">30dp</dimen>
+    <dimen name="health_iconwidth">30dp</dimen>
+    <dimen name="health_text">13sp</dimen>
 </resources>

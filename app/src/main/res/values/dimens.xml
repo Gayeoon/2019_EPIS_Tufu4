@@ -111,7 +111,7 @@
     <dimen name="myPageTextSize">11dp</dimen>
 
     <!-- RegisterActivity -->
-    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeMain">15sp</dimen>
     <dimen name="textSizeBig">9dp</dimen>
     <dimen name="textSizeMid">8dp</dimen>
     <dimen name="textSizeSmall">7dp</dimen>
@@ -156,5 +156,9 @@
     <dimen name="joinCheckMargin">10dp</dimen>
     <dimen name="joinBankWidth">10dp</dimen>
     <dimen name="joinBankHeight">6dp</dimen>
+
+    <dimen name="health_iconHeight">30dp</dimen>
+    <dimen name="health_iconwidth">30dp</dimen>
+    <dimen name="health_text">13sp</dimen>
 
 </resources>

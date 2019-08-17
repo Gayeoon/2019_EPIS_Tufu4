@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="@dimen/health_iconwidth"
+        android:layout_height="@dimen/health_iconHeight"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/health_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/vaccine_marginTop"
+        android:layout_marginTop="@dimen/vaccine_marginTop"
+        android:fontFamily="@font/notosansregular"
+        android:text="건강검진"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/vaccine_textBig"
+        app:layout_constraintLeft_toRightOf="@+id/icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/infoTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/infoMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.38" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/infoMid2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.69" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/infobar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/infobottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.245" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/vaccination_line2"
+        app:layout_constraintLeft_toLeftOf="@id/infoMid"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/infobar" />
+
+    <ImageView
+        android:layout_width="@dimen/vaccine_Image"
+        android:layout_height="@dimen/vaccine_Image"
+        android:background="@drawable/vaccination_icon"
+        app:layout_constraintBottom_toBottomOf="@id/infobottom"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/infoTop" />
+
+
+    <TextView
+        android:id="@+id/owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="7dp"
+        android:fontFamily="@font/notosansregular"
+        android:text="김가연님"
+        android:textColor="@color/colorBlack"
+        android:textSize="@dimen/vaccine_textMid"
+        app:layout_constraintLeft_toLeftOf="@id/infoMid"
+        app:layout_constraintTop_toTopOf="@id/infoTop" />
+
+    <ImageButton
+        android:id="@+id/call"
+        android:layout_width="@dimen/vaccine_call"
+        android:layout_height="@dimen/vaccine_call"
+        android:layout_margin="3dp"
+        android:background="@drawable/call"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/infoTop" />
+
+    <TableLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@id/infobottom"
+        app:layout_constraintLeft_toLeftOf="@id/infoMid"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/infobar">
+        <TableRow android:layout_margin="5dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/vaccine_dog"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/dogicon" />
+
+            <TextView
+                android:id="@+id/animal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/notosansregular"
+                android:gravity="center"
+                android:text="뿡이"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/vaccine_textSmall" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="@dimen/vaccine_gencer"
+                android:layout_weight="1"
+                android:background="@drawable/gendericon" />
+
+            <TextView
+                android:id="@+id/gender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:fontFamily="@font/notosansregular"
+                android:gravity="center"
+                android:layout_gravity="center_vertical"
+                android:text="수컷"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/vaccine_textSmall" />
+        </TableRow>
+
+        <TableRow  android:layout_margin="5dp">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/vaccine_age"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="@drawable/calendaricon" />
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:fontFamily="@font/notosansregular"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:text="10살"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/vaccine_textSmall" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="@dimen/vaccine_weight"
+                android:layout_weight="1"
+                android:background="@drawable/scaleicon" />
+
+            <TextView
+                android:id="@+id/weight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:fontFamily="@font/notosansregular"
+                android:gravity="center"
+                android:text="3.2kg"
+                android:textColor="@color/colorBlack"
+                android:textSize="@dimen/vaccine_textSmall" />
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/vaccine_backHeight"
+        android:layout_marginTop="@dimen/vaccine_barMarginTop"
+        android:background="@drawable/vaccination_back"
+        app:layout_constraintTop_toTopOf="@id/infobottom" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/reservationbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.295" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/reservationMid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.63" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/reservationleft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.215" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/reservationright"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <LinearLayout
+        android:id="@+id/bar"
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:background="@color/colorGray"
+        app:layout_constraintLeft_toLeftOf="@id/reservationMid"
+        app:layout_constraintTop_toTopOf="@id/reservationbar"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/notosansregular"
+        android:text="건강검진일 :"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        android:textSize="@dimen/health_text"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/reservationbar"
+        app:layout_constraintLeft_toLeftOf="@id/reservationleft"
+        app:layout_constraintRight_toLeftOf="@+id/reservation_date" />
+
+    <TextView
+        android:id="@+id/reservation_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosansregular"
+        android:text=""
+        android:layout_marginTop="14dp"
+        android:textSize="@dimen/health_text"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/reservationbar"
+        app:layout_constraintLeft_toRightOf="@id/reservation_vaccine"
+        app:layout_constraintRight_toRightOf="@id/reservationMid"/>
+
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="12dp"
+        android:fontFamily="@font/notosansregular"
+        android:text="시간 :"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        android:textSize="@dimen/health_text"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/reservationbar"
+        app:layout_constraintLeft_toLeftOf="@id/reservationMid"
+        app:layout_constraintRight_toLeftOf="@+id/reservation_time" />
+
+    <TextView
+        android:id="@+id/reservation_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosansregular"
+        android:text=""
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="5dp"
+        android:textSize="@dimen/health_text"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintTop_toTopOf="@id/reservationbar"
+        app:layout_constraintLeft_toRightOf="@id/reservation_vaccine"
+        app:layout_constraintRight_toRightOf="@id/reservationright" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#2eb8ff"
+        app:layout_constraintLeft_toLeftOf="@id/reservationleft"
+        app:layout_constraintRight_toRightOf="@id/reservationright"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/bar2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/bar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.475" />
+
+    <TextView
+        android:id="@+id/aaa"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/vaccine_marginBottom"
+        android:fontFamily="@font/notosansregular"
+        android:text="건강검진일"
+        android:textSize="@dimen/vaccine_textMid"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="@id/bar2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bbb" />
+
+    <TextView
+        android:id="@+id/bbb"
+        android:layout_width="0dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/notosansregular"
+        android:textColor="@color/colorBlack"
+        android:text="시간"
+        android:layout_marginBottom="@dimen/vaccine_marginBottom"
+        android:textSize="@dimen/vaccine_textMid"
+        app:layout_constraintBottom_toBottomOf="@id/bar2"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintLeft_toRightOf="@id/aaa"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <ListView
+        app:layout_constraintTop_toTopOf="@+id/bar2"
+        android:id="@+id/healthList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:divider="#d1d1d1"
+        android:dividerHeight="1dp"
+        android:scrollbars="none"></ListView>
+
+</android.support.constraint.ConstraintLayout>

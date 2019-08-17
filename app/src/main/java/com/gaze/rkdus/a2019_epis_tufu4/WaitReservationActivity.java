@@ -140,7 +140,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 Log.e(TAG, "owner : " + owner + " animal : " + animal);
 
                 // state 2 --> 4로 변경
-                //new ChangeReservation().execute(getResources().getString(R.string.url) + "/ChangeReservation ");
+                new ChangeReservation().execute(getResources().getString(R.string.url) + "/changeState4");
 
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 intent.putExtra("id", id);
@@ -150,16 +150,19 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
                 break;
 
-            case R.id.cancel:
-                View cParentView = (View) v.getParent();
-                TextView cTextOwner = (TextView) cParentView.findViewById(R.id.owner);
-                TextView cTextAnimal = (TextView) cParentView.findViewById(R.id.animal);
+// 삭제하는 경우 --> 없애버림
 
-                owner = cTextOwner.getText().toString();
-                animal = cTextAnimal.getText().toString();
+//            case R.id.cancel:
+//                View cParentView = (View) v.getParent();
+//                TextView cTextOwner = (TextView) cParentView.findViewById(R.id.owner);
+//                TextView cTextAnimal = (TextView) cParentView.findViewById(R.id.animal);
+//
+//                owner = cTextOwner.getText().toString();
+//                animal = cTextAnimal.getText().toString();
+//
+//                new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
+//                break;
 
-                new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
-                break;
         }
 
 //        AlertDialog.Builder oDialog = new AlertDialog.Builder(this,
@@ -296,12 +299,12 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
                         waitItemData oItem = new waitItemData();
 
-                        oItem.strOwner = jsonTemp.getString("OWNER_NAME");
-                        oItem.strAnimal = jsonTemp.getString("PET_NAME");
+                        oItem.strOwner = jsonTemp.getString("owner_name");
+                        oItem.strAnimal = jsonTemp.getString("pet_name");
 
 
                         // state 2와 3처리
-                        if (jsonTemp.getInt("REGIST_STATE") == 2) {
+                        if (jsonTemp.getInt("regist_state") == 2) {
                             oItem.bolCal = true;
                             oItem.state = 2;
                         } else {
@@ -446,7 +449,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                     json = new JSONObject(result);
 
                     if (json.get("result") == null) {
-                        new ChangeReservation().execute(getResources().getString(R.string.url) + "/ChangeReservation");
+                        new ChangeReservation().execute(getResources().getString(R.string.url) + "/changeState4");
                     } else {
                         succes = (int) json.get("result");
 
@@ -472,9 +475,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
     /* CallReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 주인 전화번호 요청
 
-    예약상태 3으로 변경 (현재 : 2)
-
-    Uri  --->   /putChangeWait
+    Uri  --->   /getPhone
     Parm  --->   {"user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
     Result  --->   {"result":{OWNER_PHONE_NUMBER:"010-4491-0778"}} 결과 값 */
 
@@ -565,7 +566,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CallReservation().execute(getResources().getString(R.string.url) + "/putChangeWait ");
+                    new CallReservation().execute(getResources().getString(R.string.url) + "/getPhone");
 
                 } else {
                     JSONObject temp = json.getJSONObject("result");
@@ -583,122 +584,122 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
         }
     }
 
-    /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 예약 상태 변경
-
-    예약상태 4로 변경 (현재 : 3)
-
-    성공 1 실패 0
-
-    Uri  --->   /putCancelReservation
-    Parm  --->   "user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
-        Result  --->   {"result":1} 결과 값 */
-
-    public class CancelReservation extends AsyncTask<String, String, String> {
-
-        @Override
-
-        protected String doInBackground(String... urls) {
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                JSONObject tmp = new JSONObject();
-
-                tmp.accumulate("id", id);
-                tmp.accumulate("owner_name", owner);
-                tmp.accumulate("pet_name", animal);
-
-                jsonObject.accumulate("user", tmp);
-
-                HttpURLConnection con = null;
-                BufferedReader reader = null;
-
-                try {
-
-                    URL url = new URL(urls[0]);
-                    con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("POST");
-                    con.setRequestProperty("Cache-Control", "no-cache");
-                    con.setRequestProperty("Content-Type", "application/json");
-                    con.setRequestProperty("Accept", "text/html");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    con.connect();
-
-                    //서버로 보내기위해서 스트림 만듬
-                    OutputStream outStream = con.getOutputStream();
-
-                    //버퍼를 생성하고 넣음
-                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
-
-                    Log.e(TAG, jsonObject.toString());
-                    writer.write(jsonObject.toString());
-                    writer.flush();
-                    writer.close();//버퍼를 받아줌
-
-                    //서버로 부터 데이터를 받음
-                    InputStream stream = con.getInputStream();
-                    reader = new BufferedReader(new InputStreamReader(stream));
-                    StringBuffer buffer = new StringBuffer();
-                    String line = "";
-
-                    while ((line = reader.readLine()) != null) {
-                        buffer.append(line);
-                    }
-
-                    return buffer.toString();
-
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    if (con != null) {
-                        con.disconnect();
-                    }
-                    try {
-                        if (reader != null) {
-                            reader.close();//버퍼를 닫아줌
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            JSONObject json = null;
-            int succes = 0;
-
-            try {
-                json = new JSONObject(result);
-
-                if (json.get("result") == null) {
-                    new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
-                } else {
-                    succes = (int) json.get("result");
-
-                    if (succes == 1) {
-                        new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
-                    } else {
-                        Toast.makeText(getApplicationContext(), "삭제 실패!!", Toast.LENGTH_LONG).show();
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            Log.e("CancelReservation", result);
-
-        }
-    }
+//    /* CancelReservation : 병원 ID, 주인 이름, 강아지 이름값을 통해 예약 상태 변경
+//
+//    예약상태 4로 변경 (현재 : 3)
+//
+//    성공 1 실패 0
+//
+//    Uri  --->   /putCancelReservation
+//    Parm  --->   "user":{"id":"test","owner_name":"김가연","pet_name":"뿡이"}} 전송
+//        Result  --->   {"result":1} 결과 값 */
+//
+//    public class CancelReservation extends AsyncTask<String, String, String> {
+//
+//        @Override
+//
+//        protected String doInBackground(String... urls) {
+//
+//            try {
+//
+//                JSONObject jsonObject = new JSONObject();
+//                JSONObject tmp = new JSONObject();
+//
+//                tmp.accumulate("id", id);
+//                tmp.accumulate("owner_name", owner);
+//                tmp.accumulate("pet_name", animal);
+//
+//                jsonObject.accumulate("user", tmp);
+//
+//                HttpURLConnection con = null;
+//                BufferedReader reader = null;
+//
+//                try {
+//
+//                    URL url = new URL(urls[0]);
+//                    con = (HttpURLConnection) url.openConnection();
+//                    con.setRequestMethod("POST");
+//                    con.setRequestProperty("Cache-Control", "no-cache");
+//                    con.setRequestProperty("Content-Type", "application/json");
+//                    con.setRequestProperty("Accept", "text/html");
+//                    con.setDoOutput(true);
+//                    con.setDoInput(true);
+//                    con.connect();
+//
+//                    //서버로 보내기위해서 스트림 만듬
+//                    OutputStream outStream = con.getOutputStream();
+//
+//                    //버퍼를 생성하고 넣음
+//                    BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outStream));
+//
+//                    Log.e(TAG, jsonObject.toString());
+//                    writer.write(jsonObject.toString());
+//                    writer.flush();
+//                    writer.close();//버퍼를 받아줌
+//
+//                    //서버로 부터 데이터를 받음
+//                    InputStream stream = con.getInputStream();
+//                    reader = new BufferedReader(new InputStreamReader(stream));
+//                    StringBuffer buffer = new StringBuffer();
+//                    String line = "";
+//
+//                    while ((line = reader.readLine()) != null) {
+//                        buffer.append(line);
+//                    }
+//
+//                    return buffer.toString();
+//
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    if (con != null) {
+//                        con.disconnect();
+//                    }
+//                    try {
+//                        if (reader != null) {
+//                            reader.close();//버퍼를 닫아줌
+//                        }
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+//            super.onPostExecute(result);
+//
+//            JSONObject json = null;
+//            int succes = 0;
+//
+//            try {
+//                json = new JSONObject(result);
+//
+//                if (json.get("result") == null) {
+//                    new CancelReservation().execute(getResources().getString(R.string.url) + "/putCancelReservation");
+//                } else {
+//                    succes = (int) json.get("result");
+//
+//                    if (succes == 1) {
+//                        new WaitReservationListData().execute(getResources().getString(R.string.url) + "/getWaitReservationListData");
+//                    } else {
+//                        Toast.makeText(getApplicationContext(), "삭제 실패!!", Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//
+//            Log.e("CancelReservation", result);
+//
+//        }
+//    }
 
     @Override
     protected void onDestroy() {

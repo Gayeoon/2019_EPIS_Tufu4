@@ -333,6 +333,38 @@
 
                     </TableRow>
 
+                    <TableRow
+                        android:visibility="gone"
+                        android:id="@+id/sametime"
+                        android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:paddingRight="8dp"
+                            android:text="중성화"
+                            android:textColor="#000000"
+                            android:visibility="invisible"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="183dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/input"
+                            android:gravity="center"
+                            android:paddingLeft="8dp"
+                            android:text="중성화 수술 동시 진행"
+                            android:fontFamily="@font/notosansbold"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/colorWhite"
+                            android:backgroundTint="#A3A3A3"
+                            android:textSize="12sp" />
+
+                    </TableRow>
+
                     <TableRow android:layout_margin="6dp">
 
                         <TextView
@@ -350,9 +382,9 @@
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
-                            android:paddingRight="8dp"
                             android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -374,10 +406,10 @@
                             android:id="@+id/acqDate"
                             android:layout_width="183dp"
                             android:layout_height="wrap_content"
-                            android:paddingRight="8dp"
                             android:background="@drawable/input"
-                            android:paddingLeft="8dp"
                             android:gravity="center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
@@ -398,15 +430,40 @@
                         <TextView
                             android:id="@+id/special"
                             android:layout_width="183dp"
-                            android:paddingRight="8dp"
-                            android:gravity="center_vertical"
                             android:layout_height="wrap_content"
                             android:background="@drawable/input"
+                            android:gravity="center_vertical"
                             android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
                             android:textColor="#5a5a5a"
                             android:textSize="12sp" />
 
                     </TableRow>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_margin="7dp"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:text="외장형 및 등록인식표를 직접 구매하겠습니다."
+                            android:textColor="#5a5a5a"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/self_buy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/check" />
+
+                    </LinearLayout>
                 </TableLayout>
 
                 <ImageView

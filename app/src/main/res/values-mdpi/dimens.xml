@@ -3,7 +3,7 @@
     <!-- Nexus 5X  //  411 x 731 dp  //  1080 x 1920 px  //  5.2 inch -->
 
     <!-- RegisterActivity -->
-    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeMain">15sp</dimen>
     <dimen name="textSizeBig">9dp</dimen>
     <dimen name="textSizeMid">8dp</dimen>
     <dimen name="textSizeSmall">7dp</dimen>
@@ -134,4 +134,25 @@
     <dimen name="myPageTextViewWeight">0.32</dimen>
     <dimen name="myPageDateTextSize">10dp</dimen>
     <dimen name="myPageTextSize">13dp</dimen>
+
+    <!-- VaccinationActivity -->
+    <dimen name="vaccine_textBig">18sp</dimen>
+    <dimen name="vaccine_textMid">14sp</dimen>
+    <dimen name="vaccine_textSSmall">11sp</dimen>
+    <dimen name="vaccine_textSmall">12sp</dimen>
+    <dimen name="vaccine_Image">124dp</dimen>
+    <dimen name="vaccine_backHeight">82dp</dimen>
+    <dimen name="vaccine_icon">35dp</dimen>
+    <dimen name="vaccine_marginTop">10dp</dimen>
+    <dimen name="vaccine_dog">20dp</dimen>
+    <dimen name="vaccine_gencer">26dp</dimen>
+    <dimen name="vaccine_age">20dp</dimen>
+    <dimen name="vaccine_weight">26dp</dimen>
+    <dimen name="vaccine_call">35dp</dimen>
+    <dimen name="vaccine_barMarginTop">20dp</dimen>
+    <dimen name="vaccine_marginBottom">15dp</dimen>
+
+    <dimen name="health_iconHeight">30dp</dimen>
+    <dimen name="health_iconwidth">30dp</dimen>
+    <dimen name="health_text">13sp</dimen>
 </resources>

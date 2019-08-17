@@ -336,6 +336,7 @@
                     </TableRow>
 
                     <TableRow
+                        android:visibility="gone"
                         android:id="@+id/sametime"
                         android:layout_margin="6dp">
 
@@ -440,6 +441,31 @@
                             android:textSize="12sp" />
 
                     </TableRow>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_margin="7dp"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:text="외장형 및 등록인식표를 직접 구매하겠습니다."
+                            android:textColor="#5a5a5a"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:id="@+id/self_buy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/check" />
+
+                    </LinearLayout>
                 </TableLayout>
 
                 <ImageView

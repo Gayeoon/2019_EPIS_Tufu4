@@ -112,7 +112,7 @@
     <dimen name="myPageTextSize">13dp</dimen>
 
     <!-- RegisterActivity XL-->
-    <dimen name="textSizeMain">14sp</dimen>
+    <dimen name="textSizeMain">15sp</dimen>
     <dimen name="textSizeBig">9dp</dimen>
     <dimen name="textSizeMid">8dp</dimen>
     <dimen name="textSizeSmall">7dp</dimen>
@@ -158,5 +158,26 @@
     <dimen name="joinCheckMargin">10dp</dimen>
     <dimen name="joinBankWidth">10dp</dimen>
     <dimen name="joinBankHeight">6dp</dimen>
+
+    <!-- VaccinationActivity -->
+    <dimen name="vaccine_textBig">16sp</dimen>
+    <dimen name="vaccine_textMid">13sp</dimen>
+    <dimen name="vaccine_textSSmall">11sp</dimen>
+    <dimen name="vaccine_textSmall">10sp</dimen>
+    <dimen name="vaccine_Image">95dp</dimen>
+    <dimen name="vaccine_backHeight">70dp</dimen>
+    <dimen name="vaccine_icon">25dp</dimen>
+    <dimen name="vaccine_marginTop">6dp</dimen>
+    <dimen name="vaccine_dog">17dp</dimen>
+    <dimen name="vaccine_gencer">21dp</dimen>
+    <dimen name="vaccine_age">17dp</dimen>
+    <dimen name="vaccine_weight">17dp</dimen>
+    <dimen name="vaccine_call">27dp</dimen>
+    <dimen name="vaccine_barMarginTop">12dp</dimen>
+    <dimen name="vaccine_marginBottom">10dp</dimen>
+
+    <dimen name="health_iconHeight">30dp</dimen>
+    <dimen name="health_iconwidth">30dp</dimen>
+    <dimen name="health_text">12sp</dimen>
 
 </resources>

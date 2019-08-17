@@ -1,254 +1,345 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
     android:background="#ffffff"
     android:id="@+id/framelayout">
 
 
-    <ImageView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/regiImageHeight"
         android:layout_gravity="center"
-        android:background="@drawable/regist1" />
+        android:background="@drawable/petapplicationdocument" >
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/regiTableMarginLeft"
-        android:layout_marginRight="@dimen/regiTableMarginRight"
-        android:layout_marginTop="@dimen/regiTableMarginTop"
-        android:gravity="center_horizontal">
+        <android.support.constraint.Guideline
+            android:id="@+id/ownerTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.215" />
 
-        <TableRow>
+        <android.support.constraint.Guideline
+            android:id="@+id/ownerMid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.51" />
 
-            <TextView
-                android:id="@+id/owner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/regiOwnerTableTop"
-                android:text="김가연"
-                android:textSize="@dimen/textSizeMid" />
+        <android.support.constraint.Guideline
+            android:id="@+id/ownerBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.295" />
 
-            <TextView
-                android:id="@+id/resident"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingTop="@dimen/regiResidentTop"
-                android:text="960708-2222222"
-                android:textSize="@dimen/textSizeSmall" />
+        <android.support.constraint.Guideline
+            android:id="@+id/ownerLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.195" />
 
-            <TextView
-                android:id="@+id/phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingLeft="@dimen/regiPhoneTableLeft"
-                android:paddingTop="@dimen/regiOwnerTableTop"
-                android:text="010-4491-0778"
-                android:textSize="@dimen/textSizeMid" />
+        <android.support.constraint.Guideline
+            android:id="@+id/ownerRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.915" />
 
-        </TableRow>
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/ownerTop"
+            app:layout_constraintLeft_toLeftOf="@id/ownerLeft"
+            android:id="@+id/owner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:layout_constraintRight_toLeftOf="@id/resident"
+            android:paddingTop="@dimen/regiOwnerTableTop"
+            android:text="김가연"
+            android:textSize="@dimen/textSizeMid" />
 
-        <TableRow android:layout_marginTop="@dimen/regiTableAddrTop">
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/ownerTop"
+            android:id="@+id/resident"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+             android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="@dimen/regiResidentTop"
+            app:layout_constraintLeft_toRightOf="@+id/owner"
+            app:layout_constraintRight_toLeftOf="@id/phone"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:text="960708-2222222"
+            android:textSize="@dimen/textSizeSmall" />
 
-            <TextView
-                android:id="@+id/resAddr"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/regiTableAddrHeight"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="대전 광역시 유성구 궁동 425-3번지 승현빌 202호"
-                android:textSize="@dimen/textSizeSmall" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/ownerTop"
+            app:layout_constraintRight_toRightOf="@id/ownerRight"
+            android:id="@+id/phone"
+            app:layout_constraintLeft_toRightOf="@+id/resident"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="@dimen/regiPhoneTableLeft"
+            android:paddingTop="@dimen/regiOwnerTableTop"
+            android:text="010-4491-0778"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/nowAddr"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/regiTableAddrHeight"
-                android:layout_marginLeft="@dimen/regiTableAddrLeft"
-                android:layout_weight="1.3"
-                android:gravity="center"
-                android:text="대전 광역시 유성구 궁동 425-3번지 승현빌 202호"
-                android:textSize="@dimen/textSizeSmall" />
+        <TextView
+            app:layout_constraintBottom_toBottomOf="@+id/ownerBottom"
+            app:layout_constraintLeft_toLeftOf="@id/ownerLeft"
+            app:layout_constraintRight_toRightOf="@id/ownerMid"
+            android:id="@+id/resAddr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/regiTableAddrHeight"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="대전 광역시 유성구 궁동 425-3번지 승현빌 202호"
+            android:textSize="@dimen/textSizeSmall" />
 
-        </TableRow>
+        <TextView
+            app:layout_constraintBottom_toBottomOf="@+id/ownerBottom"
+            app:layout_constraintLeft_toLeftOf="@id/ownerMid"
+            app:layout_constraintRight_toRightOf="@id/ownerRight"
+            android:id="@+id/nowAddr"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/regiTableAddrHeight"
+            android:layout_marginLeft="@dimen/regiTableAddrLeft"
+            android:layout_weight="1.3"
+            android:gravity="center"
+            android:text="대전 광역시 유성구 궁동 425-3번지 승현빌 202호"
+            android:textSize="@dimen/textSizeSmall" />
 
-    </TableLayout>
+        <android.support.constraint.Guideline
+            android:id="@+id/animalTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.375" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/regiAnimalTableHeight"
-        android:layout_marginLeft="@dimen/regiAnimalTableLeft"
-        android:layout_marginRight="@dimen/regiAnimalTableRight"
-        android:layout_marginTop="@dimen/regiAnimalTableTop"
-        android:gravity="center">
+        <android.support.constraint.Guideline
+            android:id="@+id/animalMid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.387" />
 
-        <TableRow>
+        <android.support.constraint.Guideline
+            android:id="@+id/animalMid2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.533" />
 
-            <TextView
-                android:id="@+id/animal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="뿡이"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            app:layout_constraintLeft_toLeftOf="@id/ownerLeft"
+            android:id="@+id/animal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:ellipsize="none"
+            app:layout_constraintRight_toLeftOf="@id/variety"
+            android:gravity="center"
+            android:text="뿡이"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/variety"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="시츄"
-                android:textSize="@dimen/textSizeSmall" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/variety"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="none"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@+id/animal"
+            app:layout_constraintRight_toLeftOf="@id/furColor"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:text="시츄"
+            android:textSize="@dimen/textSizeSmall" />
 
-            <TextView
-                android:id="@+id/furColor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="흰갈"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/furColor"
+            app:layout_constraintLeft_toRightOf="@+id/variety"
+            app:layout_constraintRight_toRightOf="@id/animalMid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="흰갈"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/gender"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1.3"
-                android:gravity="center"
-                android:text="0"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/gender"
+            android:layout_width="0dp"
+            app:layout_constraintLeft_toLeftOf="@id/animalMid"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1.3"
+            android:gravity="center"
+            android:text="0"
+            app:layout_constraintRight_toLeftOf="@id/neutralization_o"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/neutralization_o"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1.1"
-                android:gravity="center"
-                android:text="0"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintLeft_toRightOf="@+id/gender"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/neutralization_o"
+            app:layout_constraintRight_toRightOf="@id/animalMid2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1.1"
+            android:gravity="center"
+            android:text="0"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/birthday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="2.1"
-                android:gravity="center"
-                android:text="2008-04-04"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            app:layout_constraintLeft_toLeftOf="@id/animalMid2"
+            android:id="@+id/birthday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2.1"
+            app:layout_constraintRight_toLeftOf="@id/acqDate"
+            android:gravity="center"
+            android:text="2008-04-04"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/acqDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="2008-04-04"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/acqDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="2"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@+id/birthday"
+            app:layout_constraintRight_toLeftOf="@id/special"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:text="2008-04-04"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/special"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="center"
-                android:text="겁이 많아요"
-                android:textSize="@dimen/textSizeSmall" />
-
-        </TableRow>
-
-    </TableLayout>
-
-    <TableLayout
-        android:layout_width="@dimen/regiSignTableWidth"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="@dimen/regiSignTableBottom"
-        android:layout_marginLeft="@dimen/regiSignTableLeft"
-        android:layout_marginRight="@dimen/regiSignTableRight"
-        android:gravity="center_horizontal">
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/year"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="2019"
-                android:textSize="@dimen/textSizeMid" />
-
-            <TextView
-                android:id="@+id/month"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="08"
-                android:textSize="@dimen/textSizeMid" />
-
-            <TextView
-                android:id="@+id/day"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="03"
-                android:textSize="@dimen/textSizeMid" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/animalTop"
+            android:id="@+id/special"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            app:layout_constraintLeft_toRightOf="@+id/acqDate"
+            android:gravity="center"
+            app:layout_constraintRight_toRightOf="@id/ownerRight"
+            android:text="겁이 많아요"
+            android:textSize="@dimen/textSizeSmall" />
 
 
-        </TableRow>
+        <android.support.constraint.Guideline
+            android:id="@+id/dateTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.735" />
 
-        <TableRow>
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/dateTop"
+            android:id="@+id/year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:layout_constraintLeft_toLeftOf="@id/ownerMid"
+            app:layout_constraintRight_toLeftOf="@id/acqDate"
+            android:text="2019"
+            android:textSize="@dimen/textSizeMid" />
 
-            <TextView
-                android:id="@+id/owner_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:paddingRight="@dimen/regiSignTablePaddingRight"
-                android:paddingTop="@dimen/regiSignTablePaddingTop"
-                android:text="김가연"
-                android:textSize="@dimen/textSizeSmall" />
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/dateTop"
+            android:id="@+id/month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@+id/year"
+            app:layout_constraintRight_toLeftOf="@id/day"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:text="08"
+            android:textSize="@dimen/textSizeMid" />
 
-            <ImageView
-                android:layout_width="@dimen/regiSignWidth"
-                android:layout_height="@dimen/regiSignHeight"
-                android:layout_marginTop= "@dimen/regiSignTop"
-                android:layout_marginRight="@dimen/regiSignRight"
-                android:background="@drawable/stamp"/>
-        </TableRow>
-    </TableLayout>
+        <TextView
+            app:layout_constraintTop_toTopOf="@+id/dateTop"
+            android:id="@+id/day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="03"
+            app:layout_constraintLeft_toRightOf="@+id/month"
+            app:layout_constraintRight_toRightOf="@id/ownerRight"
+            android:textSize="@dimen/textSizeMid" />
 
-    <ImageButton
-        android:layout_width="@dimen/regiPdf"
-        android:layout_height="@dimen/regiPdf"
-        android:id="@+id/pdf"
-        android:background="@drawable/pdf"
-        android:layout_gravity="right|bottom"
-        android:layout_margin="@dimen/regiPdfMargin"/>
+        <TextView
+            android:id="@+id/owner_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="@dimen/regiSignTablePaddingRight"
+            android:paddingTop="@dimen/regiSignTablePaddingTop"
+            android:text="김가연"
+            app:layout_constraintLeft_toLeftOf="@id/signLeft"
+            app:layout_constraintBottom_toBottomOf="@id/signBottom"
+            android:textSize="@dimen/textSizeSmall" />
 
-</FrameLayout>
+        <android.support.constraint.Guideline
+            android:id="@+id/signBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.79" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/signLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.7" />
+
+        <ImageView
+            app:layout_constraintRight_toRightOf="@id/ownerRight"
+            app:layout_constraintBottom_toBottomOf="@id/stampBottom"
+            android:layout_width="@dimen/regiSignWidth"
+            android:layout_height="@dimen/regiSignHeight"
+            android:layout_marginRight="@dimen/regiSignRight"
+            android:layout_marginTop="@dimen/regiSignTop"
+            android:background="@drawable/stamp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/stampBottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.8" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

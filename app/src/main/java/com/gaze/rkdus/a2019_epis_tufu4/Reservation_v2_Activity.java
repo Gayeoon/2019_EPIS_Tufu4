@@ -9,6 +9,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +36,9 @@ import java.net.URL;
 public class Reservation_v2_Activity extends BaseActivity {
 
     TextView owner, resident, phone, resAddr, nowAddr, animal, variety, furColor, gender, neutralization, birthday, acqDate, special;
+
+    TableRow sametime;
+    ImageView self_buy;
 
     String id, strOwner, strAnimal;
     String TAG = "Reservation_v2_Activity";
@@ -71,6 +76,11 @@ public class Reservation_v2_Activity extends BaseActivity {
         birthday = (TextView) findViewById(R.id.birthday);
         acqDate = (TextView) findViewById(R.id.acqDate);
         special = (TextView) findViewById(R.id.special);
+
+        sametime = (TableRow) findViewById(R.id.sametime);
+
+        self_buy = (ImageView)findViewById(R.id.self_buy);
+
 
         new ReservationInfoData().execute(getResources().getString(R.string.url) + "/getReservationInfoData");
 
@@ -176,33 +186,46 @@ public class Reservation_v2_Activity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
-                    owner.setText(jsonObject.getString("OWNER_NAME"));
-                    resident.setText(jsonObject.getString("OWNER_RESIDENT"));
-                    phone.setText(jsonObject.getString("OWNER_PHONE_NUMBER"));
-                    resAddr.setText(jsonObject.getString("OWNER_ADDRESS1"));
-                    nowAddr.setText(jsonObject.getString("OWNER_ADDRESS2"));
-                    animal.setText(jsonObject.getString("PET_NAME"));
-                    variety.setText(jsonObject.getString("PET_VARIETY"));
-                    furColor.setText(jsonObject.getString("PET_COLOR"));
+                    owner.setText(jsonObject.getString("owner_name"));
+                    resident.setText(jsonObject.getString("owner_resident"));
+                    phone.setText(jsonObject.getString("owner_phone"));
+                    resAddr.setText(jsonObject.getString("address1"));
+                    nowAddr.setText(jsonObject.getString("address2"));
+                    animal.setText(jsonObject.getString("pet_name"));
+                    variety.setText(jsonObject.getString("pet_variety"));
+                    furColor.setText(jsonObject.getString("pet_color"));
 
-                    if (jsonObject.getString("PET_GENDER") == "1"){
+                    if (jsonObject.getInt("pet_gender") == 2) {
                         gender.setText("남성");
-                    }else{
+                    } else {
                         gender.setText("여성");
                     }
 
-                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1"){
+                    if (jsonObject.getInt("pet_neutralization") == 1) {
                         neutralization.setText("했음");
-                    }else{
+                    } else {
                         neutralization.setText("안했음");
                     }
 
+                    if (jsonObject.getInt("sametime") == 1) {
+                        sametime.setVisibility(View.VISIBLE);
+                    } else {
+                        sametime.setVisibility(View.GONE);
+                    }
 
-                    birthday.setText(jsonObject.getString("PET_BIRTH"));
-                    acqDate.setText(jsonObject.getString("REGIST_DATE"));
-                    special.setText(jsonObject.getString("ETC"));
 
-                    Log.e(TAG, jsonObject.getString("OWNER_NAME"));
+                    birthday.setText(jsonObject.getString("pet_birth"));
+                    acqDate.setText(jsonObject.getString("regist_date"));
+                    special.setText(jsonObject.getString("etc"));
+
+                    if (jsonObject.getInt("self_buy") == 1) {
+                        self_buy.setBackgroundResource(R.drawable.checked);
+                    } else {
+                        self_buy.setBackgroundResource(R.drawable.check);
+                    }
+
+
+                    Log.e(TAG, jsonObject.getString("owner_name"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

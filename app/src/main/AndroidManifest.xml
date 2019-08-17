@@ -46,9 +46,7 @@
             android:theme="@style/NoTheme" />
         <activity
             android:name=".JoinActivity"
-            android:theme="@style/NoTheme">
-        </activity>
-
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/NoTheme" />
@@ -95,12 +93,9 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
         <provider
-            android:name="CachedFileProvider"
-            android:authorities="com.stephendnicholas.gmailattach.provider">
-
-        </provider>
+            android:name=".CachedFileProvider"
+            android:authorities="com.stephendnicholas.gmailattach.provider" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -171,12 +166,8 @@
             android:name=".popup.MapPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".popup.FilterPopupActivity"
-            android:theme="@style/PopupTheme" />
-        <activity
             android:name=".RegisterActivity"
-            android:theme="@style/NoTheme"></activity>
-
+            android:theme="@style/NoTheme" />
         <activity
             android:name=".popup.ProxySignPopupActivity"
             android:theme="@style/PopupTheme" />
@@ -189,9 +180,6 @@
         <activity
             android:name=".popup.ProductViewPopupActivity"
             android:theme="@style/PopupTheme" />
-        <activity
-            android:name=".popup.ImageTextPopupActivity"
-            android:theme="@style/PopupTheme" />
 
         <service
             android:name=".user.ReservationCheckService"
@@ -202,13 +190,18 @@
             android:name=".popup.ManagementPopupActivity"
             android:theme="@style/PopupTheme" />
         <activity
-            android:name=".user.SelectMessageTypeActivity"
-            android:theme="@style/NoTheme" />
-        <activity android:name=".user.VaccineMessageActivity"
-            android:theme="@style/NoTheme"/>
-        <activity android:name=".user.HealthCheckupMessageActivity"
-            android:theme="@style/NoTheme"></activity>
+            android:name=".VaccinationActivity"
+            android:theme="@style/NoTheme">
 
+        </activity>
+        <activity android:name=".HealthScreeningActivity"
+            android:theme="@style/NoTheme">
+
+        </activity>
+
+        <activity
+            android:name=".popup.HospitalInfoPopupActivity"
+            android:theme="@style/PopupTheme" />
     </application>
 
 </manifest>

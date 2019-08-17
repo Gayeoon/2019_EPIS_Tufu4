@@ -197,7 +197,7 @@
                 android:background="@drawable/join_back"
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <TableLayout
                     android:layout_width="match_parent"
@@ -401,7 +401,7 @@
                             android:layout_weight="2"
                             android:background="@drawable/join_input1"
                             android:inputType="numberSigned"
-                            android:maxLength="10"
+                            android:maxLength="15"
                             android:paddingLeft="@dimen/joinTextPadding"
                             android:hint="계좌번호(숫자만 입력)"
                             android:textColor="#5a5a5a"
@@ -413,58 +413,40 @@
 
             </LinearLayout>
 
+
             <LinearLayout
-                android:id="@+id/vowow"
+                android:layout_marginLeft="@dimen/joinLayoutMargin"
+                android:layout_marginRight="@dimen/joinLayoutMargin"
+                android:id="@id/vowow"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="gone">
+                android:orientation="horizontal"
+                >
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="125dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/border_webview"
-                    android:backgroundTint="#ececec"
-                    android:padding="5dp">
-
-                    <WebView
-                        android:id="@+id/webview"
-                        android:layout_width="match_parent"
-                        android:layout_height="123dp"
-                        android:backgroundTint="#ececec"
-                        android:gravity="center_vertical"></WebView>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/individualInfoText"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="right"
-                    android:orientation="horizontal">
+                    android:layout_gravity="right"
+                    android:text="개인정보수집 및 이용약관에 동의합니다."
+                    android:textColor="#5a5a5a"
+                    android:textSize="14dp"
+                    android:clickable="true"
+                    />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:text="*회원가입 약관에 동의합니다." />
-
-                    <CheckBox
-                        android:id="@+id/isSignUpApp"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginRight="5dp"
-                        android:background="@drawable/message_checkbox"
-                        android:button="@null" />
-                </LinearLayout>
-
+                <CheckBox
+                    android:id="@+id/checkIndividualInfo"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginRight="10dp"
+                    android:button="@null"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:background="@drawable/message_checkbox"
+                    />
             </LinearLayout>
 
 
@@ -473,11 +455,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
+                android:layout_marginTop="@dimen/joinNoHosMargin"
                 android:layout_marginRight="@dimen/joinButtonMargin"
                 android:layout_marginBottom="@dimen/joinNoHosMargin"
                 android:background="@drawable/join_finishoff"
                 android:enabled="false"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

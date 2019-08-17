@@ -37,6 +37,7 @@ android {
     }
 }
 
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
@@ -73,5 +74,8 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation files('libs/libDaumMapAndroid.jar')
     implementation files('libs/android-zoom-view.jar')
+    implementation files('libs/activation.jar')
+    implementation files('libs/additionnal.jar')
+    implementation files('libs/mail.jar')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

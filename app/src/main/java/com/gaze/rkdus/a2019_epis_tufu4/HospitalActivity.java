@@ -106,7 +106,8 @@ public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout
 
         imageView = (ImageView)findViewById(R.id.profile);
 
-        new HospitalData().execute(getResources().getString(R.string.url) + "/getHospitalData");
+//        new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
+        new HospitalData().execute("http://172.30.1.5:8001/user" + "/getHospitalInfo");
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -173,7 +174,7 @@ public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout
      *
      * 필요 데이터 : 병원 이름, 신규 예약 건수, 등록 대기 건수, 등록 완료 건수
      *
-     * Uri  --->   /getHospitalData
+     * Uri  --->   /user/getHospitalInfo
      * Parm  --->   {"user":{"id":"test"}} 전송
      * Result  --->   {"result":{"name":"병원이름","new":3,"wait1":12,"wait2":12,"finish":10,"profile":"akflsjekjflsjf"}} 결과 값 */
 
@@ -265,7 +266,9 @@ public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new HospitalData().execute(getResources().getString(R.string.url) + "/getHospitalData");
+//                    new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
+                    new HospitalData().execute("http://172.30.1.5:8001/user" + "/getHospitalInfo");
+
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");

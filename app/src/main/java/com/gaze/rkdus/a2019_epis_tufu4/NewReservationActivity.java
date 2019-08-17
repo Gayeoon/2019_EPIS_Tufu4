@@ -425,7 +425,7 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
                     Log.e(TAG, internal.length() + "");
                     for (int i = 0; i < internal.length(); i++) {
                         JSONObject jsonTemp = internal.getJSONObject(i);
-                        internalAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
+                        internalAdapter.addItem(new NewReservationItem(jsonTemp.getString("owner_name"), jsonTemp.getString("ask_date")));
                     }
                     internalList.setAdapter(internalAdapter);
                     internalCount.setText(internal.length() + "");
@@ -447,7 +447,7 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
 
                     for (int i = 0; i < external.length(); i++) {
                         JSONObject jsonTemp = external.getJSONObject(i);
-                        externalAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
+                        externalAdapter.addItem(new NewReservationItem(jsonTemp.getString("owner_name"), jsonTemp.getString("ask_date")));
                     }
                     externalList.setAdapter(externalAdapter);
                     externalCount.setText(external.length() + "");
@@ -469,8 +469,8 @@ public class NewReservationActivity extends BaseActivity  implements SwipeRefres
 
                     for (int i = 0; i < dogtag.length(); i++) {
                         JSONObject jsonTemp = dogtag.getJSONObject(i);
-                        Log.e(TAG, "name : "+jsonTemp.getString("OWNER_NAME"));
-                        dogtagAdapter.addItem(new NewReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("ASK_DATE")));
+                        Log.e(TAG, "name : "+jsonTemp.getString("owner_name"));
+                        dogtagAdapter.addItem(new NewReservationItem(jsonTemp.getString("owner_name"), jsonTemp.getString("ask_date")));
                     }
                     dogtagList.setAdapter(dogtagAdapter);
                     dogtagCount.setText(dogtag.length() + "");

@@ -43,6 +43,8 @@ public class ReservationActivity extends BaseActivity {
     String id, name;
     String TAG = "ResrvationActivity";
 
+    ImageView self_buy;
+
     int type = 0;
     // 1: 내장형 / 2 : 외장형 / 3 : 등록인식표
 
@@ -86,6 +88,8 @@ public class ReservationActivity extends BaseActivity {
 
         sametime = (TableRow) findViewById(R.id.sametime);
 
+        self_buy = (ImageView)findViewById(R.id.self_buy);
+
         new ReservationData().execute(getResources().getString(R.string.url) + "/getReservationData");
 
         check = (ImageButton) findViewById(R.id.check);
@@ -93,7 +97,7 @@ public class ReservationActivity extends BaseActivity {
         check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new ReservationCheck().execute(getResources().getString(R.string.url) + "/putChangeState");
+                new ReservationCheck().execute(getResources().getString(R.string.url) + "/changeState2");
                 finish();
             }
         });
@@ -205,39 +209,45 @@ public class ReservationActivity extends BaseActivity {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
-                    owner.setText(jsonObject.getString("OWNER_NAME"));
-                    resident.setText(jsonObject.getString("OWNER_RESIDENT"));
-                    phone.setText(jsonObject.getString("OWNER_PHONE_NUMBER"));
-                    resAddr.setText(jsonObject.getString("OWNER_ADDRESS1"));
-                    nowAddr.setText(jsonObject.getString("OWNER_ADDRESS2"));
-                    animal.setText(jsonObject.getString("PET_NAME"));
-                    variety.setText(jsonObject.getString("PET_VARIETY"));
-                    furColor.setText(jsonObject.getString("PET_COLOR"));
+                    owner.setText(jsonObject.getString("owner_name"));
+                    resident.setText(jsonObject.getString("owner_resident"));
+                    phone.setText(jsonObject.getString("owner_phone"));
+                    resAddr.setText(jsonObject.getString("address1"));
+                    nowAddr.setText(jsonObject.getString("address2"));
+                    animal.setText(jsonObject.getString("pet_name"));
+                    variety.setText(jsonObject.getString("pet_variety"));
+                    furColor.setText(jsonObject.getString("pet_color"));
 
-                    if (jsonObject.getString("PET_GENDER") == "1") {
+                    if (jsonObject.getInt("pet_gender") == 2) {
                         gender.setText("남성");
                     } else {
                         gender.setText("여성");
                     }
 
-                    if (jsonObject.getString("PET_NEUTRALIZATION") == "1") {
-                        neutralization.setText("했음");
+                    if (jsonObject.getInt("pet_neutralization") == 1) {
+                            neutralization.setText("했음");
                     } else {
                         neutralization.setText("안했음");
                     }
 
-                    if (jsonObject.getString("SAME_TIME") == "1") {
+                    if (jsonObject.getInt("sametime") == 1) {
                         sametime.setVisibility(View.VISIBLE);
                     } else {
                         sametime.setVisibility(View.GONE);
                     }
 
 
-                    birthday.setText(jsonObject.getString("PET_BIRTH"));
-                    acqDate.setText(jsonObject.getString("REGIST_DATE"));
-                    special.setText(jsonObject.getString("ETC"));
+                    birthday.setText(jsonObject.getString("pet_birth"));
+                    acqDate.setText(jsonObject.getString("regist_date"));
+                    special.setText(jsonObject.getString("etc"));
 
-                    Log.e(TAG, jsonObject.getString("OWNER_NAME"));
+                    if (jsonObject.getInt("self_buy") == 1) {
+                        self_buy.setBackgroundResource(R.drawable.checked);
+                    } else {
+                        self_buy.setBackgroundResource(R.drawable.check);
+                    }
+
+                    Log.e(TAG, jsonObject.getString("owner_name"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -257,7 +267,8 @@ public class ReservationActivity extends BaseActivity {
      *
      *  id/name/type이 일치하는 데이터의 state를 1에서 2로 변경!
      *
-     * Url  --->   /putChangeState
+     * Url  --->   /changeState2
+
      * Parm  --->   {"user":{"id":"test","name":"김가연","type":1}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
@@ -349,16 +360,16 @@ public class ReservationActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new ReservationCheck().execute(getResources().getString(R.string.url) + "/putChangeState");
+                    new ReservationCheck().execute(getResources().getString(R.string.url) + "/changeState2");
                 } else {
                     success = (int) json.get("result");
 
                     if (success == 1) {
-                        Toast.makeText(getApplicationContext(), "예약확인!!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), "예약확인!!", Toast.LENGTH_LONG).show();
 
                         finish();
                     } else {
-                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "다시 시도해주세요.", Toast.LENGTH_LONG).show();
                     }
                 }
             } catch (JSONException e) {

@@ -292,16 +292,16 @@ public class FinishReservationActivity extends BaseActivity  implements SwipeRef
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
-                    wait = jsonObject.getJSONArray("wait");
+                    wait = jsonObject.getJSONArray("finish");
 
                     Log.e(TAG, wait.length() + "");
 
                     for (int i = 0; i < wait.length(); i++) {
                         JSONObject jsonTemp = wait.getJSONObject(i);
                         if (small){
-                            mySmallAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
+                            mySmallAdapter.addItem(new FinishReservationItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name")));
                         }else {
-                            myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("OWNER_NAME"), jsonTemp.getString("PET_NAME")));
+                            myAdapter.addItem(new FinishReservationItem(jsonTemp.getString("owner_name"), jsonTemp.getString("pet_name")));
                         }
                     }
 
@@ -321,7 +321,7 @@ public class FinishReservationActivity extends BaseActivity  implements SwipeRef
                             owner = oTextOwner.getText().toString();
                             animal = oTextAnimal.getText().toString();
 
-                            Intent intent = new Intent(getApplicationContext(), Reservation_v2_Activity.class);
+                            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                             intent.putExtra("id", id);
                             intent.putExtra("owner", owner);
                             intent.putExtra("animal", animal);
