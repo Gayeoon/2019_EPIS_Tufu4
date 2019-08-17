@@ -48,6 +48,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter;
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData;
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.PostCodeItem;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ImageTextPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.IndividualInfoPopupActivity;
@@ -55,6 +56,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.popup.MessagePopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.PostCodePopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ProductPopupActivity;
 import com.gaze.rkdus.a2019_epis_tufu4.popup.ProxySignPopupActivity;
+import com.google.gson.Gson;
 
 /*
  * 사용자
@@ -73,6 +75,7 @@ public class MessageActivity extends BaseActivity {
     private static final int CHECK_NEUTRALIZATIONSURGERY = 140;
     private final int SPINNER_HEIGHT = 350;
 
+    MyReservationListData reservationListData;
     int key;
     String hospitalName;
     String ownerName, ownerRRN, ownerHP, ownerPostCode, ownerPost, ownerDetailPostCode, ownerRealPostCode, ownerRealPost, ownerRealDetailPostCode;    // 소유주
@@ -84,7 +87,7 @@ public class MessageActivity extends BaseActivity {
     int petNeutralization;  // 0: default,  1: neutralization,  2: not neutralization
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
-    int neutralizationSurgery = 0;
+    int neutralizationSurgery = 0;  // 0 : 안함,  1 : 함.
 
     TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
@@ -346,15 +349,16 @@ public class MessageActivity extends BaseActivity {
                             if(checkReservation) {
                                 if(setOwnerInfo() && setPetInfo()) {
                                     messageAsyncTask = new MessageAsyncTask();
-                                    messageAsyncTask.execute("/rewriteMessage", "rewrite");
+                                    messageAsyncTask.execute("/user/changeReservation", "rewrite");
                                 }
                             }
                         }
                         return true;
                     }
                 });
-                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
-                printReservationData(myReservationData);
+                reservationListData = (MyReservationListData) typeIntent.getSerializableExtra("data");
+//                myReservationData = (MyReservationData) typeIntent.getSerializableExtra("data");
+                printReservationData(reservationListData.getData());
             }
         }
         else {
@@ -614,39 +618,43 @@ public class MessageActivity extends BaseActivity {
     타입에 따른 ASK_DATE 처리
      */
     private boolean saveMyReservationFile(JSONObject reservationObject, String type) {
-        String filename = "reservation.json";
+        String filename = "myReservation.json";
         final String fileText = loadJSONFile(filename);
         FileOutputStream fileOutputStream = null;
+
+        MyReservationListData myReservationListData;
         try {
             fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
             // ASK_DATE 수정하는 작업
             if(type.equals("rewrite")) {    // ASK_DATE_NEW -> ASK_DATE, ASK_DATE_OLD remove
-                reservationObject.remove("ASK_DATE_OLD");
-                reservationObject.accumulate("ASK_DATE", reservationObject.get("ASK_DATE_NEW"));
-                reservationObject.remove("ASK_DATE_NEW");
+                reservationObject.remove("ask_date_old");
+                reservationObject.accumulate("ask_date", reservationObject.get("ask_date_new"));
+                reservationObject.remove("ask_date_new");
             }
-
-            reservationObject.accumulate("HOSPITAL_NAME", hospitalName);
-            reservationObject.accumulate("RESERVATION_STATE", "WAIT");    // 현재 예약 진행 상태를 나타내는 값 넣기
+            Gson gson = new Gson();
+            myReservationListData = new MyReservationListData("WAIT", 1, key,
+                    hospitalName, reservationObject.get("ask_date").toString(), gson.fromJson(reservationObject.toString(), MyReservationData.class));
 
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
                 JSONArray jsonArray = new JSONArray();
-                jsonArray.put(reservationObject);
+                jsonArray.put(gson.toJson(myReservationListData));
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                Log.d(TAG, "myReservationListData : " + jsonArray.toString());
             }
             else {  // 기존에 저장된 파일 존재
                 JSONArray jsonArray = new JSONArray(fileText);
                 Log.d(TAG, "기존에 저장된 파일 존재");
                 for(int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
-                        // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
-                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {   // 예약 날짜 동일 체크
-                            if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
+                    // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
+                    // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
+                    if(jsonObject.getString("reservation_date").equals(askDateOld)) {   // 예약 날짜 동일 체크
+                        if(jsonObject.getInt("hospital_key") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
                             // jsonArray.remove(i);
-                            jsonArray.put(i,reservationObject); // 덮어씌우기
+                            jsonArray.put(i, gson.toJson(myReservationListData)); // 덮어씌우기
                             fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+                            Log.d(TAG, "myReservationListData : " + jsonArray.toString());
                             fileOutputStream.flush();
                             fileOutputStream.close();
                             return true;
@@ -675,6 +683,73 @@ public class MessageActivity extends BaseActivity {
         }
         return false;
     }
+
+    /*
+    파일 저장하는 함수
+    타입에 따른 ASK_DATE 처리
+     */
+//    private boolean saveMyReservationFile(JSONObject reservationObject, String type) {
+//        String filename = "reservation.json";
+//        final String fileText = loadJSONFile(filename);
+//        FileOutputStream fileOutputStream = null;
+//        try {
+//            fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+//            // ASK_DATE 수정하는 작업
+//            if(type.equals("rewrite")) {    // ASK_DATE_NEW -> ASK_DATE, ASK_DATE_OLD remove
+//                reservationObject.remove("ASK_DATE_OLD");
+//                reservationObject.accumulate("ASK_DATE", reservationObject.get("ASK_DATE_NEW"));
+//                reservationObject.remove("ASK_DATE_NEW");
+//            }
+//
+//            reservationObject.accumulate("HOSPITAL_NAME", hospitalName);
+//            reservationObject.accumulate("RESERVATION_STATE", "WAIT");    // 현재 예약 진행 상태를 나타내는 값 넣기
+//
+//            if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
+//                Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
+//                JSONArray jsonArray = new JSONArray();
+//                jsonArray.put(reservationObject);
+//                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+//            }
+//            else {  // 기존에 저장된 파일 존재
+//                JSONArray jsonArray = new JSONArray(fileText);
+//                Log.d(TAG, "기존에 저장된 파일 존재");
+//                for(int i = 0; i < jsonArray.length(); i++) {
+//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+//                        // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
+//                        // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
+//                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {   // 예약 날짜 동일 체크
+//                            if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
+//                            // jsonArray.remove(i);
+//                            jsonArray.put(i,reservationObject); // 덮어씌우기
+//                            fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+//                            fileOutputStream.flush();
+//                            fileOutputStream.close();
+//                            return true;
+//                        }
+//                    }
+//                }
+//                jsonArray.put(reservationObject);
+//                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
+//            }
+//            fileOutputStream.flush();
+//            fileOutputStream.close();
+//            return true;
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        finally {
+//            try {
+//                fileOutputStream.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return false;
+//    }
 
     /*
     json 파일 불러와서 String으로 리턴하기
@@ -815,29 +890,30 @@ public class MessageActivity extends BaseActivity {
                 Log.d(TAG, "date : " + nowDate);
 
                 // Message에 담은 모든 정보 JSONObject에 담기
-                tempObject.accumulate("HOSPITAL_KEY", key); // key JSONObject에 담기
-                tempObject.accumulate("TYPE", type); // type JSONObject에 담기
-                tempObject.accumulate("OWNER_NAME", ownerName);
-                tempObject.accumulate("OWNER_RESIDENT", ownerRRN);
-                tempObject.accumulate("OWNER_PHONE_NUMBER", ownerHP);
-                tempObject.accumulate("OWNER_ADDRESS1", ownerAddress);
-                tempObject.accumulate("OWNER_ADDRESS2", ownerRealAddress);
-                tempObject.accumulate("PET_NAME", petName);
-                tempObject.accumulate("PET_VARIETY", petRace);
-                tempObject.accumulate("PET_COLOR", petColor);
-                tempObject.accumulate("PET_GENDER", petGender);
-                tempObject.accumulate("PET_NEUTRALIZATION", petNeutralization);
-                tempObject.accumulate("PET_BIRTH", petBirth);
-                tempObject.accumulate("REGIST_DATE", petGetDate);
-                tempObject.accumulate("ETC", petSpecialProblem);
+                tempObject.accumulate("hospital_key", key); // key JSONObject에 담기
+                tempObject.accumulate("type", type); // type JSONObject에 담기
+                tempObject.accumulate("owner_resident", ownerRRN);
+                tempObject.accumulate("owner_name", ownerName);
+                tempObject.accumulate("owner_phone", ownerHP);
+                tempObject.accumulate("address1", ownerAddress);
+                tempObject.accumulate("address2", ownerRealAddress);
+                tempObject.accumulate("pet_name", petName);
+                tempObject.accumulate("pet_variety", petRace);
+                tempObject.accumulate("pet_color", petColor);
+                tempObject.accumulate("pet_gender", petGender);
+                tempObject.accumulate("pet_neutralization", petNeutralization);
+                tempObject.accumulate("pet_birth", petBirth);
+                tempObject.accumulate("regist_date", petGetDate);
+                tempObject.accumulate("etc", petSpecialProblem);
+                tempObject.accumulate("sametime", neutralizationSurgery);
 
                 // ASK_DATE(등록날짜)에 대한 예외 상황처리
                 if(typeString.equals("send")) {
-                    tempObject.accumulate("ASK_DATE", nowDate);
+                    tempObject.accumulate("ask_date", nowDate);
                 }
                 if(typeString.equals("rewrite")) {
-                    tempObject.accumulate("ASK_DATE_OLD", askDateOld);
-                    tempObject.accumulate("ASK_DATE_NEW", nowDate);
+                    tempObject.accumulate("ask_date_old", askDateOld);
+                    tempObject.accumulate("ask_date_new", nowDate);
                 }
                 return tempObject;
             } catch (JSONException e) {
@@ -854,7 +930,7 @@ public class MessageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "팝업창에서 확인 누름!");
                     messageAsyncTask = new MessageAsyncTask();
-                    messageAsyncTask.execute("/sendMessage", "send");
+                    messageAsyncTask.execute("/user/putReservation", "send");
                 }
                 else {
                     Log.d(TAG, "팝업창에서 취소 누름!");

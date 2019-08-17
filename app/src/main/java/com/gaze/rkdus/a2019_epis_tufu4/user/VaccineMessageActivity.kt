@@ -173,7 +173,7 @@ class VaccineMessageActivity : BaseActivity() {
                             .create(ReservationService::class.java)
 
                     val vaccineData = VaccineReservationData(KAKAO_ID, ownerName!!, ownerHP!!, petName!!,
-                            petAge!!, petWeight!!, petGender, vaccineName!!, vaccineDate!!, vaccineTime!!)
+                            petAge!!, petGender, petWeight!!, vaccineName!!, vaccineDate!!, vaccineTime!!)
 
                     reservationService.resultVaccineRepos(vaccineData)
                             .subscribeOn(Schedulers.io())
@@ -242,7 +242,7 @@ class VaccineMessageActivity : BaseActivity() {
             vaccineYear.let { vaccineMonth.let { vaccineDay.let {
                 vaccineHour.let { vaccineMinute.let {
                     vaccineName = etVaccineName.text.toString()
-                    vaccineDate = "$vaccineYear.$vaccineMonth.$vaccineDay"
+                    vaccineDate = "$vaccineYear-$vaccineMonth-$vaccineDay"
                     vaccineTime = "${vaccineHour}시 ${vaccineMinute}분"
                 } }
             } } }

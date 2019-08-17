@@ -1,12 +1,10 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user;
 
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
@@ -123,10 +121,7 @@ public class UserLoginActivity extends BaseActivity {
 
     protected void redirectSignupActivity() {
         Toast.makeText(getApplicationContext(), "카카오톡 아이디로 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show();
-//        checkExistNickname();
-        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-        startActivity(intent);
-        finish();
+        checkExistNickname();
     }
 
     /*
@@ -205,26 +200,32 @@ public class UserLoginActivity extends BaseActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            JSONObject jsonObject = StringToJSON(result);
-            try {
-                int getResult = jsonObject.getInt("result");
-                Log.d(TAG, "result : " + getResult);
-                if (getResult == 1) { // 닉네임 있음.
-                    Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-                    NICKNAME = jsonObject.getString("name");
-                    startActivity(intent);
-                    finish();
-                }
-                else if (getResult == 0) { // 닉네임 없음
-                    Intent intent = new Intent(getApplicationContext(), NicnamePopupActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-                else
-                    Toast.makeText(getApplicationContext(), "서버 오류입니다. 잠시 후 다시 실행해주세요.", Toast.LENGTH_LONG).show();
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (TextUtils.isEmpty(result)) {
+                Toast.makeText(getApplicationContext(), "서버 오류가 발생했습니다. 다시 시도해주세요.", Toast.LENGTH_LONG).show();
             }
+            else {
+                JSONObject jsonObject = StringToJSON(result);
+                try {
+                    String getResult = jsonObject.getString("result");
+                    Log.d(TAG, "result : " + getResult);
+                    if (getResult.equals("null")) {
+                        Toast.makeText(getApplicationContext(), "닉네임이 없습니다. 닉네임을 생성해주세요.", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), NicnamePopupActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else {
+                        Log.d(TAG, "result : " + result);
+                        Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        NICKNAME = getResult;
+                        startActivity(intent);
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 }

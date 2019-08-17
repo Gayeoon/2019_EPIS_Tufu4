@@ -6,11 +6,12 @@ import android.view.MotionEvent
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData
 import kotlinx.android.synthetic.main.activity_imagetext_popup.*
 
 class ImageTextPopupActivity : BaseActivity() {
     var popuptype: Int = 0
-    var data: MyReservationData? = null
+    var data: MyReservationListData? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +28,7 @@ class ImageTextPopupActivity : BaseActivity() {
                         okBtn.text = "할래요"
                     }
                     2 -> { // 예약확정 팝업
-                        data = intent!!.getSerializableExtra("data") as MyReservationData?
+                        data = intent!!.getSerializableExtra("data") as MyReservationListData?
                         popupImage.setImageResource(R.drawable.mypage_comfirmpopupimg)
                         popupText.setText(R.string.registConfirmPopupMsg)
                         cancelBtn.text = "취소"
@@ -48,7 +49,7 @@ class ImageTextPopupActivity : BaseActivity() {
         okBtn.setOnClickListener {
             var resultIntent = Intent()
             if (popuptype == 2) {   // 예약 확정 팝업
-                data!!.reservatioN_STATE = "CONFIRM"
+                data!!.reservation_state = "CONFIRM"
                 resultIntent.putExtra("data", data)
             }
             setResult(RESULT_OK, resultIntent)

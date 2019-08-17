@@ -39,16 +39,6 @@ public class ProductViewPopupActivity extends BaseActivity {
             finishPopup();
 
         binding.setProductItem(productItemData);
-        // 가격 및 배송비 표시
-        if (productItemData.isPRODUCT_SOLDOUT())
-            binding.tvPrice.setText("재고 없음");
-        else {
-            binding.tvPrice.setText(String.valueOf(productItemData.getPRODUCT_PRICE()) + "원");
-            if (productItemData.isSHIPPING_FEE())
-                binding.tvShippingFee.setText("배송비 2500원");
-            else
-                binding.tvShippingFee.setText("배송비 무료");
-        }
     }
 
     @BindingAdapter("app:imageUrl")

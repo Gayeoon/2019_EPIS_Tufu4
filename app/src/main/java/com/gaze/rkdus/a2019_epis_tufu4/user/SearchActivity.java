@@ -132,7 +132,7 @@ public class SearchActivity extends BaseActivity {
 
         // 시작 시 모든 리스트 가져오기
         searchAsyncTask = new SearchAsyncTask();
-        searchAsyncTask.execute("/searchHospitalData", "all"); // 모든 데이터 가져오기
+        searchAsyncTask.execute("/user/getHospitalData", "all"); // 모든 데이터 가져오기
 
         // EditText 자판 리스너 이벤트
         eSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -480,9 +480,9 @@ public class SearchActivity extends BaseActivity {
 
         // 서버 접속 실행
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.HONEYCOMB)
-            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/searchHospitalData", "searchword");
+            searchAsyncTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "/user/getHospitalData", "searchword");
         else
-            searchAsyncTask.execute("/searchHospitalData", "searchword");
+            searchAsyncTask.execute("/user/getHospitalData", "searchword");
     }
 
     /*
@@ -532,7 +532,7 @@ public class SearchActivity extends BaseActivity {
                 Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                        return String.valueOf(t1.getReservation_count()).compareTo(String.valueOf(searchResultData.getReservation_count()));
                     }
                 });
                 break;
@@ -541,7 +541,7 @@ public class SearchActivity extends BaseActivity {
                 Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                        return String.valueOf(t1.getReview_total()).compareTo(String.valueOf(searchResultData.getReview_total()));
                     }
                 });
                 break;
@@ -550,7 +550,7 @@ public class SearchActivity extends BaseActivity {
                 Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
                     @Override
                     public int compare(SearchResultData searchResultData, SearchResultData t1) {
-                        return String.valueOf(t1.getRESERVATION_COUNT()).compareTo(String.valueOf(searchResultData.getRESERVATION_COUNT()));
+                        return String.valueOf(t1.getReview_count()).compareTo(String.valueOf(searchResultData.getReview_count()));
                     }
                 });
                 break;
@@ -813,7 +813,7 @@ public class SearchActivity extends BaseActivity {
                         // locationSearchList의 값에서 삭제시키자
                         if (searchResultList.contains(searchResultData)) {
                             Log.d(TAG, "하나라도있냐?");
-                            Log.d(TAG, "하나있네 : " + searchResultData.getHOSPITAL_NAME());
+                            Log.d(TAG, "하나있네 : " + searchResultData.getHospital_name());
                             locationSearchList.add(searchResultData);
                             continue;
                         }
@@ -841,7 +841,7 @@ public class SearchActivity extends BaseActivity {
                             // locationSearchList의 값에서 삭제시키자
                             if (searchResultList.contains(searchResultData)) {
                                 Log.d(TAG, "하나라도있냐?");
-                                Log.d(TAG, "하나있네 : " + searchResultData.getHOSPITAL_NAME());
+                                Log.d(TAG, "하나있네 : " + searchResultData.getHospital_name());
                                 locationSearchList.add(searchResultData);
                                 continue;
                             }

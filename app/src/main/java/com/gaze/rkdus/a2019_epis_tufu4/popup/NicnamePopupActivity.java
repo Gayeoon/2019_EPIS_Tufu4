@@ -2,7 +2,6 @@ package com.gaze.rkdus.a2019_epis_tufu4.popup;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -32,7 +31,6 @@ import java.net.URL;
 
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity.checkStringWS;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.StringToJSON;
-import static com.gaze.rkdus.a2019_epis_tufu4.user.SearchActivity.printConnectionError;
 
 /*
  사용자가 커뮤니티 들어갈 때 닉네임 설정하는 팝업창
@@ -128,7 +126,12 @@ public class NicnamePopupActivity extends BaseActivity {
                 // String type, ownerName, address, hp, petName, race, petColor, petBirth, neutralization, petGender;
                 JSONObject jsonObject = new JSONObject();
                 // Message에 담은 모든 정보 JSONObject에 담기
-                jsonObject.accumulate("NICKNAME", nickname); // key JSONObject에 담기
+                if (type.equals("check"))
+                    jsonObject.accumulate("name", nickname); // key JSONObject에 담기
+                if (type.equals("add")) {
+                    jsonObject.accumulate("user_id", KAKAO_ID); // key JSONObject에 담기
+                    jsonObject.accumulate("name", nickname); // key JSONObject에 담기
+                }
 
                 // POST 전송방식을 위한 설정
                 HttpURLConnection con = null;

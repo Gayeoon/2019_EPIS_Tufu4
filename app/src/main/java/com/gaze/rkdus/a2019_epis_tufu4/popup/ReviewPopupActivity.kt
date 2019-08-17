@@ -138,14 +138,14 @@ class ReviewPopupActivity : BaseActivity() {
                 starSecond.setImageResource(R.drawable.review_coloredstar)
                 starThird.setImageResource(R.drawable.review_coloredstar)
             }
-            R.id.starThird -> {
+            R.id.starFourth -> {
                 score = 4
                 starFirst.setImageResource(R.drawable.review_coloredstar)
                 starSecond.setImageResource(R.drawable.review_coloredstar)
                 starThird.setImageResource(R.drawable.review_coloredstar)
                 starFourth.setImageResource(R.drawable.review_coloredstar)
             }
-            R.id.starFourth -> {
+            R.id.starFifth -> {
                 score = 5
                 starFirst.setImageResource(R.drawable.review_coloredstar)
                 starSecond.setImageResource(R.drawable.review_coloredstar)

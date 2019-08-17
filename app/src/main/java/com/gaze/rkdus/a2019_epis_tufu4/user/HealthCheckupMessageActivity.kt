@@ -1,7 +1,11 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user
 
+import android.annotation.TargetApi
 import android.app.Activity
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.text.TextUtils
 import android.util.Log
 import android.view.MotionEvent
@@ -14,10 +18,10 @@ import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter
 import com.gaze.rkdus.a2019_epis_tufu4.item.HealthCheckupReservationData
-import com.gaze.rkdus.a2019_epis_tufu4.item.VaccineReservationData
-import com.gaze.rkdus.a2019_epis_tufu4.user.MessageActivity.checkEditText
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationService
 import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.setSpinnerMaxHeight
+import com.google.gson.Gson
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_health_checkup_message_acitivty.*
@@ -33,9 +37,17 @@ import kotlinx.android.synthetic.main.activity_vaccine_message.petFemale
 import kotlinx.android.synthetic.main.activity_vaccine_message.petMale
 import kotlinx.android.synthetic.main.activity_vaccine_message.reservationBtn
 import okhttp3.OkHttpClient
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class HealthCheckupMessageActivity : BaseActivity() {
@@ -68,6 +80,8 @@ class HealthCheckupMessageActivity : BaseActivity() {
     var aaHour: MessageSpinnerAdapter? = null
     var aaMinute: MessageSpinnerAdapter? = null
 
+    @TargetApi(Build.VERSION_CODES.O)
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_health_checkup_message_acitivty)
@@ -181,7 +195,7 @@ class HealthCheckupMessageActivity : BaseActivity() {
                             .create(ReservationService::class.java)
 
                     val healthCheckupData = HealthCheckupReservationData(KAKAO_ID, ownerName!!, ownerHP!!, petName!!,
-                            petAge!!, petWeight!!, petGender, healthCheckDate!!, healthCheckTime!!)
+                            petAge!!, petGender, petWeight!!, healthCheckDate!!, healthCheckTime!!)
 
                     reservationService.resultHealthcheckupRepos(healthCheckupData)
                             .subscribeOn(Schedulers.io())
@@ -191,6 +205,7 @@ class HealthCheckupMessageActivity : BaseActivity() {
                                 if (it.result == 1) {
                                     Log.d(TAG, "예약 성공!")
                                     Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
+                                    saveReservationFile(healthCheckupData)
                                     setResult(Activity.RESULT_OK)
                                     finish()
                                 }
@@ -208,6 +223,34 @@ class HealthCheckupMessageActivity : BaseActivity() {
             }
             false
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun saveReservationFile(data: HealthCheckupReservationData) {
+        val filename = "myReservation.json"
+        val fileText = loadJSONFile(filename)
+        var fileOutputStream: FileOutputStream? = null
+        fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE) // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+        val date = current.format(formatter)
+        var resultData = MyReservationListData("WAIT", 3, hospitalKey!!, hospitalName!!, date!!)
+        // TODO : 지금은 일단 리스트 출력에 필요한 정보만 넣어놓기 위함.
+//        val gson = Gson()
+//        var tempStr: String? = gson.toJson(data)
+
+        var jsonArray: JSONArray
+
+        jsonArray = if (!TextUtils.isEmpty(fileText))
+            JSONArray(fileText)
+        else
+            JSONArray()
+
+        jsonArray.put(resultData)
+        fileOutputStream.write(jsonArray.toString().toByteArray())   // Json 쓰기
+        fileOutputStream.flush()
+        fileOutputStream.close()
     }
 
     /*
@@ -242,13 +285,38 @@ class HealthCheckupMessageActivity : BaseActivity() {
     }
 
     /*
+    json 파일 불러와서 String으로 리턴하기
+     */
+    private fun loadJSONFile(filename: String): String? {
+        Log.d(TAG, "loadJSONFIle start")
+        var result: String? = null
+
+        var fileinputStream: FileInputStream? = null
+        try {
+            fileinputStream = openFileInput(filename)
+            val size = fileinputStream!!.available()
+            val buffer = ByteArray(size)
+            fileinputStream.read(buffer)
+            fileinputStream.close()
+            result = String(buffer, charset("UTF-8"))
+        } catch (e: FileNotFoundException) {
+            Log.d(TAG, "사전에 등록증을 저장한 내역이 없습니다.")
+            return null
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
+    /*
     주인 정보 edittext 값 체크
     @return : boolean(true : 통과, false : 실패)
      */
     fun checkReservationInfo(): Boolean {
         healthCheckYear.let { healthCheckMonth.let { healthCheckDay.let {
             healthCheckHour.let { healthCheckMinute.let {
-                healthCheckDate = "$healthCheckYear.$healthCheckMonth.$healthCheckDay"
+                healthCheckDate = "$healthCheckYear-$healthCheckMonth-$healthCheckDay"
                 healthCheckTime = "${healthCheckHour}시 ${healthCheckMinute}분"
                 } }
             } } }

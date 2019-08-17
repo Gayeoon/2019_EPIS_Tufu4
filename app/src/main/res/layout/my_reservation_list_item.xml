@@ -117,7 +117,8 @@
                     android:layout_marginRight="20dp"
                     android:adjustViewBounds="true"
                     android:gravity="right"
-                    app:srcCompat="@drawable/mypage_checkreservationbtn" />
+                    app:srcCompat="@drawable/mypage_checkreservationbtn"
+                    />
 
                 <ImageView
                     android:id="@+id/writeReviewImg"

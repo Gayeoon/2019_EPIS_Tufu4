@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity;
@@ -29,17 +30,22 @@ public class ProductPopupActivity extends BaseActivity {
     RecyclerView productRecyclerView;
     Button cancelBtn;
     ProductPopupListAdapter adapter;
+    TextView tvProductType;
+
     ArrayList<ProductItemData> itemList = new ArrayList<>();
     int type = 0;   // 2 : outer, 3 : badge
     private final int VIEW_PRODUCTITEM = 10;
 
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_popup);
 
         productRecyclerView = (RecyclerView) findViewById(R.id.productItemView);
         cancelBtn = (Button) findViewById(R.id.cancelBtn);
+        tvProductType = (TextView) findViewById(R.id.tvProductType);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -51,6 +57,8 @@ public class ProductPopupActivity extends BaseActivity {
         }
 
         Log.e("LogGoGo", "type : " + String.valueOf(type));
+        if (type == 2)
+            tvProductType.setText("외장형");
         setProductItems(type);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
@@ -81,7 +89,6 @@ public class ProductPopupActivity extends BaseActivity {
             public void onClick(View view, int position) {
                 //해당 위치의 Data get
                 ProductItemData resultData = result.get(position);
-                Toast.makeText(getApplicationContext(), "아이템 클릭 : " + resultData.getPRODUCT_NAME() + ", " + resultData.getPRODUCT_CONTEXT(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), ProductViewPopupActivity.class);
                 intent.putExtra("productData", (Serializable) resultData);
                 startActivityForResult(intent, VIEW_PRODUCTITEM);  // ProductViewPopupActivity 실행
@@ -95,31 +102,47 @@ public class ProductPopupActivity extends BaseActivity {
     private void setProductItems(int type) {
         if (type == 2)  {   // outer
             Log.e("LogGoGo", "type : " + String.valueOf(type));
-            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-                    "https://blogfiles.pstatic.net/MjAxOTA4MTBfMTc4/MDAxNTY1MzY1NDk4OTUx.X7pCqJ-UH4dWCWoz7DohBEN0TUVi1tbhvTXHv4xAebQg.wQsd2Hk6EoZmlO3B-Xf3SiayCIO29hAyXbykWgcpcRIg.JPEG.banner4/outer1.jpg",
-                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-            itemList.add(getProductItem(2, 2, 20000, "VOWOW 블루투스 부착 외장형 목걸이", "고무로 만듬", true, true));
-            itemList.add(getProductItem(3, 2, 5000, "싸구려 외장형 목걸이", "싸구려로 만듬", false, false));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-1.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-2.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-3.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-4.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-5.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
+//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-6.png",
+//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
         }
         else {  // type == 3 : badge
-            itemList.add(getProductItem(1, type, 99900, "VOWOW 특제 등록 인식표", "어여쁨",
-                    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory&fname=https://k.kakaocdn.net/dn/EShJF/btquPLT192D/SRxSvXqcWjHRTju3kHcOQK/img.png",
-                    "특제 등록 인식표입니다. 구매하세요.", true, true));
-            itemList.add(getProductItem(2, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-                    "https://blogfiles.pstatic.net/MjAxOTA4MTBfNDcg/MDAxNTY1MzY1MjczMTE4.8DEJ8XVdgmUHNJ_Gnb5yddBb9VkUbRIkHBVJanvkC7cg.pDacrS50BsaGlf2X0BkgTh96kRt9pqYCM-1puGnecwwg.JPEG.banner4/badge.jpg",
-                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
-            itemList.add(getProductItem(3, type, 1111, "싸구려 등록 인식표", "싸구려로 만듬", false, false));
-            itemList.add(getProductItem(4, type, 555, "고구려 등록 인식표", "고구려로 만듬", true, false));
+//            itemList.add(getProductItem(1, type, 99900, "VOWOW 특제 등록 인식표", "어여쁨",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjYy/MDAxNTY2MDE5MzUzMDg1.FfqQlaMxWjK71nsFrrmazZi40xWjk31xm4tOkxrFJP0g.e-4sUyqs8vpdvpCc1B1eD1ZohLQER-ureh4P8EFsDwog.PNG.banner4/1-1.png",
+//                    "특제 등록 인식표입니다. 구매하세요.", true, true));
+//            itemList.add(getProductItem(2, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-2.png",
+//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
+//            itemList.add(getProductItem(3, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-3.png",
+//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
+//            itemList.add(getProductItem(4, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-4.png",
+//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
+//            itemList.add(getProductItem(5, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-5.png",
+//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
+//            itemList.add(getProductItem(6, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
+//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-6.png",
+//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
         }
     }
 
-    private ProductItemData getProductItem(int key, int type, int price, String name, String context, boolean soldout, boolean shippingFee) {
-        return new ProductItemData(key, type, price, name, context, soldout, shippingFee);
-    }
-
-    private ProductItemData getProductItem(int key, int type, int price, String name, String context, String url, String text, boolean soldout, boolean shippingFee) {
-        return new ProductItemData(key, type, price, name, context, url, text, soldout, shippingFee);
-    }
 
     @Override
     public void onBackPressed() {
