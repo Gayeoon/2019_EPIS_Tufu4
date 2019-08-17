@@ -38,6 +38,8 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -48,6 +50,8 @@ import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
+import retrofit2.Converter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -193,6 +197,7 @@ public class HospitalProfileActivity extends BaseActivity {
     private void getReviewList() {
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(SERVER_URL)
                 .build();
@@ -221,6 +226,9 @@ public class HospitalProfileActivity extends BaseActivity {
                             adapter.resetAll(reviewList);
                             hosinfoReviewRecyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
+                        }
+                        else {
+                            Log.d(TAG, "리뷰가 없음");
                         }
                     }
 
@@ -260,8 +268,10 @@ public class HospitalProfileActivity extends BaseActivity {
     병원 정보가 맞게 들어왔는지 확인
      */
     private boolean checkHospitalInfo() {
-        if(hospitalData == null)   // 객체 null 체크
+        if(hospitalData == null) {   // 객체 null 체크
+            Log.d(TAG, "하스피털 널");
             return false;
+        }
         else {
             // 앱 등록 안되있어도 들어오는지? 그럴거같다.
             if (TextUtils.isEmpty(hospitalData.getHospital_name()))
@@ -368,6 +378,22 @@ public class HospitalProfileActivity extends BaseActivity {
         }
     }
 
+    public class NullOnEmptyConverterFactory extends Converter.Factory {
+        @Override
+        public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
+            final Converter<ResponseBody, ?> delegate = retrofit.nextResponseBodyConverter(this, type, annotations);
+            return new Converter<ResponseBody, Object>() {
+                @Override
+                public Object convert(ResponseBody body) throws IOException {
+                    if (body.contentLength() == 0) {
+                        Log.d(TAG, "널로 들어옴");
+                        return null;
+                    }
+                    return delegate.convert(body);
+                }
+            };
+        }
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         switch (requestCode) {

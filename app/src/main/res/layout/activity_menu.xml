@@ -151,43 +151,67 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
                         android:gravity="center"
                         android:weightSum="1"
                         >
 
+                        <android.support.v7.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            app:cardElevation="8dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardUseCompatPadding="true"
+                            app:srcCompat="@drawable/menu_reservation_btn"
+                            >
                         <ImageView
                             android:id="@+id/whatIsPetRegImg"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.333"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/menu_shadow"
                             app:srcCompat="@drawable/menu_what_is_reg_btn" />
+                        </android.support.v7.widget.CardView>
 
+                        <android.support.v7.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            app:cardElevation="8dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardUseCompatPadding="true"
+                            app:srcCompat="@drawable/menu_reservation_btn"
+                            >
                         <ImageView
                             android:id="@+id/howToPetRegImg"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.333"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/menu_shadow"
                             app:srcCompat="@drawable/menu_how_to_reg_btn" />
+                        </android.support.v7.widget.CardView>
 
-
+                        <android.support.v7.widget.CardView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.33"
+                            app:cardElevation="8dp"
+                            app:cardCornerRadius="10dp"
+                            app:cardUseCompatPadding="true"
+                            app:srcCompat="@drawable/menu_reservation_btn"
+                            >
                         <ImageView
                             android:id="@+id/regReviseGuideImg"
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.333"
                             android:adjustViewBounds="true"
-                            android:background="@drawable/menu_shadow"
                             app:srcCompat="@drawable/menu_reg_revise_guide_btn" />
+                        </android.support.v7.widget.CardView>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:orientation="horizontal"
@@ -368,10 +392,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/packageRecyclerView"
-            android:overScrollMode="never"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="20dp">
+            android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>

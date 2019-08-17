@@ -51,6 +51,9 @@ public class MessagePopupActivity extends BaseActivity {
             case "reservation":
                 tvMessagePopup.setText(R.string.reservationPopupMsg);
                 break;
+            case "payment":
+                tvMessagePopup.setText("결제 하시겠습니까?");
+                break;
         }
 
         okBtn.setOnClickListener(new View.OnClickListener() {

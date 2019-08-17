@@ -925,7 +925,7 @@ public class SearchActivity extends BaseActivity {
 
                                     location = intent.getStringExtra("location");
                                     searchAsyncTask = new SearchAsyncTask();
-                                    searchAsyncTask.execute("/getHospitalLocationData", "location");
+                                    searchAsyncTask.execute("/user/getHospitalDataByAddress", "location");
                                     return;
                                 }
                             }

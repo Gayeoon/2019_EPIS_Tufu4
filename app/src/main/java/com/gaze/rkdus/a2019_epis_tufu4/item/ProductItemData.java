@@ -3,7 +3,7 @@ package com.gaze.rkdus.a2019_epis_tufu4.item;
 import java.io.Serializable;
 
 public class ProductItemData implements Serializable {
-    int product_key;
+    String product_key;
     int type;   // 0 : 등록 인식표.  1 : 외장형 목걸이
     int price;
     String name;
@@ -28,11 +28,11 @@ public class ProductItemData implements Serializable {
         this.img_list = img_list;
     }
 
-    public int getProduct_key() {
+    public String getProduct_key() {
         return product_key;
     }
 
-    public void setProduct_key(int product_key) {
+    public void setProduct_key(String product_key) {
         this.product_key = product_key;
     }
 

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 
 public class ManagementPopupActivity extends AppCompatActivity {
-    TextView tvManagementMsg;
+    TextView tvManagementMsg, tvManagementTitle;
     Button okBtn;
     private Vibrator vibrator;
 
@@ -34,7 +34,9 @@ public class ManagementPopupActivity extends AppCompatActivity {
 
         tvManagementMsg = (TextView) findViewById(R.id.managementPopupText);
         okBtn = (Button) findViewById(R.id.okBtn);
-        tvManagementMsg.setText("테스트");
+        tvManagementTitle = (TextView) findViewById(R.id.tvManagementTitle);
+
+        tvManagementTitle.setText("등록이 완료되었습니다.");
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

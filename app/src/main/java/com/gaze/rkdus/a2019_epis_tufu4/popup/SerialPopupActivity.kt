@@ -48,7 +48,7 @@ class SerialPopupActivity : BaseActivity() {
                 .create(SerialService::class.java)
 
         val map = hashMapOf(
-                "serialWord" to serialWord!!
+                "pet_id" to serialWord!!
         )
 
         serialService.resultSerialRepos(map)
@@ -57,9 +57,8 @@ class SerialPopupActivity : BaseActivity() {
                 .subscribe({
                     // 서버 통신 성공
                     it.let {
-                        tvOwnerName.text = "주인 이름 : ${it.owner_name}"
-                        tvPetName.text = "반려동물 이름 : ${it.pet_name}"
-                        tvOwnerPhone.text = "주인 전화번호 : ${it.owner_phone}"
+                        tvOwnerName.text = "${it.owner_name}"
+                        tvOwnerPhone.text = "${it.owner_phone}"
                         phoneNumber = it.owner_phone
                     }
                 }, {

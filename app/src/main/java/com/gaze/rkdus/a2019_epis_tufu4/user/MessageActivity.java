@@ -464,7 +464,6 @@ public class MessageActivity extends BaseActivity {
         ePetSpecialProblem.setText(petSpecialProblem);
 
         askDateOld = data.getASK_DATE();
-
     }
 
     /*
@@ -906,6 +905,7 @@ public class MessageActivity extends BaseActivity {
                 tempObject.accumulate("regist_date", petGetDate);
                 tempObject.accumulate("etc", petSpecialProblem);
                 tempObject.accumulate("sametime", neutralizationSurgery);
+                tempObject.accumulate("user_id", KAKAO_ID);
 
                 // ASK_DATE(등록날짜)에 대한 예외 상황처리
                 if(typeString.equals("send")) {
@@ -951,6 +951,7 @@ public class MessageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "직접 구매 완료!");
                     Toast.makeText(getApplicationContext(), "직접 구매 확인되었습니다.", Toast.LENGTH_SHORT).show();
+                    cbImmediatelyBuy.setActivated(false);
                 }
                 else {
                     Log.d(TAG, "직접 구매 취소!");

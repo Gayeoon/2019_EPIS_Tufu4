@@ -79,6 +79,7 @@ public class UserLoginActivity extends BaseActivity {
             if (exception != null) {
                 Logger.e(exception);
             }
+            Log.d(TAG, "세션 실패");
             setContentView(R.layout.activity_user_login);   // 세션 실패 시 로그인화면 다시 불러옴
         }
     }

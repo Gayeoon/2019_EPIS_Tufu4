@@ -20,6 +20,8 @@ import com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData;
 public class ProductViewPopupActivity extends BaseActivity {
     ActivityProductViewPopupBinding binding;
     ProductItemData productItemData;
+    final int CHECK_PAY = 10;
+    int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,15 @@ public class ProductViewPopupActivity extends BaseActivity {
             finishPopup();
 
         binding.setProductItem(productItemData);
+        binding.setStrPrice(String.valueOf(productItemData.getPrice()) + "원");
+
+        if (productItemData.getShipping() == 0)
+            binding.setStrShipping("무료");
+        else
+            binding.setStrShipping(String.valueOf(productItemData.getShipping()) + "원");
+
+        binding.setCount(count);
+        setSumPrice();
     }
 
     @BindingAdapter("app:imageUrl")
@@ -49,9 +60,41 @@ public class ProductViewPopupActivity extends BaseActivity {
                 .into(imageView);
     }
 
+    // - 버튼 클릭
+    public void minusClick(View view) {
+        if (count <= 1) {
+            Toast.makeText(getApplicationContext(), "1 이하로는 감소시킬 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            count--;
+            binding.setCount(count);
+            setSumPrice();
+
+        }
+    }
+
+    // + 버튼 클릭
+    public void plusClick(View view) {
+        if (count > 99) {
+            Toast.makeText(getApplicationContext(), "99개 이상으로는 구입하실 수 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            count++;
+            binding.setCount(count);
+            setSumPrice();
+        }
+    }
+
+    public void setSumPrice() {
+        String sumPrice = String.valueOf(count * productItemData.getPrice()) + "원";
+        binding.setSumPrice(sumPrice);
+    }
+
     // 결제하기 버튼 클릭 이벤트
     public void payProductClick(View view) {
-        Toast.makeText(this, "결제버튼 클릭", Toast.LENGTH_SHORT).show();
+        Intent payIntent = new Intent(this, MessagePopupActivity.class);
+        payIntent.putExtra("messageType", "payment");
+        startActivityForResult(payIntent, CHECK_PAY);
         Log.d(TAG, "결제버튼 클릭");
     }
 
@@ -63,4 +106,22 @@ public class ProductViewPopupActivity extends BaseActivity {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        switch (requestCode) {
+            case CHECK_PAY:
+                if(resultCode == RESULT_OK) {
+                    Log.d(TAG, "결제 완료.");
+                    Toast.makeText(getApplicationContext(), "결제가 완료되었습니다.", Toast.LENGTH_LONG).show();
+                    setResult(RESULT_OK);
+                    finish();
+                }
+                else {
+                    Log.d(TAG, "결제 실패.");
+                }
+                break;
+            default:
+                break;
+        }
+    }
 }

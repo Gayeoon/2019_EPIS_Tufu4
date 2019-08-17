@@ -12,8 +12,12 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.support.annotation.RequiresApi
+import android.support.v4.view.ViewCompat.canScrollHorizontally
+import android.support.v4.view.ViewCompat.canScrollVertically
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -63,14 +67,14 @@ class MenuActivity : BaseActivity() {
         // 서비스 시작(임시)
 //        if (!isServiceRunning()) {
 //            val intent = Intent(this, ReservationCheckService::class.java)
-//            intent.putExtra("NICKNAME", getNicname())
+//            intent.putExtra("NICKNAME", NICKNAME)
 //            startService(intent)
 //        }
 
         // 패키지 상품 리스트 설정
         setPackageItems()
 
-        val gridLayoutManager = CustomLinearLayoutManager(this, 2)
+        val gridLayoutManager = customLayoutManager(this, 2)
         packageRecyclerView.layoutManager = gridLayoutManager
         adapter = PackageListAdapter(itemList)
         adapter!!.resetAll(itemList)
@@ -79,7 +83,6 @@ class MenuActivity : BaseActivity() {
 
         // RecyclerView 클릭 이벤트 초기화
         setRecyclerViewItemClick(itemList, adapter!!)
-        Log.d(TAG, "내 닉네임은 $NICKNAME 입니다.")
         tvUserName.text = NICKNAME  // 닉네임 설정
 
         // 일련번호 자판에서 검색 버튼 클릭 시
@@ -95,8 +98,13 @@ class MenuActivity : BaseActivity() {
 
         // 예약 건수 불러오기
         var jsonStr = loadJSONFile("myReservation.json")
-        var reservationArray = JSONArray(jsonStr)
-
+        tvReservationCount.text = "예약 : 0건"
+        if (!TextUtils.isEmpty(jsonStr)) {
+            var reservationArray = JSONArray(jsonStr)
+            reservationArray.let {
+                tvReservationCount.text = "예약 : ${reservationArray.length()}건"
+            }
+        }
     }
 
     private val touchListener = View.OnTouchListener { v, event ->
@@ -137,6 +145,16 @@ class MenuActivity : BaseActivity() {
         false
     }
 
+    class customLayoutManager(context: Context?, spanCount: Int) : GridLayoutManager(context, spanCount) {
+        override fun canScrollVertically(): Boolean { // 세로스크롤 막기
+            return false
+        }
+
+        override fun canScrollHorizontally(): Boolean { //가로 스크롤막기
+            return false
+        }
+    }
+
     /*
     json 파일 불러와서 String으로 리턴하기
      */
@@ -162,23 +180,13 @@ class MenuActivity : BaseActivity() {
     }
 
     /*
-    RecyclerView Scroll 방지
-     */
-    inner class CustomLinearLayoutManager(context: Context, orientation: Int, reverseLayout: Boolean) : GridLayoutManager(context, orientation, reverseLayout) {
-
-        // it will always pass false to RecyclerView when calling "canScrollVertically()" method.
-        override fun canScrollVertically(): Boolean {
-            return false
-        }
-    }
-
-    /*
     일련번호 조회를 위한 함수
      */
     private fun searchSerial() {
         if (checkEditText(searchEditText)) {
             serialWord = searchEditText.text.toString()
             var serialIntent = Intent(this, SerialPopupActivity::class.java)
+            serialIntent.putExtra("serialWord", serialWord)
             startActivity(serialIntent)
         }
     }

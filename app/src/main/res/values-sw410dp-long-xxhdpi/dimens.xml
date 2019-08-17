@@ -184,4 +184,6 @@
     <dimen name="health_iconHeight">30dp</dimen>
     <dimen name="health_iconwidth">28dp</dimen>
 <dimen name="health_text">13sp</dimen>
+    <!-- ProductViewPopupActivity -->
+    <dimen name="productPopupLineHeight">30dp</dimen>
 </resources>

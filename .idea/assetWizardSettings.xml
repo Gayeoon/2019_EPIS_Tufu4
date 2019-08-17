@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -14,11 +19,11 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="height" value="138" />
-                            <entry key="outputName" value="hospital_managecostomer" />
+                            <entry key="height" value="472" />
+                            <entry key="outputName" value="serial_serial_image" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\Administrator\Documents\카카오톡 받은 파일\al\고객관리버튼.svg" />
-                            <entry key="width" value="150" />
+                            <entry key="sourceFile" value="C:\Users\Administrator\Documents\카카오톡 받은 파일\그룹 1258\그룹 1258.svg" />
+                            <entry key="width" value="472" />
                           </map>
                         </option>
                       </PersistentState>

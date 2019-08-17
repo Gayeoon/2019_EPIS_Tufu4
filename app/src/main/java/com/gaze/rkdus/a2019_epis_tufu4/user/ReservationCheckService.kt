@@ -70,7 +70,7 @@ class ReservationCheckService : Service() {
     private fun startScanning(backgroundService: ReservationBackgroundService, str: String) {
         Log.e(TAG, "startScanning start!")
         val map = hashMapOf(
-                "NICKNAME" to str
+                "name" to str
         )
 
         backgroundService.resultRepos(map)

@@ -15,6 +15,18 @@
             type="com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData">
         </variable>
         <variable
+            name="strShipping"
+            type="String"></variable>
+        <variable
+            name="sumPrice"
+            type="String"></variable>
+        <variable
+            name="strPrice"
+            type="String"></variable>
+        <variable
+            name="count"
+            type="int"></variable>
+        <variable
             name="activity"
             type="com.gaze.rkdus.a2019_epis_tufu4.popup.ProductViewPopupActivity">
         </variable>
@@ -23,8 +35,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <ScrollView
@@ -32,13 +42,14 @@
             android:layout_height="500dp">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/ProductImageView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="30dp"
                     android:adjustViewBounds="true"
                     app:imageUrl="@{productItem.img_list}"
                     />
@@ -46,39 +57,229 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginBottom="25dp"
+                    android:textSize="12dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
                     android:text="@{productItem.name}"
                     />
 
-                <TextView
-                    android:id="@+id/tvPrice"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:layout_marginTop="20dp"
-                    android:textColor="@color/colorBlack"
-                    android:text="@{productItem.price}"
-                    />
+                    android:layout_height="@dimen/productPopupLineHeight"
+                    android:orientation="horizontal"
+                    android:background="@drawable/border_product_radius"
+                    android:weightSum="1"
+                    >
 
-                <TextView
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:layout_gravity="left|center"
+                        android:text="가격"
+                        android:paddingLeft="10dp"
+                        android:textSize="8dp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:layout_gravity="left|center"
+                        android:textColor="@color/colorBlack"
+                        android:paddingLeft="10dp"
+                        android:textSize="10dp"
+                        android:text="@{strPrice}"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:text="@{productItem.text}"
-                    android:layout_marginTop="40dp"
-                    />
+                    android:orientation="vertical"
+                    android:background="@drawable/border_product_radius"
+                    android:layout_marginTop="10dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/productPopupLineHeight"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:layout_gravity="left|center"
+                            android:text="색상"
+                            android:paddingLeft="10dp"
+                            android:textSize="8dp"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.65"
+                            android:layout_gravity="left|center"
+                            android:textColor="@color/colorNeutralizationPopupText"
+                            android:paddingLeft="10dp"
+                            android:textSize="10dp"
+                            />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="#66dbdbdb"></View>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/productPopupLineHeight"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:layout_gravity="left|center"
+                            android:text="수량"
+                            android:paddingLeft="10dp"
+                            android:textSize="8dp"
+                            />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.65"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center"
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center"
+                                android:background="@drawable/border_product_radius"
+                                android:gravity="left|center"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:id="@+id/minusBtn"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/border_product_radius"
+                                    android:onClick="@{activity::minusClick}"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/productview_minus" />
+
+                                <TextView
+                                    android:id="@+id/tvProductCount"
+                                    android:layout_width="55dp"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/colorNeutralizationPopupText"
+                                    android:textSize="8dp"
+                                    android:text="@{String.valueOf(count)}"
+                                    />
+
+                                <ImageView
+                                    android:id="@+id/plusBtn"
+                                    android:layout_width="20dp"
+                                    android:layout_height="20dp"
+                                    android:layout_gravity="center"
+                                    android:adjustViewBounds="true"
+                                    android:background="@drawable/border_product_radius"
+                                    android:onClick="@{activity::plusClick}"
+                                    android:padding="5dp"
+                                    app:srcCompat="@drawable/productview_plus" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:padding="5dp"
+                        android:background="#66dbdbdb"></View>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/productPopupLineHeight"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        >
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.25"
+                            android:layout_gravity="left|center"
+                            android:text="배송비"
+                            android:paddingLeft="10dp"
+                            android:textSize="8dp"
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.65"
+                            android:layout_gravity="left|center"
+                            android:textColor="@color/colorNeutralizationPopupText"
+                            android:paddingLeft="10dp"
+                            android:textSize="10dp"
+                            android:text="@{strShipping}"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/productPopupLineHeight"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/border_product_radius"
+                    android:weightSum="1"
+                    >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:layout_gravity="left|center"
+                        android:text="총 가격"
+                        android:paddingLeft="10dp"
+                        android:textSize="8dp"
+                        />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:layout_gravity="left|center"
+                        android:textColor="@color/colorBlack"
+                        android:paddingLeft="10dp"
+                        android:textSize="10dp"
+                        android:text="@{sumPrice}"
+                        />
+                </LinearLayout>
 
                 <View
                     android:background="#66bdbdbd"
                     android:layout_width="match_parent"
-                    android:layout_height="3dp" />
+                    android:layout_height="3dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="10dp"
+                    />
                 <ImageView
-                    android:layout_width="match_parent"
+                    android:layout_width="400dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:adjustViewBounds="true"
+                    android:layout_gravity="center"
+                    android:scaleType="centerInside"
                     app:imageUrl="@{productItem.img_detail}"
                     />
             </LinearLayout>
@@ -95,36 +296,31 @@
             android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:weightSum="1">
 
-            <Button
-                android:id="@+id/payBtn"
-                android:text="결제하기"
-                android:textSize="15dp"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="#00000000"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:layout_weight="0.5"
-                android:onClick="@{activity::payProductClick}"
-                />
 
-            <View
-                android:background="#66bdbdbd"
-                android:layout_width="1dp"
-                android:layout_height="match_parent" />
-            <Button
-                android:id="@+id/cancelBtn"
-                android:text="취소"
-                android:textSize="15dp"
-                android:padding="16dp"
-                android:gravity="center"
-                android:background="#00000000"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
+            <ImageView
+            android:id="@+id/cancelBtn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:adjustViewBounds="true"
+            android:layout_margin="10dp"
+            android:onClick="@{activity::cancelClick}"
+            app:srcCompat="@drawable/productview_cancelbtn"
+            />
+
+            <ImageView
+                android:id="@+id/payBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:onClick="@{activity::cancelClick}"
+                android:layout_margin="10dp"
+                android:adjustViewBounds="true"
+                android:onClick="@{activity::payProductClick}"
+                app:srcCompat="@drawable/productview_paybtn"
                 />
 
         </LinearLayout>

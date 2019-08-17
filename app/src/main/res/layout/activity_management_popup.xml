@@ -16,14 +16,29 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/managementPopupText"
-            android:textSize="15dp"
+            android:id="@+id/tvManagementTitle"
+            android:textSize="17dp"
+            android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/colorBlack"
             android:clickable="true"
+            />
+
+        <TextView
+            android:id="@+id/managementPopupText"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorBlack"
+            android:lineSpacingExtra="4dp"
+            android:clickable="true"
+            android:visibility="gone"
             />
     </LinearLayout>
 

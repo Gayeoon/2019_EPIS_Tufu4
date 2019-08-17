@@ -15,35 +15,78 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvOwnerName"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
+        <ImageView
+            android:id="@+id/serialImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="30dp"
+            app:srcCompat="@drawable/serial_serial_image"
             />
 
-        <TextView
-            android:id="@+id/tvPetName"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            />
+            android:layout_height="80dp"
+            android:orientation="vertical"
+            android:background="@drawable/serial_textbox"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:paddingLeft="10dp"
+                    android:text="반려견주 이름"
+                    />
+                <TextView
+                    android:id="@+id/tvOwnerName"
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:textColor="@color/colorBlack"
+                    />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvOwnerPhone"
-            android:textSize="15dp"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorBlack"
-            />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                >
+                <TextView
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:paddingLeft="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:text="연락처"
+                    />
+                <TextView
+                    android:id="@+id/tvOwnerPhone"
+                    android:textSize="16dp"
+                    android:gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.6"
+                    android:textColor="@color/colorBlack"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <View

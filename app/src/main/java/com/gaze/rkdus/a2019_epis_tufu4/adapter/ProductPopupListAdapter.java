@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gaze.rkdus.a2019_epis_tufu4.R;
 import com.gaze.rkdus.a2019_epis_tufu4.item.ProductItemData;
 import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
@@ -61,10 +63,10 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
         }
 
         void onBind(ProductItemData data) {
-            ivProduct.setImageResource(R.drawable.main_logo);
+            loadImage(ivProduct, data.getImg_list());
 
             tvProductName.setText(data.getName());
-            tvProductPrice.setText(data.getPrice());
+            tvProductPrice.setText(String.valueOf(data.getPrice()) + "원");
         }
     }
 
@@ -98,5 +100,12 @@ public class ProductPopupListAdapter extends RecyclerView.Adapter<ProductPopupLi
     public int getItemCount() {
         // RecyclerView의 총 개수.
         return listData.size();
+    }
+
+    public static void loadImage(ImageView imageView, String url) {
+        Glide.with(imageView.getContext())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(imageView);
     }
 }

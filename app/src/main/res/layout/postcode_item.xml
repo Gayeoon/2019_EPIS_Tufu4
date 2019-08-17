@@ -11,7 +11,7 @@
         android:id="@+id/postcdText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="11dp"
         android:text="postcd"
         />
 
@@ -19,7 +19,7 @@
         android:id="@+id/addressText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="11dp"
         android:text="address"
         />
 
@@ -27,7 +27,7 @@
         android:id="@+id/addressjibunText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="10dp"
+        android:textSize="11dp"
         android:text="jibun"
         />
 </LinearLayout>
