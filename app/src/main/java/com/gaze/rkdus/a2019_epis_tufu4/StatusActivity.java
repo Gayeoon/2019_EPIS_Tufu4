@@ -172,8 +172,8 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
             public void onClick(View v) {
                 search_txt = search_input.getText().toString();
 
-               // new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
-                new SearchListData().execute("http://192.168.1.12:8001" + "/user/getReservation");
+               new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
+
 
             }
         });
@@ -827,9 +827,8 @@ public class StatusActivity extends BaseActivity implements SwipeRefreshLayout.O
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-//                    new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
-                    new SearchListData().execute("http://192.168.1.12:8001" + "/user/getReservation");
-                } else {
+                   new SearchListData().execute("http://vowow.cafe24app.com" + "/user/getReservation");
+              } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 

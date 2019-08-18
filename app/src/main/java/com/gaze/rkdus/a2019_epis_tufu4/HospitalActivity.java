@@ -106,8 +106,7 @@ public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout
 
         imageView = (ImageView)findViewById(R.id.profile);
 
-//        new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
-        new HospitalData().execute("http://192.168.1.12:8001/user" + "/getHospitalInfo");
+       new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
 
 
         status.setOnClickListener(new View.OnClickListener() {
@@ -266,10 +265,8 @@ public class HospitalActivity extends BaseActivity implements SwipeRefreshLayout
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-//                    new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
-                    new HospitalData().execute("http://192.168.1.12:8001/user" + "/getHospitalInfo");
-
-                } else {
+                    new HospitalData().execute("http://vowow.cafe24app.com/user" + "/getHospitalInfo");
+               } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
 
