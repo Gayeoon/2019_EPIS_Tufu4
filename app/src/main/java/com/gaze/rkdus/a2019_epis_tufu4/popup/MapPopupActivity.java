@@ -41,6 +41,7 @@ import java.util.List;
 해당 병원의 위치를 카카오 지도로 보여주기 위함
  */
 public class MapPopupActivity extends BaseActivity {
+    private static final int GPS_ENABLE_REQUEST_CODE = 10;
     private SearchResultData hospitalData;
     LocationManager locationManager;
     Location myLocation;
@@ -69,13 +70,16 @@ public class MapPopupActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_popup);
-        routeBtn = (Button) findViewById(R.id.routeBtn);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        getGPSCheck();
 
+        routeBtn = (Button) findViewById(R.id.routeBtn);
         routeLayout = (LinearLayout) findViewById(R.id.routeLayout);
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
         Intent intent = getIntent();
         if(intent == null) {
             Toast.makeText(getApplicationContext(), "병원 정보를 불러올 수 없어 이전 화면으로 돌아갑니다. \n 다시 시도해주세요!", Toast.LENGTH_LONG).show();
+            onDestroy();
             finish();
         }
         else {
@@ -83,6 +87,7 @@ public class MapPopupActivity extends BaseActivity {
                 hospitalData = (SearchResultData) intent.getSerializableExtra("data");
                 if(hospitalData.getAddress1().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "지도에 표시할 수 없는 위치에 있습니다. \n 직접 검색해주세요.", Toast.LENGTH_LONG).show();
+                    onDestroy();
                     finish();
                 }
 
@@ -90,6 +95,7 @@ public class MapPopupActivity extends BaseActivity {
 
                 if(location == null) {
                     Toast.makeText(getApplicationContext(), "지도에 표시할 수 없는 위치에 있습니다. \n 직접 검색해주세요.", Toast.LENGTH_LONG).show();
+                    onDestroy();
                     finish();
                 }
                 else {  // null이 아닌 경우 위도 경도 설정.
@@ -111,12 +117,12 @@ public class MapPopupActivity extends BaseActivity {
 
         // 내 위치를 받아올 수 있는 경우
         // TODO: 내 위치 값 가져오게 하기
-        final Location tempLocation = new Location("");
-        tempLocation.setLatitude(592896);
-        tempLocation.setLongitude(127.292360);
-        if(tempLocation != null) {
+//        final Location tempLocation = new Location("");
+//        tempLocation.setLatitude(36.592886);
+//        tempLocation.setLongitude(127.292326);
+        if(location != null) {
             Log.d(TAG, "location != null");
-            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(tempLocation.getLatitude(), tempLocation.getLongitude());    // 위도, 경도에 해당하는 위치
+            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());    // 위도, 경도에 해당하는 위치
             addMarker(mapView, "현 위치", myLocationMapPoint, 2);
             // 길찾기 버튼 활성화
             routeBtn.isClickable();
@@ -124,7 +130,7 @@ public class MapPopupActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onTouch");
-                    findRoute(tempLocation);
+                    findRoute(location);
                 }    // 길찾기 버튼 클릭 이벤트
             });
         }
@@ -262,8 +268,8 @@ public class MapPopupActivity extends BaseActivity {
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             finish();
-            startActivity(intent);
-//            startActivityForResult(intent, GPS_CHECK);
+            //startActivityForResult(intent, GPS_ENABLE_REQUEST_CODE);
+            startActivityForResult(intent, GPS_CHECK);
         }
     }
 
@@ -323,8 +329,7 @@ public class MapPopupActivity extends BaseActivity {
             return null;
         }
         try {
-            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            getGPSCheck();
+
             // GPS 정보 가져오기
             isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             // 현재 네트워크 상태 값 알아오기
@@ -339,6 +344,9 @@ public class MapPopupActivity extends BaseActivity {
                     Log.d(TAG, "네트워크");
                     locationManager.requestLocationUpdates(
                             LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, new MyLocationListener());
+                    if (locationManager != null) {
+                        myLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    }
                         if (myLocation != null)
                             // 위도 경도 저장
                             Log.d(TAG, "WiFi를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + myLocation.getLatitude() + ", 경도 : " + myLocation.getLongitude());
@@ -355,21 +363,25 @@ public class MapPopupActivity extends BaseActivity {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, new MyLocationListener() {
                         });
                         if (locationManager != null) {
-                            List<String> providers = locationManager.getProviders(true);
-                            // GPS 좌표 값을 불러올 수 있을 때까지 반복
-                            for (String provider : providers) {
-                                Log.d(TAG, "GPS 좌표 값을 불러올 수 있을 때까지 반복");
-                                Location l = locationManager.getLastKnownLocation(provider);
-                                if (l == null)
-                                    continue;
-                                if (myLocation == null || l.getAccuracy() < myLocation.getAccuracy()) {
-                                    // Found best last known location: %s", l);
-                                    Log.d(TAG, "zzzz");
-                                    Log.d(TAG, "GPS를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + l.getAccuracy() + ", 경도 : " + myLocation.getAccuracy());
-                                    myLocation = l;
-                                    Log.d(TAG, "GPS를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + myLocation.getLatitude() + ", 경도 : " + myLocation.getLongitude());
-                                }
-                            }
+                            myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            if (myLocation != null)
+                                // 위도 경도 저장
+                                Log.d(TAG, "WiFi를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + myLocation.getLatitude() + ", 경도 : " + myLocation.getLongitude());
+//                            List<String> providers = locationManager.getProviders(true);
+//                            // GPS 좌표 값을 불러올 수 있을 때까지 반복
+//                            for (String provider : providers) {
+//                                Log.d(TAG, "GPS 좌표 값을 불러올 수 있을 때까지 반복");
+//                                Location l = locationManager.getLastKnownLocation(provider);
+//                                if (l == null)
+//                                    continue;
+//                                if (myLocation == null || l.getAccuracy() < myLocation.getAccuracy()) {
+//                                    // Found best last known location: %s", l);
+//                                    Log.d(TAG, "zzzz");
+//                                    Log.d(TAG, "GPS를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + l.getAccuracy() + ", 경도 : " + myLocation.getAccuracy());
+//                                    myLocation = l;
+//                                    Log.d(TAG, "GPS를 통해 현재 위치 위도 경도 값 찾음! 위도 : " + myLocation.getLatitude() + ", 경도 : " + myLocation.getLongitude());
+//                                }
+//                            }
                         }
                     }
                 }
@@ -414,7 +426,7 @@ public class MapPopupActivity extends BaseActivity {
         switch (requestCode) {
             case GPS_CHECK:
                 Log.d(TAG, "resultCode : " + String.valueOf(resultCode));
-                finish();
+                onDestroy();
                 // 새로고침
 //                activityRefresh();
                 break;
