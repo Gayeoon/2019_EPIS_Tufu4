@@ -178,6 +178,7 @@ public class MapPopupActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         routeLayout.setVisibility(View.GONE);
+                        routeBtn.setVisibility(View.VISIBLE);
                         mapView.setBackgroundResource(R.color.colorWhite);    // 뒷 배경 색
                     }
                 });
@@ -207,6 +208,7 @@ public class MapPopupActivity extends BaseActivity {
         Log.d(TAG, "findRoute");
         mapView.setBackgroundResource(R.color.colorDimGray);    // 뒷 배경 색
         routeLayout.setVisibility(View.VISIBLE);
+        routeBtn.setVisibility(View.GONE);
 
         Button cancelBtn = (Button) findViewById(R.id.cancelBtn);
         TextView tvCar = (TextView) findViewById(R.id.car);

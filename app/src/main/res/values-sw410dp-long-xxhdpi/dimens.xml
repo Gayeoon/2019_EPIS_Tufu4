@@ -19,7 +19,7 @@
     <dimen name="serialSerachEditTextPaddingLeft">120dp</dimen>
     <dimen name="menuMargin">16dp</dimen>
     <dimen name="packageMargin">35dp</dimen>
-    <dimen name="menuSearchBarHeight">30dp</dimen>
+    <dimen name="menuSearchBarHeight">32dp</dimen>
     <dimen name="menuUserinfoMargin">13dp</dimen>
     <!-- TypeActivity -->
     <dimen name="typeImgWidth">280dp</dimen>
