@@ -57,9 +57,16 @@ class SerialPopupActivity : BaseActivity() {
                 .subscribe({
                     // 서버 통신 성공
                     it.let {
-                        tvOwnerName.text = "${it.owner_name}"
-                        tvOwnerPhone.text = "${it.owner_phone}"
-                        phoneNumber = it.owner_phone
+                        if (it.owner_name != null && it.owner_phone != null) {
+                            tvOwnerName.text = "${it.owner_name}"
+                            tvOwnerPhone.text = "${it.owner_phone}"
+                            phoneNumber = it.owner_phone
+                        }
+                        else {
+                            Toast.makeText(applicationContext, "입력하신 일련번호의 등록된 사용자가 없습니다.", Toast.LENGTH_LONG).show()
+                            finish()
+                        }
+
                     }
                 }, {
                     // 서버 통신 실패
