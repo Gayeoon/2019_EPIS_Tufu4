@@ -56,19 +56,21 @@
             </LinearLayout>
 
             <LinearLayout
-                android:background="@drawable/shadow"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="11dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="13dp"
+                android:background="@drawable/shadow_down">
+
                 <ImageView
                     android:id="@+id/call"
-                    android:layout_width="80dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="2dp"
-                    app:srcCompat="@drawable/hospital_printbtn"
-                    android:visibility="visible" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="visible"
+                    android:adjustViewBounds="true"
+                    app:srcCompat="@drawable/hospital_printbtn" />
 
             </LinearLayout>
 
