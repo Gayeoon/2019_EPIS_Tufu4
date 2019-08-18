@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public class waitListAdapter extends BaseAdapter {
 
         TextView oTextOwner = (TextView) convertView.findViewById(R.id.owner);
         TextView oTextAnimal = (TextView) convertView.findViewById(R.id.animal);
-        ImageView oBtn = (ImageView) convertView.findViewById(R.id.call);
+        LinearLayout oBtn = (LinearLayout) convertView.findViewById(R.id.call);
         ImageView oBtn_finish = (ImageView) convertView.findViewById(R.id.call_finish);
         ImageView cancel = (ImageView)convertView.findViewById(R.id.cancel);
 

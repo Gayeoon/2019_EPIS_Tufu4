@@ -567,6 +567,8 @@ public class RegisterActivity extends BaseActivity {
                     succes = (int) json.get("result");
 
                     if (succes == 1) {
+                        setResult(RESULT_OK);
+                        //finish();
                         onBackPressed();
                     } else {
                         Toast.makeText(getApplicationContext(), "버튼을 다시 눌러주세요.", Toast.LENGTH_LONG).show();
@@ -579,5 +581,21 @@ public class RegisterActivity extends BaseActivity {
             Log.e("CancelReservation", result);
 
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        setResult(RESULT_OK);
+        finish();
+        Log.d("onPostCreate", "뒤로가기");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setResult(RESULT_OK);
+        finish();
+        Log.d("onPostCreate", "종료");
     }
 }

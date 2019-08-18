@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -128,11 +129,11 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.call:
-
                 View oParentView = (View) v.getParent();
+
                 TextView oTextOwner = (TextView) oParentView.findViewById(R.id.owner);
                 TextView oTextAnimal = (TextView) oParentView.findViewById(R.id.animal);
-                ImageView btn = (ImageView) oParentView.findViewById(R.id.call);
+                LinearLayout btn = (LinearLayout) oParentView.findViewById(R.id.call);
 
                 owner = oTextOwner.getText().toString();
                 animal = oTextAnimal.getText().toString();
@@ -143,7 +144,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                 intent.putExtra("id", id);
                 intent.putExtra("owner", owner);
                 intent.putExtra("animal", animal);
-                startActivity(intent);
+                startActivityForResult(intent, 3333);
 
                 break;
 
@@ -333,6 +334,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
                             intent.putExtra("owner", owner);
                             intent.putExtra("animal", animal);
                             startActivityForResult(intent, 3333);
+
                         }
                     });
 
@@ -477,7 +479,7 @@ public class WaitReservationActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        Log.d("onPostCreate", "나!!");
         Intent intent = getIntent();
         finish();
         startActivity(intent);
