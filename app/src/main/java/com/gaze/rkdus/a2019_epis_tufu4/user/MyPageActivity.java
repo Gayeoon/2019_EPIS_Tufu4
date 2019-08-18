@@ -568,7 +568,7 @@ public class MyPageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "등록 확정 OK");
                     if(intent.hasExtra("data")) {
-                        if(rewriteMyReservationFile((MyReservationData) intent.getSerializableExtra("data"), false))
+                        if(rewriteMyReservationFile((MyReservationListData) intent.getSerializableExtra("data"), false))
                             refreshMyReservation();
                         else
                             Toast.makeText(getApplicationContext(), "등록 상태 변경 중 오류 발생! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();
@@ -584,7 +584,7 @@ public class MyPageActivity extends BaseActivity {
             case CHECK_ADDREVIEW:
                 if (resultCode == RESULT_OK) {
                     if(intent.hasExtra("data")) {
-                        if(rewriteMyReservationFile((MyReservationData) intent.getSerializableExtra("data"), true))
+                        if(rewriteMyReservationFile((MyReservationListData) intent.getSerializableExtra("data"), true))
                             refreshMyReservation();
                         else
                             Toast.makeText(getApplicationContext(), "삭제 중 오류 발생! 다시 시도해주세요.", Toast.LENGTH_SHORT).show();

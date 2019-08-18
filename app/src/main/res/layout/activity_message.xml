@@ -498,7 +498,9 @@
                             android:layout_height="30dp"
                             android:gravity="center_vertical"
                             android:paddingLeft="10dp"
-                            android:textSize="12dp"/>
+                            android:textSize="12dp"
+                            android:visibility="gone"
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -887,7 +889,7 @@
                 android:gravity="right"
                 android:layout_gravity="right"
                 android:text="외장형 목걸이 또는 등록 인식표를 직접 구매하고 싶습니다."
-                android:textColor="#FF5D8D"
+                android:textColor="@color/colorDimGray"
                 android:textSize="13dp"
                 android:clickable="true"
                 />
@@ -919,7 +921,7 @@
                 android:gravity="right"
                 android:layout_gravity="right"
                 android:text="개인정보수집 및 이용약관에 동의합니다."
-                android:textColor="#FF5D8D"
+                android:textColor="@color/colorDimGray"
                 android:textSize="14dp"
                 android:clickable="true"
                 />
@@ -951,7 +953,7 @@
                 android:gravity="right"
                 android:layout_gravity="right"
                 android:text="VOWOW의 신청자 대리 서명에 동의합니다."
-                android:textColor="#FF5D8D"
+                android:textColor="@color/colorDimGray"
                 android:textSize="14dp"
                 android:clickable="true"
                 />

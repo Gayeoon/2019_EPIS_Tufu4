@@ -88,8 +88,9 @@ public class MessageActivity extends BaseActivity {
     int type;   // 0: default,  1: inner,  2: outer,  3: badge
     boolean checkReservation = false;
     int neutralizationSurgery = 0;  // 0 : 안함,  1 : 함.
+    int self_buy = 0; // 0 : 자체구매 x. 1 : 자체구매 o
 
-    TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost;
+    TextView individualInfoText, proxySignText, immediatelyBuyText, tvOwnerPostCode, tvOwnerRealPostCode, tvOwnerPost, tvOwnerRealPost, neutralizationSurgeryWS;
     EditText eOwnerName, eOwnerRRNBefore, eOwnerRRNAfter; // 이름 및 주민등록번호
     EditText eOwnerHP1, eOwnerHP2, eOwnerHP3;   // 전화번호
     EditText eOwnerDetailPostCode, eOwnerRealDetailPostCode; // 전화번호, 우편번호, 상세주소, 실제주소
@@ -157,6 +158,7 @@ public class MessageActivity extends BaseActivity {
         individualInfoText = (TextView) findViewById(R.id.individualInfoText);
         proxySignText = (TextView) findViewById(R.id.proxySignText);
         immediatelyBuyText = (TextView) findViewById(R.id.immediatelyBuyText);
+        neutralizationSurgeryWS = (TextView) findViewById(R.id.neutralizationSurgeryWS);
 
         neutralizationLayout = (LinearLayout) findViewById(R.id.neutralizationLayout);
         setDateArrayForSpinner();
@@ -383,8 +385,8 @@ public class MessageActivity extends BaseActivity {
         eOwnerRRNAfter.setText(splitRRN[1]);
 
         // ex) 010-1234-5678
-        ownerHP = data.getOwner_phone_number();
-        Log.d(TAG, "폰번 : " + data.getOwner_phone_number());
+        ownerHP = data.getOwner_phone();
+        Log.d(TAG, "폰번 : " + data.getOwner_phone());
         String[] splitHP = ownerHP.split("-");
         eOwnerHP1.setText(splitHP[0]);
         eOwnerHP2.setText(splitHP[1]);
@@ -465,6 +467,8 @@ public class MessageActivity extends BaseActivity {
         ePetSpecialProblem.setText(petSpecialProblem);
 
         askDateOld = data.getAsk_date();
+
+
     }
 
     /*
@@ -631,16 +635,14 @@ public class MessageActivity extends BaseActivity {
                 reservationObject.accumulate("ask_date", reservationObject.get("ask_date_new"));
                 reservationObject.remove("ask_date_new");
             }
+            reservationObject.accumulate("hospital_name", hospitalName);
 
-            Gson gson = new Gson();
             myReservationListData = new MyReservationListData("WAIT", 1, key,
                     hospitalName, reservationObject.get("ask_date").toString());
             JSONObject temp = new JSONObject();
 
             if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
                 Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
-                myReservationListData = new MyReservationListData("WAIT", 1, key,
-                        hospitalName, reservationObject.get("ask_date").toString());
                 temp.accumulate("listData", myReservationListData.getJSONObj());
                 temp.accumulate("reservationData", reservationObject);
 
@@ -654,21 +656,20 @@ public class MessageActivity extends BaseActivity {
                 for(int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i); // {listData : ~, reservationData : ~}
                     Log.d(TAG, "기존에 저장된 파일 존재2");
+                    JSONObject listData = (JSONObject) jsonObject.get("listData");
                     if (jsonObject.has("reservationData")) {
-                        JSONObject listData = (JSONObject) jsonObject.get("listData");
+                        Log.d(TAG, "기존에 저장된 파일 존재33");
                         JSONObject reservationData = (JSONObject) jsonObject.get("reservationData");
-                        Log.d(TAG, "기존에 저장된 파일 존재3");
-                        if(reservationData.getString("reservation_date").equals(askDateOld)) {   // 예약 날짜 동일 체크
+                        if(reservationData.getString("ask_date").equals(askDateOld)) {   // 예약 날짜 동일 체크
                             if(listData.getInt("hospital_key") == myReservationData.getHospital_key() && reservationData.getInt("hospital_key") == myReservationData.getHospital_key()) { // 키 동일 체크
                                 // jsonArray.remove(i);
-                                Log.d(TAG, "기존에 저장된 파일 존재4");
                                 // ListData 날짜 수정
+                                Log.d(TAG, "기존에 저장된 파일 존재zzzz");
                                 listData.remove("reservation_date");
                                 listData.accumulate("reservation_date", reservationObject.get("ask_date"));
                                 // 다시 집어넣기
                                 temp.accumulate("listData", listData);
                                 temp.accumulate("reservationData", reservationObject);
-                                Log.d(TAG, "기존에 저장된 파일 존재5");
                                 jsonArray.put(i, temp); // 덮어씌우기
                                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
                                 Log.d(TAG, "myReservationListData : " + jsonArray.toString());
@@ -678,9 +679,13 @@ public class MessageActivity extends BaseActivity {
                             }
                         }
                     }
-
                 }
-                jsonArray.put(reservationObject);
+                Log.d(TAG, "기존에 저장된 파일 존3333재");
+                temp.accumulate("listData", myReservationListData.getJSONObj());
+                temp.accumulate("reservationData", reservationObject);
+                Log.d(TAG, "기존에 저장된 파일 존재2222");
+                jsonArray.put(temp);
+                Log.d(TAG, "기존에 저장된 파일 존재3333");
                 fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
             }
             fileOutputStream.flush();
@@ -702,73 +707,6 @@ public class MessageActivity extends BaseActivity {
         }
         return false;
     }
-
-    /*
-    파일 저장하는 함수
-    타입에 따른 ASK_DATE 처리
-     */
-//    private boolean saveMyReservationFile(JSONObject reservationObject, String type) {
-//        String filename = "reservation.json";
-//        final String fileText = loadJSONFile(filename);
-//        FileOutputStream fileOutputStream = null;
-//        try {
-//            fileOutputStream = openFileOutput(filename, MODE_PRIVATE); // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
-//            // ASK_DATE 수정하는 작업
-//            if(type.equals("rewrite")) {    // ASK_DATE_NEW -> ASK_DATE, ASK_DATE_OLD remove
-//                reservationObject.remove("ASK_DATE_OLD");
-//                reservationObject.accumulate("ASK_DATE", reservationObject.get("ASK_DATE_NEW"));
-//                reservationObject.remove("ASK_DATE_NEW");
-//            }
-//
-//            reservationObject.accumulate("HOSPITAL_NAME", hospitalName);
-//            reservationObject.accumulate("RESERVATION_STATE", "WAIT");    // 현재 예약 진행 상태를 나타내는 값 넣기
-//
-//            if(TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
-//                Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우");
-//                JSONArray jsonArray = new JSONArray();
-//                jsonArray.put(reservationObject);
-//                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
-//            }
-//            else {  // 기존에 저장된 파일 존재
-//                JSONArray jsonArray = new JSONArray(fileText);
-//                Log.d(TAG, "기존에 저장된 파일 존재");
-//                for(int i = 0; i < jsonArray.length(); i++) {
-//                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                        // Todo : 체크할 때 Key로만 판단하기에는 정보가 부족하다. 모든 값을 수정해서 예약보낼수 있기 때문에. 해결법 찾기
-//                        // Todo : 테스트 진행해보기. put이 덮어씌워지는지.
-//                        if(jsonObject.getString("ASK_DATE").equals(askDateOld)) {   // 예약 날짜 동일 체크
-//                            if(jsonObject.getInt("HOSPITAL_KEY") == myReservationData.getHOSPITAL_KEY()) { // 키 동일 체크
-//                            // jsonArray.remove(i);
-//                            jsonArray.put(i,reservationObject); // 덮어씌우기
-//                            fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
-//                            fileOutputStream.flush();
-//                            fileOutputStream.close();
-//                            return true;
-//                        }
-//                    }
-//                }
-//                jsonArray.put(reservationObject);
-//                fileOutputStream.write(jsonArray.toString().getBytes());   // Json 쓰기
-//            }
-//            fileOutputStream.flush();
-//            fileOutputStream.close();
-//            return true;
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        finally {
-//            try {
-//                fileOutputStream.close();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return false;
-//    }
 
     /*
     json 파일 불러와서 String으로 리턴하기
@@ -972,11 +910,13 @@ public class MessageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "직접 구매 완료!");
                     Toast.makeText(getApplicationContext(), "직접 구매 확인되었습니다.", Toast.LENGTH_SHORT).show();
+                    self_buy = 1;
                     cbImmediatelyBuy.setActivated(false);
                 }
                 else {
                     Log.d(TAG, "직접 구매 취소!");
                     Toast.makeText(getApplicationContext(), "직접 구매를 취소합니다.", Toast.LENGTH_SHORT).show();
+                    self_buy = 0;
                     cbImmediatelyBuy.setChecked(false);
                 }
                 break;
@@ -1122,6 +1062,7 @@ public class MessageActivity extends BaseActivity {
                            ivPetNotNeutralization.setImageResource(R.drawable.message_petnotneutralization);
                            petNeutralization = 0;
                            neutralizationLayout.setVisibility(View.GONE);
+                           neutralizationSurgeryWS.setVisibility(View.GONE);
                            neutralizationSurgery = 0;
                        }
                        else {
@@ -1130,6 +1071,11 @@ public class MessageActivity extends BaseActivity {
                            petNeutralization = 2;
                            neutralizationLayout.setVisibility(View.VISIBLE);
                            cbNeutralizationSurgery.setChecked(false);
+                           neutralizationSurgeryWS.setVisibility(View.VISIBLE);
+
+                           Intent intent = new Intent(getApplicationContext(), ImageTextPopupActivity.class);
+                           intent.putExtra("popupType", 1);
+                           startActivityForResult(intent, CHECK_NEUTRALIZATIONSURGERY);
                        }
                        break;
                    case R.id.innerBtn:

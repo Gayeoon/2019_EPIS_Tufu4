@@ -33,7 +33,7 @@
             android:layout_marginTop="20dp"
             android:text="두부는 네모 병원"
             android:layout_gravity="center"
-            android:textSize="18dp"
+            android:textSize="20dp"
             />
 
         <TextView
@@ -43,6 +43,7 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
             android:text="대표자 이해원"
+            android:textSize="16dp"
             />
 
         <LinearLayout
@@ -173,7 +174,7 @@
                                 android:layout_gravity="center"
                                 android:paddingLeft="10dp"
                                 android:text="01065720153"
-                                android:textSize="16dp" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -200,7 +201,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
                                 android:text="대전광역시 유성구 궁동 6-7"
-                                android:textSize="13dp"
+                                android:textSize="16dp"
                                 android:layout_gravity="center"
                                 />
                         </LinearLayout>
@@ -233,7 +234,7 @@
 
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
+                        android:layout_height="24dp"
                         android:adjustViewBounds="true"
                         app:srcCompat="@drawable/hosinfo_star"
                         android:layout_marginLeft="5dp"
@@ -242,7 +243,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="18dp"
                         android:layout_marginLeft="5dp"
                         android:textColor="@color/colorBlack"
                         android:text="평균 평점 : "/>
@@ -251,7 +252,7 @@
                         android:id="@+id/tvScore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="14dp"
+                        android:textSize="18dp"
                         android:textColor="@color/colorBlack"
                         />
                 </LinearLayout>

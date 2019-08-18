@@ -390,7 +390,15 @@ public class SearchActivity extends BaseActivity {
     현재 필터와 조건에 맞는 arraylist 반환
      */
     private ArrayList<SearchResultData> getArrayListFromFilter() {
-        return isSignUpApp ? signUpAppList : (locationFIlter ? locationSearchList : searchResultList);
+        if(isSignUpApp) {
+            return signUpAppList;
+        }
+        else {
+            if (locationFIlter)
+                return locationSearchList;
+            else
+                return searchResultList;
+        }
     }
 
     /*
@@ -398,7 +406,10 @@ public class SearchActivity extends BaseActivity {
     LocationFilter로 지역 별 필터에 따른 반환값만 제공.
      */
     private ArrayList<SearchResultData> getArrayListFromLocationFilter() {
-           return locationFIlter ? locationSearchList : searchResultList;
+        if (locationFIlter)
+            return locationSearchList;
+        else
+            return searchResultList;
     }
 
     @Override
@@ -556,6 +567,12 @@ public class SearchActivity extends BaseActivity {
                 break;
             default:    // 지역 별 필터만 있거나, 모든 필터를 해제한 경우.
                 Log.d(TAG, "필터 X.");
+                Collections.sort(getArrayListFromFilter(), new Comparator<SearchResultData>() {    // 각 data들의 최다 예약 횟수를 비교하여 내림차순 정렬하기
+                    @Override
+                    public int compare(SearchResultData searchResultData, SearchResultData t1) {
+                        return String.valueOf(t1.getHospital_name()).compareTo(String.valueOf(searchResultData.getHospital_name()));
+                    }
+                });
                 break;
         }
         return getArrayListFromFilter();

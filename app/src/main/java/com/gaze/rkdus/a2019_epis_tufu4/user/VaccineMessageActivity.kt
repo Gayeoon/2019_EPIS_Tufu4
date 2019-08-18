@@ -1,6 +1,7 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
@@ -13,20 +14,31 @@ import android.widget.Spinner
 import android.widget.Toast
 import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
+import com.gaze.rkdus.a2019_epis_tufu4.R.drawable.temp
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter
 import com.gaze.rkdus.a2019_epis_tufu4.item.AddReviewData
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData
 import com.gaze.rkdus.a2019_epis_tufu4.item.VaccineReservationData
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationService
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReviewService
 import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.checkEditText
 import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.setSpinnerMaxHeight
+import com.kakao.usermgmt.StringSet.type
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_vaccine_message.*
 import okhttp3.OkHttpClient
+import org.json.JSONArray
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.FileInputStream
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
 import java.util.*
 
 class VaccineMessageActivity : BaseActivity() {
@@ -182,13 +194,20 @@ class VaccineMessageActivity : BaseActivity() {
                                 // 서버 통신 성공
                                 if (it.result == 1) {
                                     Log.d(TAG, "예약 성공!")
-                                    Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
-                                    setResult(Activity.RESULT_OK)
-                                    finish()
+                                    if (saveMyReservationFile(vaccineData)) {
+                                        Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
+                                    }
+                                    else {
+                                        Toast.makeText(applicationContext, "예약 성공! 저장 실패!", Toast.LENGTH_LONG).show()
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
+                                    }
                                 }
                                 else {
                                     Log.d(TAG, "예약 실패!")
-                                    setResult(Activity.RESULT_OK)
+                                    setResult(Activity.RESULT_CANCELED)
                                     finish()
                                     }
                             }, {
@@ -200,6 +219,82 @@ class VaccineMessageActivity : BaseActivity() {
             }
             false
         }
+    }
+
+    /*
+    json 파일 불러와서 String으로 리턴하기
+     */
+    private fun loadJSONFile(filename: String): String? {
+        Log.d(TAG, "loadJSONFIle start")
+        var result: String? = null
+
+        var fileinputStream: FileInputStream? = null
+        try {
+            fileinputStream = openFileInput(filename)
+            val size = fileinputStream!!.available()
+            val buffer = ByteArray(size)
+            fileinputStream.read(buffer)
+            fileinputStream.close()
+            result = String(buffer, charset("UTF-8"))
+        } catch (e: FileNotFoundException) {
+            Log.d(TAG, "사전에 등록증을 저장한 내역이 없습니다.")
+            return null
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return result
+    }
+
+    /*
+    파일 저장하는 함수
+    타입에 따른 ASK_DATE 처리
+     */
+    public fun saveMyReservationFile(vaccineReservationData: VaccineReservationData): Boolean {
+        val filename = "myReservation.json"
+        val fileText = loadJSONFile(filename)
+        var fileOutputStream: FileOutputStream? = null
+
+        val myReservationListData: MyReservationListData
+        try {
+            fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE) // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val date = Date()
+            val nowDate = simpleDateFormat.format(date)
+
+            myReservationListData = MyReservationListData("WAIT", 2, hospitalKey!!,
+                    hospitalName!!, nowDate)
+            var temp = JSONObject()
+            if (TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
+                Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우")
+                temp.accumulate("listData", myReservationListData.getJSONObj())
+                val jsonArray = JSONArray()
+                jsonArray.put(temp)
+                fileOutputStream!!.write(jsonArray.toString().toByteArray())   // Json 쓰기
+            } else {  // 기존에 저장된 파일 존재
+                val jsonArray = JSONArray(fileText)
+                temp.accumulate("listData", myReservationListData.getJSONObj())
+                jsonArray.put(temp)
+                fileOutputStream!!.write(jsonArray.toString().toByteArray())   // Json 쓰기
+            }
+            fileOutputStream!!.flush()
+            fileOutputStream!!.close()
+            return true
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fileOutputStream!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
+        return false
     }
 
     /*
@@ -239,13 +334,11 @@ class VaccineMessageActivity : BaseActivity() {
      */
     fun checkReservationInfo(): Boolean {
         if (checkEditText(etVaccineName)) {
-            vaccineYear.let { vaccineMonth.let { vaccineDay.let {
-                vaccineHour.let { vaccineMinute.let {
-                    vaccineName = etVaccineName.text.toString()
-                    vaccineDate = "$vaccineYear-$vaccineMonth-$vaccineDay"
-                    vaccineTime = "${vaccineHour}시 ${vaccineMinute}분"
-                } }
-            } } }
+            Log.d(TAG, "vayear : $vaccineYear, $vaccineMonth, $vaccineDay, $vaccineHour, $vaccineMinute")
+            vaccineName = etVaccineName.text.toString()
+            vaccineDate = "$vaccineYear-$vaccineMonth-$vaccineDay"
+            vaccineTime = "${vaccineHour}시 ${vaccineMinute}분"
+            return true
         }
         toastCheckResult("예방접종에 대한 정보")
         return false
@@ -259,11 +352,11 @@ class VaccineMessageActivity : BaseActivity() {
         override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
             val spinner = parent as Spinner
             when (spinner.id) {
-                R.id.vaccineYearSpinner -> vaccineYear = parent.getItemAtPosition(position).toString()
-                R.id.vaccineMonthSpinner -> vaccineMonth = aaMonth!!.getItem(position)!!.toString()
-                R.id.vaccineDaySpinner -> vaccineDay = aaDay!!.getItem(position)!!.toString()
-                R.id.vaccineHourSpinner -> vaccineHour = aaHour!!.getItem(position)!!.toString()
-                R.id.vaccineMinuteSpinner -> vaccineMinute = aaMinute!!.getItem(position)!!.toString()
+                R.id.vaccineYearSpinner -> vaccineYear = aaYear!!.getItem(position)!!
+                R.id.vaccineMonthSpinner -> vaccineMonth = aaMonth!!.getItem(position)!!
+                R.id.vaccineDaySpinner -> vaccineDay = aaDay!!.getItem(position)!!
+                R.id.vaccineHourSpinner -> vaccineHour = aaHour!!.getItem(position)!!
+                R.id.vaccineMinuteSpinner -> vaccineMinute = aaMinute!!.getItem(position)!!
             }
         }
 
@@ -283,7 +376,7 @@ class VaccineMessageActivity : BaseActivity() {
         monthArray.add("월")
         dayArray.add("일")
 
-        for (i in year - 20..year) {
+        for (i in year - 20..year + 1) {
             yearArray.add(i.toString())
         }
 

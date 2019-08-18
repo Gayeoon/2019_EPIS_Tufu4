@@ -19,6 +19,8 @@ import com.kakao.util.helper.Utility;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import static com.kakao.util.maps.helper.Utility.getPackageInfo;
+
 
 /*
 시작 액티비티
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         ivStartHospital = (ImageView) findViewById(R.id.startHospital);
         ivStartIndividual = (ImageView) findViewById(R.id.startIndividual);
 
+        Log.d(TAG, getKeyHash(getApplicationContext()));
         // 뷰 클릭 이벤트
         ivStartHospital.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -70,5 +73,22 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    public static String getKeyHash(final Context context) {
+        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+        if (packageInfo == null)
+            return null;
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
+            } catch (NoSuchAlgorithmException e) {
+                Log.w(TAG, "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+        return null;
     }
 }

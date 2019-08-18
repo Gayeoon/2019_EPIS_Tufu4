@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#eeeeee"
+    android:background="@color/colorWhite"
     android:layout_width="300dp"
     android:orientation="vertical"
     android:layout_height="wrap_content"
@@ -103,8 +103,8 @@
         android:weightSum="1">
 
         <Button
-            android:id="@+id/okBtn"
-            android:text="전화걸기"
+            android:id="@+id/cancelBtn"
+            android:text="취소"
             android:textSize="15dp"
             android:padding="16dp"
             android:gravity="center"
@@ -118,17 +118,16 @@
             android:background="#66bdbdbd"
             android:layout_width="1dp"
             android:layout_height="match_parent" />
+
         <Button
-            android:id="@+id/cancelBtn"
-            android:text="취소"
-            android:textSize="15dp"
-            android:padding="16dp"
-            android:gravity="center"
-            android:background="#00000000"
+            android:id="@+id/okBtn"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:layout_weight="0.5"
-            />
-
+            android:background="#00000000"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="전화걸기"
+            android:textSize="15dp" />
     </LinearLayout>
 </LinearLayout>

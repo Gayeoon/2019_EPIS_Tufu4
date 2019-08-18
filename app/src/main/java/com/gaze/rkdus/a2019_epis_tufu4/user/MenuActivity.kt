@@ -101,15 +101,7 @@ class MenuActivity : BaseActivity() {
             }
         }
 
-        // 예약 건수 불러오기
-        var jsonStr = loadJSONFile("myReservation.json")
-        tvReservationCount.text = "예약 : 0건"
-        if (!TextUtils.isEmpty(jsonStr)) {
-            var reservationArray = JSONArray(jsonStr)
-            reservationArray.let {
-                tvReservationCount.text = "예약 : ${reservationArray.length()}건"
-            }
-        }
+        setReservationCount()
 
         // 배너광고
         val data = ArrayList<String>() //이미지 url를 저장하는 arraylist
@@ -122,6 +114,23 @@ class MenuActivity : BaseActivity() {
         autoViewPager.interval = 3000 // 페이지 넘어갈 시간 간격 설정
         autoViewPager.slideBorderMode = AutoScrollViewPager.SLIDE_BORDER_MODE_CYCLE
         autoViewPager.startAutoScroll() //Auto Scroll 시작
+    }
+
+    override fun onResume() {
+        setReservationCount()
+        super.onResume()
+    }
+
+    // 예약 건수 불러오기
+    fun setReservationCount() {
+        var jsonStr = loadJSONFile("myReservation.json")
+        tvReservationCount.text = "예약 : 0건"
+        if (!TextUtils.isEmpty(jsonStr)) {
+            var reservationArray = JSONArray(jsonStr)
+            reservationArray.let {
+                tvReservationCount.text = "예약 : ${reservationArray.length()}건"
+            }
+        }
     }
 
     private val touchListener = View.OnTouchListener { v, event ->

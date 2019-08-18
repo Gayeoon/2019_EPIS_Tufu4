@@ -13,7 +13,7 @@ public class MyReservationData implements Serializable {
     int type;
     String owner_name;
     String owner_resident;
-    String owner_phone_number;
+    String owner_phone;
     String address1;
     String address2;
     String pet_name;
@@ -25,7 +25,7 @@ public class MyReservationData implements Serializable {
     String regist_date;
     String etc;
     String ask_date;
-
+    int sametime;
     String hospital_name;
 
 
@@ -61,12 +61,20 @@ public class MyReservationData implements Serializable {
         this.owner_resident = owner_resident;
     }
 
-    public String getOwner_phone_number() {
-        return owner_phone_number;
+    public String getOwner_phone() {
+        return owner_phone;
     }
 
-    public void setOwner_phone_number(String owner_phone_number) {
-        this.owner_phone_number = owner_phone_number;
+    public void setOwner_phone(String owner_phone) {
+        this.owner_phone = owner_phone;
+    }
+
+    public int getSametime() {
+        return sametime;
+    }
+
+    public void setSametime(int sametime) {
+        this.sametime = sametime;
     }
 
     public String getAddress1() {

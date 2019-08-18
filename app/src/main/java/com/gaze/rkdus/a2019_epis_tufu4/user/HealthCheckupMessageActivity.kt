@@ -19,6 +19,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.R
 import com.gaze.rkdus.a2019_epis_tufu4.adapter.MessageSpinnerAdapter
 import com.gaze.rkdus.a2019_epis_tufu4.item.HealthCheckupReservationData
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData
+import com.gaze.rkdus.a2019_epis_tufu4.item.VaccineReservationData
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationService
 import com.gaze.rkdus.a2019_epis_tufu4.utils.userUtil.Companion.setSpinnerMaxHeight
 import com.google.gson.Gson
@@ -38,6 +39,7 @@ import kotlinx.android.synthetic.main.activity_vaccine_message.petMale
 import kotlinx.android.synthetic.main.activity_vaccine_message.reservationBtn
 import okhttp3.OkHttpClient
 import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -46,6 +48,7 @@ import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -204,10 +207,16 @@ class HealthCheckupMessageActivity : BaseActivity() {
                                 // 서버 통신 성공
                                 if (it.result == 1) {
                                     Log.d(TAG, "예약 성공!")
-                                    Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
-                                    saveReservationFile(healthCheckupData)
-                                    setResult(Activity.RESULT_OK)
-                                    finish()
+                                    if (saveMyReservationFile(healthCheckupData)) {
+                                        Toast.makeText(applicationContext, "예약 성공! 저장 성공!", Toast.LENGTH_LONG).show()
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
+                                    }
+                                    else {
+                                        Toast.makeText(applicationContext, "예약 성공! 저장 실패!", Toast.LENGTH_LONG).show()
+                                        setResult(Activity.RESULT_OK)
+                                        finish()
+                                    }
                                 }
                                 else {
                                     Log.d(TAG, "예약 실패!")
@@ -285,8 +294,8 @@ class HealthCheckupMessageActivity : BaseActivity() {
     }
 
     /*
-    json 파일 불러와서 String으로 리턴하기
-     */
+     json 파일 불러와서 String으로 리턴하기
+      */
     private fun loadJSONFile(filename: String): String? {
         Log.d(TAG, "loadJSONFIle start")
         var result: String? = null
@@ -305,8 +314,59 @@ class HealthCheckupMessageActivity : BaseActivity() {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
         return result
+    }
+
+    /*
+    파일 저장하는 함수
+    타입에 따른 ASK_DATE 처리
+     */
+    public fun saveMyReservationFile(healthCheckupReservationData: HealthCheckupReservationData): Boolean {
+        val filename = "myReservation.json"
+        val fileText = loadJSONFile(filename)
+        var fileOutputStream: FileOutputStream? = null
+
+        val myReservationListData: MyReservationListData
+        try {
+            fileOutputStream = openFileOutput(filename, Context.MODE_PRIVATE) // MODE_PRIVATE : 다른 앱에서 해당 파일 접근 못함
+
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val date = Date()
+            val nowDate = simpleDateFormat.format(date)
+
+            myReservationListData = MyReservationListData("WAIT", 3, hospitalKey!!,
+                    hospitalName!!, nowDate)
+            var temp = JSONObject()
+            if (TextUtils.isEmpty(fileText)) { // 파일이 존재하지 않은 경우
+                Log.d(TAG, "기존에 저장된 파일 존재하지 않은 경우")
+                temp.accumulate("listData", myReservationListData.getJSONObj())
+                val jsonArray = JSONArray()
+                jsonArray.put(temp)
+                fileOutputStream!!.write(jsonArray.toString().toByteArray())   // Json 쓰기
+            } else {  // 기존에 저장된 파일 존재
+                val jsonArray = JSONArray(fileText)
+                temp.accumulate("listData", myReservationListData.getJSONObj())
+                jsonArray.put(temp)
+                fileOutputStream!!.write(jsonArray.toString().toByteArray())   // Json 쓰기
+            }
+            fileOutputStream!!.flush()
+            fileOutputStream!!.close()
+            return true
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fileOutputStream!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+
+        }
+        return false
     }
 
     /*
@@ -318,6 +378,7 @@ class HealthCheckupMessageActivity : BaseActivity() {
             healthCheckHour.let { healthCheckMinute.let {
                 healthCheckDate = "$healthCheckYear-$healthCheckMonth-$healthCheckDay"
                 healthCheckTime = "${healthCheckHour}시 ${healthCheckMinute}분"
+                return true
                 } }
             } } }
 
@@ -357,7 +418,7 @@ class HealthCheckupMessageActivity : BaseActivity() {
         monthArray.add("월")
         dayArray.add("일")
 
-        for (i in year - 20..year) {
+        for (i in year - 20..year + 1) {
             yearArray.add(i.toString())
         }
 

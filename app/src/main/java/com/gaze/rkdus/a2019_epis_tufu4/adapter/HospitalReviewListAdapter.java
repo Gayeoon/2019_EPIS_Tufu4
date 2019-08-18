@@ -3,6 +3,7 @@ package com.gaze.rkdus.a2019_epis_tufu4.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import com.gaze.rkdus.a2019_epis_tufu4.item.ReviewListItem;
 import com.gaze.rkdus.a2019_epis_tufu4.item.SearchResultData;
 
 import java.util.ArrayList;
+
+import static com.gaze.rkdus.a2019_epis_tufu4.user.UserLoginActivity.TAG;
 
 /*
 SearchActivity RecyclerView의 Adapter
@@ -68,7 +71,10 @@ public class HospitalReviewListAdapter extends RecyclerView.Adapter<HospitalRevi
         }
 
         void onBind(ReviewListItem data) {
+            Log.d(TAG, "data 들어옴");
+            Log.d(TAG, "data 들어옴. score : " + data.getScore() + ", " + data.getContent());
             score = data.getScore();
+            reviewContent.setText(data.getContent());
 
             switch (score) {
                 case 1:
@@ -99,8 +105,6 @@ public class HospitalReviewListAdapter extends RecyclerView.Adapter<HospitalRevi
                     default:
                         break;
             }
-
-            reviewContent.setText(data.getContent());
         }
     }
 

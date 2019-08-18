@@ -1,5 +1,6 @@
 package com.gaze.rkdus.a2019_epis_tufu4.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -195,6 +196,7 @@ public class HospitalProfileActivity extends BaseActivity {
     서버에서 해당 병원의 리뷰 리스트를 전부 가져오는 함수
      */
     private void getReviewList() {
+        Log.d(TAG, "getReviewList");
         retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(new NullOnEmptyConverterFactory())
@@ -218,12 +220,16 @@ public class HospitalProfileActivity extends BaseActivity {
                     @Override
                     public void onSuccess(ArrayList<ReviewListItem> reviewListItems) {
                         Log.d(TAG, "받아오기 성공!");
+                        Log.d(TAG, "받아오기 성공! size : " + reviewListItems.size());
+                        for (int i = 0; i < reviewListItems.size(); i++) {
+                            Log.d(TAG, "item :  " + reviewListItems.get(i).getScore() + ", " + reviewListItems.get(i).getContent());
+                        }
                         if (reviewListItems.size() > 0) {
                             // 리뷰 리스트 출력
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-                            hosinfoReviewRecyclerView.setLayoutManager(linearLayoutManager);
+                            CustomLinearLayoutManager customLinearLayoutManager = new CustomLinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
+                            hosinfoReviewRecyclerView.setLayoutManager(customLinearLayoutManager);
                             adapter = new HospitalReviewListAdapter(reviewListItems);
-                            adapter.resetAll(reviewList);
+                            adapter.resetAll(reviewListItems);
                             hosinfoReviewRecyclerView.setAdapter(adapter);
                             adapter.notifyDataSetChanged();
                         }
@@ -262,6 +268,22 @@ public class HospitalProfileActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    /*
+    RecyclerView Scroll 방지
+     */
+    public class CustomLinearLayoutManager extends LinearLayoutManager {
+        public CustomLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+
+        }
+
+        // it will always pass false to RecyclerView when calling "canScrollVertically()" method.
+        @Override
+        public boolean canScrollVertically() {
+            return false;
+        }
     }
 
     /*
@@ -363,7 +385,7 @@ public class HospitalProfileActivity extends BaseActivity {
         protected void onPostExecute(String result) {
             JSONObject jsonObject = StringToJSON(result);
             try {
-                int count = jsonObject.getInt("RESERVATION_COUNT");
+                int count = jsonObject.getInt("reservation_count");
                 if(count != 0) {
                     Log.d(TAG, "예약횟수 refresh");
                     Log.d(TAG, "예약횟수 : " + count);

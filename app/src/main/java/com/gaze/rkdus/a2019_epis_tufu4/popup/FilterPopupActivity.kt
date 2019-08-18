@@ -106,7 +106,9 @@ class FilterPopupActivity : BaseActivity() {
             if (locationFilter) { // 지역 별 필터 선택
                 intent.putExtra("locationFilter", locationFilter)
                 intent.putExtra("location", location)
+
             }
+            Log.d(TAG, "result type : $type")
             setResult(Activity.RESULT_OK, intent)
             //액티비티(팝업) 닫기
             finish()

@@ -29,10 +29,10 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static com.gaze.rkdus.a2019_epis_tufu4.popup.HospitalInfoPopupActivity.TAG;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_ADDREVIEW;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_REGISTCONFIRM;
 import static com.gaze.rkdus.a2019_epis_tufu4.user.MyPageActivity.CHECK_RESERVATION;
+import static com.gaze.rkdus.a2019_epis_tufu4.user.UserLoginActivity.TAG;
 
 /*
 MyPageActivity RecyclerView의 Adapter
@@ -116,7 +116,8 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
                                 if (listData.getReservation_type() == 1) {
                                     MyReservationData reservationData = resultData.getReservationData();
-                                    Log.d(TAG, reservationData.toString());
+                                    Log.d(TAG, "reser " + reservationData.toString());
+                                    Log.d(TAG, "reser " + reservationData.getHospital_name() + ", " + reservationData.getOwner_name());
                                     Intent intent = new Intent(context, MessageActivity.class);
                                     intent.putExtra("data", (Serializable) reservationData);
                                     ((Activity) context).startActivityForResult(intent, CHECK_RESERVATION);
@@ -143,7 +144,7 @@ public class MyReservationListAdapter extends RecyclerView.Adapter<MyReservation
                         switch (event.getAction()) {
                             case MotionEvent.ACTION_DOWN:   // 클릭 시
                                 Intent intent = new Intent(context, ReviewPopupActivity.class);
-                                intent.putExtra("key", listData.getHospital_key());
+                                intent.putExtra("data", listData);
                                 ((Activity) context).startActivityForResult(intent, CHECK_ADDREVIEW);
                                 break;
                             case MotionEvent.ACTION_CANCEL: // 클릭하지 않은 상태 시

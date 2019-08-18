@@ -45,7 +45,7 @@ public class MapPopupActivity extends BaseActivity {
     LocationManager locationManager;
     Location myLocation;
     ViewGroup mapViewContainer;
-    ImageView routeBtn;
+    Button routeBtn;
     LinearLayout routeLayout;
     MapView mapView;
 
@@ -69,7 +69,7 @@ public class MapPopupActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_popup);
-        routeBtn = (ImageView) findViewById(R.id.routeBtn);
+        routeBtn = (Button) findViewById(R.id.routeBtn);
 
         routeLayout = (LinearLayout) findViewById(R.id.routeLayout);
 //        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);   // 현재 위치의 위도 경도를 가져오기 위함
@@ -111,27 +111,21 @@ public class MapPopupActivity extends BaseActivity {
 
         // 내 위치를 받아올 수 있는 경우
         // TODO: 내 위치 값 가져오게 하기
-        final Location tempLocation = new Location("");
-        tempLocation.setLatitude(36.369232);
-        tempLocation.setLongitude(127.347739);
-        if(tempLocation != null) {
+//        final Location tempLocation = new Location("");
+//        tempLocation.setLatitude(36.369232);
+//        tempLocation.setLongitude(127.347739);
+        if(location != null) {
             Log.d(TAG, "location != null");
-            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(tempLocation.getLatitude(), tempLocation.getLongitude());    // 위도, 경도에 해당하는 위치
+            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());    // 위도, 경도에 해당하는 위치
             addMarker(mapView, "현 위치", myLocationMapPoint, 2);
             // 길찾기 버튼 활성화
-            routeBtn.setImageResource(R.drawable.message_petfemaleclick);
             routeBtn.isClickable();
-            routeBtn.setOnTouchListener(new View.OnTouchListener() {    // 길찾기 버튼 클릭 이벤트
+            routeBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:   // 클릭 시
-                            Log.d(TAG, "onTouch");
-                            findRoute(tempLocation);
-                            break;
-                    }
-                    return false;
-                }
+                public void onClick(View v) {
+                    Log.d(TAG, "onTouch");
+                    findRoute(location);
+                }    // 길찾기 버튼 클릭 이벤트
             });
         }
         else {

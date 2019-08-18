@@ -61,7 +61,7 @@
                     android:gravity="center"
                     android:layout_marginTop="25dp"
                     android:layout_marginBottom="25dp"
-                    android:textSize="12dp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
                     android:textColor="@color/colorBlack"
                     android:text="@{productItem.name}"
@@ -82,7 +82,7 @@
                         android:layout_gravity="left|center"
                         android:text="가격"
                         android:paddingLeft="10dp"
-                        android:textSize="8dp"
+                        android:textSize="12dp"
                         />
 
                     <TextView
@@ -92,7 +92,7 @@
                         android:layout_gravity="left|center"
                         android:textColor="@color/colorBlack"
                         android:paddingLeft="10dp"
-                        android:textSize="10dp"
+                        android:textSize="16dp"
                         android:text="@{strPrice}"
                         />
                 </LinearLayout>
@@ -117,7 +117,7 @@
                             android:layout_gravity="left|center"
                             android:text="색상"
                             android:paddingLeft="10dp"
-                            android:textSize="8dp"
+                            android:textSize="12dp"
                             />
 
                         <TextView
@@ -127,7 +127,7 @@
                             android:layout_gravity="left|center"
                             android:textColor="@color/colorNeutralizationPopupText"
                             android:paddingLeft="10dp"
-                            android:textSize="10dp"
+                            android:textSize="16dp"
                             />
                     </LinearLayout>
                     <View
@@ -150,7 +150,7 @@
                             android:layout_gravity="left|center"
                             android:text="수량"
                             android:paddingLeft="10dp"
-                            android:textSize="8dp"
+                            android:textSize="12dp"
                             />
 
                         <LinearLayout
@@ -186,7 +186,7 @@
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
                                     android:textColor="@color/colorNeutralizationPopupText"
-                                    android:textSize="8dp"
+                                    android:textSize="12dp"
                                     android:text="@{String.valueOf(count)}"
                                     />
 
@@ -221,7 +221,7 @@
                             android:layout_gravity="left|center"
                             android:text="배송비"
                             android:paddingLeft="10dp"
-                            android:textSize="8dp"
+                            android:textSize="12dp"
                             />
 
                         <TextView
@@ -231,7 +231,7 @@
                             android:layout_gravity="left|center"
                             android:textColor="@color/colorNeutralizationPopupText"
                             android:paddingLeft="10dp"
-                            android:textSize="10dp"
+                            android:textSize="16dp"
                             android:text="@{strShipping}"
                             />
                     </LinearLayout>
@@ -253,7 +253,7 @@
                         android:layout_gravity="left|center"
                         android:text="총 가격"
                         android:paddingLeft="10dp"
-                        android:textSize="8dp"
+                        android:textSize="12dp"
                         />
 
                     <TextView
@@ -263,7 +263,7 @@
                         android:layout_gravity="left|center"
                         android:textColor="@color/colorBlack"
                         android:paddingLeft="10dp"
-                        android:textSize="10dp"
+                        android:textSize="16dp"
                         android:text="@{sumPrice}"
                         />
                 </LinearLayout>

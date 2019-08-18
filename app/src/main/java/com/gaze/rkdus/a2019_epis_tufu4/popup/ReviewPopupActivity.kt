@@ -13,6 +13,7 @@ import com.gaze.rkdus.a2019_epis_tufu4.BaseActivity
 import com.gaze.rkdus.a2019_epis_tufu4.R
 import com.gaze.rkdus.a2019_epis_tufu4.item.AddReviewData
 import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationData
+import com.gaze.rkdus.a2019_epis_tufu4.item.MyReservationListData
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReservationBackgroundService
 import com.gaze.rkdus.a2019_epis_tufu4.utils.ReviewService
 import kotlinx.android.synthetic.main.activity_imagetext_popup.*
@@ -30,7 +31,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ReviewPopupActivity : BaseActivity() {
-    var data: MyReservationData? = null
+    var data: MyReservationListData? = null
 //    var hospital_key: Int = -1
     var content: String? = null
     var date: String? = null
@@ -46,7 +47,7 @@ class ReviewPopupActivity : BaseActivity() {
 
         intent.let {
             if(intent.hasExtra("data")) {
-                data = intent.getSerializableExtra("data") as MyReservationData?
+                data = intent.getSerializableExtra("data") as MyReservationListData?
                 // TODO : as MyReservationData가 안되면 바꿔버리자..
 //                hospital_key = intent.getIntExtra("hospital_key", -1)
             }
@@ -92,6 +93,7 @@ class ReviewPopupActivity : BaseActivity() {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({
                             // 서버 통신 성공
+                            Log.d(TAG, "result : ${it.result}")
                             if (it.result == 1) {   // 로그인 성공
                                 Log.d(TAG, "리뷰 작성 성공!")
                                 val getIntent = Intent()
