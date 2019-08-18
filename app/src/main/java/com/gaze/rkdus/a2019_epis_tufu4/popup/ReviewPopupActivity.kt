@@ -96,6 +96,7 @@ class ReviewPopupActivity : BaseActivity() {
                             Log.d(TAG, "result : ${it.result}")
                             if (it.result == 1) {   // 로그인 성공
                                 Log.d(TAG, "리뷰 작성 성공!")
+                                Toast.makeText(applicationContext, "리뷰 작성이 완료되었습니다.\n견주님의 따뜻한 의견 감사드립니다. :)", Toast.LENGTH_LONG).show()
                                 val getIntent = Intent()
                                 getIntent.putExtra("data", data)
                                 setResult(RESULT_OK, getIntent)
