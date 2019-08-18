@@ -63,6 +63,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import static java.lang.Thread.sleep;
+
 public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";
@@ -71,6 +73,7 @@ public class RegisterActivity extends BaseActivity {
     TextView year, month, date, name;
 
     String id, str_owner, str_animal;
+    public MyProgressDialog2 progressDialog;
 
     String pdf_name;
 
@@ -393,6 +396,18 @@ public class RegisterActivity extends BaseActivity {
         Intent chooser = Intent.createChooser(intent, "공유하기");
         startActivity(chooser);
 
+        progressDialog = MyProgressDialog2.show(RegisterActivity.this, "", "", true, false, null);
+
+        share.setEnabled(false);
+
+        try {
+            sleep(1500);
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        progressDialog.dismiss();
+        share.setEnabled(true);
 
     }
 

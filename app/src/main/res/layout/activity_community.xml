@@ -1,188 +1,386 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.v4.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context=".CommunityActivity">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff"
-        android:orientation="vertical"
-        android:padding="25dp">
+        android:orientation="vertical">
 
-
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:orientation="horizontal">
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                android:background="@drawable/community_back_l"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/community_select"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/community_down" />
-
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="10dp"
+                <LinearLayout
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="true"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:background="@android:color/transparent"
-                    android:entries="@array/select"
-                    android:spinnerMode="dropdown" />
+                    app:layout_constraintBottom_toBottomOf="@+id/community_bottom"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal">
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/community_back_s"
+                        android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="0dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/community_down" />
+
+                        <Spinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="10dp"
+                            android:ellipsize="end"
+                            android:background="@android:color/transparent"
+                            android:entries="@array/select"
+                            android:spinnerMode="dropdown" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.9"
+                        android:background="@drawable/community_back_m"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/search_input"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:paddingLeft="13dp"
+                            android:textSize="@dimen/vaccine_textSmall" />
+
+                        <ImageButton
+                            android:id="@+id/search"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginRight="12dp"
+                            android:background="@drawable/search_searchbtn" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            <android.support.constraint.Guideline
+                android:id="@+id/community_left"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1.9"
-                android:background="@drawable/community_search_input"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.0635" />
 
-                <EditText
-                    android:id="@+id/search_input"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:paddingLeft="13dp"
-                    android:textSize="12sp" />
+            <android.support.constraint.Guideline
+                android:id="@+id/community_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.9365" />
 
-                <ImageButton
-                    android:id="@+id/search"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/search_searchbtn" />
-            </LinearLayout>
+            <TextView
+                android:id="@+id/ask"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/vaccine_marginBottom"
+                android:fontFamily="@font/notosansregular"
+                android:text="묻고 답하기"
+                android:textSize="@dimen/vaccine_textSmall"
+                android:textColor="#FF87AA"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/goods" />
 
-        </LinearLayout>
+            <TextView
+                android:id="@+id/goods"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosansregular"
+                android:textColor="@color/colorBlack"
+                android:text="중고상품 거래"
+                android:layout_marginBottom="@dimen/vaccine_marginBottom"
+                android:textSize="@dimen/vaccine_textSmall"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/ask"
+                app:layout_constraintRight_toLeftOf="@id/sale" />
+            <TextView
+                android:id="@+id/sale"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosansregular"
+                android:textColor="@color/colorBlack"
+                android:text="반려견 분양"
+                android:layout_marginBottom="@dimen/vaccine_marginBottom"
+                android:textSize="@dimen/vaccine_textSmall"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/goods"
+                app:layout_constraintRight_toLeftOf="@id/find" />
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="18dp"
-            android:background="@drawable/community_mainbar" />
+            <TextView
+                android:id="@+id/find"
+                android:layout_width="0dp"
+                android:textColor="@color/colorBlack"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosansregular"
+                android:layout_marginBottom="@dimen/vaccine_marginBottom"
+                android:text="강아지 찾아요"
+                android:textSize="@dimen/vaccine_textSmall"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintLeft_toRightOf="@id/sale"
+                app:layout_constraintRight_toRightOf="parent" />
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="1">
+            <ImageView
+                android:background="@drawable/community_bar"
+                android:layout_marginTop="1dp"
+                android:id="@+id/ask_bar"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/goods_bar" />
+
+            <ImageView
+                android:id="@+id/goods_bar"
+                android:layout_width="wrap_content"
+                android:background="@drawable/community_bar"
+                android:gravity="center"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/ask_bar"
+                app:layout_constraintRight_toLeftOf="@id/sale_bar" />
+            <ImageView
+                android:id="@+id/sale_bar"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:background="@drawable/community_bar"
+                android:visibility="invisible"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toRightOf="@id/goods_bar"
+                app:layout_constraintRight_toLeftOf="@id/find_bar" />
+
+            <ImageView
+                android:id="@+id/find_bar"
+                android:layout_width="0dp"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/community_bar"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@id/community_bottom"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toRightOf="@id/sale_bar"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <android.support.constraint.Guideline
+                android:id="@+id/community_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.18" />
+            <ImageView
+                app:layout_constraintTop_toTopOf="@id/community_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/list_bottom"
+                android:id="@+id/find_dog"
+                android:visibility="gone"
+                android:background="@drawable/find_dog"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="3:4"
+                android:layout_marginBottom="5dp" />
+
+            <ImageView
+                app:layout_constraintTop_toTopOf="@id/community_bottom"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/list_bottom"
+                android:id="@+id/puppy_sale"
+                android:background="@drawable/puppy_sale"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="3:4"
+                android:layout_marginBottom="5dp" />
+
+            <ImageView
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="@id/community_bottom"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/list_bottom"
+                android:id="@+id/used_goods"
+                android:background="@drawable/used_goods"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="3:4"
+                android:layout_marginBottom="5dp" />
 
             <ListView
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="@id/community_bottom"
+                app:layout_constraintRight_toRightOf="@id/community_right"
+                app:layout_constraintLeft_toLeftOf="@id/community_left"
+                app:layout_constraintBottom_toBottomOf="@id/list_bottom"
                 android:id="@+id/communityList"
-                android:layout_width="match_parent"
-                android:layout_height="700dp"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_marginBottom="5dp"
                 android:divider="#d1d1d1"
                 android:dividerHeight="1dp"
                 android:scrollbars="none"></ListView>
-        </FrameLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:layout_marginTop="2dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+            <android.support.constraint.Guideline
+                android:id="@+id/list_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.8" />
+
+            <LinearLayout
+                app:layout_constraintTop_toTopOf="@id/list_bottom"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/pre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/pre" />
+
+                <TextView
+                    android:id="@+id/one"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/notosansbold"
+                    android:text="1"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/community_textBig" />
+
+                <TextView
+                    android:id="@+id/two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/notosansbold"
+                    android:text="2"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/community_textBig"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/three"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/notosansbold"
+                    android:text="3"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/community_textBig"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/four"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/notosansbold"
+                    android:text="4"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/community_textBig"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/five"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:fontFamily="@font/notosansbold"
+                    android:text="5"
+                    android:textColor="#a3a3a3"
+                    android:textSize="@dimen/community_textBig"
+                    android:visibility="gone" />
+
+                <ImageButton
+                    android:id="@+id/next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/next" />
+            </LinearLayout>
+
+            <android.support.constraint.Guideline
+                android:id="@+id/writeTop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.87" />
 
             <ImageButton
-                android:id="@+id/pre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/pre" />
+                app:layout_constraintTop_toTopOf="@id/writeTop"
+                app:layout_constraintRight_toRightOf="@id/community_right"
+                android:layout_marginTop="20dp"
+                android:id="@+id/write"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom|right"
+                android:background="@drawable/community_write" />
 
-            <TextView
-                android:id="@+id/one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/notosansbold"
-                android:text="1"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp" />
+        </android.support.constraint.ConstraintLayout>
 
-            <TextView
-                android:id="@+id/two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/notosansbold"
-                android:text="2"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/three"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/notosansbold"
-                android:text="3"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/four"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/notosansbold"
-                android:text="4"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/five"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:fontFamily="@font/notosansbold"
-                android:text="5"
-                android:textColor="#a3a3a3"
-                android:textSize="18sp"
-                android:visibility="gone" />
-
-            <ImageButton
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/next" />
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/write"
-            android:layout_width="80dp"
-            android:layout_height="30dp"
-            android:layout_gravity="bottom|right"
-            android:background="@drawable/community_write" />
     </LinearLayout>
 </android.support.v4.widget.SwipeRefreshLayout>

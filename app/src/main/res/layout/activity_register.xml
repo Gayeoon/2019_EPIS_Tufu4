@@ -55,7 +55,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/regiImageHeight"
         android:layout_gravity="center"
-<<<<<<< HEAD
         android:layout_marginTop="@dimen/registerTop"
         android:background="@drawable/register_back"
         android:gravity="center"
@@ -64,13 +63,6 @@
         android:shadowDy="23"
         android:shadowRadius="10.0">
 
-=======
-        android:layout_marginTop="30dp"
-        android:gravity="center">
-<ImageView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
->>>>>>> 39aca714e45706d59acb66731dd7af07361a8b07
     </FrameLayout>
 
     <ImageButton

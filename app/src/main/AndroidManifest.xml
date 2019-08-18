@@ -216,6 +216,9 @@
         <activity
             android:name=".popup.SerialPopupActivity"
             android:theme="@style/PopupTheme" />
+        <activity
+            android:name=".popup.HospitalInfoPopupActivity"
+            android:theme="@style/PopupTheme" />
     </application>
 
 </manifest>

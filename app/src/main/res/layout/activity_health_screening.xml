@@ -89,7 +89,7 @@
         android:fontFamily="@font/notosansregular"
         android:text="김가연님"
         android:textColor="@color/colorBlack"
-        android:textSize="@dimen/vaccine_textMid"
+        android:textSize="@dimen/v_textMid"
         app:layout_constraintLeft_toLeftOf="@id/infoMid"
         app:layout_constraintTop_toTopOf="@id/infoTop" />
 
@@ -129,7 +129,7 @@
                 android:gravity="center"
                 android:text="뿡이"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/vaccine_textSmall" />
+                android:textSize="@dimen/v_textSmall" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -148,7 +148,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="수컷"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/vaccine_textSmall" />
+                android:textSize="@dimen/v_textSmall" />
         </TableRow>
 
         <TableRow  android:layout_margin="5dp">
@@ -170,7 +170,7 @@
                 android:gravity="center"
                 android:text="10살"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/vaccine_textSmall" />
+                android:textSize="@dimen/v_textSmall" />
 
             <ImageView
                 android:layout_width="0dp"
@@ -189,7 +189,7 @@
                 android:gravity="center"
                 android:text="3.2kg"
                 android:textColor="@color/colorBlack"
-                android:textSize="@dimen/vaccine_textSmall" />
+                android:textSize="@dimen/v_textSmall" />
         </TableRow>
     </TableLayout>
 
@@ -318,7 +318,7 @@
         android:layout_marginBottom="@dimen/vaccine_marginBottom"
         android:fontFamily="@font/notosansregular"
         android:text="건강검진일"
-        android:textSize="@dimen/vaccine_textMid"
+        android:textSize="@dimen/v_textMid"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="@id/bar2"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -333,7 +333,7 @@
         android:textColor="@color/colorBlack"
         android:text="시간"
         android:layout_marginBottom="@dimen/vaccine_marginBottom"
-        android:textSize="@dimen/vaccine_textMid"
+        android:textSize="@dimen/v_textMid"
         app:layout_constraintBottom_toBottomOf="@id/bar2"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintLeft_toRightOf="@id/aaa"

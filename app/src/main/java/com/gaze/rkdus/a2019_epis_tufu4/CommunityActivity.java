@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -49,7 +50,7 @@ import java.util.Date;
  *  Copyright 2019, 김가연. All rights reserved.
  */
 
-public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayout.OnRefreshListener{
+public class CommunityActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static final String TAG = "CommunityActivity";
 
     CommunityItem[] itemArray = new CommunityItem[100];
@@ -74,11 +75,16 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
     ImageButton search;
     TextView one, two, three, four, five, search_input;
 
+    TextView ask, goods, sale, find;
+    ImageView ask_bar, goods_bar, sale_bar, find_bar, used_goods, puppy_sale, find_dog;
     ImageButton pre, next;
     String title, written, key;
     int count = 0;
     int num_two, num_three, num_four, num_five;
 
+    boolean check = true;
+
+    boolean two_check = false, three_check = false, four_check = false, five_check = false;
     public MyProgressDialog progressDialog;
     int size = 8;
 
@@ -132,6 +138,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_community);
 
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
 
@@ -139,11 +146,9 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
         int height = dm.heightPixels;
 
         if (height > 2000) {
-            setContentView(R.layout.activity_community);
             size = 8;
 
         } else {
-            setContentView(R.layout.activity_community_small);
             size = 6;
         }
 
@@ -183,8 +188,156 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
         pre = (ImageButton) findViewById(R.id.pre);
         next = (ImageButton) findViewById(R.id.next);
 
+        ask = (TextView) findViewById(R.id.ask);
+        goods = (TextView) findViewById(R.id.goods);
+        sale = (TextView) findViewById(R.id.sale);
+        find = (TextView) findViewById(R.id.find);
+
+        ask_bar = (ImageView) findViewById(R.id.ask_bar);
+        goods_bar = (ImageView) findViewById(R.id.goods_bar);
+        sale_bar = (ImageView) findViewById(R.id.sale_bar);
+        find_bar = (ImageView) findViewById(R.id.find_bar);
+
+        used_goods = (ImageView) findViewById(R.id.used_goods);
+        puppy_sale = (ImageView) findViewById(R.id.puppy_sale);
+        find_dog = (ImageView) findViewById(R.id.find_dog);
+
         writebtn = (ImageButton) findViewById(R.id.write);
 
+
+        ask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ask_bar.setVisibility(View.VISIBLE);
+                goods_bar.setVisibility(View.INVISIBLE);
+                sale_bar.setVisibility(View.INVISIBLE);
+                find_bar.setVisibility(View.INVISIBLE);
+
+                listView.setVisibility(View.VISIBLE);
+                find_dog.setVisibility(View.GONE);
+                puppy_sale.setVisibility(View.GONE);
+                used_goods.setVisibility(View.GONE);
+
+                ask.setTextColor(Color.parseColor("#FF87AA"));
+                goods.setTextColor(Color.parseColor("#000000"));
+                sale.setTextColor(Color.parseColor("#000000"));
+                find.setTextColor(Color.parseColor("#000000"));
+
+                if (five_check){
+                    two.setVisibility(View.VISIBLE);
+                    three.setVisibility(View.VISIBLE);
+                    four.setVisibility(View.VISIBLE);
+                    five.setVisibility(View.VISIBLE);
+                }else if(four_check){
+                    two.setVisibility(View.VISIBLE);
+                    three.setVisibility(View.VISIBLE);
+                    four.setVisibility(View.VISIBLE);
+                }else if (three_check){
+                    two.setVisibility(View.VISIBLE);
+                    three.setVisibility(View.VISIBLE);
+                }else if (two_check){
+                    two.setVisibility(View.VISIBLE);
+                }
+
+                one.setEnabled(true);
+                next.setEnabled(true);
+                pre.setEnabled(true);
+
+                check = true;
+            }
+        });
+
+        goods.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ask_bar.setVisibility(View.INVISIBLE);
+                goods_bar.setVisibility(View.VISIBLE);
+                sale_bar.setVisibility(View.INVISIBLE);
+                find_bar.setVisibility(View.INVISIBLE);
+
+                listView.setVisibility(View.GONE);
+                find_dog.setVisibility(View.GONE);
+                puppy_sale.setVisibility(View.GONE);
+                used_goods.setVisibility(View.VISIBLE);
+
+                ask.setTextColor(Color.parseColor("#000000"));
+                goods.setTextColor(Color.parseColor("#FF87AA"));
+                sale.setTextColor(Color.parseColor("#000000"));
+                find.setTextColor(Color.parseColor("#000000"));
+
+                two.setVisibility(View.GONE);
+                three.setVisibility(View.GONE);
+                four.setVisibility(View.GONE);
+                five.setVisibility(View.GONE);
+
+                one.setEnabled(false);
+                next.setEnabled(false);
+                pre.setEnabled(false);
+
+                check = false;
+            }
+        });
+
+        sale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ask_bar.setVisibility(View.INVISIBLE);
+                goods_bar.setVisibility(View.INVISIBLE);
+                sale_bar.setVisibility(View.VISIBLE);
+                find_bar.setVisibility(View.INVISIBLE);
+
+                listView.setVisibility(View.GONE);
+                find_dog.setVisibility(View.GONE);
+                puppy_sale.setVisibility(View.VISIBLE);
+                used_goods.setVisibility(View.GONE);
+
+                ask.setTextColor(Color.parseColor("#000000"));
+                goods.setTextColor(Color.parseColor("#000000"));
+                sale.setTextColor(Color.parseColor("#FF87AA"));
+                find.setTextColor(Color.parseColor("#000000"));
+
+                two.setVisibility(View.GONE);
+                three.setVisibility(View.GONE);
+                four.setVisibility(View.GONE);
+                five.setVisibility(View.GONE);
+
+                one.setEnabled(false);
+                next.setEnabled(false);
+                pre.setEnabled(false);
+                check = false;
+            }
+        });
+
+        find.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ask_bar.setVisibility(View.INVISIBLE);
+                goods_bar.setVisibility(View.INVISIBLE);
+                sale_bar.setVisibility(View.INVISIBLE);
+                find_bar.setVisibility(View.VISIBLE);
+
+                listView.setVisibility(View.GONE);
+                find_dog.setVisibility(View.VISIBLE);
+                puppy_sale.setVisibility(View.GONE);
+                used_goods.setVisibility(View.GONE);
+
+                listView.setVisibility(View.GONE);
+                ask.setTextColor(Color.parseColor("#000000"));
+                goods.setTextColor(Color.parseColor("#000000"));
+                sale.setTextColor(Color.parseColor("#000000"));
+                find.setTextColor(Color.parseColor("#FF87AA"));
+
+                two.setVisibility(View.GONE);
+                three.setVisibility(View.GONE);
+                four.setVisibility(View.GONE);
+                five.setVisibility(View.GONE);
+
+                one.setEnabled(false);
+                next.setEnabled(false);
+                pre.setEnabled(false);
+                check = false;
+            }
+        });
         context = this;
 
         writebtn.setOnClickListener(new View.OnClickListener() {
@@ -204,8 +357,10 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                key = search_input.getText().toString();
-                new SearchCommunity().execute(getResources().getString(R.string.url) + "/getSearchCommunity");
+                if (check) {
+                    key = search_input.getText().toString();
+                    new SearchCommunity().execute(getResources().getString(R.string.urlCommunity) + "/getSearchCommunityList");
+                }
             }
         });
 
@@ -426,7 +581,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
         });
 
         progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
-        new CommunityListData().execute(getResources().getString(R.string.url) + "/getCommunityListData");
+        new CommunityListData().execute(getResources().getString(R.string.urlCommunity) + "/getCommunityList");
 
         listView = (ListView) findViewById(R.id.communityList);
 //
@@ -463,7 +618,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
      *
      * Uri  --->   /getCommunityListData
      * Parm  --->   {"user":1} 전송
-     * Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","ARTICLE_AUTHOR":"김가연","ARTICLE_INDEX":1},{"TITLE":"지원아 일어나","ARTICLE_AUTHOR":"정지원","ARTICLE_INDEX":2}]}} 결과 값
+     * Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","author":"김가연","board_index":1},{"TITLE":"지원아 일어나","author":"정지원","board_index":2}]}} 결과 값
      *
      * ps. 결과값 : result Object 안에 JSONArray : community 넣어서!!  */
 
@@ -554,7 +709,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommunityListData().execute(getResources().getString(R.string.url) + "/getCommunityListData");
+                    new CommunityListData().execute(getResources().getString(R.string.urlCommunity) + "/getCommunityList");
                 } else {
                     JSONObject jsonObject = json.getJSONObject("result");
 
@@ -563,7 +718,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
                     count = 0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
+                        itemArray[count] = new CommunityItem(jsonTemp.getString("title"), jsonTemp.getString("author"), jsonTemp.getInt("board_index"));
                         count++;
                     }
 
@@ -624,21 +779,31 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
         five.setVisibility(View.GONE);
         if (size < count && count <= size * 2) {
             two.setVisibility(View.VISIBLE);
+            two_check = true;
             num_two = count - size;
         } else if (size * 2 < count && count <= size * 3) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
+            two_check = true;
+            three_check = true;
             num_three = count - size * 2;
         } else if (size * 3 < count && count <= size * 4) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
             four.setVisibility(View.VISIBLE);
+            two_check = true;
+            three_check = true;
+            four_check = true;
             num_four = count - size * 3;
         } else if (size * 4 < count && count <= size * 5) {
             two.setVisibility(View.VISIBLE);
             three.setVisibility(View.VISIBLE);
             four.setVisibility(View.VISIBLE);
             five.setVisibility(View.VISIBLE);
+            two_check = true;
+            three_check = true;
+            four_check = true;
+            five_check = true;
             num_five = count - size * 4;
         }
     }
@@ -650,7 +815,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
      *
      * Uri  --->   /getSearchCommunity
      * Parm  --->   {"user":{"select":1,"key":"뿡이"}} 전송
-     * Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","ARTICLE_AUTHOR":"김가연","ARTICLE_INDEX":1},{"TITLE":"지원아 일어나","ARTICLE_AUTHOR":"정지원","ARTICLE_INDEX":2}]}} 결과 값
+     * Result  --->   {"result":{"community":[{"TITLE":"뿡이는 뭐할까","author":"김가연","board_index":1},{"author":"지원아 일어나","author":"정지원","board_index":2}]}} 결과 값
      *
      * ps. 결과값 : result Object 안에 JSONArray : community 넣어서!!  */
 
@@ -743,7 +908,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommunityListData().execute(getResources().getString(R.string.url) + "/getSearchCommunity");
+                    new SearchCommunity().execute(getResources().getString(R.string.urlCommunity) + "/getSearchCommunityList");
                 } else {
                     JSONObject jsonObject = json.getJSONObject("result");
 
@@ -751,7 +916,7 @@ public class CommunityActivity extends BaseActivity  implements SwipeRefreshLayo
                     count = 0;
                     for (int i = 0; i < state.length(); i++) {
                         JSONObject jsonTemp = state.getJSONObject(i);
-                        itemArray[count] = new CommunityItem(jsonTemp.getString("TITLE"), jsonTemp.getString("ARTICLE_AUTHOR"), jsonTemp.getInt("ARTICLE_INDEX"));
+                        itemArray[count] = new CommunityItem(jsonTemp.getString("title"), jsonTemp.getString("author"), jsonTemp.getInt("board_index"));
                         count++;
                     }
 

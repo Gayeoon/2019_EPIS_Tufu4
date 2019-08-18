@@ -181,4 +181,10 @@
     <dimen name="registerButton">20dp</dimen>
     <dimen name="reservationbar">0.295</dimen>
 
+    <dimen name="community_textBig">18sp</dimen>
+    <dimen name="dateTop">0.734</dimen>
+
+    <dimen name="v_textMid">16sp</dimen>
+    <dimen name="v_textSSmall">13sp</dimen>
+    <dimen name="v_textSmall">14sp</dimen>
 </resources>

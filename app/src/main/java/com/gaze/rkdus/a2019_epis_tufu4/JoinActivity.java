@@ -908,6 +908,12 @@ public class JoinActivity extends BaseActivity {
                 if (data.hasExtra("accountName")) {
                     eaccountName.setText(data.getStringExtra("accountName"));
                 }
+
+                if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
+                    next_two.setEnabled(true);
+                    next_two.setBackgroundResource(R.drawable.join_finishon);
+                }
+
             }
 
         } else if (requestCode == CHECK_INDIVIDUALINFO) {
@@ -915,10 +921,20 @@ public class JoinActivity extends BaseActivity {
                 Log.d("Join", "정보제공동의 팝업창에서 확인 누름!");
                 ischeck = true;
                 Toast.makeText(getApplicationContext(), "정보제공에 동의하셨습니다.", Toast.LENGTH_SHORT).show();
+
+                if (id_check != false && pw_check != false && pwcheck_check != false && accountName_check != false && account_check != false && ischeck != false) {
+                    next_two.setEnabled(true);
+                    next_two.setBackgroundResource(R.drawable.join_finishon);
+                }
+
             } else {
                 Log.d("Join", "정보제공동의 팝업창에서 취소 누름!");
                 Toast.makeText(getApplicationContext(), "정보제공에 동의하지 않으셨습니다.", Toast.LENGTH_SHORT).show();
                 cbCheckIndividualInfo.setChecked(false);
+
+                next_two.setEnabled(false);
+                next_two.setBackgroundResource(R.drawable.join_finishoff);
+
             }
         } else {
             if (resultCode != RESULT_OK) {

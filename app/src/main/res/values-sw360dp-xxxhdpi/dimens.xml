@@ -163,8 +163,8 @@
     <!-- VaccinationActivity -->
     <dimen name="vaccine_textBig">16sp</dimen>
     <dimen name="vaccine_textMid">13sp</dimen>
-    <dimen name="vaccine_textSSmall">11sp</dimen>
-    <dimen name="vaccine_textSmall">10sp</dimen>
+    <dimen name="vaccine_textSSmall">10sp</dimen>
+    <dimen name="vaccine_textSmall">11sp</dimen>
     <dimen name="vaccine_Image">95dp</dimen>
     <dimen name="vaccine_backHeight">70dp</dimen>
     <dimen name="vaccine_icon">25dp</dimen>
@@ -185,4 +185,10 @@
     <dimen name="registerButton">10dp</dimen>
     <dimen name="reservationbar">0.295</dimen>
 
+    <dimen name="community_textBig">15sp</dimen>
+    <dimen name="dateTop">0.7345</dimen>
+
+    <dimen name="v_textMid">15sp</dimen>
+    <dimen name="v_textSSmall">12sp</dimen>
+    <dimen name="v_textSmall">13sp</dimen>
 </resources>

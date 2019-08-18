@@ -166,13 +166,13 @@ public class ShowCommunityActivity extends BaseActivity {
                 comment = comment_txt.getText().toString();
                 progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
 
-                new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
+                new CommentDB().execute(getResources().getString(R.string.urlCommunity) + "/putComment");
             }
         });
         txt_title.setText(title);
         txt_id.setText(author);
 
-        new CommentListData().execute(getResources().getString(R.string.url) + "/getCommentListData");
+        new CommentListData().execute(getResources().getString(R.string.urlCommunity) + "/getCommentList");
 
 //        myAdapter = new MyAdapter();
 //
@@ -221,7 +221,7 @@ public class ShowCommunityActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("article_index", index);
+                tmp.accumulate("board_index", index);
 
                 jsonObject.accumulate("user", tmp);
 
@@ -299,7 +299,7 @@ public class ShowCommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommentListData().execute(getResources().getString(R.string.url) + "/getCommentListData");
+                    new CommentListData().execute(getResources().getString(R.string.urlCommunity) + "/getCommentList");
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject = json.getJSONObject("result");
@@ -309,12 +309,12 @@ public class ShowCommunityActivity extends BaseActivity {
 
                     for (int i = 0; i < content.length(); i++) {
                         JSONObject jsonTemp = content.getJSONObject(i);
-                        txt_content.setText(jsonTemp.getString("ARTICLE_CONTENT"));
-                        txt_date.setText(jsonTemp.getString("ARTICLE_DATE"));
+                        txt_content.setText(jsonTemp.getString("content"));
+                        txt_date.setText(jsonTemp.getString("date"));
 
-                        if (!jsonTemp.getString("IMG_URL_1").equals("")) {
-                            strpic1 = jsonTemp.getString("IMG_URL_1");
-                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_1"));
+                        if (!jsonTemp.getString("img_url_1").equals("")) {
+                            strpic1 = jsonTemp.getString("img_url_1");
+                            Log.e(TAG, "HI"+jsonTemp.getString("img_url_1"));
                             picbyte1 = Base64.decode(strpic1, Base64.DEFAULT);
 
                             bm1 = BitmapFactory.decodeByteArray(picbyte1, 0, picbyte1.length);
@@ -337,9 +337,9 @@ public class ShowCommunityActivity extends BaseActivity {
                             pic1.setBackground(drawable);
                             pic1.setVisibility(View.VISIBLE);
                         }
-                        if (!jsonTemp.getString("IMG_URL_2").equals("")) {
-                            strpic2 = jsonTemp.getString("IMG_URL_2");
-                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_2"));
+                        if (!jsonTemp.getString("img_url_2").equals("")) {
+                            strpic2 = jsonTemp.getString("img_url_2");
+                            Log.e(TAG, "HI"+jsonTemp.getString("img_url_2"));
                             picbyte2 = Base64.decode(strpic2, Base64.DEFAULT);
                             bm2 = BitmapFactory.decodeByteArray(picbyte2, 0, picbyte2.length);
 
@@ -361,9 +361,9 @@ public class ShowCommunityActivity extends BaseActivity {
                             pic2.setBackground(drawable);
                             pic2.setVisibility(View.VISIBLE);
                         }
-                        if (!jsonTemp.getString("IMG_URL_3").equals("")) {
-                            strpic3 = jsonTemp.getString("IMG_URL_3");
-                            Log.e(TAG, "HI"+jsonTemp.getString("IMG_URL_3"));
+                        if (!jsonTemp.getString("img_url_3").equals("")) {
+                            strpic3 = jsonTemp.getString("img_url_3");
+                            Log.e(TAG, "HI"+jsonTemp.getString("img_url_3"));
                             picbyte3 = Base64.decode(strpic3, Base64.DEFAULT);
                             bm3 = BitmapFactory.decodeByteArray(picbyte3, 0, picbyte3.length);
 
@@ -389,7 +389,7 @@ public class ShowCommunityActivity extends BaseActivity {
                     for (int i = 0; i < comment.length(); i++) {
                         JSONObject jsonTemp = comment.getJSONObject(i);
                         count++;
-                        myAdapter.addItem(new CommentItem(jsonTemp.getString("COMMENT_AUTHOR"), jsonTemp.getString("COMMENT_DATE"), jsonTemp.getString("COMMENT_CONTENT")));
+                        myAdapter.addItem(new CommentItem(jsonTemp.getString("author"), jsonTemp.getString("date"), jsonTemp.getString("content")));
                     }
 
                     listView.setAdapter(myAdapter);
@@ -430,10 +430,10 @@ public class ShowCommunityActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("article_index", index);
-                tmp.accumulate("comment_author", user);
-                tmp.accumulate("comment_date", nowTime);
-                tmp.accumulate("comment_content", comment);
+                tmp.accumulate("board_index", index);
+                tmp.accumulate("author", user);
+                tmp.accumulate("date", nowTime);
+                tmp.accumulate("content", comment);
 
                 jsonObject.accumulate("user", tmp);
 
@@ -509,7 +509,7 @@ public class ShowCommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommentDB().execute(getResources().getString(R.string.url) + "/putCommentDB");
+                    new CommentDB().execute(getResources().getString(R.string.urlCommunity) + "/putComment");
                 } else {
                     succes = (int) json.get("result");
 

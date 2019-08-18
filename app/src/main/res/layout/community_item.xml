@@ -29,7 +29,7 @@
             android:paddingLeft="15dp"
             android:text="제목입니당"
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="@dimen/v_textMid" />
 
         <TextView
             android:id="@+id/written"
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:text="작성자입니당"
             android:textColor="#000000"
-            android:textSize="14sp" />
+            android:textSize="@dimen/v_textMid" />
 
     </LinearLayout>
 

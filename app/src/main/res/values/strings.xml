@@ -14,6 +14,8 @@
     <string name="registConfirmPopupMsg">등록 확정 시 더이상 예약 내역을\n수정할 수 없습니다.</string>
     <string name="neutralizationPopupMsg">중성화수술을 한 강아지는 등록\n수수료 50% 할인 대상에 포함!</string>
     <!-- <string name="url">http://vowow.cafe24app.com/hospital</string> -->
+    <!-- <string name="urlCommunity">http://vowow.cafe24app.com/community</string> -->
     <string name="url">http://192.168.1.12:8001/hospital</string>
+    <string name="urlCommunity">http://192.168.1.12:8001/community</string>
     <string name="kakao_app_key">f353665907442208faee7785ce1d6cd3</string>
 </resources>

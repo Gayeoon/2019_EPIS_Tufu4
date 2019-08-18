@@ -169,7 +169,7 @@ public class WriteCommunityActivity extends BaseActivity {
                         // TODO: 입력 정보 (인증 사진 및 코멘트) 저장하여 표시
                         progressDialog = MyProgressDialog.show(context, "", "", true, false, null);
 
-                        new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
+                        new CommunityDB().execute(getResources().getString(R.string.urlCommunity) + "/putCommunity");
 
                         break;
                 }
@@ -389,7 +389,7 @@ public class WriteCommunityActivity extends BaseActivity {
      * 저장 실패 -> int 0
      *
      * Uri  --->   /putCommunity
-     * Parm  --->   {"user":{"article_index":2,"title":"집에 보내줘","article_author":"김가연","article_date":"2019-07-02","article_content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
+     * Parm  --->   {"user":{"board_index":2,"title":"집에 보내줘","author":"김가연","date":"2019-07-02","content":"집에 가고싶어요..","img_url_1":"null","img_url_2":"null","img_url_3":"null"}} 전송
      * Result  --->   {"result":1} 결과 값 */
 
     public class CommunityDB extends AsyncTask<String, String, String> {
@@ -408,11 +408,11 @@ public class WriteCommunityActivity extends BaseActivity {
                 JSONObject jsonObject = new JSONObject();
                 JSONObject tmp = new JSONObject();
 
-                tmp.accumulate("article_index", count);
+                tmp.accumulate("board_index", count);
                 tmp.accumulate("title", title.getText().toString());
-                tmp.accumulate("article_author", user);
-                tmp.accumulate("article_date", nowTime);
-                tmp.accumulate("article_content", txtShow.getText().toString());
+                tmp.accumulate("author", user);
+                tmp.accumulate("date", nowTime);
+                tmp.accumulate("content", txtShow.getText().toString());
                 tmp.accumulate("img_url_1", strpic1);
                 tmp.accumulate("img_url_2", strpic2);
                 tmp.accumulate("img_url_3", strpic3);
@@ -491,7 +491,7 @@ public class WriteCommunityActivity extends BaseActivity {
                 json = new JSONObject(result);
 
                 if (json.get("result") == null) {
-                    new CommunityDB().execute(getResources().getString(R.string.url) + "/putCommunity");
+                    new CommunityDB().execute(getResources().getString(R.string.urlCommunity) + "/putCommunity");
                 } else {
                     succes = (int) json.get("result");
 
