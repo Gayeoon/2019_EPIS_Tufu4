@@ -131,7 +131,7 @@ public class ProductPopupActivity extends BaseActivity {
                         Log.d(TAG, "받아오기 성공!");
                         if (reviewListItems.size() > 0) {
                             for (int i = 0; i < reviewListItems.size(); i++) {
-                                Log.d(TAG, "img_list : " + reviewListItems.get(i).getImg_list());
+                                Log.d(TAG, "img_detail : " + reviewListItems.get(i).getImg_detail());
                             }
                             // 상품 리스트 출력
                             GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
@@ -157,44 +157,8 @@ public class ProductPopupActivity extends BaseActivity {
 
         if (type == 2)  {   // outer
             Log.e("LogGoGo", "type : " + String.valueOf(type));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-1.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-2.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-3.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-4.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-5.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
-//            itemList.add(getProductItem(1, 2, 10000, "VOWOW 외장형 목걸이", "특수합금 제작",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjAg/MDAxNTY2MDE5NDA0MjU1.3Jh9KnAfLlc-ztlja3FB8tMdga9oTAn_X4jsGX_x3wog.0VmBQzoJauPEmn9dpHg4rA9EUbNlt5UlZUNQ9QC5VFYg.PNG.banner4/2-6.png",
-//                    "기본 외장형 목걸이를 디자인해봤습니다. 꼭 사세요.", false, true));
         }
         else {  // type == 3 : badge
-//            itemList.add(getProductItem(1, type, 99900, "VOWOW 특제 등록 인식표", "어여쁨",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjYy/MDAxNTY2MDE5MzUzMDg1.FfqQlaMxWjK71nsFrrmazZi40xWjk31xm4tOkxrFJP0g.e-4sUyqs8vpdvpCc1B1eD1ZohLQER-ureh4P8EFsDwog.PNG.banner4/1-1.png",
-//                    "특제 등록 인식표입니다. 구매하세요.", true, true));
-//            itemList.add(getProductItem(2, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-2.png",
-//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
-//            itemList.add(getProductItem(3, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-3.png",
-//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
-//            itemList.add(getProductItem(4, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-4.png",
-//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
-//            itemList.add(getProductItem(5, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-5.png",
-//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
-//            itemList.add(getProductItem(6, type, 123456, "VOWOW 블루투스 등록 인식표", "고무로 만듬",
-//                    "https://blogfiles.pstatic.net/MjAxOTA4MTdfMjUw/MDAxNTY2MDE5MzU5Nzc0.c5STF3Yem_ZBBcrotD0nB0EHLaiANBWRnPSVqza-S-cg.zbO6Frp2FTZPlxwO6iWicZ3vhH_HFEPut-ya1NoDWjwg.PNG.banner4/1-6.png",
-//                    "네이버 임시 인식표입니다. 구매하세요.", false, true));
         }
     }
 

@@ -468,7 +468,15 @@ public class MessageActivity extends BaseActivity {
 
         askDateOld = data.getAsk_date();
 
-
+        // 중성화를 안했을 경우
+        if (data.getPet_neutralization() == 2) {
+            neutralizationLayout.setVisibility(View.VISIBLE);
+            neutralizationSurgeryWS.setVisibility(View.VISIBLE);
+            if (data.getSametime() == 1)     // 수술 진행 했다 했으면
+                cbNeutralizationSurgery.setChecked(true);
+            else
+                cbNeutralizationSurgery.setChecked(false);
+        }
     }
 
     /*
@@ -924,6 +932,7 @@ public class MessageActivity extends BaseActivity {
                 if(resultCode == RESULT_OK) {
                     Log.d(TAG, "중성화 수술 할래요!");
                     Toast.makeText(getApplicationContext(), "중성화 수술도 함께 예약합니다.", Toast.LENGTH_SHORT).show();
+                    cbNeutralizationSurgery.setChecked(true);
                     neutralizationSurgery = 1;
                 }
                 else {
