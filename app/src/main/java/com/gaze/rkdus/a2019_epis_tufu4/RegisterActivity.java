@@ -65,6 +65,11 @@ import java.util.Locale;
 
 import static java.lang.Thread.sleep;
 
+/*
+ *  MessageView class
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class RegisterActivity extends BaseActivity {
 
     private static final String TAG = "RegisterActivity";

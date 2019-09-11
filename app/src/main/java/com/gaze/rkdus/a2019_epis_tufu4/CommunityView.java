@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /*
- *  CommunityView
+ *  CommunityView class
  *  Copyright 2019, 김가연. All rights reserved.
  */
 

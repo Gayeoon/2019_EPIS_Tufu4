@@ -8,6 +8,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  BankView
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class BankView extends LinearLayout{
     TextView bank_name;
     ImageView image;

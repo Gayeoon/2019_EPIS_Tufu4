@@ -117,12 +117,12 @@ public class MapPopupActivity extends BaseActivity {
 
         // 내 위치를 받아올 수 있는 경우
         // TODO: 내 위치 값 가져오게 하기
-//        final Location tempLocation = new Location("");
-//        tempLocation.setLatitude(36.592886);
-//        tempLocation.setLongitude(127.292326);
+        final Location tempLocation = new Location("");
+        tempLocation.setLatitude(36.592886);
+        tempLocation.setLongitude(127.292326);
         if(location != null) {
             Log.d(TAG, "location != null");
-            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(location.getLatitude(), location.getLongitude());    // 위도, 경도에 해당하는 위치
+            MapPoint myLocationMapPoint = MapPoint.mapPointWithGeoCoord(tempLocation.getLatitude(), tempLocation.getLongitude());    // 위도, 경도에 해당하는 위치
             addMarker(mapView, "현 위치", myLocationMapPoint, 2);
             // 길찾기 버튼 활성화
             routeBtn.isClickable();
@@ -130,7 +130,7 @@ public class MapPopupActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "onTouch");
-                    findRoute(location);
+                    findRoute(tempLocation);
                 }    // 길찾기 버튼 클릭 이벤트
             });
         }

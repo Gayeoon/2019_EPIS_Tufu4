@@ -1,5 +1,10 @@
 package com.gaze.rkdus.a2019_epis_tufu4;
 
+/*
+ *  HealthScreeningItem class
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class HealthScreeningItem {
     String date, time;
 

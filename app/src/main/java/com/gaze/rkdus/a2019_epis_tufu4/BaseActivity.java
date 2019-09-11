@@ -14,6 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 
+/*
+ *  BaseActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class BaseActivity extends AppCompatActivity {
     public Typeface mTypeface = null;
     public final static String TAG = "LogGoGo";

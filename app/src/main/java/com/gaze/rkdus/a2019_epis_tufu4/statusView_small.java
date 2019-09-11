@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /*
- *  StatusView
+ *  statusView_small class
  *  Copyright 2019, 김가연. All rights reserved.
  */
 

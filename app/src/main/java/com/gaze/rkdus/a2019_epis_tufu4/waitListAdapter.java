@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /*
- *  waitListAdapter
+ *  waitListAdapter class
  *  Copyright 2019, 김가연. All rights reserved.
  */
 

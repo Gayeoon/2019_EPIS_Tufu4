@@ -7,6 +7,11 @@ import android.graphics.PorterDuff;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+/*
+ *  MessageView class
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class MyProgressDialog2 extends Dialog {
 
 

@@ -6,6 +6,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/*
+ *  HealthScreeningView class
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class HealthScreeningView extends LinearLayout {
     TextView date, time;
 

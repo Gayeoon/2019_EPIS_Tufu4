@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /*
- *  CommentView
+ *  CommentView class
  *  Copyright 2019, 김가연. All rights reserved.
  */
 

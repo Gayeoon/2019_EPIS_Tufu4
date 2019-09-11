@@ -35,6 +35,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+/*
+ *  VaccinationActivity
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
 
 public class VaccinationActivity extends AppCompatActivity {
 

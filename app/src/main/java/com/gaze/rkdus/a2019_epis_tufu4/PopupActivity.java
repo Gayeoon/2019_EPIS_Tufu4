@@ -18,6 +18,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ *  MessageView class
+ *  Copyright 2019, 김가연. All rights reserved.
+ */
+
 public class PopupActivity extends Activity {
 
     TextView bank_name;
